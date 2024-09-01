@@ -1,0 +1,25 @@
+.home {
+    &__intro {
+        background-color: #0D0106;
+        color: #FFFFF8;
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        z-index: 100;
+        font-size: 1rem;
+        transition: display .5s, font-size .5s;
+    }
+    &__main {
+        background-color: #0D0106;
+        width: 100vw;
+        height: 100vh;
+    }
+    footer {
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        font-style: italic;
+        color: #a5a5a5;
+    }
+}

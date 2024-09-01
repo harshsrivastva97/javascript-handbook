@@ -1,0 +1,27 @@
+.tab {
+    opacity: 0;
+    transition: opacity 1s;
+    &__cell {
+        padding: 16px;
+        cursor: pointer;
+        &:hover {
+            color: #a7a7a7;
+            text-shadow: 0 0 2px #a7a7a7;
+        }
+    }
+}
+
+.input-field {
+    color: #000000;
+    border-radius: 16px;
+    height: 40px;
+    background-color: inherit;
+    color: #ffffff;
+    &:focus {
+        outline: none;
+    }
+}
+
+.font-darker {
+    color: #a5a5a5;
+}

@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    font-family: "Barlow", sans-serif;
+    font-style: normal;
+    background-color: #0D0106;
+    color: #FFFFF8;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
