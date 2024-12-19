@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 body {
-    margin: 0;
-    font-family: "Barlow", sans-serif;
-    font-style: normal;
-    background-color: #0D0106;
-    color: #FFFFF8;
+  margin: 0;
+  font-family: "Barlow", sans-serif;
+  font-style: normal;
+  height: 100vh;
+  overflow: hidden;
 }
 
-body::-webkit-scrollbar {
-    display: none;
+#root {
+  height: 100%;
 }

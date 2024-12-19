@@ -1,38 +1,42 @@
-import { useRef, useState } from 'react';
-import Tab from '../../components/Tab/Tab.jsx'
-import './Home.scss'
+import { useState } from "react";
+import Sidebar from "../../components/Sidebar/Sidebar.jsx";
+import CodeEditor from "../../components/CodeEditor/CodeEditor.jsx";
+import "./Home.scss";
 
 function Home() {
-    const introRef = useRef(0)
+  const [currentCode, setCurrentCode] = useState(
+    `// Welcome to JavaScript Essentials! 🚀
+// Select a topic from the sidebar to get started.
 
-    const [showMain, setShowMain] = useState(false)
+// Example:
+const message = "Hello, JavaScript!";
+console.log(message);`,
+  );
 
-    setTimeout(() => {
-        introRef.current.style.display = "none"
-        setShowMain(true)
-    }, 1500);
+  const handleTabSelect = async (fileName) => {
+    try {
+      const response = await fetch(`./scripts/${fileName}.js`);
+      if (!response.ok) throw new Error("Failed to load the script");
 
-    setTimeout(() => {
-        introRef.current.style.fontSize = "3rem"
-    });
+      const code = await response.text();
+      setCurrentCode(code);
+    } catch (error) {
+      console.error("Error loading the script:", error);
+      setCurrentCode(`// Error loading the script. Please try again.
+// If the problem persists, please refresh the page.`);
+    }
+  };
 
-    return (
-        <div className='home'>
-            <div className='home__intro flex justify-center items-center' ref={introRef}>
-                <h1>YOUR POLYFILL PLAYGROUND</h1>
-            </div>
-            {
-                showMain &&
-                <div className='home__main'>
-                    <Tab />
-                </div>
-            }
-            <footer>
-                <div className='text-sm'>open Console to play with polyfills...</div>
-                <div className='text-sm'>find the code for all the polyfills: /public/polyfills-js</div>
-            </footer>
+  return (
+    <div className="home">
+      <Sidebar onTabSelect={handleTabSelect} />
+      <main className="home__main">
+        <div className="home__content">
+          <CodeEditor initialCode={currentCode} key={currentCode} />
         </div>
-    )
+      </main>
+    </div>
+  );
 }
 
 export default Home;

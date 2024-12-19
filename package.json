@@ -1,7 +1,6 @@
 {
-  "name": "js-polyfills",
+  "name": "javascript-handbook",
   "version": "1.0.0",
-  "description": "get all the polyfills accepted, write article, make it as project to post on github and provie the link in article",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -11,6 +10,7 @@
   "author": "harsh.srivastva97",
   "license": "ISC",
   "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",

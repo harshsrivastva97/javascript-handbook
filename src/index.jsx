@@ -1,8 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App.jsx'
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-const container = document.getElementById('root')
-const root = ReactDOM.createRoot(container)
-root.render(<App />)
+// Components
+import App from "./App";
+
+// Styles
+import "./index.css";
+
+const renderApp = () => {
+  try {
+    const container = document.getElementById("root");
+
+    if (!container) {
+      throw new Error("Root element not found");
+    }
+
+    const root = ReactDOM.createRoot(container);
+    root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>,
+    );
+  } catch (error) {
+    console.error("Failed to render app:", error);
+  }
+};
+
+renderApp();
