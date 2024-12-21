@@ -10,11 +10,27 @@ const CategoryIcon = {
 };
 
 function Sidebar({ onTabSelect }) {
-  const [selectedTab, setSelectedTab] = useState("");
+  const [selectedTab, setSelectedTab] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('tab') || '';
+  });
+  
   const [expandedCategory, setExpandedCategory] = useState(
     Object.keys(TABS)[0],
   );
   const [visibleItems, setVisibleItems] = useState([]);
+
+  useEffect(() => {
+    if (selectedTab) {
+      for (const [category, items] of Object.entries(TABS)) {
+        if (items.some(item => item.filename === selectedTab)) {
+          setExpandedCategory(category);
+          break;
+        }
+      }
+      onTabSelect(selectedTab);
+    }
+  }, []);
 
   useEffect(() => {
     if (expandedCategory) {
@@ -27,12 +43,26 @@ function Sidebar({ onTabSelect }) {
     setVisibleItems([]);
   }, [expandedCategory]);
 
+  const handleTabSelect = (tabName) => {
+    setSelectedTab(tabName);
+    onTabSelect(tabName);
+    const params = new URLSearchParams(window.location.search);
+    params.set('tab', tabName);
+    window.history.replaceState({}, '', `?${params.toString()}`);
+  };
+
+  const handleHeaderClick = () => {
+    setSelectedTab('');
+    onTabSelect('');
+    window.history.pushState({}, '', window.location.pathname);
+  };
+
   return (
     <aside className="sidebar">
-      <div className="sidebar__header">
+      <div className="sidebar__header" onClick={handleHeaderClick} style={{ cursor: 'pointer' }}>
         <h1 className="sidebar__title">
           <span className="sidebar__title-icon">📚</span>
-          JavaScript Essentials
+          <strong>JavaScript Essentials</strong>
         </h1>
         <p className="sidebar__subtitle">Master Modern JavaScript</p>
       </div>
@@ -40,37 +70,18 @@ function Sidebar({ onTabSelect }) {
       <nav className="sidebar__nav">
         {Object.entries(TABS).map(([category, items]) => (
           <div key={category} className="sidebar__category">
-            <button
-              className={`sidebar__category-header ${expandedCategory === category ? "active" : ""}`}
-              onClick={() =>
-                setExpandedCategory((prev) =>
-                  prev === category ? "" : category,
-                )
-              }
-            >
+            <div className="sidebar__category-header">
               <span className="category-icon">{CategoryIcon[category]}</span>
               <span className="category-title">{category}</span>
-              <span className="category-icon">
-                {expandedCategory === category ? "▼" : "▶"}
-              </span>
-            </button>
-
-            <div
-              className={`sidebar__category-items ${expandedCategory === category ? "expanded" : ""}`}
-            >
-              {items.map((tab, index) => (
+            </div>
+            
+            <div className="sidebar__category-items">
+              {items.map((tab) => (
                 <button
                   key={tab.filename}
-                  className={`sidebar__nav-item ${selectedTab === tab.filename ? "active" : ""} ${
-                    visibleItems.includes(tab.filename) ? "visible" : ""
-                  }`}
-                  onClick={() => {
-                    setSelectedTab(tab.filename);
-                    onTabSelect(tab.filename);
-                  }}
-                  style={{ transitionDelay: `${index * 50}ms` }}
+                  className={`sidebar__nav-item ${selectedTab === tab.filename ? "active" : ""}`}
+                  onClick={() => handleTabSelect(tab.filename)}
                 >
-                  <span className="nav-item-dot">•</span>
                   {tab.label}
                 </button>
               ))}

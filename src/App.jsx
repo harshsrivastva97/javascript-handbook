@@ -5,7 +5,9 @@ import About from "./pages/About/About.jsx";
 
 function App() {
   return (
-    <Router>
+    <Router future={{
+      v7_startTransition: true,
+    }}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
