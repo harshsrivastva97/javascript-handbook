@@ -1,12 +1,22 @@
 function throttle(fn, t) {
-  let shouldWait = false;
-  return (...args) => {
-    if (shouldWait) return;
-    fn(...args);
-    shouldWait = true;
-    setTimeout(() => {
-      shouldWait = false;
-    }, t);
+  let lastCalled = 0;
+  let timeout = null;
+
+  return function (...args) {
+    const now = Date.now();
+    const remaining = t - (now - lastCalled);
+
+    clearTimeout(timeout);
+
+    if (remaining > 0) {
+      timeout = setTimeout(() => {
+        lastCalled = Date.now();
+        fn(...args);
+      }, remaining);
+    } else {
+      lastCalled = now;
+      fn(...args);
+    }
   };
 }
 
