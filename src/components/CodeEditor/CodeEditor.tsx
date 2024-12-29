@@ -5,7 +5,6 @@ import "./CodeEditor.scss";
 interface CodeEditorProps {
   code: string;
   selectedFile: string;
-  onCodeChange: (code: string) => void;
 }
 
 const defaultHtmlTemplate = `<!DOCTYPE html>
@@ -16,7 +15,7 @@ const defaultHtmlTemplate = `<!DOCTYPE html>
   </body>
 </html>`;
 
-const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile, onCodeChange }) => {
+const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
   const [currentCode, setCurrentCode] = useState(code);
   const [key, setKey] = useState(0);
 

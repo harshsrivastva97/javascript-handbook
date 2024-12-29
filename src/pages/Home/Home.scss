@@ -1,92 +1,133 @@
+$primary: #3b82f6;
+$secondary: #8b5cf6;
+$text-primary: #1e293b;
+$text-secondary: #64748b;
+$bg-light: #f8fafc;
+$border-light: #e2e8f0;
+
 .home {
-  max-width: 1200px;
-  margin: 0 auto;
   padding: 2rem;
+  background: $bg-light;
+  min-height: 100vh;
+}
 
-  .hero {
-    text-align: center;
-    padding: 4rem 0;
+.featured-section {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+
+  h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    background: linear-gradient(120deg, $primary, $secondary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.02em;
+  }
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: linear-gradient(90deg, $primary, $secondary);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
     
-    h1 {
-      font-size: 3.5rem;
-      font-weight: bold;
-      color: #2d3748;
-      margin-bottom: 1rem;
+    &::before { 
+      opacity: 1; 
     }
 
-    .subtitle {
-      font-size: 1.5rem;
-      color: #4a5568;
+    .start-button {
+      border-color: $text-primary;
+      background: rgba($text-primary, 0.02);
     }
   }
 
-  .features {
-    padding: 4rem 0;
-
-    h2 {
-      text-align: center;
-      font-size: 2.5rem;
-      color: #2d3748;
-      margin-bottom: 3rem;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-
-      .feature-card {
-        background: #fff;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s;
-
-        &:hover {
-          transform: translateY(-5px);
-        }
-
-        h3 {
-          font-size: 1.5rem;
-          color: #2d3748;
-          margin-bottom: 1rem;
-        }
-
-        p {
-          color: #4a5568;
-          line-height: 1.6;
-        }
-      }
-    }
+  .card-icon {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: 1.25rem;
+    display: block;
   }
 
-  .get-started {
-    text-align: center;
-    padding: 4rem 0;
+  .card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 
-    h2 {
-      font-size: 2.5rem;
-      color: #2d3748;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      color: #4a5568;
+    div {
+      color: $text-secondary;
+      line-height: 1.6;
+      font-size: 0.95rem;
       margin-bottom: 2rem;
     }
+  }
 
-    .start-btn {
-      background: #4299e1;
+  .start-button {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 1.5rem;
+    background: white;
+    border: 1px solid $border-light;
+    border-radius: 10px;
+    color: $text-primary;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+
+    .arrow-icon {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      fill: none;
+      transition: transform 0.2s;
+    }
+
+    &:hover {
+      background: $text-primary;
+      border-color: $text-primary;
       color: white;
-      padding: 1rem 2rem;
-      border: none;
-      border-radius: 5px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: background 0.2s;
-
-      &:hover {
-        background: #3182ce;
+      
+      .arrow-icon { 
+        transform: translateX(4px);
       }
     }
   }

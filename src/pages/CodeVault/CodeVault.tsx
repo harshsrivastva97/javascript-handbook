@@ -11,7 +11,7 @@ const message = "Start coding!";
 console.log(message);
 `
 
-const CodeVault = (): JSX.Element => {
+const CodeVault: React.FC = () => {
   const [currentCode, setCurrentCode] = useState(defaultJsTemplate);
 
   const errorScript = (fileName: string) =>  `// Error loading the script: ${fileName}.js
