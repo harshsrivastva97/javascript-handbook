@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { motion } from "framer-motion";
 import Home from "./pages/Home/Home.tsx";
 import Topics from "./pages/Topics/Topics.tsx";
 import CodeVault from "./pages/CodeVault/CodeVault.tsx";
@@ -10,17 +11,28 @@ import About from "./pages/About/About.tsx";
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/topics" element={<Topics />} />
-        <Route path="/code-vault" element={<CodeVault />} />
-        <Route path="/concepts" element={<Concepts />} />
-        <Route path="/blogs" element={<Blogs />} />
-        <Route path="/exercises" element={<Exercises />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </Router>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.1,
+        ease: "easeOut",
+        type: "spring",
+        stiffness: 200,
+      }}
+    >
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/topics" element={<Topics />} />
+          <Route path="/code-vault" element={<CodeVault />} />
+          <Route path="/concepts" element={<Concepts />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/exercises" element={<Exercises />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </Router>
+    </motion.div>
   );
 };
 

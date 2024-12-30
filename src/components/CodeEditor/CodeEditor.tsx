@@ -10,14 +10,16 @@ interface CodeEditorProps {
 const defaultHtmlTemplate = `<!DOCTYPE html>
 <html>
   <body>
-    <div id="app">Hello</div>
+    <div id="app">
+      <h2>Welcome to the JS Handbook! 🚀</h2>
+      <p>Ready to level up your JavaScript skills? Let's get started!</p>
+    </div>
     <script src="index.js"></script>
   </body>
 </html>`;
 
 const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
   const [currentCode, setCurrentCode] = useState(code);
-  const [key, setKey] = useState(0);
 
   useEffect(() => {
     setCurrentCode(code);
@@ -37,7 +39,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
   return (
     <div className="code-editor">
       <Sandpack
-        key={key}
         files={fileOptions}
         theme="auto"
         template="vanilla"

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar.tsx";
 import CodeEditor from "../../components/CodeEditor/CodeEditor.tsx";
 import "./CodeVault.scss";
@@ -14,7 +14,7 @@ console.log(message);
 const CodeVault: React.FC = () => {
   const [currentCode, setCurrentCode] = useState(defaultJsTemplate);
 
-  const errorScript = (fileName: string) =>  `// Error loading the script: ${fileName}.js
+  const errorScript = (fileName: string) => `// Error loading the script: ${fileName}.js
 // Please try again or refresh the page.`;
 
   const [selectedFileName, setSelectedFileName] = useState('');

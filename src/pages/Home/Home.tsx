@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import "./Home.scss";
 
 const Home: React.FC = () => {
@@ -51,12 +52,17 @@ const Home: React.FC = () => {
               <div className="card-content">
                 <div>{card.description}</div>
               </div>
-              <button className="start-button" onClick={() => navigate(card.path)}>
-                Explore
-                <svg viewBox="0 0 24 24" className="arrow-icon">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </button>
+              <motion.div
+                whileHover={{ scale: 0.92 }}
+                whileTap={{ scale: 0.88 }}
+              >
+                <button className="start-button" onClick={() => navigate(card.path)}>
+                  Explore
+                  <svg viewBox="0 0 24 24" className="arrow-icon">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </motion.div>
             </div>
           ))}
         </div>
