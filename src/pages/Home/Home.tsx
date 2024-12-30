@@ -7,32 +7,32 @@ const Home: React.FC = () => {
   const featuredCards = [
     {
       title: "JS Topics",
-      description: "Go through the list of important topics in javascript.",
+      description: "Embark on your JavaScript journey by exploring a curated list of essential topics. Stay on track and watch your progress soar as you master the fundamentals!",
       path: "topics",
     },
     {
       title: "JS Code Vault",
-      description: "Discover popular code snippets and create your own masterpieces.",
+      description: "Master popular snippets. Dive into a hands-on learning experience with our interactive code editor tailored for learning.",
       path: "code-vault",
     },
     {
       title: "Concepts",
-      description: "Master essential JavaScript concepts with quick refreshers.",
+      description: "Delve into some basic javascript concepts and strengthen your foundation. Start small, think big, and watch your skills transform!",
       path: "concepts",
     },
     {
       title: "Blogs",
-      description: "Expand your knowledge with insightful JavaScript blogs.",
+      description: "Ignite your curiosity and expand your horizons with insightful articles, tips, and discoveries in the ever-evolving world of JavaScript.",
       path: "blogs",
     },
     {
       title: "Exercises",
-      description: "Challenge yourself with fun and interactive coding exercises.",
+      description: "Explore creative JavaScript exercises that test your skills and deepen your understanding. Strengthen your grasp on the language while building confidence in every step!",
       path: "exercises",
     },
     {
       title: "About",
-      description: "Learn about the mission and vision behind this handbook.",
+      description: "Discover the mission, and vision behind this handbook. Join us on a journey to inspire and empower JavaScript learners everywhere.",
       path: "about",
     },
   ];

@@ -1,103 +1,44 @@
-.topics-container {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-
-  h1 {
-    margin-bottom: 2rem;
-    color: #333;
-  }
-}
-
-.progress-bar-container {
-  background-color: #f0f0f0;
-  border-radius: 10px;
-  height: 20px;
+.topics-header {
+  display: flex;
+  align-items: center;
   margin-bottom: 2rem;
+  gap: 1rem;
   position: relative;
-  overflow: hidden;
-
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #4CAF50, #8BC34A);
-    transition: width 0.3s ease;
-  }
-
-  .progress-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #333;
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
 }
 
-.topics-table {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+.scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e0 #f7fafc;
 
-  .table-header {
-    display: grid;
-    grid-template-columns: 100px 1fr 200px;
-    background-color: #f8f9fa;
-    padding: 1rem;
-    font-weight: 600;
-    border-bottom: 2px solid #eee;
+  &::-webkit-scrollbar {
+    width: 8px;
   }
 
-  .table-row {
-    display: grid;
-    grid-template-columns: 100px 1fr 200px;
-    padding: 1rem;
-    border-bottom: 1px solid #eee;
-    align-items: center;
-    transition: background-color 0.2s;
-
-    &:hover {
-      background-color: #f8f9fa;
-    }
+  &::-webkit-scrollbar-track {
+    background: #f7fafc;
   }
 
-  .resource-link {
-    color: #2196F3;
-    text-decoration: none;
-    font-weight: 500;
-    
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .contribute-button {
-    background-color: #FF5722;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
+  &::-webkit-scrollbar-thumb {
+    background-color: #cbd5e0;
     border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s;
-
-    &:hover {
-      background-color: #F4511E;
-    }
+    border: 2px solid #f7fafc;
   }
 }
 
-@media (max-width: 768px) {
+.add-topic-form {
+  padding: 1rem;
+  border-top: 1px solid #edf2f7;
+}
+
+.add-topic-button {
+  &::before {
+    content: '+';
+  }
+}
+
+@media (max-width: 640px) {
   .topics-container {
     padding: 1rem;
-  }
-
-  .topics-table {
-    .table-header,
-    .table-row {
-      grid-template-columns: 70px 1fr 120px;
-      font-size: 0.9rem;
-    }
+    height: calc(100vh - 2rem);
   }
 }

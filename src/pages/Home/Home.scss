@@ -6,7 +6,7 @@ $bg-light: #f8fafc;
 $border-light: #e2e8f0;
 
 .home {
-  padding: 2rem;
+  padding: 1rem;
   background: $bg-light;
   min-height: 100vh;
 }
@@ -35,13 +35,13 @@ $border-light: #e2e8f0;
 .cards-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .card {
   background: white;
   border-radius: 20px;
-  padding: 2rem;
+  padding: 1.5rem;
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.08);
@@ -80,7 +80,7 @@ $border-light: #e2e8f0;
     font-size: 1.75rem;
     font-weight: 600;
     color: $text-primary;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     display: block;
   }
 
@@ -93,7 +93,7 @@ $border-light: #e2e8f0;
       color: $text-secondary;
       line-height: 1.6;
       font-size: 0.95rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
   }
 
