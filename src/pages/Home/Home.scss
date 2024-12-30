@@ -20,7 +20,7 @@ $border-light: #e2e8f0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 
   h2 {
     font-size: 2.25rem;
@@ -65,9 +65,9 @@ $border-light: #e2e8f0;
     transform: translateY(-4px);
     border-color: rgba(0, 0, 0, 0.12);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-    
-    &::before { 
-      opacity: 1; 
+
+    &::before {
+      opacity: 1;
     }
 
     .start-button {
@@ -125,8 +125,8 @@ $border-light: #e2e8f0;
       background: $text-primary;
       border-color: $text-primary;
       color: white;
-      
-      .arrow-icon { 
+
+      .arrow-icon {
         transform: translateX(4px);
       }
     }

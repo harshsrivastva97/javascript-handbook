@@ -8,6 +8,7 @@ import Concepts from "./pages/Concepts/Concepts.tsx";
 import Blogs from "./pages/Blogs/Blogs.tsx";
 import Exercises from "./pages/Exercises/Exercises.tsx";
 import About from "./pages/About/About.tsx";
+import PageNotFound from "./components/PageNotFound/PageNotFound.tsx";
 
 const App: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ const App: React.FC = () => {
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/exercises" element={<Exercises />} />
           <Route path="/about" element={<About />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
     </motion.div>
