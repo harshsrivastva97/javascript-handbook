@@ -66,11 +66,11 @@ const Topics: React.FC = () => {
   const handleAddTopic = (e: React.FormEvent) => {
     e.preventDefault();
     if (newTopic.trim()) {
-      const newId = Math.max(...topics.map(t => t.id)) + 1;
-      setTopics([...topics, {
+      const newId = topics.length > 0 ? Math.max(...topics.map(t => t.id)) + 1 : 1;
+      setTopics(prevTopics => [...prevTopics, {
         id: newId,
         title: newTopic.trim(),
-        status: 'pending'
+        status: 'pending' as const
       }]);
       setNewTopic('');
       setIsAdding(false);
@@ -149,7 +149,10 @@ const Topics: React.FC = () => {
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <form className="add-topic-form">
+                <form 
+                  className="add-topic-form"
+                  onSubmit={handleAddTopic}
+                >
                   <input
                     type="text"
                     value={newTopic}
@@ -162,6 +165,7 @@ const Topics: React.FC = () => {
                   <div className="flex gap-2">
                     <button 
                       type="submit" 
+                      onClick={handleAddTopic}
                       disabled={!newTopic.trim()}
                       className="px-4 py-1.5 rounded text-sm bg-blue-500 text-white transition-colors hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
                     >
@@ -169,7 +173,10 @@ const Topics: React.FC = () => {
                     </button>
                     <button 
                       type="button" 
-                      onClick={() => setIsAdding(false)}
+                      onClick={() => {
+                        setIsAdding(false);
+                        setNewTopic('');
+                      }}
                       className="px-4 py-1.5 rounded text-sm border border-gray-200 text-gray-600 transition-all hover:bg-gray-50 hover:border-gray-300"
                     >
                       Cancel

@@ -2,12 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
 body {
   margin: 0;
-  font-family: "Barlow", sans-serif;
   font-style: normal;
   height: 100vh;
   overflow: hidden;
+  /* Prevent double scrollbars */
 }
 
 #root {

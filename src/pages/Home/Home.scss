@@ -6,9 +6,11 @@ $bg-light: #f8fafc;
 $border-light: #e2e8f0;
 
 .home {
-  padding: 1rem;
+  padding: 2rem;
   background: $bg-light;
   min-height: 100vh;
+  max-height: 100vh;
+  overflow: auto;
 }
 
 .featured-section {
@@ -26,7 +28,9 @@ $border-light: #e2e8f0;
     font-size: 2.25rem;
     font-weight: 700;
     background: linear-gradient(120deg, $primary, $secondary);
+    background-clip: text;
     -webkit-background-clip: text;
+    color: transparent;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.02em;
   }
