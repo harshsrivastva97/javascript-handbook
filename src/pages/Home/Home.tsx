@@ -32,7 +32,7 @@ const Home: React.FC = () => {
     },
     {
       title: "About",
-      description: "Discover the mission, and vision behind this handbook. Join us on a journey to inspire and empower JavaScript learners everywhere.",
+      description: "Discover the story, mission, and vision behind this handbook. Join us on a journey to inspire and empower JavaScript learners everywhere.",
       path: "about",
     },
   ];

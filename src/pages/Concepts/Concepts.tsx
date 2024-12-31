@@ -1,140 +1,192 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { FiInfo } from 'react-icons/fi';
+import Prism from 'prismjs';
+import 'prismjs/themes/prism-tomorrow.css';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-typescript';
+import { Concept } from '../../types/concept';
+import { concepts } from '../../data/concepts/index.ts';
 import './Concepts.scss';
 
-interface Concept {
-  id: number;
-  title: string;
-  description: string;
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
-  category: 'Core' | 'ES6+' | 'Async' | 'DOM' | 'Performance' | 'Design Patterns';
-  estimatedTime: string;
-  prerequisites: string[];
-  link: string;
-}
-
 const Concepts: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
-
-  const concepts: Concept[] = [
-    {
-      id: 1,
-      title: 'Closures in JavaScript',
-      description: 'Understanding lexical scope and the power of closures in JavaScript. Learn how closures enable data privacy and state preservation.',
-      difficulty: 'Intermediate',
-      category: 'Core',
-      estimatedTime: '20 min',
-      prerequisites: ['Functions', 'Scope', 'Variables'],
-      link: 'https://example.com/closures'
-    },
-    {
-      id: 2,
-      title: 'Async/Await Pattern',
-      description: 'Master asynchronous programming with the modern async/await syntax. Learn how to write cleaner asynchronous code.',
-      difficulty: 'Intermediate',
-      category: 'Async',
-      estimatedTime: '25 min',
-      prerequisites: ['Promises', 'Callbacks', 'Event Loop'],
-      link: 'https://example.com/async-await'
-    }
-  ];
-
-  const categories = ['all', 'Core', 'ES6+', 'Async', 'DOM', 'Performance', 'Design Patterns'];
-  const difficulties = ['all', 'Beginner', 'Intermediate', 'Advanced'];
-
-  const filteredConcepts = concepts.filter(concept => {
-    const categoryMatch = selectedCategory === 'all' || concept.category === selectedCategory;
-    const difficultyMatch = selectedDifficulty === 'all' || concept.difficulty === selectedDifficulty;
-    return categoryMatch && difficultyMatch;
+  const navigate = useNavigate();
+  const [selectedConcept, setSelectedConcept] = useState<Concept | null>(concepts[0]);
+  const [showProgress, setShowProgress] = useState(() => {
+    const saved = localStorage.getItem('showProgress');
+    return saved ? JSON.parse(saved) : true;
+  });
+  const [completedConcepts, setCompletedConcepts] = useState<number[]>(() => {
+    const saved = localStorage.getItem('completedConcepts');
+    return saved ? JSON.parse(saved) : [];
   });
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch(difficulty) {
-      case 'Beginner': return 'difficulty-beginner';
-      case 'Intermediate': return 'difficulty-intermediate';
-      case 'Advanced': return 'difficulty-advanced';
-      default: return '';
+  useEffect(() => {
+    localStorage.setItem('completedConcepts', JSON.stringify(completedConcepts));
+  }, [completedConcepts]);
+
+  useEffect(() => {
+    localStorage.setItem('showProgress', JSON.stringify(showProgress));
+  }, [showProgress]);
+
+  const progress = (completedConcepts.length / concepts.length) * 100;
+
+  const toggleConceptComplete = (conceptId: number) => {
+    setCompletedConcepts(prev => {
+      if (prev.includes(conceptId)) {
+        return prev.filter(id => id !== conceptId);
+      }
+      return [...prev, conceptId];
+    });
+  };
+
+  useEffect(() => {
+    if (selectedConcept?.content.codeExample) {
+      Prism.highlightAll();
     }
+  }, [selectedConcept]);
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        console.log('Code copied to clipboard');
+      },
+      (err) => {
+        console.error('Failed to copy code:', err);
+      }
+    );
   };
 
   return (
-    <div className="concepts-container">
-      <h1>JavaScript Concepts</h1>
-      
-      <div className="filters">
-        <div className="filter-group">
-          <label>Category:</label>
-          <select 
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+    <div className={`concepts-container ${showProgress ? 'show-progress' : ''}`}>
+      <div className="page-header">
+        <button 
+          className="back-button"
+          onClick={() => navigate(-1)}
+        >
+          ← Back
+        </button>
+        <div className="header-content">
+          <motion.div
+            className="info-icon"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowProgress(!showProgress)}
+            title="Click to toggle progress"
           >
-            {categories.map(category => (
-              <option key={category} value={category}>
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="filter-group">
-          <label>Difficulty:</label>
-          <select 
-            value={selectedDifficulty}
-            onChange={(e) => setSelectedDifficulty(e.target.value)}
+            <FiInfo />
+          </motion.div>
+          <motion.h2
+            className="title"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            {difficulties.map(difficulty => (
-              <option key={difficulty} value={difficulty}>
-                {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
-              </option>
-            ))}
-          </select>
+            <span className="title-prefix">JS</span>&nbsp;&nbsp;Concepts
+          </motion.h2>
         </div>
       </div>
 
-      <div className="concepts-grid">
-        {filteredConcepts.map(concept => (
-          <a 
-            key={concept.id}
-            href={concept.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="concept-card"
-          >
-            <div className="card-content">
-              <div className="card-header">
-                <span className={`difficulty-badge ${getDifficultyColor(concept.difficulty)}`}>
-                  {concept.difficulty}
-                </span>
-                <span className="category-badge">
-                  {concept.category}
-                </span>
-              </div>
-              
-              <h2>{concept.title}</h2>
-              <p>{concept.description}</p>
-              
-              <div className="concept-meta">
-                <span className="time">
-                  <i className="far fa-clock"></i> {concept.estimatedTime}
-                </span>
-              </div>
+      {showProgress && (
+        <div className="progress-container">
+          <div className="progress-header">
+            <h3>Your Progress</h3>
+            <span className="progress-text">
+              {completedConcepts.length} of {concepts.length} completed ({Math.round(progress)}%)
+            </span>
+          </div>
+          <div className="progress-bar">
+            <div 
+              className="progress-fill"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+      )}
 
-              <div className="prerequisites">
-                <h4>Prerequisites:</h4>
-                <div className="prerequisite-tags">
-                  {concept.prerequisites.map(prereq => (
-                    <span key={prereq} className="prerequisite-tag">
-                      {prereq}
-                    </span>
-                  ))}
+      <div className="concepts-layout">
+        <div className="topics-list">
+          {concepts.map(concept => (
+            <motion.div
+              key={concept.id}
+              className={`topic-item ${selectedConcept?.id === concept.id ? 'active' : ''} ${
+                completedConcepts.includes(concept.id) ? 'completed' : ''
+              }`}
+              onClick={() => setSelectedConcept(concept)}
+              whileHover={{ x: 4 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <span className="topic-title">{concept.title}</span>
+              {completedConcepts.includes(concept.id) && (
+                <motion.span 
+                  className="completion-icon"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 500 }}
+                >
+                  ✓
+                </motion.span>
+              )}
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="concept-details">
+          {selectedConcept ? (
+            <>
+              <div className="concept-header">
+                <h1>{selectedConcept.title}</h1>
+                <button
+                  className={`mark-complete-btn ${
+                    completedConcepts.includes(selectedConcept.id) ? 'completed' : ''
+                  }`}
+                  onClick={() => toggleConceptComplete(selectedConcept.id)}
+                >
+                  {completedConcepts.includes(selectedConcept.id) 
+                    ? 'Completed ✓' 
+                    : 'Mark as Complete'}
+                </button>
+              </div>
+              <div className="content">
+                <div 
+                  className="explanation"
+                  dangerouslySetInnerHTML={{ __html: selectedConcept.content.explanation }}
+                />
+                
+                {selectedConcept.content.codeExample && (
+                  <div className="code-example">
+                    <h3>Example:</h3>
+                    <button 
+                      className="copy-button"
+                      onClick={() => copyToClipboard(selectedConcept.content.codeExample)}
+                    >
+                      Copy
+                    </button>
+                    <pre className="language-javascript">
+                      <code>{selectedConcept.content.codeExample}</code>
+                    </pre>
+                  </div>
+                )}
+
+                <div className="key-points">
+                  <h3>Key Points:</h3>
+                  <ul>
+                    {selectedConcept.content.keyPoints.map((point, index) => (
+                      <li key={index}>{point}</li>
+                    ))}
+                  </ul>
                 </div>
               </div>
+            </>
+          ) : (
+            <div className="no-selection">
+              <h2>Select a concept to start learning</h2>
             </div>
-          </a>
-        ))}
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default Concepts; 
+export default Concepts;
