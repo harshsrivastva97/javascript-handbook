@@ -131,4 +131,19 @@ $border-light: #e2e8f0;
       }
     }
   }
+
+  &.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .coming-soon {
+    background-color: #f0f0f0;
+    color: #666;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: 500;
+    margin-top: 16px;
+  }
 }

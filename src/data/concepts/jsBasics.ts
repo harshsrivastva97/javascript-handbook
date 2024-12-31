@@ -1,7 +1,7 @@
 import { Concept } from '../../types/concept';
 
 export const jsBasics: Concept = {
-  id: 1,
+  id: 15,
   title: 'JavaScript Basics',
   content: {
     explanation: `<p>JavaScript is a dynamic, interpreted programming language that powers web interactivity. Understanding its fundamentals is crucial for web development.</p>

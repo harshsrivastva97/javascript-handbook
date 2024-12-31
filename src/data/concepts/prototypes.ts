@@ -1,7 +1,7 @@
 import { Concept } from '../../types/concept';
 
 export const prototypes: Concept = {
-  id: 13,
+  id: 16,
   title: 'Prototypes & Inheritance',
   content: {
     explanation: `<p>JavaScript uses prototypal inheritance, which allows objects to inherit properties and methods from other objects through a prototype chain.</p>

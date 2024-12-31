@@ -47,22 +47,26 @@ const Home: React.FC = () => {
         </div>
         <div className="cards-container">
           {featuredCards.map((card, index) => (
-            <div key={index} className={`card`}>
+            <div key={index} className={`card ${card.title === "Blogs" ? 'disabled' : ''}`}>
               <span className="card-icon">{card.title}</span>
               <div className="card-content">
                 <div>{card.description}</div>
               </div>
-              <motion.div
-                whileHover={{ scale: 0.92 }}
-                whileTap={{ scale: 0.88 }}
-              >
-                <button className="start-button" onClick={() => navigate(card.path)}>
-                  Explore
-                  <svg viewBox="0 0 24 24" className="arrow-icon">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </motion.div>
+              {card.title === "Blogs" ? (
+                <div className="coming-soon">Coming Soon</div>
+              ) : (
+                <motion.div
+                  whileHover={{ scale: 0.92 }}
+                  whileTap={{ scale: 0.88 }}
+                >
+                  <button className="start-button" onClick={() => navigate(card.path)}>
+                    Explore
+                    <svg viewBox="0 0 24 24" className="arrow-icon">
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </motion.div>
+              )}
             </div>
           ))}
         </div>
