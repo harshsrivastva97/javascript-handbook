@@ -1,36 +1,36 @@
 .page-not-found {
-    @apply min-h-screen w-full flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800;
-  }
-  
-  .page-not-found .content-wrapper {
-    @apply px-4 py-8 text-center;
-  }
-  
-  .page-not-found .content-wrapper .error-container {
-    @apply flex flex-col items-center gap-6;
-  }
-  
-  .page-not-found .content-wrapper .error-container .error-code {
-    @apply text-9xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .page-not-found .content-wrapper .error-container .error-text {
-    @apply space-y-2;
-  }
-  
-  .page-not-found .content-wrapper .error-container .error-text h2 {
-    @apply text-3xl font-bold text-gray-800 dark:text-gray-100;
-  }
-  
-  .page-not-found .content-wrapper .error-container .error-text p {
-    @apply text-lg text-gray-600 dark:text-gray-300 max-w-md mx-auto;
-  }
-  
-  .page-not-found .content-wrapper .error-container .back-home {
-    @apply mt-6 px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold shadow-lg transition-all duration-300 hover:shadow-xl;
-  }
-  
-  .page-not-found .content-wrapper .error-container .back-home:hover {
-    @apply from-blue-600 to-purple-700;
-  }
+  @apply min-h-screen w-full flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800;
+}
+
+.page-not-found .content-wrapper {
+  @apply px-4 py-8 text-center;
+}
+
+.page-not-found .content-wrapper .error-container {
+  @apply flex flex-col items-center gap-6;
+}
+
+.page-not-found .content-wrapper .error-container .error-code {
+  @apply text-9xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-not-found .content-wrapper .error-container .error-text {
+  @apply space-y-2;
+}
+
+.page-not-found .content-wrapper .error-container .error-text h2 {
+  @apply text-3xl font-bold text-gray-800 dark:text-gray-100;
+}
+
+.page-not-found .content-wrapper .error-container .error-text p {
+  @apply text-lg text-gray-600 dark:text-gray-300 max-w-md mx-auto;
+}
+
+.page-not-found .content-wrapper .error-container .back-home {
+  @apply mt-6 px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold shadow-lg transition-all duration-300 hover:shadow-xl;
+}
+
+.page-not-found .content-wrapper .error-container .back-home:hover {
+  @apply from-blue-600 to-purple-700;
+}

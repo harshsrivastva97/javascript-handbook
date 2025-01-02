@@ -1,7 +1,7 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import './PageNotFound.scss';
+import React from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import "./PageNotFound.scss";
 
 const PageNotFound: React.FC = () => {
   return (
@@ -21,7 +21,7 @@ const PageNotFound: React.FC = () => {
           >
             404
           </motion.h1>
-          
+
           <motion.div
             className="error-text"
             initial={{ opacity: 0 }}
@@ -29,7 +29,10 @@ const PageNotFound: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <h2>Oops! Page Not Found</h2>
-            <p>The page you're looking for seems to have wandered off into the digital wilderness.</p>
+            <p>
+              The page you're looking for seems to have wandered off into the
+              digital wilderness.
+            </p>
           </motion.div>
 
           <motion.div
@@ -53,4 +56,4 @@ const PageNotFound: React.FC = () => {
   );
 };
 
-export default PageNotFound; 
+export default PageNotFound;

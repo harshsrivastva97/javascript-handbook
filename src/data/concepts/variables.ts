@@ -1,8 +1,8 @@
-import { Concept } from '../../types/concept';
+import { Concept } from "../../types/concept";
 
 export const variables: Concept = {
   id: 2,
-  title: 'Variables (var, let, const)',
+  title: "Variables (var, let, const)",
   content: {
     explanation: `<p>JavaScript provides three ways to declare variables, each with distinct characteristics and use cases.</p>
 
@@ -52,13 +52,13 @@ console.log(obj.count);  // 1
 // This will throw error:
 // obj = { count: 2 };  // Error - reassignment not allowed`,
     keyPoints: [
-      'Use const by default for better code stability',
-      'Use let when variable needs to be reassigned',
-      'Avoid var in modern JavaScript',
-      'Block scope provides better encapsulation',
-      'const prevents reassignment but not mutation',
-      'Temporal Dead Zone affects let and const',
-      'Understanding scope prevents unexpected behavior'
+      "Use const by default for better code stability",
+      "Use let when variable needs to be reassigned",
+      "Avoid var in modern JavaScript",
+      "Block scope provides better encapsulation",
+      "const prevents reassignment but not mutation",
+      "Temporal Dead Zone affects let and const",
+      "Understanding scope prevents unexpected behavior",
     ],
   },
-}; 
+};

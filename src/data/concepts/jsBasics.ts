@@ -1,8 +1,8 @@
-import { Concept } from '../../types/concept';
+import { Concept } from "../../types/concept";
 
 export const jsBasics: Concept = {
   id: 15,
-  title: 'JavaScript Basics',
+  title: "JavaScript Basics",
   content: {
     explanation: `<p>JavaScript is a dynamic, interpreted programming language that powers web interactivity. Understanding its fundamentals is crucial for web development.</p>
 
@@ -60,13 +60,13 @@ console.log(typeof num);    // "number"
 console.log(typeof obj);    // "object"
 console.log(Array.isArray(arr)); // true`,
     keyPoints: [
-      'JavaScript has 7 primitive and 3 reference types',
-      'Primitive types are immutable and stored by value',
-      'Reference types are mutable and stored by reference',
-      'JS Engine includes Memory Heap, Call Stack, and Event Loop',
-      'typeof operator helps identify data types',
-      'Understanding types prevents common bugs',
-      'JS is dynamically typed but type-aware'
+      "JavaScript has 7 primitive and 3 reference types",
+      "Primitive types are immutable and stored by value",
+      "Reference types are mutable and stored by reference",
+      "JS Engine includes Memory Heap, Call Stack, and Event Loop",
+      "typeof operator helps identify data types",
+      "Understanding types prevents common bugs",
+      "JS is dynamically typed but type-aware",
     ],
   },
-}; 
+};

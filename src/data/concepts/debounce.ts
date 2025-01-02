@@ -1,8 +1,8 @@
-import { Concept } from '../../types/concept';
+import { Concept } from "../../types/concept";
 
 export const debounce: Concept = {
   id: 6,
-  title: 'Debounce',
+  title: "Debounce",
   content: {
     explanation: `<p>Debounce is a programming pattern that delays the execution of a function until after a period of inactivity.</p>
 
@@ -53,10 +53,10 @@ console.log('Searching:', event.target.value);
 
 searchInput.addEventListener('input', handleSearch);`,
     keyPoints: [
-      'Executes function only after a period of inactivity',
-      'Useful for expensive operations that don\'t need to run on every event',
-      'Cancels pending executions when new events occur',
-      'Perfect for search inputs, form validation, and window resize events',
+      "Executes function only after a period of inactivity",
+      "Useful for expensive operations that don't need to run on every event",
+      "Cancels pending executions when new events occur",
+      "Perfect for search inputs, form validation, and window resize events",
     ],
   },
 };

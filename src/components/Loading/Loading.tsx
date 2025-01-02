@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import './Loading.scss';
+import React from "react";
+import { motion } from "framer-motion";
+import "./Loading.scss";
 
 const Loading: React.FC = () => {
   return (
@@ -40,4 +40,4 @@ const Loading: React.FC = () => {
   );
 };
 
-export default Loading; 
+export default Loading;

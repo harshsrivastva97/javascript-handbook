@@ -9,16 +9,13 @@ const Leaderboard: React.FC = () => {
   const isEmpty = true; // Toggle this when you have actual data
 
   return (
-    <motion.div 
+    <motion.div
       className="leaderboard-container"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <button
-        className="home-button"
-        onClick={() => navigate('/')}
-      >
+      <button className="home-button" onClick={() => navigate("/")}>
         <FaHome />
       </button>
 
@@ -36,7 +33,7 @@ const Leaderboard: React.FC = () => {
       </motion.header>
 
       {isEmpty ? (
-        <motion.div 
+        <motion.div
           className="empty-state"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -68,16 +65,28 @@ const Leaderboard: React.FC = () => {
 
           <div className="achievement-cards">
             {[
-              { icon: <FaStar />, title: "First Contribution", points: "50 points" },
-              { icon: <FaMedal />, title: "Top Contributor", points: "500 points" },
-              { icon: <FaTrophy />, title: "JavaScript Champion", points: "1000 points" }
+              {
+                icon: <FaStar />,
+                title: "First Contribution",
+                points: "50 points",
+              },
+              {
+                icon: <FaMedal />,
+                title: "Top Contributor",
+                points: "500 points",
+              },
+              {
+                icon: <FaTrophy />,
+                title: "JavaScript Champion",
+                points: "1000 points",
+              },
             ].map((achievement, index) => (
               <motion.div
                 key={achievement.title}
                 className="achievement-card"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 + (index * 0.1) }}
+                transition={{ delay: 0.5 + index * 0.1 }}
               >
                 <div className="achievement-icon">{achievement.icon}</div>
                 <div className="achievement-content">
@@ -98,4 +107,4 @@ const Leaderboard: React.FC = () => {
   );
 };
 
-export default Leaderboard; 
+export default Leaderboard;

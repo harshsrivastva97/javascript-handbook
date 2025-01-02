@@ -1,8 +1,8 @@
-import { Concept } from '../../types/concept';
+import { Concept } from "../../types/concept";
 
 export const prototypes: Concept = {
   id: 16,
-  title: 'Prototypes & Inheritance',
+  title: "Prototypes & Inheritance",
   content: {
     explanation: `<p>JavaScript uses prototypal inheritance, which allows objects to inherit properties and methods from other objects through a prototype chain.</p>
 
@@ -50,10 +50,10 @@ speak() {
 const cat = Object.create(Animal.prototype);
 cat.name = 'Whiskers';`,
     keyPoints: [
-      'JavaScript uses prototypal inheritance instead of classical inheritance',
-      'Every object has a prototype except the base Object.prototype',
-      'ES6 classes are syntactic sugar over prototypal inheritance',
-      'Prototype chain affects performance - keep it shallow'
+      "JavaScript uses prototypal inheritance instead of classical inheritance",
+      "Every object has a prototype except the base Object.prototype",
+      "ES6 classes are syntactic sugar over prototypal inheritance",
+      "Prototype chain affects performance - keep it shallow",
     ],
-  }
+  },
 };

@@ -1,8 +1,8 @@
-import { Concept } from '../../types/concept';
+import { Concept } from "../../types/concept";
 
 export const promises: Concept = {
   id: 3,
-  title: 'Promises',
+  title: "Promises",
   content: {
     explanation: `<p>Promises are objects that represent the eventual completion (or failure) of an asynchronous operation. They provide a more elegant and manageable way to handle asynchronous operations compared to callbacks.</p>
 
@@ -81,13 +81,13 @@ const fetchWithTimeout = (timeout) => {
   ]);
 };`,
     keyPoints: [
-      'Promises provide a clean solution for handling asynchronous operations',
-      'They have three states: pending, fulfilled, and rejected',
-      'Promise chaining allows sequential async operations with .then()',
-      'Error handling is simplified with .catch()',
-      'Static methods like Promise.all() enable parallel execution',
-      'Promises are the foundation for async/await syntax',
-      'They are immutable once settled, ensuring reliable state management',
+      "Promises provide a clean solution for handling asynchronous operations",
+      "They have three states: pending, fulfilled, and rejected",
+      "Promise chaining allows sequential async operations with .then()",
+      "Error handling is simplified with .catch()",
+      "Static methods like Promise.all() enable parallel execution",
+      "Promises are the foundation for async/await syntax",
+      "They are immutable once settled, ensuring reliable state management",
     ],
   },
 };

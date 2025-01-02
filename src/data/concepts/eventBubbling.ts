@@ -1,8 +1,8 @@
-import { Concept } from '../../types/concept';
+import { Concept } from "../../types/concept";
 
 export const eventBubbling: Concept = {
   id: 11,
-  title: 'Event Bubbling and Capturing',
+  title: "Event Bubbling and Capturing",
   content: {
     explanation: `<p>Event bubbling and capturing are fundamental concepts in DOM event propagation. When an event occurs on an element, it triggers a complex propagation process through the DOM tree.</p>
 
@@ -146,16 +146,16 @@ function createCustomEvent() {
   document.dispatchEvent(customEvent);
 }`,
     keyPoints: [
-      'Events propagate in three phases: capturing, target, and bubbling',
-      'Event delegation improves performance and simplifies dynamic content handling',
-      'event.target vs event.currentTarget helps identify event source and handler',
-      'stopPropagation() and stopImmediatePropagation() control event flow',
-      'preventDefault() stops default browser behavior without affecting propagation',
-      'Custom events can leverage the bubbling mechanism',
-      'Event delegation reduces memory usage and simplifies maintenance',
-      'Capturing phase is useful for specific intercepting scenarios',
-      'Understanding event flow is crucial for complex interactive applications',
-      'Proper event handling prevents memory leaks and improves performance'
+      "Events propagate in three phases: capturing, target, and bubbling",
+      "Event delegation improves performance and simplifies dynamic content handling",
+      "event.target vs event.currentTarget helps identify event source and handler",
+      "stopPropagation() and stopImmediatePropagation() control event flow",
+      "preventDefault() stops default browser behavior without affecting propagation",
+      "Custom events can leverage the bubbling mechanism",
+      "Event delegation reduces memory usage and simplifies maintenance",
+      "Capturing phase is useful for specific intercepting scenarios",
+      "Understanding event flow is crucial for complex interactive applications",
+      "Proper event handling prevents memory leaks and improves performance",
     ],
   },
 };

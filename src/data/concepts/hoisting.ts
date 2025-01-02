@@ -1,8 +1,8 @@
-import { Concept } from '../../types/concept';
+import { Concept } from "../../types/concept";
 
 export const hoisting: Concept = {
   id: 5,
-  title: 'Hoisting',
+  title: "Hoisting",
   content: {
     explanation: `<p>Hoisting is JavaScript's default behavior of moving declarations to the top of the scope during the compilation phase.</p>
 
@@ -20,9 +20,9 @@ function myFunc() {
 return 'Hoisted function';
 }`,
     keyPoints: [
-      'Function declarations are fully hoisted.',
-      'Variables declared with var are partially hoisted.',
-      'Let and const declarations are hoisted but inaccessible before initialization.',
+      "Function declarations are fully hoisted.",
+      "Variables declared with var are partially hoisted.",
+      "Let and const declarations are hoisted but inaccessible before initialization.",
     ],
   },
 };

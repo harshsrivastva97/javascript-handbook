@@ -9,20 +9,22 @@ const defaultJsTemplate = `// Welcome to JavaScript Essentials! 🚀
 // Example:
 const message = "Start coding!";
 console.log(message);
-`
+`;
 
 const CodeVault: React.FC = () => {
   const [currentCode, setCurrentCode] = useState(defaultJsTemplate);
 
-  const errorScript = (fileName: string) => `// Error loading the script: ${fileName}.js
+  const errorScript = (
+    fileName: string,
+  ) => `// Error loading the script: ${fileName}.js
 // Please try again or refresh the page.`;
 
-  const [selectedFileName, setSelectedFileName] = useState('');
+  const [selectedFileName, setSelectedFileName] = useState("");
 
-  const handleTabSelect = (async (fileName: string) => {
+  const handleTabSelect = async (fileName: string) => {
     if (!fileName) {
       setCurrentCode(defaultJsTemplate);
-      setSelectedFileName('');
+      setSelectedFileName("");
       return;
     }
 
@@ -39,21 +41,18 @@ const CodeVault: React.FC = () => {
       console.error("Error loading the script:", error);
       setCurrentCode(errorScript(fileName));
     }
-  });
+  };
 
   return (
     <div className="code-vault">
       <Sidebar onTabSelect={handleTabSelect} />
       <main className="code-vault__main">
         <div className="code-vault__content">
-          <CodeEditor
-            code={currentCode}
-            selectedFile={selectedFileName}
-          />
+          <CodeEditor code={currentCode} selectedFile={selectedFileName} />
         </div>
       </main>
     </div>
   );
-}
+};
 
-export default CodeVault; 
+export default CodeVault;

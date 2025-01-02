@@ -19,7 +19,7 @@
       font-size: 16px;
       padding: 10px;
       transition: color 0.2s;
-      
+
       &:hover {
         color: #0f172a;
       }
@@ -31,7 +31,7 @@
       margin: 0;
       font-weight: 600;
       user-select: none;
-      
+
       &:hover {
         color: #3b82f6;
       }
@@ -61,7 +61,7 @@
         padding: 8px;
         border-radius: 50%;
         transition: all 0.2s ease;
-        
+
         &:hover {
           color: #3b82f6;
           background: #f1f5f9;
@@ -237,20 +237,20 @@
           font-weight: 600;
           font-size: 0.9rem;
           transition: all 0.2s ease;
-          
+
           &:not(.completed) {
             background-color: #3b82f6;
             color: white;
-            
+
             &:hover {
               background-color: #2563eb;
             }
           }
-          
+
           &.completed {
             background-color: #22c55e;
             color: white;
-            
+
             &:hover {
               background-color: #16a34a;
             }
@@ -288,13 +288,13 @@
             margin: 0 !important;
             padding: 20px !important;
             background: transparent !important;
-            font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+            font-family: "JetBrains Mono", "Fira Code", monospace !important;
             font-size: 0.95rem !important;
-            
+
             code {
               font-family: inherit !important;
               text-shadow: none !important;
-              
+
               &.language-javascript {
                 padding: 0 !important;
                 background: transparent !important;
@@ -315,7 +315,7 @@
           pre::-webkit-scrollbar-thumb {
             background: #404040;
             border-radius: 4px;
-            
+
             &:hover {
               background: #4a4a4a;
             }
@@ -363,7 +363,7 @@
           ul {
             list-style-type: none;
             padding-left: 0;
-            
+
             li {
               margin-bottom: 12px;
               color: #334155;
@@ -402,7 +402,7 @@
   .concepts-container {
     .concepts-layout {
       grid-template-columns: 1fr;
-      
+
       .topics-list {
         border-right: none;
         border-bottom: 1px solid #e2e8f0;

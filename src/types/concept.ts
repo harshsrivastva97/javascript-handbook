@@ -7,4 +7,4 @@ export interface Concept {
     keyPoints: string[];
     styles?: string;
   };
-} 
+}

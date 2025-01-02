@@ -1,8 +1,8 @@
-import { Concept } from '../../types/concept';
+import { Concept } from "../../types/concept";
 
 export const asyncAwait: Concept = {
   id: 4,
-  title: 'Async/Await',
+  title: "Async/Await",
   content: {
     explanation: `<p>Async/Await is a revolutionary syntax in JavaScript that transforms how we write asynchronous code. It builds on top of Promises to provide a more intuitive and synchronous-looking way to handle asynchronous operations.</p>
 
@@ -188,16 +188,16 @@ async function smartFetch(urls, options = {}) {
   return { results, errors };
 }`,
     keyPoints: [
-      'Async functions automatically wrap returns in Promises',
-      'Await pauses execution while maintaining program responsiveness',
-      'Enables linear code flow for asynchronous operations',
-      'Supports both sequential and parallel execution patterns',
-      'Provides natural error handling with try/catch',
-      'Simplifies complex asynchronous workflows',
-      'Improves code readability and maintenance',
-      'Integrates seamlessly with existing Promise-based code',
-      'Allows for better error tracking and debugging',
-      'Supports advanced patterns like retries and timeouts'
+      "Async functions automatically wrap returns in Promises",
+      "Await pauses execution while maintaining program responsiveness",
+      "Enables linear code flow for asynchronous operations",
+      "Supports both sequential and parallel execution patterns",
+      "Provides natural error handling with try/catch",
+      "Simplifies complex asynchronous workflows",
+      "Improves code readability and maintenance",
+      "Integrates seamlessly with existing Promise-based code",
+      "Allows for better error tracking and debugging",
+      "Supports advanced patterns like retries and timeouts",
     ],
   },
-}; 
+};

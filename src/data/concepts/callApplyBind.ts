@@ -1,8 +1,8 @@
-import { Concept } from '../../types/concept';
+import { Concept } from "../../types/concept";
 
 export const callApplyBind: Concept = {
   id: 8,
-  title: 'Call, Apply, and Bind',
+  title: "Call, Apply, and Bind",
   content: {
     explanation: `<p>The methods <strong>call</strong>, <strong>apply</strong>, and <strong>bind</strong> allow us to explicitly set the value of <code>this</code> for a function. They are particularly useful when borrowing methods from one object or controlling the execution context of a function.</p>
 
@@ -42,4 +42,4 @@ boundGreet(); // "Hey, Bob"`,
       'Useful for borrowing methods and fixing "this" context in callbacks.',
     ],
   },
-}; 
+};

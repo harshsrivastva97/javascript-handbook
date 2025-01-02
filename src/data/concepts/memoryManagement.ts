@@ -1,8 +1,8 @@
-import { Concept } from '../../types/concept';
+import { Concept } from "../../types/concept";
 
 export const memoryManagement: Concept = {
   id: 12,
-  title: 'Memory Management & Garbage Collection',
+  title: "Memory Management & Garbage Collection",
   content: {
     explanation: `<p>JavaScript manages memory automatically through garbage collection, which reclaims memory occupied by objects that are no longer in use. Understanding this process is crucial for writing efficient applications and preventing memory leaks.</p>
 
@@ -90,11 +90,11 @@ return () => {
 let obj = { data: 'Some data' };
 obj = null; // Original object becomes eligible for GC`,
     keyPoints: [
-      'JavaScript uses automatic garbage collection to manage memory',
-      'Memory leaks occur when references to unused objects persist',
-      'Common causes: global variables, event listeners, and closures',
-      'Use cleanup functions to prevent memory leaks',
-      'Monitor memory usage with browser developer tools'
+      "JavaScript uses automatic garbage collection to manage memory",
+      "Memory leaks occur when references to unused objects persist",
+      "Common causes: global variables, event listeners, and closures",
+      "Use cleanup functions to prevent memory leaks",
+      "Monitor memory usage with browser developer tools",
     ],
-  }
+  },
 };

@@ -3,7 +3,7 @@
 
   .filters {
     margin-bottom: 2rem;
-    
+
     button {
       padding: 0.5rem 1rem;
       margin-right: 1rem;
@@ -11,7 +11,7 @@
       border-radius: 4px;
       cursor: pointer;
       transition: all 0.3s ease;
-      
+
       &.active {
         background-color: #007bff;
         color: white;
@@ -29,7 +29,7 @@
     background: white;
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     cursor: pointer;
 
     .difficulty {
@@ -37,10 +37,19 @@
       padding: 0.25rem 0.5rem;
       border-radius: 4px;
       font-size: 0.875rem;
-      
-      &.easy { background: #d4edda; color: #155724; }
-      &.medium { background: #fff3cd; color: #856404; }
-      &.hard { background: #f8d7da; color: #721c24; }
+
+      &.easy {
+        background: #d4edda;
+        color: #155724;
+      }
+      &.medium {
+        background: #fff3cd;
+        color: #856404;
+      }
+      &.hard {
+        background: #f8d7da;
+        color: #721c24;
+      }
     }
   }
 }
@@ -55,7 +64,7 @@
   h1 {
     font-size: 24px;
     font-weight: 300;
-    
+
     span {
       color: #228be6;
       font-weight: 700;
@@ -90,7 +99,7 @@
   ul {
     li {
       position: relative;
-      
+
       &::before {
         content: "•";
         position: absolute;
@@ -106,4 +115,4 @@
     padding: 1rem;
     height: calc(100vh - 2rem);
   }
-} 
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import ReactConfetti from 'react-confetti';
+import ReactConfetti from "react-confetti";
 import { TABS } from "../../constants/constants.js";
 import "./Sidebar.scss";
 import { motion } from "framer-motion";
@@ -11,14 +11,16 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
   const [selectedTab, setSelectedTab] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    return params.get('tab') || '';
+    return params.get("tab") || "";
   });
 
-  const [expandedCategory, setExpandedCategory] = useState(Object.keys(TABS)[0]);
+  const [expandedCategory, setExpandedCategory] = useState(
+    Object.keys(TABS)[0],
+  );
 
   // Add state for completed items
   const [completedItems, setCompletedItems] = useState<string[]>(() => {
-    const saved = localStorage.getItem('completedItems');
+    const saved = localStorage.getItem("completedItems");
     return saved ? JSON.parse(saved) : [];
   });
 
@@ -43,13 +45,13 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
 
   // Handle checkbox toggle
   const handleCheckboxToggle = (tabName: string) => {
-    setCompletedItems(prev => {
+    setCompletedItems((prev) => {
       const newCompleted = prev.includes(tabName)
-        ? prev.filter(item => item !== tabName)
+        ? prev.filter((item) => item !== tabName)
         : [...prev, tabName];
 
       // Save to localStorage
-      localStorage.setItem('completedItems', JSON.stringify(newCompleted));
+      localStorage.setItem("completedItems", JSON.stringify(newCompleted));
       return newCompleted;
     });
   };
@@ -57,14 +59,14 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
   // Handle reset progress
   const handleResetProgress = () => {
     setCompletedItems([]);
-    localStorage.removeItem('completedItems');
+    localStorage.removeItem("completedItems");
     setShowResetConfirm(false);
   };
 
   useEffect(() => {
     if (selectedTab) {
       const category = Object.entries(TABS).find(([_, items]) =>
-        items.some(item => item.filename === selectedTab)
+        items.some((item) => item.filename === selectedTab),
       )?.[0];
 
       if (category) {
@@ -74,23 +76,26 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
     }
   }, [selectedTab, onTabSelect]);
 
-  const handleTabSelect = useCallback((tabName: string) => {
-    setSelectedTab(tabName);
-    onTabSelect(tabName);
-    const params = new URLSearchParams(window.location.search);
-    params.set('tab', tabName);
-    window.history.replaceState({}, '', `?${params.toString()}`);
-  }, [onTabSelect]);
+  const handleTabSelect = useCallback(
+    (tabName: string) => {
+      setSelectedTab(tabName);
+      onTabSelect(tabName);
+      const params = new URLSearchParams(window.location.search);
+      params.set("tab", tabName);
+      window.history.replaceState({}, "", `?${params.toString()}`);
+    },
+    [onTabSelect],
+  );
 
   const handleHeaderClick = () => {
-    setSelectedTab('');
-    onTabSelect('');
-    window.history.pushState({}, '', window.location.pathname);
+    setSelectedTab("");
+    onTabSelect("");
+    window.history.pushState({}, "", window.location.pathname);
   };
 
   const handleTitleClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent header click event
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
   return (
@@ -108,10 +113,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
       )}
 
       <div className="sidebar__header" onClick={handleHeaderClick}>
-        <motion.div
-          whileHover={{ scale: 0.92 }}
-          whileTap={{ scale: 0.88 }}
-        >
+        <motion.div whileHover={{ scale: 0.92 }} whileTap={{ scale: 0.88 }}>
           <h1 className="sidebar__title" onClick={handleTitleClick}>
             <strong>
               <span className="sidebar__title-prefix">JS</span>
@@ -133,15 +135,24 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
             </button>
           </div>
           <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+            <div
+              className="progress-fill"
+              style={{ width: `${progress}%` }}
+            ></div>
           </div>
         </div>
       </div>
 
       {/* Add reset confirmation dialog */}
       {showResetConfirm && (
-        <div className="reset-confirm-overlay" onClick={() => setShowResetConfirm(false)}>
-          <div className="reset-confirm-dialog" onClick={e => e.stopPropagation()}>
+        <div
+          className="reset-confirm-overlay"
+          onClick={() => setShowResetConfirm(false)}
+        >
+          <div
+            className="reset-confirm-dialog"
+            onClick={(e) => e.stopPropagation()}
+          >
             <h3>Reset Progress</h3>
             <p>Are you sure you want to reset all progress?</p>
             <div className="reset-confirm-actions">
@@ -166,7 +177,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
         {Object.entries(TABS).map(([category, items]) => (
           <div key={category} className="sidebar__category">
             <div
-              className={`sidebar__category-header ${expandedCategory === category ? 'active' : ''}`}
+              className={`sidebar__category-header ${expandedCategory === category ? "active" : ""}`}
               onClick={() => setExpandedCategory(category)}
             >
               <div className="category-header-content">
@@ -177,7 +188,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
               <span className="category-arrow">›</span>
             </div>
 
-            <div className={`sidebar__category-items ${expandedCategory === category ? 'expanded' : ''}`}>
+            <div
+              className={`sidebar__category-items ${expandedCategory === category ? "expanded" : ""}`}
+            >
               {items.map((tab) => (
                 <div
                   key={tab.filename}
@@ -191,7 +204,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
                       onChange={() => handleCheckboxToggle(tab.filename)}
                       onClick={(e) => e.stopPropagation()}
                     />
-                    <span onClick={() => handleTabSelect(tab.filename)}>{tab.label}</span>
+                    <span onClick={() => handleTabSelect(tab.filename)}>
+                      {tab.label}
+                    </span>
                   </div>
                 </div>
               ))}
