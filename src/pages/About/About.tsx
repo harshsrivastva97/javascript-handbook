@@ -48,7 +48,7 @@ const About: React.FC = () => {
   const scrollFeatures = (direction: "left" | "right") => {
     const container = document.querySelector(".features-grid");
     if (container) {
-      const scrollAmount = 300; // Adjust based on card width + gap
+      const scrollAmount = 600;
       const scrollPosition =
         direction === "left"
           ? container.scrollLeft - scrollAmount
@@ -68,149 +68,151 @@ const About: React.FC = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <button className="home-button" onClick={() => navigate("/")}>
-        <FaHome />
-      </button>
-      <motion.header
-        className="about-header"
-        initial={{ y: -1 }}
-        animate={{ y: 0 }}
-        transition={{ delay: 0.05 }}
-      >
-        <h1>About JavaScript Handbook</h1>
-        <p className="subtitle">
-          Building a community of JavaScript enthusiasts, one line of code at a
-          time.
-        </p>
-      </motion.header>
-
-      <div className="tabs-container">
-        <div className="tabs-header">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              className={`tab-button ${activeTab === tab.id ? "active" : ""}`}
-              onClick={() => setActiveTab(tab.id)}
-            >
-              {tab.title}
-            </button>
-          ))}
+      <div className="about-content">
+        <div className="navigation-header">
+          <Link to="/" className="back-link">
+            <FaChevronLeft /> 
+            <span>Back to Dashboard</span>
+          </Link>
         </div>
 
-        <div className="tabs-content">
-          <AnimatePresence mode="wait">
-            {tabs.map(
-              (tab) =>
-                activeTab === tab.id && (
+        <motion.header
+          className="about-header"
+          initial={{ y: -10 }}
+          animate={{ y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <h1>About JavaScript Handbook</h1>
+          <p className="subtitle">
+            Building a community of JavaScript enthusiasts, one line of code at a time.
+          </p>
+        </motion.header>
+
+        <div className="main-content">
+          <div className="tabs-container">
+            <div className="tabs-header">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  className={`tab-button ${activeTab === tab.id ? "active" : ""}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  {tab.title}
+                </button>
+              ))}
+            </div>
+
+            <div className="tabs-content">
+              <AnimatePresence mode="wait">
+                {tabs.map(
+                  (tab) =>
+                    activeTab === tab.id && (
+                      <motion.div
+                        key={tab.id}
+                        className="tab-content"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.15 }}
+                      >
+                        {tab.content.map((paragraph, i) => (
+                          <p key={i}>{paragraph}</p>
+                        ))}
+                      </motion.div>
+                    )
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          <div className="features-section">
+            <div className="features-wrapper">
+              <button 
+                className="carousel-button left"
+                onClick={() => scrollFeatures('left')}
+                aria-label="Scroll left"
+              >
+                <FaChevronLeft />
+              </button>
+
+              <div className="features-grid">
+                {[
+                  {
+                    icon: <FaUsers />,
+                    title: "Community Driven",
+                    desc: "Join a thriving community of JavaScript enthusiasts",
+                  },
+                  {
+                    icon: <FaTrophy />,
+                    title: "Leaderboard",
+                    desc: "Recognize our top contributors",
+                    link: "/leaderboard",
+                  },
+                  {
+                    icon: <FaGithub />,
+                    title: "Contribute",
+                    desc: "Help us grow on GitHub",
+                    link: "https://github.com/harshsrivastva97/javascript-handbook.git",
+                  },
+                  {
+                    icon: <FaHeart />,
+                    title: "Open Source",
+                    desc: "Built by the community, for the community",
+                  },
+                ].map((feature, index) => (
                   <motion.div
-                    key={tab.id}
-                    className="tab-content"
+                    key={feature.title}
+                    className="feature-card"
+                    whileHover={{ y: -5, scale: 1.02 }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ delay: index * 0.1 }}
                   >
-                    {tab.content.map((paragraph, i) => (
-                      <p key={i}>{paragraph}</p>
-                    ))}
+                    <div className="icon">{feature.icon}</div>
+                    {feature.link ? (
+                      <Link to={feature.link} className="card-content">
+                        <h3>{feature.title}</h3>
+                        <p>{feature.desc}</p>
+                      </Link>
+                    ) : (
+                      <div className="card-content">
+                        <h3>{feature.title}</h3>
+                        <p>{feature.desc}</p>
+                      </div>
+                    )}
                   </motion.div>
-                ),
-            )}
-          </AnimatePresence>
+                ))}
+              </div>
+
+              <button 
+                className="carousel-button right"
+                onClick={() => scrollFeatures('right')}
+                aria-label="Scroll right"
+              >
+                <FaChevronRight />
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div className="features-wrapper">
-        <button
-          className="scroll-indicator left"
-          onClick={() => scrollFeatures("left")}
-          aria-label="Scroll left"
-        >
-          <FaChevronLeft />
-        </button>
-
-        <motion.div
-          className="features-grid"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          {[
-            {
-              icon: <FaUsers />,
-              title: "Community Driven",
-              desc: "Join a thriving community of JavaScript enthusiasts",
-            },
-            {
-              icon: <FaTrophy />,
-              title: "Leaderboard",
-              desc: "Recognize our top contributors",
-              link: "/leaderboard",
-            },
-            {
-              icon: <FaGithub />,
-              title: "Contribute",
-              desc: "Help us grow on GitHub",
-              link: "https://github.com/harshsrivastva97/javascript-handbook.git",
-            },
-            {
-              icon: <FaHeart />,
-              title: "Open Source",
-              desc: "Built by the community, for the community",
-            },
-          ].map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              className="feature-card"
-              whileHover={{ y: -5 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 + 0.6 }}
-            >
-              <div className="icon">{feature.icon}</div>
-              {feature.link ? (
-                <Link to={feature.link} className="card-content">
-                  <h3>{feature.title}</h3>
-                  <p>{feature.desc}</p>
-                </Link>
-              ) : (
-                <div className="card-content">
-                  <h3>{feature.title}</h3>
-                  <p>{feature.desc}</p>
-                </div>
-              )}
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <button
-          className="scroll-indicator right"
-          onClick={() => scrollFeatures("right")}
-          aria-label="Scroll right"
-        >
-          <FaChevronRight />
-        </button>
       </div>
 
       <motion.footer
         className="about-footer"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.8 }}
+        transition={{ delay: 0.3 }}
       >
         <div className="footer-content">
-          <p>
-            Made with ❤️ by{" "}
-            <a href="https://www.linkedin.com/in/harsh-srivastva/">
-              Harsh Srivastva
-            </a>
-          </p>
+          <div className="footer-main">
+            <p>
+              Made with <span className="heart">❤️</span> by{" "}
+              <a href="https://www.linkedin.com/in/harsh-srivastva/">
+                Harsh Srivastva
+              </a>
+            </p>
+          </div>
           <div className="footer-links">
-            <a
-              href="https://github.com/harshsrivastva97/javascript-handbook"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href="https://github.com/harshsrivastva97/javascript-handbook" target="_blank" rel="noopener noreferrer">
               GitHub
             </a>
             <span className="separator">•</span>
