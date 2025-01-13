@@ -13,6 +13,7 @@ import Leaderboard from "./pages/Leaderboard/Leaderboard.tsx";
 import BlogPost from './pages/BlogPost/BlogPost.tsx';
 import { Provider } from 'react-redux';
 import store from './redux/index.ts';
+import Header from "./components/Header/Header.tsx";
 
 const App: React.FC = () => {
   return (
@@ -26,8 +27,9 @@ const App: React.FC = () => {
           type: "spring",
           stiffness: 200,
         }}
-      >
+        >
         <Router>
+          <Header />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/topics" element={<Topics />} />

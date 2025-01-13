@@ -1,16 +1,10 @@
-$primary: #3b82f6;
-$secondary: #8b5cf6;
-$text-primary: #1e293b;
-$text-secondary: #64748b;
-$bg-light: #f8fafc;
-$border-light: #e2e8f0;
+@import '../../assets/scss/theme';
 
 .home {
+  padding-top: 1rem;
   padding: 1rem 2rem;
-  background: $bg-light;
-  height: 100vh;
-  max-height: 100vh;
-  overflow: hidden;
+  background: $bg-dark;
+  min-height: 100vh;
   position: relative;
 }
 
@@ -27,21 +21,20 @@ $border-light: #e2e8f0;
     position: absolute;
     border-radius: 50%;
     filter: blur(80px);
-    opacity: 0.4;
+    opacity: 0.15;
     animation: float 8s ease-in-out infinite;
   }
 
   .orb1 {
-    background: rgba($primary, 0.4);
+    background: $accent;
     width: 400px;
     height: 400px;
     top: -100px;
     left: -100px;
-    animation-delay: 0s;
   }
 
   .orb2 {
-    background: rgba($secondary, 0.4);
+    background: $accent-dark;
     width: 300px;
     height: 300px;
     top: 50%;
@@ -50,7 +43,7 @@ $border-light: #e2e8f0;
   }
 
   .orb3 {
-    background: rgba(#ff6b6b, 0.4);
+    background: $primary-light;
     width: 350px;
     height: 350px;
     bottom: -100px;
@@ -84,16 +77,14 @@ $border-light: #e2e8f0;
 .section-header {
   text-align: center;
   position: relative;
-  background: transparent;
   z-index: 1;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 
   h2 {
     font-size: 3.5rem;
     font-weight: 800;
-    background: linear-gradient(120deg, $primary, $secondary);
+    background: $gradient-primary;
     -webkit-background-clip: text;
-    color: transparent;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.02em;
   }
@@ -137,6 +128,43 @@ $border-light: #e2e8f0;
 
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+
+  .card {
+    background: $card-bg;
+    backdrop-filter: blur(12px);
+    border: 1px solid $card-border;
+    border-radius: 24px;
+    padding: 2rem;
+    transition: all $transition-normal;
+
+    &:hover {
+      background: $card-hover;
+      transform: translateY(-8px);
+      border-color: rgba($accent, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-title {
+      color: $text-primary;
+    }
+
+    .card-content {
+      div {
+        color: $text-secondary;
+      }
+    }
+
+    .start-button {
+      background: rgba($accent, 0.1);
+      color: $accent;
+      border: 1px solid rgba($accent, 0.3);
+
+      &:hover {
+        background: $accent;
+        color: $text-primary;
+      }
+    }
+  }
 }
 
 .card {

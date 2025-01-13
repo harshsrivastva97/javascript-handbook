@@ -1,2 +1,60 @@
 @import "./common.scss";
 @import "./flex.scss";
+@import './theme';
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: $bg-dark;
+  color: $text-primary;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bg-primary;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $accent;
+  border-radius: 4px;
+
+  &:hover {
+    background: $accent-light;
+  }
+}
+
+a {
+  color: $accent;
+  text-decoration: none;
+  transition: color $transition-normal;
+
+  &:hover {
+    color: $accent-light;
+  }
+}
+
+button {
+  font-family: inherit;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  background: rgba($accent, 0.1);
+  color: $accent;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
