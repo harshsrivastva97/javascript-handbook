@@ -9,6 +9,6 @@ Array.prototype.myMap = function (fn) {
   return temp;
 };
 
-// Tester Function
+// Test the custom map function
 const newArr = arr.myMap((el) => el * el);
 console.log(newArr);

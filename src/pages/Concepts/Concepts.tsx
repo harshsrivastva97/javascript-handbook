@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiInfo } from "react-icons/fi";
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-typescript";
 import { Concept } from "../../types/concept";
 import { concepts } from "../../data/concepts/index.ts";
+import { useBackNavigation } from "../../utility/navigationUtils.ts";
 import "./Concepts.scss";
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/index.ts';
+import { updateTopicStatus } from '../../redux/slices/topicsDataMapSlice.ts';
+import { conceptsMap } from '../../data/concepts';
 
 const Concepts: React.FC = () => {
-  const navigate = useNavigate();
-  const [selectedConcept, setSelectedConcept] = useState<Concept | null>(
-    concepts[0],
+  const location = useLocation()
+
+  const handleBack = useBackNavigation()
+
+  const queryParams = new URLSearchParams(location.search)
+  const conceptId = Number(queryParams.get('conceptId'))
+  const [selectedConcept, setSelectedConcept] = useState<Concept>(
+    conceptId && (conceptsMap as Record<number, Concept>)[conceptId] 
+      ? (conceptsMap as Record<number, Concept>)[conceptId] 
+      : concepts[0]
   );
   const [showProgress, setShowProgress] = useState(() => {
     const saved = localStorage.getItem("showProgress");
@@ -23,6 +34,15 @@ const Concepts: React.FC = () => {
     const saved = localStorage.getItem("completedConcepts");
     return saved ? JSON.parse(saved) : [];
   });
+
+  const dispatch = useDispatch();
+  const { topics, topicsToConceptsMap } = useSelector((state: RootState) => state.topicsData);
+
+  useEffect(() => {
+    if (conceptId && (conceptsMap as Record<number, Concept>)[conceptId]) {
+      setSelectedConcept((conceptsMap as Record<number, Concept>)[conceptId]);
+    }
+  }, [conceptId]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -38,12 +58,20 @@ const Concepts: React.FC = () => {
   const progress = (completedConcepts.length / concepts.length) * 100;
 
   const toggleConceptComplete = (conceptId: number) => {
-    setCompletedConcepts((prev) => {
-      if (prev.includes(conceptId)) {
-        return prev.filter((id) => id !== conceptId);
+    // Find the corresponding topic ID
+    const topicId = Object.entries(topicsToConceptsMap)
+      .find(([_, cId]) => cId === conceptId)?.[0];
+    
+    if (topicId) {
+      const topic = topics.find((t: { id: number }) => t.id === Number(topicId));
+      if (topic) {
+        const newStatus = topic.status === 'completed' ? 'pending' : 'completed';
+        dispatch(updateTopicStatus({
+          topicId: Number(topicId),
+          status: newStatus
+        }));
       }
-      return [...prev, conceptId];
-    });
+    }
   };
 
   useEffect(() => {
@@ -52,7 +80,8 @@ const Concepts: React.FC = () => {
     }
   }, [selectedConcept]);
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = (text: string | undefined) => {
+    if (!text) return;
     navigator.clipboard.writeText(text).then(
       () => {
         console.log("Code copied to clipboard");
@@ -64,56 +93,34 @@ const Concepts: React.FC = () => {
   };
 
   return (
-    <div
-      className={`concepts-container ${showProgress ? "show-progress" : ""}`}
-    >
-      <div className="page-header">
-        <button className="back-button" onClick={() => navigate(-1)}>
-          ← Back
-        </button>
-        <div className="header-content">
-          <motion.div
-            className="info-icon"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowProgress(!showProgress)}
-            title="Click to toggle progress"
-          >
-            <FiInfo />
-          </motion.div>
-          <motion.h2
-            className="title"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <span className="title-prefix">JS</span>&nbsp;&nbsp;Concepts
-          </motion.h2>
-        </div>
-      </div>
-
-      {showProgress && (
-        <div className="progress-container">
-          <div className="progress-header">
-            <h3>Your Progress</h3>
-            <span className="progress-text">
-              {completedConcepts.length} of {concepts.length} completed (
-              {Math.round(progress)}%)
-            </span>
-          </div>
-          <div className="progress-bar">
-            <div className="progress-fill" style={{ width: `${progress}%` }} />
-          </div>
-        </div>
-      )}
-
+    <div className={`concepts-container ${showProgress ? "show-progress" : ""}`}>
       <div className="concepts-layout">
         <div className="topics-list">
+          <button className="back-button" onClick={handleBack}>
+            ← Back
+          </button>
+          <div className="header-content">
+            <motion.h2
+              className="title"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="title-prefix">JS</span>&nbsp;Concepts
+            </motion.h2>
+          </div>
+          <div className="progress-container">
+            <div className="progress-header">
+              Progress: {completedConcepts.length} / {concepts.length} completed
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: `${progress}%` }} />
+            </div>
+          </div>
           {concepts.map((concept) => (
             <motion.div
               key={concept.id}
-              className={`topic-item ${selectedConcept?.id === concept.id ? "active" : ""} ${
-                completedConcepts.includes(concept.id) ? "completed" : ""
-              }`}
+              className={`topic-item ${selectedConcept?.id === concept.id ? "active" : ""} ${completedConcepts.includes(concept.id) ? "completed" : ""
+                }`}
               onClick={() => setSelectedConcept(concept)}
               whileHover={{ x: 4 }}
               transition={{ type: "spring", stiffness: 300 }}
@@ -139,11 +146,10 @@ const Concepts: React.FC = () => {
               <div className="concept-header">
                 <h1>{selectedConcept.title}</h1>
                 <button
-                  className={`mark-complete-btn ${
-                    completedConcepts.includes(selectedConcept.id)
-                      ? "completed"
-                      : ""
-                  }`}
+                  className={`mark-complete-btn ${completedConcepts.includes(selectedConcept.id)
+                    ? "completed"
+                    : ""
+                    }`}
                   onClick={() => toggleConceptComplete(selectedConcept.id)}
                 >
                   {completedConcepts.includes(selectedConcept.id)

@@ -1,7 +1,7 @@
 import { Concept } from "../../types/concept";
 
 export const closures: Concept = {
-  id: 1,
+  id: 101,
   title: "Closures",
   content: {
     explanation: `<p>Closures are one of the most powerful features in JavaScript. A closure is formed when a function is defined inside another function, allowing the inner function to access variables from the outer (enclosing) function's scope, even after the outer function has finished executing.</p>

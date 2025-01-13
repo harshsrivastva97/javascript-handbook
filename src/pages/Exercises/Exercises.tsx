@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useBackNavigation } from "../../utility/navigationUtils.ts";
 import "./Exercises.scss";
 
 interface Exercise {
@@ -14,6 +15,10 @@ interface Exercise {
 
 const Exercises: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation()
+
+  const handleBack = useBackNavigation()
+
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
   const [exercises, setExercises] = useState<Exercise[]>([
@@ -146,7 +151,7 @@ const Exercises: React.FC = () => {
       <div className="exercises-header">
         <button
           className="absolute left-0 bg-transparent border-none text-gray-600 text-base p-2 rounded hover:bg-gray-100 hover:text-gray-800 transition-all"
-          onClick={() => navigate(-1)}
+          onClick={handleBack}
         >
           ← Back
         </button>
@@ -176,12 +181,11 @@ const Exercises: React.FC = () => {
             <div key={exercise.id} className="border-b border-gray-100">
               <div
                 className={`flex items-center p-3 cursor-pointer transition-all hover:bg-gray-50 w-full box-border
-                  ${
-                    exercise.status === "completed"
-                      ? "text-green-500"
-                      : exercise.status === "in-progress"
-                        ? "text-yellow-500"
-                        : "text-gray-400"
+                  ${exercise.status === "completed"
+                    ? "text-green-500"
+                    : exercise.status === "in-progress"
+                      ? "text-yellow-500"
+                      : "text-gray-400"
                   }`}
               >
                 <div

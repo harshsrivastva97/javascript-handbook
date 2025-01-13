@@ -10,5 +10,6 @@ Array.prototype.myFilter = function (fn) {
   return temp;
 };
 
+// Test the custom filter function
 const filtered = arr.myFilter((el) => el > 10);
 console.log(filtered);

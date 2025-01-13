@@ -1,67 +1,55 @@
 import React from "react";
 import "./Blogs.scss";
 import { motion } from "framer-motion";
-
-interface Blog {
-  id: number;
-  title: string;
-  excerpt: string;
-  date: string;
-  readTime: string;
-  tags: string[];
-  link: string;
-  image: string;
-}
+import { Link } from "react-router-dom";
+import { FiClock, FiCalendar } from "react-icons/fi";
+import { blogs } from "../../data/blogs/index.ts";
 
 const Blogs: React.FC = () => {
-  const blogs: Blog[] = [
-    {
-      id: 1,
-      title: "Understanding JavaScript Promises",
-      excerpt:
-        "A comprehensive guide to working with Promises in JavaScript...",
-      date: "2024-03-15",
-      readTime: "5 min read",
-      tags: ["JavaScript", "Async", "Programming"],
-      link: "https://example.com/js-promises",
-      image: "https://via.placeholder.com/300x200?text=JavaScript",
-    },
-    {
-      id: 2,
-      title: "React Hooks Deep Dive",
-      excerpt:
-        "Everything you need to know about React Hooks and their usage...",
-      date: "2024-03-10",
-      readTime: "8 min read",
-      tags: ["React", "Hooks", "Frontend"],
-      link: "https://example.com/react-hooks",
-      image: "https://via.placeholder.com/300x200?text=React",
-    },
-  ];
-
   return (
     <div className="blogs-container">
-      {blogs.map((blog) => (
+      <motion.div 
+        className="page-title"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <h1>JavaScript Learning Hub</h1>
+        <p>Explore in-depth articles about JavaScript concepts, best practices, and modern development techniques.</p>
+      </motion.div>
+
+      {blogs.map((blog, index) => (
         <motion.article
           key={blog.id}
           className="blog-card"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.1 }}
           whileHover={{
-            scale: 1.02,
+            y: -5,
             boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
           }}
         >
-          <img src={blog.image} alt={blog.title} />
+          <div className="image-container">
+            <img src={blog.image} alt={blog.title} />
+            <div className="tags">
+              {blog.tags.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
+            </div>
+          </div>
           <div className="content">
+            <div className="meta">
+              <span><FiCalendar /> {blog.date}</span>
+              <span><FiClock /> {blog.readTime}</span>
+            </div>
             <h2>{blog.title}</h2>
             <p>{blog.excerpt}</p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <Link 
+              to={`/blogs${blog.link}`} 
+              className="read-more"
             >
               Read More
-            </motion.button>
+            </Link>
           </div>
         </motion.article>
       ))}

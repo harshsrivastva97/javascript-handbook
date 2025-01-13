@@ -5,10 +5,10 @@ Function.prototype.myApply = function (context, params) {
   return result;
 };
 
-// Tester Function
-const john = { name: "Don" };
-const thomas = { name: "John" };
+// Test the custom apply function
+const tom = { name: "Tom" };
+const jerry = { name: "Jerry" };
 function print(msg, x) {
   console.log(`${msg} ${x} ${this.name}`);
 }
-print.myApply(john, ["Hello", "Hi"]);
+print.myApply(tom, ["Hello", "Hi"]);

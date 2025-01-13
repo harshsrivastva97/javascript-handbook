@@ -8,11 +8,11 @@ Function.prototype.myBind = function (context, ...params) {
   };
 };
 
-// Tester Function
+// Test the custom bind function
 function print(msg, x) {
   console.log(`${msg} ${x} ${this.name}`);
 }
-const john = { name: "Don" };
-const thomas = { name: "John" };
-const printThomas = print.myBind(thomas, "good", "morning!");
+const tom = { name: "Tom" };
+const jerry = { name: "Jerry" };
+const printThomas = print.myBind(tom, "good", "morning!");
 printThomas();

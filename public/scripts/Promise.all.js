@@ -16,7 +16,7 @@ Promise.myAll = function (promises) {
   });
 };
 
-// Tester Function
+// Test the custom Promise.all function
 const p1 = new Promise(function (resolve, reject) {
   setTimeout(() => {
     resolve("resolved 1");

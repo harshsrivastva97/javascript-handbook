@@ -5,10 +5,10 @@ Function.prototype.myCall = function (context, ...params) {
   return result;
 };
 
-// Tester Function
-const john = { name: "Don" };
-const thomas = { name: "John" };
+// Test the custom call function
+const tom = { name: "Tom" };
+const jerry = { name: "Jerry" };
 function print(msg, x) {
   console.log(`${msg} ${x} ${this.name}`);
 }
-print.myCall(thomas, "Hello", "Hi");
+print.myCall(tom, "Hello", "Hi");

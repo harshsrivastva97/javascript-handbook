@@ -6,8 +6,5 @@ Array.prototype.myForEach = function (fn) {
   }
 };
 
-// Tester Function
-function consoleLog(x) {
-  console.log(x);
-}
-arr.myForEach(consoleLog);
+// Test the custom forEach function
+arr.myForEach(console.log);

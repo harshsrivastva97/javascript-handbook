@@ -1,72 +1,47 @@
 import { Concept } from "../../types/concept";
 
 export const jsBasics: Concept = {
-  id: 15,
+  id: 100,
   title: "JavaScript Basics",
   content: {
-    explanation: `<p>JavaScript is a dynamic, interpreted programming language that powers web interactivity. Understanding its fundamentals is crucial for web development.</p>
+    explanation: `<p>JavaScript is a high-level, interpreted programming language that conforms to the ECMAScript specification. Understanding its fundamentals is crucial for web development.</p>
 
-<strong>Data Types:</strong>
+<h3>Core Concepts:</h3>
 <ul>
-  <li><strong>Primitive Types:</strong>
-    <ul>
-      <li>Number: Both integer and floating-point</li>
-      <li>String: Text data in single or double quotes</li>
-      <li>Boolean: true or false</li>
-      <li>undefined: Variable declared but not assigned</li>
-      <li>null: Intentional absence of value</li>
-      <li>Symbol: Unique identifier</li>
-      <li>BigInt: Large integers</li>
-    </ul>
-  </li>
-  <li><strong>Reference Types:</strong>
-    <ul>
-      <li>Object: Collection of key-value pairs</li>
-      <li>Array: Ordered list of values</li>
-      <li>Function: Reusable code block</li>
-    </ul>
-  </li>
-</ul>
-
-<strong>JavaScript Engine:</strong>
-<ul>
-  <li><strong>Components:</strong>
-    <ul>
-      <li>Memory Heap: Memory allocation</li>
-      <li>Call Stack: Code execution tracking</li>
-      <li>Event Loop: Handles async operations</li>
-      <li>Callback Queue: Manages callbacks</li>
-    </ul>
-  </li>
+  <li>Data Types: Primitive (string, number, boolean, null, undefined, symbol, bigint) and Reference types (object, array, function)</li>
+  <li>JavaScript Engine: V8 (Chrome), SpiderMonkey (Firefox), etc.</li>
+  <li>Memory Management: Stack and Heap</li>
+  <li>Execution Context and Call Stack</li>
 </ul>`,
-    codeExample: `// Primitive types
-let num = 42;           // Number
-let str = "Hello";      // String
-let bool = true;        // Boolean
-let undef = undefined;  // undefined
-let empty = null;       // null
-let sym = Symbol();     // Symbol
-let bigInt = 9007199254740991n; // BigInt
+    codeExample: `// Primitive Data Types
+let string = "Hello";
+let number = 42;
+let boolean = true;
+let nullValue = null;
+let undefinedValue;
+let symbol = Symbol("description");
+let bigInt = 9007199254740991n;
 
-// Reference types
-let obj = { name: "John" };  // Object
-let arr = [1, 2, 3];        // Array
-function fn() {             // Function
-  return "Hello World";
-}
+// Reference Types
+let object = { key: "value" };
+let array = [1, 2, 3];
+let function = () => {};
 
-// Type checking
-console.log(typeof num);    // "number"
-console.log(typeof obj);    // "object"
-console.log(Array.isArray(arr)); // true`,
+// Type Checking
+console.log(typeof string);      // "string"
+console.log(typeof number);      // "number"
+console.log(typeof boolean);     // "boolean"
+console.log(typeof nullValue);   // "object" (known JS quirk)
+console.log(typeof undefined);   // "undefined"
+console.log(typeof symbol);      // "symbol"
+console.log(typeof bigInt);      // "bigint"`,
     keyPoints: [
-      "JavaScript has 7 primitive and 3 reference types",
-      "Primitive types are immutable and stored by value",
-      "Reference types are mutable and stored by reference",
-      "JS Engine includes Memory Heap, Call Stack, and Event Loop",
-      "typeof operator helps identify data types",
-      "Understanding types prevents common bugs",
-      "JS is dynamically typed but type-aware",
+      "JavaScript is dynamically typed",
+      "Has both primitive and reference types",
+      "Runs in various environments (browser, Node.js)",
+      "Uses JIT (Just-In-Time) compilation",
+      "Single-threaded with event loop",
+      "Supports both OOP and functional programming paradigms"
     ],
   },
 };

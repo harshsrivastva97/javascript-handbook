@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import "./Home.scss";
 import {
   FaRocket,
   FaCode,
@@ -10,6 +9,7 @@ import {
   FaPencilAlt,
   FaHeart,
 } from "react-icons/fa";
+import "./Home.scss";
 
 const Home: React.FC = () => {
   const featuredCards = [
@@ -22,20 +22,20 @@ const Home: React.FC = () => {
       color: "#FF6B6B",
     },
     {
-      title: "Interactive Code Workshop",
-      description:
-        "Master popular snippets. Dive into a hands-on learning experience with our interactive code editor tailored for learning. Includes common implementations like map, filter, reduce, debounce, throttle, and more.",
-      path: "code-vault",
-      icon: <FaCode size={32} />,
-      color: "#4ECDC4",
-    },
-    {
       title: "JavaScript Foundations",
       description:
         "Delve into some basic javascript concepts and strengthen your foundation. Start small, think big, and watch your skills transform!",
       path: "concepts",
       icon: <FaLightbulb size={32} />,
       color: "#FFD93D",
+    },
+    {
+      title: "Interactive Code Workshop",
+      description:
+        "Master popular snippets. Dive into a hands-on learning experience with our interactive code editor tailored for learning. Includes common implementations like map, filter, reduce, debounce, throttle, and more.",
+      path: "code-vault",
+      icon: <FaCode size={32} />,
+      color: "#4ECDC4",
     },
     {
       title: "Blogs",
@@ -116,7 +116,7 @@ const Home: React.FC = () => {
             <motion.div
               key={index}
               variants={cardVariants}
-              className={`card ${card.title === "Blogs" ? "disabled" : ""}`}
+              className="card"
               style={{ "--card-color": card.color } as React.CSSProperties}
             >
               <div
@@ -129,21 +129,17 @@ const Home: React.FC = () => {
               <div className="card-content">
                 <div>{card.description}</div>
               </div>
-              {card.title === "Blogs" ? (
-                <div className="coming-soon">Coming Soon</div>
-              ) : (
-                <motion.button
-                  className="start-button"
-                  onClick={() => navigate(card.path)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Explore
-                  <svg viewBox="0 0 24 24" className="arrow-icon">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </motion.button>
-              )}
+              <motion.button
+                className="start-button"
+                onClick={() => navigate(card.path)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Explore
+                <svg viewBox="0 0 24 24" className="arrow-icon">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </motion.button>
             </motion.div>
           ))}
         </motion.div>

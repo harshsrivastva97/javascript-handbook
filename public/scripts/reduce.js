@@ -8,6 +8,6 @@ Array.prototype.myReduce = function (fn, initialValue) {
   return result;
 };
 
-// Tester Function
+// Test the custom reduce function
 const sum = arr.myReduce((acc, curr) => acc + curr, 0);
 console.log(sum);

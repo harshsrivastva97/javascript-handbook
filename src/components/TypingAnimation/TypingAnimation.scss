@@ -1,0 +1,18 @@
+.text-animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .char {
+        display: inline-block;
+        position: relative;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .text-animation {
+        .char {
+            animation: none;
+        }
+    }
+}
