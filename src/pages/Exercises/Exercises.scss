@@ -54,28 +54,6 @@
   }
 }
 
-.exercises-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2rem;
-  gap: 1rem;
-  position: relative;
-
-  h1 {
-    font-size: 24px;
-    font-weight: 300;
-
-    span {
-      color: #228be6;
-      font-weight: 700;
-    }
-
-    &:hover span {
-      color: #1971c2;
-    }
-  }
-}
-
 .scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #cbd5e0 #f7fafc;

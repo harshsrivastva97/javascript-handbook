@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useBackNavigation } from "../../utility/navigationUtils.ts";
 import "./Exercises.scss";
 
 interface Exercise {
@@ -14,11 +12,6 @@ interface Exercise {
 }
 
 const Exercises: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation()
-
-  const handleBack = useBackNavigation()
-
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
   const [exercises, setExercises] = useState<Exercise[]>([
@@ -148,23 +141,6 @@ const Exercises: React.FC = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-8 h-screen flex flex-col text-gray-700">
-      <div className="exercises-header">
-        <button
-          className="absolute left-0 bg-transparent border-none text-gray-600 text-base p-2 rounded hover:bg-gray-100 hover:text-gray-800 transition-all"
-          onClick={handleBack}
-        >
-          ← Back
-        </button>
-        <motion.h1
-          className="text-2xl font-light flex-1 text-center cursor-pointer"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <span className="text-blue-500 font-bold">JS</span> Exercises
-        </motion.h1>
-      </div>
-
       <div className="bg-gray-100 rounded-lg h-2 mb-8 relative overflow-hidden">
         <div
           className="h-full bg-blue-500 transition-all duration-300"

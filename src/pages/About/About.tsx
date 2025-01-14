@@ -69,13 +69,6 @@ const About: React.FC = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="about-content">
-        <div className="navigation-header">
-          <Link to="/" className="back-link">
-            <FaChevronLeft /> 
-            <span>Back to Dashboard</span>
-          </Link>
-        </div>
-
         <motion.header
           className="about-header"
           initial={{ y: -10 }}

@@ -34,33 +34,6 @@
       border-right: 1px solid #333;
       overflow-y: auto;
 
-      .back-button {
-        background: transparent;
-        color: #888;
-        border: none;
-        padding: 0.5rem 0;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: color 0.2s;
-        
-        &:hover {
-          color: #fff;
-        }
-      }
-
-      .header-content {
-        margin: 1rem 0 2rem;
-        
-        .title {
-          font-size: 1.8rem;
-          margin: 0;
-          
-          .title-prefix {
-            color: #61dafb;
-          }
-        }
-      }
-
       .progress-container {
         background: #333;
         padding: 1rem;

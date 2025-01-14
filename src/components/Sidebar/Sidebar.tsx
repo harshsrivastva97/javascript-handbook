@@ -93,11 +93,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
     window.history.pushState({}, "", window.location.pathname);
   };
 
-  const handleTitleClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent header click event
-    window.location.href = "/";
-  };
-
   return (
     <aside className="sidebar flex flex-col">
       {/* Celebration overlay */}
@@ -113,14 +108,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
       )}
 
       <div className="sidebar__header" onClick={handleHeaderClick}>
-        <motion.div whileHover={{ scale: 0.92 }} whileTap={{ scale: 0.88 }}>
-          <h1 className="sidebar__title" onClick={handleTitleClick}>
-            <strong>
-              <span className="sidebar__title-prefix">JS</span>
-              <span> Handbook</span>
-            </strong>
-          </h1>
-        </motion.div>
         <div className="progress-indicator">
           <div className="progress-text">
             Progress: {completedItems.length}/{totalItems} completed

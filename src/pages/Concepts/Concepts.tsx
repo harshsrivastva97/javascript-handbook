@@ -7,7 +7,6 @@ import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-typescript";
 import { Concept } from "../../types/concept";
 import { concepts } from "../../data/concepts/index.ts";
-import { useBackNavigation } from "../../utility/navigationUtils.ts";
 import "./Concepts.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/index.ts';
@@ -16,8 +15,6 @@ import { conceptsMap } from '../../data/concepts';
 
 const Concepts: React.FC = () => {
   const location = useLocation()
-
-  const handleBack = useBackNavigation()
 
   const queryParams = new URLSearchParams(location.search)
   const conceptId = Number(queryParams.get('conceptId'))
@@ -96,18 +93,6 @@ const Concepts: React.FC = () => {
     <div className={`concepts-container ${showProgress ? "show-progress" : ""}`}>
       <div className="concepts-layout">
         <div className="topics-list">
-          <button className="back-button" onClick={handleBack}>
-            ← Back
-          </button>
-          <div className="header-content">
-            <motion.h2
-              className="title"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span className="title-prefix">JS</span>&nbsp;Concepts
-            </motion.h2>
-          </div>
           <div className="progress-container">
             <div className="progress-header">
               Progress: {completedConcepts.length} / {concepts.length} completed
