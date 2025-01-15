@@ -19,21 +19,22 @@ body {
   padding: 0;
 }
 
+// Clean up and standardize scrollbar styling
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: $bg-primary;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $accent;
+  background: rgba($accent, 0.3);
   border-radius: 4px;
-
+  
   &:hover {
-    background: $accent-light;
+    background: rgba($accent, 0.5);
   }
 }
 

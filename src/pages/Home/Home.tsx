@@ -1,149 +1,162 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  FaRocket,
-  FaCode,
-  FaLightbulb,
-  FaBook,
-  FaPencilAlt,
-  FaHeart,
-} from "react-icons/fa";
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { RootState } from '../../redux/store';
+import { updateTopicStatus } from '../../redux/slices/topicsDataMapSlice';
+import { FaBook, FaCode, FaInfoCircle, FaCheckCircle, FaRegCircle } from "react-icons/fa";
+import { Tooltip } from 'react-tooltip';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import { listOfConcepts } from '../../data/concepts';
+import { BsThreeDots } from "react-icons/bs";
 import "./Home.scss";
 
+interface Topic {
+  id: number;
+  status: 'pending' | 'in-progress' | 'completed';
+}
+
 const Home: React.FC = () => {
-  const featuredCards = [
-    {
-      title: "JavaScript Mastery Checklist",
-      description:
-        "Embark on your JavaScript journey by exploring a curated list of essential topics. Stay on track and watch your progress soar as you master the fundamentals!",
-      path: "topics",
-      icon: <FaRocket size={32} />,
-      color: "#FF6B6B",
-    },
-    {
-      title: "JavaScript Foundations",
-      description:
-        "Delve into some basic javascript concepts and strengthen your foundation. Start small, think big, and watch your skills transform!",
-      path: "concepts",
-      icon: <FaLightbulb size={32} />,
-      color: "#FFD93D",
-    },
-    {
-      title: "Interactive Code Workshop",
-      description:
-        "Master popular snippets. Dive into a hands-on learning experience with our interactive code editor tailored for learning. Includes common implementations like map, filter, reduce, debounce, throttle, and more.",
-      path: "code-vault",
-      icon: <FaCode size={32} />,
-      color: "#4ECDC4",
-    },
-    {
-      title: "Blogs",
-      description:
-        "Ignite your curiosity and expand your horizons with insightful articles, tips, and discoveries in the ever-evolving world of JavaScript.",
-      path: "blogs",
-      icon: <FaBook size={32} />,
-      color: "#6C5CE7",
-    },
-    {
-      title: "JavaScript Challenges",
-      description:
-        "Explore creative JavaScript exercises that test your skills and deepen your understanding. Strengthen your grasp on the language while building confidence in every step!",
-      path: "exercises",
-      icon: <FaPencilAlt size={32} />,
-      color: "#A8E6CF",
-    },
-    {
-      title: "Our Journey",
-      description:
-        "Discover the story, mission, and vision behind this handbook. Join us on a journey to inspire and empower JavaScript learners everywhere.",
-      path: "about",
-      icon: <FaHeart size={32} />,
-      color: "#FF8B94",
-    },
-  ];
-
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { topics } = useAppSelector((state: RootState) => state.topicsData);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
+  const calculateProgress = () => {
+    if (!topics?.length) return 0;
+    const completed = topics.filter((topic: Topic) => topic.status === "completed").length;
+    return Math.round((completed / listOfConcepts.length) * 100);
   };
 
-  const cardVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.4,
-        ease: "easeOut",
-      },
-    },
+  const handleStatusChange = (topicId: number, newStatus: 'pending' | 'in-progress' | 'completed') => {
+    try {
+      dispatch(updateTopicStatus({ 
+        topicId,
+        status: newStatus
+      }));
+    } catch (error) {
+      console.error('Error updating topic status:', error);
+    }
+  };
+
+  const navigateToConcept = (conceptId: number) => {
+    navigate(`/concepts?conceptId=${conceptId}`);
+  };
+
+  const navigateToCodeVault = (conceptId: number) => {
+    navigate(`/code-vault?concept=${conceptId}`);
   };
 
   return (
     <div className="home">
-      <div className="magical-background">
-        <div className="orb orb1"></div>
-        <div className="orb orb2"></div>
-        <div className="orb orb3"></div>
+      <div className="hero-section">
+        <div className="hero-content">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            Master JavaScript Concepts and Level Up Your Coding Skills
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Enhance your JavaScript mastery through interactive learning, 
+            build a solid foundation with core concepts, 
+            and join a thriving community of developers.
+          </motion.p>
+        </div>
+        <motion.div 
+          className="progress-chart"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <CircularProgressbar
+            value={calculateProgress()}
+            text={`${calculateProgress()}%`}
+            styles={buildStyles({
+              pathColor: '#646cff',
+              textColor: '#ffffff',
+              trailColor: '#2d2d2d',
+            })}
+          />
+        </motion.div>
       </div>
 
-      <section className="featured-section">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="section-header"
-        >
-          <h2>Your JavaScript Handbook</h2>
-          <p className="subtitle">Begin your journey to JavaScript mastery</p>
-        </motion.div>
+      <motion.div 
+        className="topics-table-container"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.6 }}
+      >
+        <table className="topics-table">
+          <thead>
+            <tr>
+              <th>Topic</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {listOfConcepts.map((concept) => {
+              const topicStatus = topics.find((t: Topic) => t.id === concept.id)?.status || 'pending';
+              return (
+                <tr key={concept.id}>
+                  <td>{concept.title}</td>
+                  <td>
+                    <div 
+                      className="status-toggle"
+                      onClick={() => {
+                        const nextStatus = {
+                          pending: "in-progress",
+                          "in-progress": "completed",
+                          completed: "pending"
+                        } as const;
+                        handleStatusChange(concept.id, nextStatus[topicStatus as keyof typeof nextStatus]);
+                      }}
+                    >
+                      <div className={`status-icon ${topicStatus}`}>
+                        {topicStatus === 'completed' && <FaCheckCircle />}
+                        {topicStatus === 'in-progress' && <BsThreeDots />}
+                        {topicStatus === 'pending' && <FaRegCircle />}
+                      </div>
+                      <span className="status-text">
+                        {topicStatus === 'completed' && 'Mastered'}
+                        {topicStatus === 'in-progress' && 'Learning'}
+                        {topicStatus === 'pending' && 'To Learn'}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="actions">
+                    <button
+                      data-tooltip-id={`readme-${concept.id}`}
+                      onClick={() => navigateToConcept(concept.id)}
+                    >
+                      <FaBook />
+                    </button>
+                    <Tooltip id={`readme-${concept.id}`} place="top">
+                      Read Documentation
+                    </Tooltip>
 
-        <motion.div
-          className="cards-container"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {featuredCards.map((card, index) => (
-            <motion.div
-              key={index}
-              variants={cardVariants}
-              className="card"
-              style={{ "--card-color": card.color } as React.CSSProperties}
-            >
-              <div
-                className="card-icon-wrapper"
-                style={{ backgroundColor: `${card.color}15` }}
-              >
-                {card.icon}
-              </div>
-              <h3 className="card-title">{card.title}</h3>
-              <div className="card-content">
-                <div>{card.description}</div>
-              </div>
-              <motion.button
-                className="start-button"
-                onClick={() => navigate(card.path)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                Explore
-                <svg viewBox="0 0 24 24" className="arrow-icon">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </motion.button>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
+                    <button
+                      data-tooltip-id={`practice-${concept.id}`}
+                      onClick={() => navigateToCodeVault(concept.id)}
+                    >
+                      <FaCode />
+                    </button>
+                    <Tooltip id={`practice-${concept.id}`} place="top">
+                      Practice Code
+                    </Tooltip>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </motion.div>
     </div>
   );
 };

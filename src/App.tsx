@@ -27,7 +27,7 @@ const App: React.FC = () => {
           type: "spring",
           stiffness: 200,
         }}
-        >
+      >
         <Router>
           <Header />
           <Routes>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
-  FaRocket,
   FaCode,
   FaLightbulb,
   FaBook,
@@ -12,11 +11,6 @@ import './Header.scss';
 
 const Header: React.FC = () => {
   const navLinks = [
-    {
-      title: "Topics",
-      path: "/topics",
-      icon: <FaRocket />,
-    },
     {
       title: "Concepts",
       path: "/concepts",
