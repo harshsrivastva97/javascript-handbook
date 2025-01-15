@@ -94,29 +94,31 @@ const Concepts: React.FC = () => {
               <div className="progress-fill" style={{ width: `${progress}%` }} />
             </div>
           </div>
-          {listOfConcepts.map((concept: Concept) => (
-            <motion.div
-              key={concept.id}
-              className={`topic-item ${selectedConcept?.id === concept.id ? "active" : ""} ${
-                isConceptCompleted(concept.id) ? "completed" : ""
-              }`}
-              onClick={() => setSelectedConcept(concept)}
-              whileHover={{ x: 4 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <span className="topic-title">{concept.title}</span>
-              {isConceptCompleted(concept.id) && (
-                <motion.span
-                  className="completion-icon"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: "spring", stiffness: 500 }}
-                >
-                  ✓
-                </motion.span>
-              )}
-            </motion.div>
-          ))}
+          <div className="topics-scroll-container">
+            {listOfConcepts.map((concept: Concept) => (
+              <motion.div
+                key={concept.id}
+                className={`topic-item ${selectedConcept?.id === concept.id ? "active" : ""} ${
+                  isConceptCompleted(concept.id) ? "completed" : ""
+                }`}
+                onClick={() => setSelectedConcept(concept)}
+                whileHover={{ x: 4 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <span className="topic-title">{concept.title}</span>
+                {isConceptCompleted(concept.id) && (
+                  <motion.span
+                    className="completion-icon"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 500 }}
+                  >
+                    ✓
+                  </motion.span>
+                )}
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         <div className="concept-details">
