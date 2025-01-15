@@ -31,210 +31,211 @@ import { fileHandling } from './fileHandling';
 import { errorHandling } from './errorHandling';
 import { performance } from './performance';
 import { security } from './security';
+import { Concept } from '../../types/concept';
 
-export const listOfConcepts = [
+export const listOfConcepts: Concept[] = [
   {
     id: 100,
-    filename: jsBasics,
+    content: jsBasics,
     title: "JavaScript Basics",
     status: "pending"
   },
   {
     id: 101,
-    filename: closures,
+    content: closures,
     title: "Closures",
     status: "pending"
   },
   {
     id: 102,
-    filename: variables,
+    content: variables,
     title: "Variables",
     status: "pending"
   },
   {
     id: 103,
-    filename: functions,
+    content: functions,
     title: "Functions",
     status: "pending"
   },
   {
     id: 104,
-    filename: objects,
+    content: objects,
     title: "Objects",
     status: "pending"
   },
   {
     id: 105,
-    filename: arrays,
+    content: arrays,
     title: "Arrays",
     status: "pending"
   },
   {
     id: 106,
-    filename: referencesVsValues,
+    content: referencesVsValues,
     title: "References vs Values",
     status: "pending"
   },
   {
     id: 107,
-    filename: hoisting,
+    content: hoisting,
     title: "Hoisting",
     status: "pending"
   },
   {
     id: 108,
-    filename: storage,
+    content: storage,
     title: "Storage",
     status: "pending"
   },
   {
     id: 109,
-    filename: thisKeyword,
+    content: thisKeyword,
     title: "This Keyword",
     status: "pending"
   },
   {
     id: 110,
-    filename: callApplyBind,
+    content: callApplyBind,
     title: "Call, Apply, and Bind",
     status: "pending"
   },
   {
     id: 111,
-    filename: debounce,
+    content: debounce,
     title: "Debounce",
     status: "pending"
   },
   {
     id: 112,
-    filename: mixinsHOF,
+    content: mixinsHOF,
     title: "Mixins and Higher-Order Functions",
     status: "pending"
   },
   {
     id: 113,
-    filename: asyncAwait,
+    content: asyncAwait,
     title: "Async/Await",
     status: "pending"
   },
   {
     id: 114,
-    filename: eventLoop,
+    content: eventLoop,
     title: "Event Loop",
     status: "pending"
   },
   {
     id: 115,
-    filename: executionContext,
+    content: executionContext,
     title: "Execution Context",
     status: "pending"
   },
   {
     id: 116,
-    filename: typeCoercion,
+    content: typeCoercion,
     title: "Type Coercion",
     status: "pending"
   },
   {
     id: 117,
-    filename: operators,
+    content: operators,
     title: "Operators",
     status: "pending"
   },
   {
     id: 118,
-    filename: timers,
+    content: timers,
     title: "Timers",
     status: "pending"
   },
   {
     id: 119,
-    filename: apiCalls,
+    content: apiCalls,
     title: "API Calls",
     status: "pending"
   },
   {
     id: 120,
-    filename: asyncDefer,
+    content: asyncDefer,
     title: "Async/Defer",
     status: "pending"
   },
   {
     id: 121,
-    filename: modules,
+    content: modules,
     title: "Modules",
     status: "pending"
   },
   {
     id: 122,
-    filename: currying,
+    content: currying,
     title: "Currying",
     status: "pending"
   },
   {
     id: 123,
-    filename: classes,
+    content: classes,
     title: "Classes",
     status: "pending"
   },
   {
     id: 124,
-    filename: eventBubbling,
+    content: eventBubbling,
     title: "Event Bubbling",
     status: "pending"
   },
   {
     id: 125,
-    filename: fileHandling,
+    content: fileHandling,
     title: "File Handling",
     status: "pending"
   },
   {
     id: 126,
-    filename: errorHandling,
+    content: errorHandling,
     title: "Error Handling",
     status: "pending"
   },
   {
     id: 127,
-    filename: memoryManagement,
+    content: memoryManagement,
     title: "Memory Management",
     status: "pending"
   },
   {
     id: 128,
-    filename: performance,
+    content: performance,
     title: "Performance",
     status: "pending"
   },
   {
     id: 129,
-    filename: security,
+    content: security,
     title: "Security",
     status: "pending"
   },
   {
     id: 130,
-    filename: promises,
+    content: promises,
     title: "Promises",
     status: "pending"
   },
   {
     id: 131,
-    filename: asyncAwait,
+    content: asyncAwait,
     title: "Async/Await",
     status: "pending"
   },
   {
     id: 132,
-    filename: throttle,
+    content: throttle,
     title: "Throttle",
     status: "pending"
   },
   {
     id: 133,
-    filename: prototypes,
+    content: prototypes,
     title: "Prototypes",
     status: "pending"
   }
-];
+]

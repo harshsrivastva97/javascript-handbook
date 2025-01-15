@@ -1,10 +1,7 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const debounce: Concept = {
-  id: 6,
-  title: "Debounce",
-  content: {
-    explanation: `<p>Debounce is a programming pattern that delays the execution of a function until after a period of inactivity.</p>
+export const debounce: ConceptContent = {
+  explanation: `<p>Debounce is a programming pattern that delays the execution of a function until after a period of inactivity.</p>
 
 <h3>What is Debouncing?</h3>
 <p>Think of debouncing like an elevator: Instead of immediately moving after each button press, it waits until people stop pressing buttons for a few seconds before moving.</p>
@@ -30,7 +27,7 @@ Debounce: ━━━━━━━━━━━━━━━━━━━━━┃
         └─Delay─┘
 </pre>
 <p>The function only executes after the specified delay of inactivity.</p>`,
-    codeExample: `function debounce(func, delay) {
+  codeExample: `function debounce(func, delay) {
 let timeoutId;
 
 return function (...args) {
@@ -52,11 +49,10 @@ console.log('Searching:', event.target.value);
 }, 500);
 
 searchInput.addEventListener('input', handleSearch);`,
-    keyPoints: [
-      "Executes function only after a period of inactivity",
-      "Useful for expensive operations that don't need to run on every event",
-      "Cancels pending executions when new events occur",
-      "Perfect for search inputs, form validation, and window resize events",
-    ],
-  },
+  keyPoints: [
+    "Executes function only after a period of inactivity",
+    "Useful for expensive operations that don't need to run on every event",
+    "Cancels pending executions when new events occur",
+    "Perfect for search inputs, form validation, and window resize events",
+  ]
 };

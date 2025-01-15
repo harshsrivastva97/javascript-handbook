@@ -1,9 +1,6 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const mixinsHOF: Concept = {
-  id: 112,
-  title: "Mixins & Higher-Order Functions",
-  content: {
+export const mixinsHOF: ConceptContent = {
     explanation: `<p>Mixins and Higher-Order Functions are advanced patterns in JavaScript that enable code reuse and functional programming paradigms.</p>
 
 <h3>Key Concepts:</h3>
@@ -55,12 +52,11 @@ const addOne = x => x + 1;
 const double = x => x * 2;
 const addOneAndDouble = compose(double, addOne);`,
     keyPoints: [
-      "Mixins provide multiple inheritance-like behavior",
-      "Higher-order functions enable function composition",
-      "Useful for cross-cutting concerns like logging",
-      "Enables functional programming patterns",
-      "Promotes code reuse and modularity",
-      "Common in React and other frameworks"
-    ],
-  },
+        "Mixins provide multiple inheritance-like behavior",
+        "Higher-order functions enable function composition",
+        "Useful for cross-cutting concerns like logging",
+        "Enables functional programming patterns",
+        "Promotes code reuse and modularity",
+        "Common in React and other frameworks"
+    ]
 }; 

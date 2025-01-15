@@ -1,10 +1,7 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const executionContext: Concept = {
-  id: 115,
-  title: "Global Execution Context & Call Stack",
-  content: {
-    explanation: `<p>The Execution Context and Call Stack are fundamental concepts in JavaScript that manage code execution and scope.</p>
+export const executionContext: ConceptContent = {
+  explanation: `<p>The Execution Context and Call Stack are fundamental concepts in JavaScript that manage code execution and scope.</p>
 
 <h3>Key Components:</h3>
 <ul>
@@ -13,7 +10,7 @@ export const executionContext: Concept = {
   <li>this Binding: Value of 'this' keyword</li>
   <li>Call Stack: Tracks execution contexts</li>
 </ul>`,
-    codeExample: `// Global Execution Context
+  codeExample: `// Global Execution Context
 let globalVar = 'I am global';
 
 function outer() {
@@ -52,13 +49,12 @@ function third() {
 // Call Stack: [first] -> [first, second] -> [first, second, third]
 //         -> [first, second] -> [first] -> []
 first();`,
-    keyPoints: [
-      "Every function call creates a new execution context",
-      "Global execution context is created first",
-      "Call stack follows LIFO (Last In, First Out)",
-      "Each context has its own variable environment",
-      "Contexts have access to outer scope variables",
-      "Stack overflow occurs when call stack exceeds limit"
-    ],
-  },
+  keyPoints: [
+    "Every function call creates a new execution context",
+    "Global execution context is created first",
+    "Call stack follows LIFO (Last In, First Out)",
+    "Each context has its own variable environment",
+    "Contexts have access to outer scope variables",
+    "Stack overflow occurs when call stack exceeds limit"
+  ]
 };

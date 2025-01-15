@@ -1,10 +1,7 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const eventPropagation: Concept = {
-  id: 14,
-  title: "Event Propagation",
-  content: {
-    explanation: `<p>Event propagation describes how events travel through the DOM tree, affecting how event handlers are triggered on nested elements.</p>
+export const eventPropagation: ConceptContent = {
+  explanation: `<p>Event propagation describes how events travel through the DOM tree, affecting how event handlers are triggered on nested elements.</p>
 
 <h3>Phases of Event Propagation:</h3>
 <ol>
@@ -47,7 +44,7 @@ parent
   ↓↑
 target
 </pre>`,
-    codeExample: `// Event Propagation Example
+  codeExample: `// Event Propagation Example
 document.querySelector('#parent').addEventListener('click', e => {
 console.log('Parent Clicked - Capturing', e.target);
 }, true); // Capturing phase
@@ -63,11 +60,10 @@ if (e.target.matches('li')) {
   console.log('List item clicked:', e.target.textContent);
 }
 });`,
-    keyPoints: [
-      "Events propagate in three phases: capturing, target, and bubbling",
-      "Event delegation improves performance with many similar elements",
-      "stopPropagation() prevents further propagation",
-      "preventDefault() stops default browser behavior",
-    ],
-  },
+  keyPoints: [
+    "Events propagate in three phases: capturing, target, and bubbling",
+    "Event delegation improves performance with many similar elements",
+    "stopPropagation() prevents further propagation",
+    "preventDefault() stops default browser behavior",
+  ]
 };

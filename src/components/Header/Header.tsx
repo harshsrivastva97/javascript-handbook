@@ -18,7 +18,7 @@ const Header: React.FC = () => {
     },
     {
       title: "Code Vault",
-      path: "/code-vault",
+      path: "/vault",
       icon: <FaCode />,
     },
     {

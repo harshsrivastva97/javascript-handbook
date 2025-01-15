@@ -6,69 +6,62 @@ import "prismjs/themes/prism-tomorrow.css";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-typescript";
 import { Concept } from "../../types/concept";
-import { concepts } from "../../data/concepts/index.ts";
+import { listOfConcepts } from "../../data/concepts/index.ts";
 import "./Concepts.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/index.ts';
 import { updateTopicStatus } from '../../redux/slices/topicsDataMapSlice.ts';
-import { conceptsMap } from '../../data/concepts';
 
 const Concepts: React.FC = () => {
   const location = useLocation()
 
   const queryParams = new URLSearchParams(location.search)
   const conceptId = Number(queryParams.get('conceptId'))
-  const [selectedConcept, setSelectedConcept] = useState<Concept>(
-    conceptId && (conceptsMap as Record<number, Concept>)[conceptId] 
-      ? (conceptsMap as Record<number, Concept>)[conceptId] 
-      : concepts[0]
-  );
+  const [selectedConcept, setSelectedConcept] = useState<Concept>(() => {
+    if (conceptId) {
+      const concept = listOfConcepts.find(c => c.id === conceptId);
+      return concept || listOfConcepts[0];
+    }
+    return listOfConcepts[0];
+  });
   const [showProgress, setShowProgress] = useState(() => {
     const saved = localStorage.getItem("showProgress");
     return saved ? JSON.parse(saved) : true;
   });
-  const [completedConcepts, setCompletedConcepts] = useState<number[]>(() => {
-    const saved = localStorage.getItem("completedConcepts");
-    return saved ? JSON.parse(saved) : [];
-  });
 
   const dispatch = useDispatch();
-  const { topics, topicsToConceptsMap } = useSelector((state: RootState) => state.topicsData);
+  const { topics } = useSelector((state: RootState) => state.topicsData);
+
+  // Helper function to check if a concept is completed
+  const isConceptCompleted = (conceptId: number) => {
+    const topic = topics.find((t: { id: number }) => t.id === conceptId);
+    return topic?.status === 'completed';
+  };
+
+  // Calculate progress based on Redux state
+  const completedCount = topics.filter((t: { status: string }) => t.status === 'completed').length;
+  const progress = (completedCount / listOfConcepts.length) * 100;
 
   useEffect(() => {
-    if (conceptId && (conceptsMap as Record<number, Concept>)[conceptId]) {
-      setSelectedConcept((conceptsMap as Record<number, Concept>)[conceptId]);
+    if (conceptId) {
+      const concept = listOfConcepts.find(c => c.id === conceptId);
+      if (concept) {
+        setSelectedConcept(concept);
+      }
     }
   }, [conceptId]);
-
-  useEffect(() => {
-    localStorage.setItem(
-      "completedConcepts",
-      JSON.stringify(completedConcepts),
-    );
-  }, [completedConcepts]);
 
   useEffect(() => {
     localStorage.setItem("showProgress", JSON.stringify(showProgress));
   }, [showProgress]);
 
-  const progress = (completedConcepts.length / concepts.length) * 100;
-
   const toggleConceptComplete = (conceptId: number) => {
-    // Find the corresponding topic ID
-    const topicId = Object.entries(topicsToConceptsMap)
-      .find(([_, cId]) => cId === conceptId)?.[0];
-    
-    if (topicId) {
-      const topic = topics.find((t: { id: number }) => t.id === Number(topicId));
-      if (topic) {
-        const newStatus = topic.status === 'completed' ? 'pending' : 'completed';
-        dispatch(updateTopicStatus({
-          topicId: Number(topicId),
-          status: newStatus
-        }));
-      }
-    }
+    const topic = topics.find((t: { id: number }) => t.id === conceptId);
+    const newStatus = topic?.status === 'completed' ? 'pending' : 'completed';
+    dispatch(updateTopicStatus({
+      topicId: conceptId,
+      status: newStatus
+    }));
   };
 
   useEffect(() => {
@@ -95,23 +88,24 @@ const Concepts: React.FC = () => {
         <div className="topics-list">
           <div className="progress-container">
             <div className="progress-header">
-              Progress: {completedConcepts.length} / {concepts.length} completed
+              Progress: {completedCount} / {listOfConcepts.length} completed
             </div>
             <div className="progress-bar">
               <div className="progress-fill" style={{ width: `${progress}%` }} />
             </div>
           </div>
-          {concepts.map((concept) => (
+          {listOfConcepts.map((concept: Concept) => (
             <motion.div
               key={concept.id}
-              className={`topic-item ${selectedConcept?.id === concept.id ? "active" : ""} ${completedConcepts.includes(concept.id) ? "completed" : ""
-                }`}
+              className={`topic-item ${selectedConcept?.id === concept.id ? "active" : ""} ${
+                isConceptCompleted(concept.id) ? "completed" : ""
+              }`}
               onClick={() => setSelectedConcept(concept)}
               whileHover={{ x: 4 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
               <span className="topic-title">{concept.title}</span>
-              {completedConcepts.includes(concept.id) && (
+              {isConceptCompleted(concept.id) && (
                 <motion.span
                   className="completion-icon"
                   initial={{ scale: 0 }}
@@ -131,50 +125,56 @@ const Concepts: React.FC = () => {
               <div className="concept-header">
                 <h1>{selectedConcept.title}</h1>
                 <button
-                  className={`mark-complete-btn ${completedConcepts.includes(selectedConcept.id)
+                  className={`mark-complete-btn ${isConceptCompleted(selectedConcept.id)
                     ? "completed"
                     : ""
                     }`}
                   onClick={() => toggleConceptComplete(selectedConcept.id)}
                 >
-                  {completedConcepts.includes(selectedConcept.id)
+                  {isConceptCompleted(selectedConcept.id)
                     ? "Completed ✓"
                     : "Mark as Complete"}
                 </button>
               </div>
               <div className="content">
-                <div
-                  className="explanation"
-                  dangerouslySetInnerHTML={{
-                    __html: selectedConcept.content.explanation,
-                  }}
-                />
+                {selectedConcept?.content ? (
+                  <>
+                    <div
+                      className="explanation"
+                      dangerouslySetInnerHTML={{
+                        __html: selectedConcept.content.explanation || '',
+                      }}
+                    />
 
-                {selectedConcept.content.codeExample && (
-                  <div className="code-example">
-                    <h3>Example:</h3>
-                    <button
-                      className="copy-button"
-                      onClick={() =>
-                        copyToClipboard(selectedConcept.content.codeExample)
-                      }
-                    >
-                      Copy
-                    </button>
-                    <pre className="language-javascript">
-                      <code>{selectedConcept.content.codeExample}</code>
-                    </pre>
-                  </div>
+                    {selectedConcept.content.codeExample && (
+                      <div className="code-example">
+                        <h3>Example:</h3>
+                        <button
+                          className="copy-button"
+                          onClick={() =>
+                            copyToClipboard(selectedConcept.content.codeExample)
+                          }
+                        >
+                          Copy
+                        </button>
+                        <pre className="language-javascript">
+                          <code>{selectedConcept.content.codeExample}</code>
+                        </pre>
+                      </div>
+                    )}
+
+                    <div className="key-points">
+                      <h3>Key Points:</h3>
+                      <ul>
+                        {selectedConcept.content.keyPoints?.map((point, index) => (
+                          <li key={index}>{point}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </>
+                ) : (
+                  <div>Loading content...</div>
                 )}
-
-                <div className="key-points">
-                  <h3>Key Points:</h3>
-                  <ul>
-                    {selectedConcept.content.keyPoints.map((point, index) => (
-                      <li key={index}>{point}</li>
-                    ))}
-                  </ul>
-                </div>
               </div>
             </>
           ) : (

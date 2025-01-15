@@ -1,9 +1,6 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const arrays: Concept = {
-  id: 105,
-  title: "Arrays",
-  content: {
+export const arrays: ConceptContent = {
     explanation: `<p>Arrays in JavaScript are ordered collections of values that can store elements of any type. They provide numerous built-in methods for data manipulation.</p>
 
 <h3>Key Concepts:</h3>
@@ -38,12 +35,11 @@ const last = arr.pop();     // Remove from end
 const first = arr.shift();  // Remove from start
 arr.splice(1, 2);      // Remove elements`,
     keyPoints: [
-      "Arrays are ordered collections of values",
-      "Array methods can be chained",
-      "Many methods return new arrays (immutable)",
-      "Some methods modify the original array (mutable)",
-      "Arrays have dynamic length",
-      "Support various iteration methods"
-    ],
-  },
+        "Arrays are ordered collections of values",
+        "Array methods can be chained",
+        "Many methods return new arrays (immutable)",
+        "Some methods modify the original array (mutable)",
+        "Arrays have dynamic length",
+        "Support various iteration methods"
+    ]
 }; 

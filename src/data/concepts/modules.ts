@@ -1,9 +1,6 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const modules: Concept = {
-  id: 121,
-  title: "Modules",
-  content: {
+export const modules: ConceptContent = {
     explanation: `<p>JavaScript modules allow you to split code into separate files for better organization and maintainability. ES6 introduced a standardized module format.</p>
 
 <h3>Module Features:</h3>
@@ -44,12 +41,11 @@ export { sum as addition } from './math';
 const fs = require('fs');
 module.exports = { readFile: fs.readFile };`,
     keyPoints: [
-      "Modules have their own scope",
-      "Support named and default exports",
-      "Enable code splitting and lazy loading",
-      "Improve code organization",
-      "Support circular dependencies",
-      "Compatible with bundlers like webpack"
-    ],
-  },
+        "Modules have their own scope",
+        "Support named and default exports",
+        "Enable code splitting and lazy loading",
+        "Improve code organization",
+        "Support circular dependencies",
+        "Compatible with bundlers like webpack"
+    ]
 }; 

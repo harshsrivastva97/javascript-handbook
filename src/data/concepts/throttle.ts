@@ -1,10 +1,7 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const throttle: Concept = {
-  id: 7,
-  title: "Throttle",
-  content: {
-    explanation: `<p>Throttle limits the rate at which a function can execute, ensuring it runs at a regular interval regardless of how frequently the event occurs.</p>
+export const throttle: ConceptContent = {
+  explanation: `<p>Throttle limits the rate at which a function can execute, ensuring it runs at a regular interval regardless of how frequently the event occurs.</p>
 
 <h3>What is Throttling?</h3>
 <p>Think of throttling like a rate limiter on a water pipe: No matter how much water pressure (events) you apply, the flow remains constant.</p>
@@ -36,7 +33,7 @@ Throttle: ┃━━━━━┃━━━━━┃━━━━━┃━━━━
 <li><strong>Throttle:</strong> Regular execution at fixed intervals</li>
 <li><strong>Debounce:</strong> Execution after period of inactivity</li>
 </ul>`,
-    codeExample: `function throttle(func, limit) {
+  codeExample: `function throttle(func, limit) {
 let inThrottle = false;
 
 return function (...args) {
@@ -58,11 +55,10 @@ console.log('Scroll position:', window.scrollY);
 }, 100);
 
 window.addEventListener('scroll', handleScroll);`,
-    keyPoints: [
-      "Executes function at a regular interval",
-      "Guarantees a maximum execution rate",
-      "Ideal for continuous events like scrolling or dragging",
-      "Different from debounce: runs regularly vs. waiting for inactivity",
-    ],
-  },
+  keyPoints: [
+    "Executes function at a regular interval",
+    "Guarantees a maximum execution rate",
+    "Ideal for continuous events like scrolling or dragging",
+    "Different from debounce: runs regularly vs. waiting for inactivity",
+  ]
 };

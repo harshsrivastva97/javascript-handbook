@@ -1,10 +1,7 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const jsBasics: Concept = {
-  id: 100,
-  title: "JavaScript Basics",
-  content: {
-    explanation: `<p>JavaScript is a high-level, interpreted programming language that conforms to the ECMAScript specification. Understanding its fundamentals is crucial for web development.</p>
+export const jsBasics: ConceptContent = {
+  explanation: `<p>JavaScript is a high-level, interpreted programming language that conforms to the ECMAScript specification. Understanding its fundamentals is crucial for web development.</p>
 
 <h3>Core Concepts:</h3>
 <ul>
@@ -13,7 +10,7 @@ export const jsBasics: Concept = {
   <li>Memory Management: Stack and Heap</li>
   <li>Execution Context and Call Stack</li>
 </ul>`,
-    codeExample: `// Primitive Data Types
+  codeExample: `// Primitive Data Types
 let string = "Hello";
 let number = 42;
 let boolean = true;
@@ -35,13 +32,12 @@ console.log(typeof nullValue);   // "object" (known JS quirk)
 console.log(typeof undefined);   // "undefined"
 console.log(typeof symbol);      // "symbol"
 console.log(typeof bigInt);      // "bigint"`,
-    keyPoints: [
-      "JavaScript is dynamically typed",
-      "Has both primitive and reference types",
-      "Runs in various environments (browser, Node.js)",
-      "Uses JIT (Just-In-Time) compilation",
-      "Single-threaded with event loop",
-      "Supports both OOP and functional programming paradigms"
-    ],
-  },
+  keyPoints: [
+    "JavaScript is dynamically typed",
+    "Has both primitive and reference types",
+    "Runs in various environments (browser, Node.js)",
+    "Uses JIT (Just-In-Time) compilation",
+    "Single-threaded with event loop",
+    "Supports both OOP and functional programming paradigms"
+  ]
 };

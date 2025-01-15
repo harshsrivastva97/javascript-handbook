@@ -1,10 +1,7 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const currying: Concept = {
-  id: 10,
-  title: "Currying",
-  content: {
-    explanation: `<p>Currying is a functional programming technique where a function with multiple arguments is transformed into a series of functions, each accepting a single argument.</p>
+export const currying: ConceptContent = {
+  explanation: `<p>Currying is a functional programming technique where a function with multiple arguments is transformed into a series of functions, each accepting a single argument.</p>
 
 <h3>Why Use Currying?</h3>
 <ul>
@@ -15,7 +12,7 @@ export const currying: Concept = {
 
 <h3>Visual Representation:</h3>
 <p><code>f(a, b, c) -> f(a)(b)(c)</code></p>`,
-    codeExample: `function add(a) {
+  codeExample: `function add(a) {
 return function (b) {
   return function (c) {
     return a + b + c;
@@ -25,10 +22,9 @@ return function (b) {
 
 const result = add(2)(3)(4);
 console.log(result); // 9`,
-    keyPoints: [
-      "Transforms a function with multiple arguments into nested functions.",
-      "Each nested function accepts one argument.",
-      "Useful for creating partially applied functions and improving reusability.",
-    ],
-  },
+  keyPoints: [
+    "Transforms a function with multiple arguments into nested functions.",
+    "Each nested function accepts one argument.",
+    "Useful for creating partially applied functions and improving reusability.",
+  ]
 };

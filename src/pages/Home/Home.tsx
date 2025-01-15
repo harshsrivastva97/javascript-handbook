@@ -44,7 +44,7 @@ const Home: React.FC = () => {
   };
 
   const navigateToCodeVault = (conceptId: number) => {
-    navigate(`/code-vault?concept=${conceptId}`);
+    navigate(`/vault?concept=${conceptId}`);
   };
 
   return (

@@ -1,9 +1,6 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const operators: Concept = {
-  id: 117,
-  title: "Operators",
-  content: {
+export const operators: ConceptContent = {
     explanation: `<p>JavaScript provides various operators for working with values, including modern operators like spread/rest, nullish coalescing, and optional chaining.</p>
 
 <h3>Modern Operators:</h3>
@@ -46,12 +43,11 @@ y ||= 42;  // y = 42 (logical OR assignment)
 let z = 1;
 z &&= 42;  // z = 42 (logical AND assignment)`,
     keyPoints: [
-      "Spread operator works with arrays and objects",
-      "Rest parameters collect multiple arguments",
-      "Nullish coalescing handles null/undefined specifically",
-      "Optional chaining prevents null reference errors",
-      "Logical assignment combines operators with assignment",
-      "Modern operators improve code readability"
-    ],
-  },
+        "Spread operator works with arrays and objects",
+        "Rest parameters collect multiple arguments",
+        "Nullish coalescing handles null/undefined specifically",
+        "Optional chaining prevents null reference errors",
+        "Logical assignment combines operators with assignment",
+        "Modern operators improve code readability"
+    ]
 }; 

@@ -1,9 +1,6 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const storage: Concept = {
-  id: 108,
-  title: "Storage",
-  content: {
+export const storage: ConceptContent = {
     explanation: `<p>Web Storage APIs provide mechanisms to store data in the browser. The main storage types are localStorage, sessionStorage, and cookies, each with its own use cases and limitations.</p>
 
 <h3>Storage Types:</h3>
@@ -38,12 +35,11 @@ window.addEventListener('storage', (e) => {
   console.log('Storage changed:', e.key, e.newValue);
 });`,
     keyPoints: [
-      "localStorage persists across browser sessions",
-      "sessionStorage clears when tab is closed",
-      "Cookies can be set with expiration and security flags",
-      "Storage is limited by browser quotas",
-      "Can only store strings (need JSON for objects)",
-      "Storage events fire for cross-tab communication"
-    ],
-  },
+        "localStorage persists across browser sessions",
+        "sessionStorage clears when tab is closed",
+        "Cookies can be set with expiration and security flags",
+        "Storage is limited by browser quotas",
+        "Can only store strings (need JSON for objects)",
+        "Storage events fire for cross-tab communication"
+    ]
 }; 

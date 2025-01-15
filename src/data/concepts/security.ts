@@ -1,9 +1,6 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const security: Concept = {
-  id: 129,
-  title: "Security",
-  content: {
+export const security: ConceptContent = {
     explanation: `<p>JavaScript security involves protecting against common web vulnerabilities like XSS, CSRF, and implementing proper authentication and data validation.</p>
 
 <h3>Security Concerns:</h3>
@@ -61,12 +58,11 @@ const secureStorage = {
   }
 };`,
     keyPoints: [
-      "Always sanitize user input",
-      "Implement CSRF protection",
-      "Use Content Security Policy",
-      "Set secure cookie attributes",
-      "Encrypt sensitive data",
-      "Regular security audits"
-    ],
-  },
+        "Always sanitize user input",
+        "Implement CSRF protection",
+        "Use Content Security Policy",
+        "Set secure cookie attributes",
+        "Encrypt sensitive data",
+        "Regular security audits"
+    ]
 }; 

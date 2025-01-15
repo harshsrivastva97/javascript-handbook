@@ -1,9 +1,6 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const classes: Concept = {
-  id: 123,
-  title: "Classes",
-  content: {
+export const classes: ConceptContent = {
     explanation: `<p>JavaScript classes provide a cleaner syntax for object-oriented programming, introduced in ES6. They are primarily syntactic sugar over the prototype-based inheritance.</p>
 
 <h3>Class Features:</h3>
@@ -67,12 +64,11 @@ class Example {
   }
 }`,
     keyPoints: [
-      "Classes are templates for creating objects",
-      "Support inheritance via extends keyword",
-      "Private fields start with # symbol",
-      "Constructor initializes new instances",
-      "Static methods belong to class itself",
-      "Getters/setters control property access"
-    ],
-  },
+        "Classes are templates for creating objects",
+        "Support inheritance via extends keyword",
+        "Private fields start with # symbol",
+        "Constructor initializes new instances",
+        "Static methods belong to class itself",
+        "Getters/setters control property access"
+    ]
 }; 

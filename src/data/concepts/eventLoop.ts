@@ -1,10 +1,7 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const eventLoop: Concept = {
-  id: 9,
-  title: "Event Loop",
-  content: {
-    explanation: `<p>The Event Loop is a fundamental mechanism in JavaScript that enables asynchronous programming in a single-threaded environment. Think of it as a continuous loop that coordinates the execution of code.</p>
+export const eventLoop: ConceptContent = {
+  explanation: `<p>The Event Loop is a fundamental mechanism in JavaScript that enables asynchronous programming in a single-threaded environment. Think of it as a continuous loop that coordinates the execution of code.</p>
 
 <div class="diagram">
 <pre>
@@ -103,7 +100,7 @@ export const eventLoop: Concept = {
 </div>
 
 <p>This mechanism ensures that JavaScript can handle asynchronous operations efficiently without blocking the main thread, making it possible to create responsive web applications.</p>`,
-    styles: `
+  styles: `
 .diagram, .process-diagram {
   background: #f8f9fa;
   padding: 1rem;
@@ -119,7 +116,7 @@ export const eventLoop: Concept = {
   color: #333;
 }
 `,
-    codeExample: `console.log('1: Script starts');
+  codeExample: `console.log('1: Script starts');
 
 setTimeout(() => console.log('2: Timeout 1'), 0);
 setTimeout(() => console.log('3: Timeout 2'), 0);
@@ -137,12 +134,11 @@ console.log('6: Script ends');
 // 5: Promise 2
 // 2: Timeout 1
 // 3: Timeout 2`,
-    keyPoints: [
-      "The Event Loop enables JavaScript to handle asynchronous operations in a single-threaded environment",
-      "Microtasks (Promises) always execute before macrotasks (setTimeout, events)",
-      "Web APIs handle time-consuming operations outside the main thread",
-      "Understanding the Event Loop is crucial for handling asynchronous operations and avoiding blocking code",
-      "The Event Loop ensures UI remains responsive while processing async tasks",
-    ],
-  },
+  keyPoints: [
+    "The Event Loop enables JavaScript to handle asynchronous operations in a single-threaded environment",
+    "Microtasks (Promises) always execute before macrotasks (setTimeout, events)",
+    "Web APIs handle time-consuming operations outside the main thread",
+    "Understanding the Event Loop is crucial for handling asynchronous operations and avoiding blocking code",
+    "The Event Loop ensures UI remains responsive while processing async tasks",
+  ]
 };

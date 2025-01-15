@@ -1,9 +1,6 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const typeCoercion: Concept = {
-  id: 116,
-  title: "Type Coercion",
-  content: {
+export const typeCoercion: ConceptContent = {
     explanation: `<p>Type Coercion is JavaScript's automatic conversion of values from one type to another. Understanding coercion is crucial for avoiding unexpected behavior.</p>
 
 <h3>Types of Coercion:</h3>
@@ -43,12 +40,11 @@ console.log({} + []);     // 0 (in some browsers)
 console.log([] + []);     // "" (empty string)
 console.log(true + true); // 2`,
     keyPoints: [
-      "Always use === for strict equality comparison",
-      "String concatenation takes precedence with +",
-      "Objects are converted to primitives when needed",
-      "Boolean coercion follows truthy/falsy rules",
-      "Number coercion can be explicit or implicit",
-      "Understanding coercion prevents bugs"
-    ],
-  },
+        "Always use === for strict equality comparison",
+        "String concatenation takes precedence with +",
+        "Objects are converted to primitives when needed",
+        "Boolean coercion follows truthy/falsy rules",
+        "Number coercion can be explicit or implicit",
+        "Understanding coercion prevents bugs"
+    ]
 }; 

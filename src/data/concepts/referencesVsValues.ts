@@ -1,9 +1,6 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const referencesVsValues: Concept = {
-  id: 106,
-  title: "References vs Values",
-  content: {
+export const referencesVsValues: ConceptContent = {
     explanation: `<p>Understanding how JavaScript handles primitive and reference types is crucial for writing bug-free code. Primitive types are passed by value, while objects are passed by reference.</p>
 
 <h3>Key Differences:</h3>
@@ -41,12 +38,11 @@ console.log({} === {});            // false
 console.log(obj1 === obj2);        // true
 console.log(shallow === obj1);     // false`,
     keyPoints: [
-      "Primitive types: number, string, boolean, null, undefined, symbol",
-      "Reference types: object, array, function",
-      "Primitives are compared by value",
-      "Objects are compared by reference",
-      "Object copying requires special handling",
-      "Understanding this prevents common bugs"
-    ],
-  },
+        "Primitive types: number, string, boolean, null, undefined, symbol",
+        "Reference types: object, array, function",
+        "Primitives are compared by value",
+        "Objects are compared by reference",
+        "Object copying requires special handling",
+        "Understanding this prevents common bugs"
+    ]
 }; 

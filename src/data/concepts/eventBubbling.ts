@@ -1,10 +1,7 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const eventBubbling: Concept = {
-  id: 11,
-  title: "Event Bubbling and Capturing",
-  content: {
-    explanation: `<p>Event bubbling and capturing are fundamental concepts in DOM event propagation. When an event occurs on an element, it triggers a complex propagation process through the DOM tree.</p>
+export const eventBubbling: ConceptContent = {
+  explanation: `<p>Event bubbling and capturing are fundamental concepts in DOM event propagation. When an event occurs on an element, it triggers a complex propagation process through the DOM tree.</p>
 
 <h3>Event Propagation Phases:</h3>
 <ol>
@@ -69,7 +66,7 @@ export const eventBubbling: Concept = {
   <li>No need to attach/detach handlers for new elements</li>
   <li>Cleaner and more maintainable code</li>
 </ul>`,
-    codeExample: `// 1. Basic Event Bubbling and Capturing
+  codeExample: `// 1. Basic Event Bubbling and Capturing
 document.addEventListener('DOMContentLoaded', () => {
   const parent = document.getElementById('parent');
   const child = document.getElementById('child');
@@ -145,17 +142,16 @@ function createCustomEvent() {
 
   document.dispatchEvent(customEvent);
 }`,
-    keyPoints: [
-      "Events propagate in three phases: capturing, target, and bubbling",
-      "Event delegation improves performance and simplifies dynamic content handling",
-      "event.target vs event.currentTarget helps identify event source and handler",
-      "stopPropagation() and stopImmediatePropagation() control event flow",
-      "preventDefault() stops default browser behavior without affecting propagation",
-      "Custom events can leverage the bubbling mechanism",
-      "Event delegation reduces memory usage and simplifies maintenance",
-      "Capturing phase is useful for specific intercepting scenarios",
-      "Understanding event flow is crucial for complex interactive applications",
-      "Proper event handling prevents memory leaks and improves performance",
-    ],
-  },
+  keyPoints: [
+    "Events propagate in three phases: capturing, target, and bubbling",
+    "Event delegation improves performance and simplifies dynamic content handling",
+    "event.target vs event.currentTarget helps identify event source and handler",
+    "stopPropagation() and stopImmediatePropagation() control event flow",
+    "preventDefault() stops default browser behavior without affecting propagation",
+    "Custom events can leverage the bubbling mechanism",
+    "Event delegation reduces memory usage and simplifies maintenance",
+    "Capturing phase is useful for specific intercepting scenarios",
+    "Understanding event flow is crucial for complex interactive applications",
+    "Proper event handling prevents memory leaks and improves performance",
+  ]
 };

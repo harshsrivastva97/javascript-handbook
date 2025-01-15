@@ -1,10 +1,7 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const promises: Concept = {
-  id: 3,
-  title: "Promises",
-  content: {
-    explanation: `<p>Promises are objects that represent the eventual completion (or failure) of an asynchronous operation. They provide a more elegant and manageable way to handle asynchronous operations compared to callbacks.</p>
+export const promises: ConceptContent = {
+  explanation: `<p>Promises are objects that represent the eventual completion (or failure) of an asynchronous operation. They provide a more elegant and manageable way to handle asynchronous operations compared to callbacks.</p>
 
 <h3>States of a Promise:</h3>
 <ol>
@@ -39,7 +36,7 @@ export const promises: Concept = {
 <li>Built-in support for async/await syntax in modern JavaScript.</li>
 <li>Easier parallel execution of multiple async operations.</li>
 </ul>`,
-    codeExample: `// Creating a simple promise
+  codeExample: `// Creating a simple promise
 const fetchData = () => {
   return new Promise((resolve, reject) => {
     setTimeout(() => resolve('Data fetched'), 2000);
@@ -80,14 +77,13 @@ const fetchWithTimeout = (timeout) => {
     )
   ]);
 };`,
-    keyPoints: [
-      "Promises provide a clean solution for handling asynchronous operations",
-      "They have three states: pending, fulfilled, and rejected",
-      "Promise chaining allows sequential async operations with .then()",
-      "Error handling is simplified with .catch()",
-      "Static methods like Promise.all() enable parallel execution",
-      "Promises are the foundation for async/await syntax",
-      "They are immutable once settled, ensuring reliable state management",
-    ],
-  },
+  keyPoints: [
+    "Promises provide a clean solution for handling asynchronous operations",
+    "They have three states: pending, fulfilled, and rejected",
+    "Promise chaining allows sequential async operations with .then()",
+    "Error handling is simplified with .catch()",
+    "Static methods like Promise.all() enable parallel execution",
+    "Promises are the foundation for async/await syntax",
+    "They are immutable once settled, ensuring reliable state management",
+  ]
 };

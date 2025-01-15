@@ -1,9 +1,6 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const performance: Concept = {
-  id: 128,
-  title: "Performance Optimization",
-  content: {
+export const performance: ConceptContent = {
     explanation: `<p>JavaScript performance optimization involves various techniques to improve code execution speed, memory usage, and overall application responsiveness.</p>
 
 <h3>Optimization Areas:</h3>
@@ -57,12 +54,11 @@ worker.onmessage = (e) => {
   console.log('Processed:', e.data);
 };`,
     keyPoints: [
-      "Use memoization for expensive calculations",
-      "Implement debouncing for frequent events",
-      "Virtual lists for large data sets",
-      "Web Workers for heavy computations",
-      "Code splitting for better loading",
-      "Optimize DOM operations"
-    ],
-  },
+        "Use memoization for expensive calculations",
+        "Implement debouncing for frequent events",
+        "Virtual lists for large data sets",
+        "Web Workers for heavy computations",
+        "Code splitting for better loading",
+        "Optimize DOM operations"
+    ]
 }; 

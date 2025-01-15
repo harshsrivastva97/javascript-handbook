@@ -1,9 +1,6 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const errorHandling: Concept = {
-  id: 126,
-  title: "Error Handling",
-  content: {
+export const errorHandling: ConceptContent = {
     explanation: `<p>Error handling in JavaScript involves catching and managing runtime errors using try-catch blocks and custom error types.</p>
 
 <h3>Error Handling Concepts:</h3>
@@ -64,12 +61,11 @@ class ErrorBoundary extends React.Component {
   }
 }`,
     keyPoints: [
-      "Try-catch blocks handle runtime errors",
-      "Custom errors extend Error class",
-      "Finally block always executes",
-      "Async functions use try-catch with await",
-      "Error boundaries catch React component errors",
-      "Error propagation follows call stack"
-    ],
-  },
+        "Try-catch blocks handle runtime errors",
+        "Custom errors extend Error class",
+        "Finally block always executes",
+        "Async functions use try-catch with await",
+        "Error boundaries catch React component errors",
+        "Error propagation follows call stack"
+    ]
 }; 

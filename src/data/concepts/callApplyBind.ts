@@ -1,10 +1,7 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const callApplyBind: Concept = {
-  id: 8,
-  title: "Call, Apply, and Bind",
-  content: {
-    explanation: `<p>The methods <strong>call</strong>, <strong>apply</strong>, and <strong>bind</strong> allow us to explicitly set the value of <code>this</code> for a function. They are particularly useful when borrowing methods from one object or controlling the execution context of a function.</p>
+export const callApplyBind: ConceptContent = {
+  explanation: `<p>The methods <strong>call</strong>, <strong>apply</strong>, and <strong>bind</strong> allow us to explicitly set the value of <code>this</code> for a function. They are particularly useful when borrowing methods from one object or controlling the execution context of a function.</p>
 
 <h3>How They Work:</h3>
 <ul>
@@ -18,7 +15,7 @@ export const callApplyBind: Concept = {
 <li>Borrowing methods from other objects.</li>
 <li>Fixing <code>this</code> context in event listeners or callbacks.</li>
 </ol>`,
-    codeExample: `const person = {
+  codeExample: `const person = {
 name: 'Alice',
 greet: function (greeting) {
   console.log(\`\${greeting}, \${this.name}\`);
@@ -36,10 +33,9 @@ person.greet.apply(anotherPerson, ['Hi']); // "Hi, Bob"
 // Bind
 const boundGreet = person.greet.bind(anotherPerson, 'Hey');
 boundGreet(); // "Hey, Bob"`,
-    keyPoints: [
-      'Call and apply invoke the function immediately, with a specific "this".',
-      'Bind returns a new function with the specified "this", to be invoked later.',
-      'Useful for borrowing methods and fixing "this" context in callbacks.',
-    ],
-  },
+  keyPoints: [
+    'Call and apply invoke the function immediately, with a specific "this".',
+    'Bind returns a new function with the specified "this", to be invoked later.',
+    'Useful for borrowing methods and fixing "this" context in callbacks.',
+  ]
 };

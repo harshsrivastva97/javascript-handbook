@@ -1,9 +1,6 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const functions: Concept = {
-  id: 103,
-  title: "Functions",
-  content: {
+export const functions: ConceptContent = {
     explanation: `<p>Functions are one of the fundamental building blocks in JavaScript. A function is a reusable block of code that performs a specific task.</p>
 
 <h3>Types of Functions:</h3>
@@ -37,11 +34,10 @@ const greetWithDefault = (name = 'Guest') => \`Hello, \${name}!\`;
 // Rest parameters
 const sum = (...numbers) => numbers.reduce((a, b) => a + b, 0);`,
     keyPoints: [
-      "Functions are first-class citizens in JavaScript",
-      "Can be assigned to variables and passed as arguments",
-      "Support default parameters and rest parameters",
-      "Arrow functions have lexical this binding",
-      "Functions create their own scope"
-    ],
-  },
+        "Functions are first-class citizens in JavaScript",
+        "Can be assigned to variables and passed as arguments",
+        "Support default parameters and rest parameters",
+        "Arrow functions have lexical this binding",
+        "Functions create their own scope"
+    ]
 }; 

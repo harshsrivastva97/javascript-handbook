@@ -1,10 +1,7 @@
-import { Concept } from "../../types/concept";
+import { ConceptContent } from "../../types/concept";
 
-export const closures: Concept = {
-  id: 101,
-  title: "Closures",
-  content: {
-    explanation: `<p>Closures are one of the most powerful features in JavaScript. A closure is formed when a function is defined inside another function, allowing the inner function to access variables from the outer (enclosing) function's scope, even after the outer function has finished executing.</p>
+export const closures: ConceptContent = {
+  explanation: `<p>Closures are one of the most powerful features in JavaScript. A closure is formed when a function is defined inside another function, allowing the inner function to access variables from the outer (enclosing) function's scope, even after the outer function has finished executing.</p>
 
 <h3>How Closures Work:</h3>
 <ol>
@@ -29,7 +26,7 @@ export const closures: Concept = {
   <li><strong>Scope Chain:</strong> Closures have access to their own scope, their outer function's scope, and the global scope.</li>
   <li><strong>Value vs Reference:</strong> Closures capture variables by reference, not by value.</li>
 </ul>`,
-    codeExample: `// Example 1: Basic Closure for Data Privacy
+  codeExample: `// Example 1: Basic Closure for Data Privacy
 function createCounter() {
   let count = 0;  // Private variable
   
@@ -101,15 +98,14 @@ const bankAccount = (function() {
     }
   };
 })();`,
-    keyPoints: [
-      "Closures provide data privacy and encapsulation",
-      "They maintain access to their outer scope's variables",
-      "Useful for creating factory functions and modules",
-      "Enable stateful functions without global variables",
-      "Commonly used in event handlers and callbacks",
-      "Help implement the module pattern in JavaScript",
-      "Variables in closures are captured by reference",
-      "Memory efficient when used properly, but can cause memory leaks if not managed well",
-    ],
-  },
+  keyPoints: [
+    "Closures provide data privacy and encapsulation",
+    "They maintain access to their outer scope's variables",
+    "Useful for creating factory functions and modules",
+    "Enable stateful functions without global variables",
+    "Commonly used in event handlers and callbacks",
+    "Help implement the module pattern in JavaScript",
+    "Variables in closures are captured by reference",
+    "Memory efficient when used properly, but can cause memory leaks if not managed well",
+  ]
 };
