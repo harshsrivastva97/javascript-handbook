@@ -1,108 +1,142 @@
 .blog-post {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
-  min-height: 100vh;
-  background: #fff;
-  max-height: 100vh;
-  min-height: 100vh;
-  overflow-y: auto;
+  padding: 2rem 2rem 4rem 2rem;
+  min-height: 100%;
+  background: #1a1a1a;
+  color: #e0e0e0;
 
   .back-button {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: none;
-    border: none;
-    color: #0984e3;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
     cursor: pointer;
-    padding: 0.5rem;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
     margin-bottom: 2rem;
-    font-size: 1rem;
-    
+    transition: all 0.3s ease;
+    border-radius: 6px;
+
     &:hover {
-      color: #0870c0;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
     }
   }
 
   .blog-header {
     margin-bottom: 2rem;
-    
+
     h1 {
       font-size: 2.5rem;
-      color: #2d3436;
-      margin-bottom: 1rem;
+      color: #ffffff;
+      margin-bottom: 1.5rem;
       line-height: 1.3;
+      font-weight: 700;
     }
 
     .blog-meta {
       display: flex;
+      align-items: center;
+      justify-content: space-between;
       flex-wrap: wrap;
       gap: 1rem;
-      align-items: center;
-      color: #636e72;
-      
-      span {
-        display: flex;
-        align-items: center;
-        gap: 0.3rem;
-      }
+      color: #b0b0b0;
+      font-size: 0.9rem;
 
       .tags {
         display: flex;
         gap: 0.5rem;
+        flex-wrap: wrap;
         
         .tag {
-          background: #f1f2f6;
+          background: rgba(255, 255, 255, 0.05);
           padding: 0.3rem 0.8rem;
           border-radius: 20px;
-          font-size: 0.9rem;
+          font-size: 0.8rem;
+          color: #d0d0d0;
+          transition: all 0.3s ease;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+          }
         }
       }
     }
   }
 
   .featured-image {
-    margin-bottom: 2rem;
+    margin: 2rem 0;
     border-radius: 12px;
     overflow: hidden;
-    
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
     img {
       width: 100%;
       height: auto;
       object-fit: cover;
+      vertical-align: middle;
     }
   }
 
   .blog-content {
     font-size: 1.1rem;
     line-height: 1.8;
-    color: #2d3436;
+    color: #e0e0e0;
 
     h2 {
       font-size: 1.8rem;
+      color: #ffffff;
+      margin: 2.5rem 0 1rem;
+      font-weight: 600;
+    }
+
+    h3 {
+      font-size: 1.4rem;
+      color: #ffffff;
       margin: 2rem 0 1rem;
-      color: #2d3436;
+      font-weight: 600;
     }
 
     p {
       margin-bottom: 1.5rem;
     }
 
-    code {
-      background: #f1f2f6;
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
-      font-size: 0.9em;
-    }
-
     pre {
-      background: #2d3436;
-      color: #fff;
-      padding: 1rem;
+      background: #2a2a2a;
+      padding: 1.5rem;
       border-radius: 8px;
       overflow-x: auto;
       margin: 1.5rem 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      code {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #e0e0e0;
+      }
+    }
+
+    ul {
+      margin: 1rem 0 1.5rem;
+      padding-left: 1.5rem;
+
+      li {
+        margin-bottom: 0.75rem;
+        position: relative;
+        
+        &::before {
+          content: "•";
+          color: #b0b0b0;
+          position: absolute;
+          left: -1rem;
+        }
+      }
     }
   }
 }
@@ -110,9 +144,59 @@
 @media (max-width: 768px) {
   .blog-post {
     padding: 1rem;
-    
-    .blog-header h1 {
-      font-size: 2rem;
+
+    .blog-header {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .blog-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+
+        .meta-left {
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+      }
+    }
+
+    .blog-content {
+      font-size: 1rem;
+
+      pre {
+        padding: 1rem;
+      }
+    }
+  }
+}
+
+:root {
+  scroll-behavior: smooth;
+}
+
+.blog-post-wrapper {
+  height: 100vh;
+  overflow-y: auto;
+  padding: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.3);
     }
   }
 } 

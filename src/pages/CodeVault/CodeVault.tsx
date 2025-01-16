@@ -3,7 +3,7 @@ import Sidebar from "../../components/Sidebar/Sidebar.tsx";
 import CodeEditor from "../../components/CodeEditor/CodeEditor.tsx";
 import "./CodeVault.scss";
 
-const defaultJsTemplate = `// Welcome to JavaScript Essentials! 🚀
+const defaultJsTemplate = `// Welcome to JavaScript Essentials!
 // Select a topic from the sidebar to get started.
 
 // Example:
