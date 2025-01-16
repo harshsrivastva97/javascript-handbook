@@ -113,7 +113,7 @@ const Exercises: React.FC = () => {
       case "completed":
         return "✓";
       case "in-progress":
-        return "⋯";
+        return "↻";
       default:
         return "○";
     }
@@ -140,86 +140,70 @@ const Exercises: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-8 h-screen flex flex-col text-gray-700">
-      <div className="bg-gray-100 rounded-lg h-2 mb-8 relative overflow-hidden">
-        <div
-          className="h-full bg-blue-500 transition-all duration-300"
-          style={{ width: `${calculateProgress()}%` }}
-        />
-        <span className="absolute right-0 -top-6 text-sm text-gray-500">
+    <div className="exercises-container">
+      <div className="progress-section">
+        <div className="progress-bar">
+          <div
+            className="progress-fill"
+            style={{ width: `${calculateProgress()}%` }}
+          />
+        </div>
+        <div className="progress-text">
           {calculateProgress()}% Complete
-        </span>
+        </div>
       </div>
 
-      <div className="flex-1 min-h-0 relative bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="absolute inset-0 overflow-y-auto overflow-x-hidden scrollbar">
-          {exercises.map((exercise) => (
-            <div key={exercise.id} className="border-b border-gray-100">
+      <div className="exercises-list">
+        {exercises.map((exercise) => (
+          <div key={exercise.id} className="exercise-item">
+            <div className="exercise-header">
               <div
-                className={`flex items-center p-3 cursor-pointer transition-all hover:bg-gray-50 w-full box-border
-                  ${exercise.status === "completed"
-                    ? "text-green-500"
-                    : exercise.status === "in-progress"
-                      ? "text-yellow-500"
-                      : "text-gray-400"
-                  }`}
+                className={`status-icon ${exercise.status}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleStatusChange(exercise.id);
+                }}
               >
-                <div
-                  className="flex-shrink-0 w-6 text-lg flex items-center justify-center transition-transform hover:scale-110"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleStatusChange(exercise.id);
-                  }}
-                >
-                  {getStatusIcon(exercise.status)}
-                </div>
-                <div
-                  className="ml-3 flex-1 flex items-center justify-between"
-                  onClick={() =>
-                    setExpandedId(
-                      expandedId === exercise.id ? null : exercise.id,
-                    )
-                  }
-                >
-                  <span className="text-gray-700">{exercise.title}</span>
-                  <span
-                    className={`text-sm ${getDifficultyColor(exercise.difficulty)} mr-2`}
-                  >
-                    {exercise.difficulty}
-                  </span>
-                </div>
+                {getStatusIcon(exercise.status)}
               </div>
-
-              <AnimatePresence>
-                {expandedId === exercise.id && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="bg-gray-50 px-6 py-4"
-                  >
-                    <p className="text-gray-600 mb-3">{exercise.description}</p>
-                    {exercise.requirements && (
-                      <div className="requirements-list">
-                        <h4 className="text-sm font-semibold text-gray-700 mb-2">
-                          Requirements:
-                        </h4>
-                        <ul className="list-disc pl-5 text-sm text-gray-600">
-                          {exercise.requirements.map((req, index) => (
-                            <li key={index} className="mb-1">
-                              {req}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <div
+                className="exercise-info"
+                onClick={() =>
+                  setExpandedId(expandedId === exercise.id ? null : exercise.id)
+                }
+              >
+                <span className="title">{exercise.title}</span>
+                <span className={`difficulty ${exercise.difficulty}`}>
+                  {exercise.difficulty}
+                </span>
+              </div>
             </div>
-          ))}
-        </div>
+
+            <AnimatePresence>
+              {expandedId === exercise.id && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="exercise-details"
+                >
+                  <p className="description">{exercise.description}</p>
+                  {exercise.requirements && (
+                    <div className="requirements-list">
+                      <h4>Requirements</h4>
+                      <ul>
+                        {exercise.requirements.map((req, index) => (
+                          <li key={index}>{req}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
       </div>
     </div>
   );
