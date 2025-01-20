@@ -130,42 +130,8 @@
   }
 }
 
-:root {
-  scroll-behavior: smooth;
-}
-
-.blog-post-wrapper {
-  height: 100vh;
-  overflow-y: auto;
-  padding: 1rem;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.3);
-    }
-  }
-}
-
-.blog-post-page {
-  min-height: 100vh;
-  max-height: 100vh;
-  overflow-y: auto;
-  position: relative;
-
-  // Scrollbar styling
+// Common mixins for reusable styles
+@mixin scrollbar {
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -182,6 +148,33 @@
       background: rgba(100, 108, 255, 0.3);
     }
   }
+}
+
+@mixin glass-panel {
+  background: rgba(15, 23, 41, 0.6);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+@mixin gradient-text {
+  background: linear-gradient(90deg, #fff, #646cff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+// Root styles
+:root {
+  scroll-behavior: smooth;
+}
+
+// Main container styles
+.blog-post-page {
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+  position: relative;
+  @include scrollbar;
 }
 
 .blog-post-container {
@@ -218,10 +211,7 @@
   }
 
   .blog-article {
-    background: rgba(15, 23, 41, 0.6);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
+    @include glass-panel;
     padding: 2rem;
     max-height: max-content;
 
@@ -232,10 +222,8 @@
       h1 {
         font-size: 2.8rem;
         margin-bottom: 1.5rem;
-        background: linear-gradient(90deg, #fff, #646cff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
         line-height: 1.2;
+        @include gradient-text;
       }
 
       .tags {
@@ -265,11 +253,8 @@
 
       h2 {
         font-size: 1.8rem;
-        color: #fff;
         margin: 2.5rem 0 1rem;
-        background: linear-gradient(90deg, #fff, #646cff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        @include gradient-text;
       }
 
       h3 {
@@ -351,17 +336,12 @@
 .not-found {
   text-align: center;
   padding: 4rem 2rem;
-  background: rgba(15, 23, 41, 0.6);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
+  @include glass-panel;
 
   h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
-    background: linear-gradient(90deg, #fff, #646cff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    @include gradient-text;
   }
 
   p {
@@ -376,10 +356,8 @@
     .blog-article {
       padding: 1.5rem;
 
-      .blog-hero {
-        h1 {
-          font-size: 2rem;
-        }
+      .blog-hero h1 {
+        font-size: 2rem;
       }
 
       .featured-image {

@@ -8,8 +8,7 @@ export const reactHooksPost = {
 
     <h3>The useState Hook</h3>
     <p>useState is the most basic Hook that lets you add state to functional components.</p>
-    <pre><code>
-import React, { useState } from 'react';
+    <pre><code>import React, { useState } from 'react';
 
 function Counter() {
   const [count, setCount] = useState(0);
@@ -22,20 +21,18 @@ function Counter() {
       </button>
     </div>
   );
-}
-    </code></pre>
+}</code></pre>
 
     <h3>The useEffect Hook</h3>
     <p>useEffect lets you perform side effects in function components.</p>
-    <pre><code>
-import React, { useState, useEffect } from 'react';
+    <pre><code>import React, { useState, useEffect } from 'react';
 
 function UserProfile({ userId }) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     async function fetchUser() {
-      const response = await fetch(\`/api/users/\${userId}\`);
+      const response = await fetch(API_URL);
       const data = await response.json();
       setUser(data);
     }
@@ -44,13 +41,11 @@ function UserProfile({ userId }) {
 
   if (!user) return 'Loading...';
   return <div>{user.name}</div>;
-}
-    </code></pre>
+}</code></pre>
 
     <h2>Custom Hooks</h2>
     <p>Create reusable logic with custom hooks:</p>
-    <pre><code>
-function useWindowSize() {
+    <pre><code>function useWindowSize() {
   const [size, setSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight
@@ -69,28 +64,23 @@ function useWindowSize() {
   }, []);
 
   return size;
-}
-    </code></pre>
+}</code></pre>
 
     <h2>Advanced Hooks</h2>
     
     <h3>useCallback</h3>
-    <pre><code>
-const memoizedCallback = useCallback(
+    <pre><code>const memoizedCallback = useCallback(
   () => {
     doSomething(a, b);
   },
   [a, b],
-);
-    </code></pre>
+);</code></pre>
 
     <h3>useMemo</h3>
-    <pre><code>
-const memoizedValue = useMemo(
+    <pre><code>const memoizedValue = useMemo(
   () => computeExpensiveValue(a, b),
   [a, b]
-);
-    </code></pre>
+);</code></pre>
 
     <h2>Best Practices</h2>
     <ul>
@@ -105,8 +95,7 @@ const memoizedValue = useMemo(
     <p>Here are some common patterns when working with Hooks:</p>
 
     <h3>Data Fetching</h3>
-    <pre><code>
-function useData(url) {
+    <pre><code>function useData(url) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -127,8 +116,7 @@ function useData(url) {
   }, [url]);
 
   return { data, loading, error };
-}
-    </code></pre>
+}</code></pre>
 
     <h2>Conclusion</h2>
     <p>React Hooks provide a powerful way to use state and other React features without classes. They enable better code reuse, more readable code, and can help avoid common pitfalls in React development.</p>

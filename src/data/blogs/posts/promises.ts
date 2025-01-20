@@ -7,23 +7,20 @@ export const promisesPost = {
     <p>Promises are a fundamental concept in modern JavaScript that help us handle asynchronous operations more effectively. They represent a value that might not be available immediately but will be resolved at some point in the future.</p>
 
     <h3>Basic Promise Syntax</h3>
-    <pre><code>
-const myPromise = new Promise((resolve, reject) => {
+    <pre><code>const myPromise = new Promise((resolve, reject) => {
   // Asynchronous operation here
   if (success) {
     resolve(result);
   } else {
     reject(error);
   }
-});
-    </code></pre>
+});</code></pre>
 
     <h2>Async/Await: A Better Way to Handle Promises</h2>
     <p>The async/await syntax provides a more elegant way to work with Promises, making asynchronous code look and behave more like synchronous code. It allows us to write asynchronous code that looks synchronous, making it easier to understand and maintain.</p>
 
     <h3>Example Implementation</h3>
-    <pre><code>
-async function fetchUserData() {
+    <pre><code>async function fetchUserData() {
   try {
     const response = await fetch('/api/user');
     const data = await response.json();
@@ -31,8 +28,7 @@ async function fetchUserData() {
   } catch (error) {
     console.error('Error fetching user data:', error);
   }
-}
-    </code></pre>
+}</code></pre>
 
     <h2>Best Practices</h2>
     <ul>
@@ -46,16 +42,13 @@ async function fetchUserData() {
     <p>Let's explore some advanced patterns when working with Promises:</p>
 
     <h3>Promise Chaining</h3>
-    <pre><code>
-fetchUserProfile()
+    <pre><code>fetchUserProfile()
   .then(profile => fetchUserPosts(profile.id))
   .then(posts => processUserPosts(posts))
-  .catch(error => handleError(error));
-    </code></pre>
+  .catch(error => handleError(error));</code></pre>
 
     <h3>Parallel Promise Execution</h3>
-    <pre><code>
-const promises = [
+    <pre><code>const promises = [
   fetch('/api/users'),
   fetch('/api/posts'),
   fetch('/api/comments')
@@ -67,8 +60,7 @@ Promise.all(promises)
   })
   .catch(error => {
     // Handle any errors
-  });
-    </code></pre>
+  });</code></pre>
 
     <h2>Common Pitfalls</h2>
     <p>When working with Promises and async/await, there are several common mistakes to avoid:</p>

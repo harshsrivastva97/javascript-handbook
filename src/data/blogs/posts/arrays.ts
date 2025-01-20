@@ -8,51 +8,41 @@ export const arraysPost = {
 
     <h3>The map() Method</h3>
     <p>The map() method creates a new array with the results of calling a function for every array element.</p>
-    <pre><code>
-const numbers = [1, 2, 3, 4, 5];
+    <pre><code>const numbers = [1, 2, 3, 4, 5];
 const doubled = numbers.map(num => num * 2);
-// Result: [2, 4, 6, 8, 10]
-    </code></pre>
+// Result: [2, 4, 6, 8, 10]</code></pre>
 
     <h3>The filter() Method</h3>
     <p>Use filter() to create a new array with elements that pass a test condition.</p>
-    <pre><code>
-const numbers = [1, 2, 3, 4, 5, 6];
+    <pre><code>const numbers = [1, 2, 3, 4, 5, 6];
 const evenNumbers = numbers.filter(num => num % 2 === 0);
-// Result: [2, 4, 6]
-    </code></pre>
+// Result: [2, 4, 6]</code></pre>
 
     <h3>The reduce() Method</h3>
     <p>The reduce() method reduces an array to a single value (from left-to-right).</p>
-    <pre><code>
-const numbers = [1, 2, 3, 4, 5];
+    <pre><code>const numbers = [1, 2, 3, 4, 5];
 const sum = numbers.reduce((acc, curr) => acc + curr, 0);
-// Result: 15
-    </code></pre>
+// Result: 15</code></pre>
 
     <h2>Advanced Array Operations</h2>
     
     <h3>Chaining Methods</h3>
-    <pre><code>
-const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    <pre><code>const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const result = numbers
   .filter(num => num % 2 === 0)
   .map(num => num * 2)
   .reduce((acc, curr) => acc + curr, 0);
-// Result: 60
-    </code></pre>
+// Result: 60</code></pre>
 
     <h3>The find() and findIndex() Methods</h3>
-    <pre><code>
-const users = [
+    <pre><code>const users = [
   { id: 1, name: 'John' },
   { id: 2, name: 'Jane' },
   { id: 3, name: 'Bob' }
 ];
 
 const jane = users.find(user => user.name === 'Jane');
-const janeIndex = users.findIndex(user => user.name === 'Jane');
-    </code></pre>
+const janeIndex = users.findIndex(user => user.name === 'Jane');</code></pre>
 
     <h2>Best Practices</h2>
     <ul>
@@ -67,8 +57,7 @@ const janeIndex = users.findIndex(user => user.name === 'Jane');
     <p>Here are some practical examples of array methods in real-world scenarios:</p>
 
     <h3>Data Transformation</h3>
-    <pre><code>
-const products = [
+    <pre><code>const products = [
   { id: 1, name: 'Laptop', price: 999 },
   { id: 2, name: 'Phone', price: 699 },
   { id: 3, name: 'Tablet', price: 399 }
@@ -76,9 +65,8 @@ const products = [
 
 const formattedProducts = products.map(product => ({
   ...product,
-  price: \`$\${product.price}\`
-}));
-    </code></pre>
+  price: [price]
+}));</code></pre>
 
     <h2>Conclusion</h2>
     <p>Mastering array methods is essential for modern JavaScript development. They provide clean, functional approaches to data manipulation and help write more maintainable code.</p>
