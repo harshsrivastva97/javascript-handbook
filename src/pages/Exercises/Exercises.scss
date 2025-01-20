@@ -179,6 +179,117 @@
           }
         }
       }
+
+      .exercise-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.5rem;
+
+        .time-estimate {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: #a8b2d1;
+          font-size: 0.9rem;
+        }
+
+        .difficulty-indicator {
+          display: flex;
+          gap: 0.25rem;
+          color: #646cff;
+        }
+      }
+
+      .skills-tags {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+
+        .skill-tag {
+          background: rgba(100, 108, 255, 0.1);
+          color: #646cff;
+          padding: 0.25rem 0.5rem;
+          border-radius: 12px;
+          font-size: 0.8rem;
+        }
+      }
+
+      .example-section {
+        margin-top: 2rem;
+        background: rgba(15, 23, 41, 0.8);
+        border-radius: 12px;
+        padding: 1.5rem;
+
+        h4 {
+          color: #ffffff;
+          margin-bottom: 1rem;
+        }
+
+        .code-preview {
+          display: grid;
+          gap: 1.5rem;
+
+          .input,
+          .output {
+            h5 {
+              color: #a8b2d1;
+              margin-bottom: 0.5rem;
+            }
+
+            pre {
+              background: rgba(0, 0, 0, 0.3);
+              padding: 1rem;
+              border-radius: 8px;
+              color: #646cff;
+              font-family: 'Fira Code', monospace;
+              overflow-x: auto;
+            }
+          }
+
+          .animation-preview {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+
+      .hints-section {
+        margin-top: 2rem;
+
+        .hint-button {
+          background: rgba(100, 108, 255, 0.1);
+          color: #646cff;
+          padding: 0.75rem 1rem;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: rgba(100, 108, 255, 0.2);
+          }
+        }
+
+        .hint-content {
+          margin-top: 1rem;
+
+          .hint-item {
+            background: rgba(15, 23, 41, 0.6);
+            padding: 1rem;
+            border-radius: 8px;
+            color: #a8b2d1;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid #646cff;
+          }
+        }
+      }
     }
   }
 }
