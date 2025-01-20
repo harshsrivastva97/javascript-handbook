@@ -181,7 +181,7 @@ const About: React.FC = () => {
                 <FaCode className="icon" />
                 <h2>Interactive Learning</h2>
                 <p>
-                  Dive into JavaScript with our interactive platform that blends theory with hands-on exercises. Master advanced concepts and best practices through engaging, real-world scenarios tailored for modern web development.
+                  Explore JavaScript with our hands-on platform, blending theory with practical exercises. Master advanced techniques and best practices while engaging with real-world scenarios designed for modern web development.
                 </p>
               </div>
             </motion.div>
@@ -211,8 +211,7 @@ const About: React.FC = () => {
                 <FaUsers className="icon" />
                 <h2>Join Our Community</h2>
                 <p>
-                  Join us to code, learn, and contribute to JavaScript's future. Code, learn, and contribute to the future of JavaScript as we tackle real-world problems and create innovative solutions together.
-                </p>
+                  At JavaScript Handbook, we turn challenges into opportunities and ideas into reality. Dive into JavaScript, raise your first PR, and collaborate with peers to create innovative solutions. Your contributions drive our collective creativity and success.                </p>
               </div>
             </motion.div>
           </div>
