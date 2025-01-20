@@ -3,21 +3,36 @@
 .about-container {
   min-height: 100vh;
   max-height: 100vh;
+  background: linear-gradient(135deg, #0f1729 0%, #1a1b4b 100%);
+  position: relative;
   overflow: auto;
-  background: $background-primary;
-  color: $text-primary;
+  color: #fff;
+
+  // Stars effect matching home page
+  &::before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image:
+      radial-gradient(white, rgba(255, 255, 255, .2) 2px, transparent 3px);
+    background-size: 50px 50px;
+    opacity: 0.1;
+  }
 
   .about-content {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
     padding-bottom: calc(2rem + 56px);
+    position: relative;
+    z-index: 1;
 
     .page-title {
       font-size: 3.5rem;
       font-weight: 800;
       margin-bottom: 1.5rem;
-      background: linear-gradient(to right, $accent-primary, $accent-light);
+      background: linear-gradient(90deg, #fff, #646cff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: -1px;
@@ -27,12 +42,14 @@
       margin-bottom: 2rem;
 
       .main-intro {
-        background: $background-secondary;
+        background: rgba(15, 23, 41, 0.6);
         padding: 2rem 6rem 3rem 3rem;
-        border-radius: 24px;
+        border-radius: 16px;
         position: relative;
         overflow: hidden;
-        
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(8px);
+
         &::before {
           content: '';
           position: absolute;
@@ -40,17 +57,17 @@
           left: 0;
           width: 100%;
           height: 4px;
-          background: linear-gradient(to right, $accent-primary, $accent-light);
+          background: linear-gradient(90deg, #646cff, #a8b2d1);
         }
 
         p {
-          color: $text-secondary;
+          color: #a8b2d1;
           line-height: 1.8;
           font-size: 1.1rem;
           margin-bottom: 1.5rem;
           position: relative;
           z-index: 1;
-          
+
           &:last-child {
             margin-bottom: 0;
           }
@@ -65,26 +82,28 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
-        
+
         .feature-card {
-          background: $background-secondary;
-          border-radius: 24px;
+          background: rgba(15, 23, 41, 0.6);
+          border-radius: 16px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(8px);
           overflow: hidden;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          
+          transition: transform 0.3s ease;
+
           &:hover {
             transform: translateY(-5px);
 
             .icon {
               transform: scale(1.1);
-              color: $accent-primary;
+              color: #646cff;
             }
           }
 
           .card-content {
             padding: 2.5rem;
             position: relative;
-            
+
             &::before {
               content: '';
               position: absolute;
@@ -92,7 +111,7 @@
               left: 0;
               width: 100%;
               height: 4px;
-              background: linear-gradient(to right, $accent-primary, $accent-light);
+              background: linear-gradient(90deg, #646cff, #a8b2d1);
               opacity: 0;
               transition: opacity 0.3s ease;
             }
@@ -104,7 +123,7 @@
 
           .icon {
             font-size: 2.5rem;
-            color: $text-muted;
+            color: #646cff;
             margin-bottom: 1.5rem;
             transition: all 0.3s ease;
           }
@@ -112,12 +131,12 @@
           h2 {
             font-size: 1.4rem;
             margin-bottom: 1rem;
-            color: $text-primary;
+            color: #fff;
             font-weight: 600;
           }
 
           p {
-            color: $text-secondary;
+            color: #a8b2d1;
             line-height: 1.7;
             font-size: 1rem;
           }
@@ -166,9 +185,10 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: $background-secondary;
+    background: rgba(15, 23, 41, 0.95);
     padding: 1rem 0;
-    border-top: 1px solid rgba($text-muted, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
     z-index: 100;
 
     .footer-content {
@@ -185,7 +205,7 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        color: $text-secondary;
+        color: #a8b2d1;
 
         .heart-icon {
           color: #ff4d4d;
@@ -193,10 +213,10 @@
         }
 
         a {
-          color: $accent-primary;
+          color: #646cff;
           text-decoration: none;
           font-weight: 500;
-          
+
           &:hover {
             text-decoration: underline;
           }
@@ -209,17 +229,17 @@
         gap: 1rem;
 
         a {
-          color: $text-secondary;
+          color: #a8b2d1;
           text-decoration: none;
           transition: color 0.2s ease;
-          
+
           &:hover {
-            color: $accent-primary;
+            color: #646cff;
           }
         }
 
         .separator {
-          color: $text-muted;
+          color: rgba(255, 255, 255, 0.3);
         }
       }
     }
@@ -251,7 +271,7 @@
       .content-section {
         .main-intro {
           padding: 2rem;
-          
+
           p {
             font-size: 1rem;
           }
@@ -261,7 +281,7 @@
       .features-section {
         .features-grid {
           grid-template-columns: 1fr;
-          
+
           .feature-card {
             .card-content {
               padding: 2rem;
