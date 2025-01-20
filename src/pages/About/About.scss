@@ -43,7 +43,7 @@
 
       .main-intro {
         background: rgba(15, 23, 41, 0.6);
-        padding: 2rem 6rem 3rem 3rem;
+        padding: 2rem 3rem;
         border-radius: 16px;
         position: relative;
         overflow: hidden;
@@ -60,16 +60,133 @@
           background: linear-gradient(90deg, #646cff, #a8b2d1);
         }
 
-        p {
-          color: #a8b2d1;
-          line-height: 1.8;
-          font-size: 1.1rem;
-          margin-bottom: 1.5rem;
-          position: relative;
-          z-index: 1;
+        .intro-content {
+          display: flex;
+          gap: 4rem;
+          align-items: center;
 
-          &:last-child {
-            margin-bottom: 0;
+          .text-content {
+            flex: 1;
+
+            p {
+              color: #a8b2d1;
+              line-height: 1.8;
+              font-size: 1.1rem;
+              margin-bottom: 1.5rem;
+              position: relative;
+              z-index: 1;
+
+              &:last-child {
+                margin-bottom: 0;
+              }
+            }
+          }
+
+          .animated-illustration {
+            width: 320px;
+            height: 320px;
+            position: relative;
+            flex-shrink: 0;
+
+            &::after {
+              content: '';
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              background: radial-gradient(circle,
+                  rgba(100, 108, 255, 0.1) 0%,
+                  transparent 70%);
+              border-radius: 50%;
+              top: 0;
+              left: 0;
+            }
+
+            .floating-icons {
+              width: 100%;
+              height: 100%;
+              position: relative;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              .icon-wrapper {
+                position: absolute;
+                width: 48px;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.8rem;
+                border-radius: 12px;
+                background: rgba(15, 23, 41, 0.8);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(4px);
+
+                &.core {
+                  width: 64px;
+                  height: 64px;
+                  font-size: 2.5rem;
+                  z-index: 3;
+                  background: rgba(15, 23, 41, 0.9);
+                  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+                  color: #f7df1e;
+                }
+              }
+
+              .framework-layer {
+                position: absolute;
+                width: 180px;
+                height: 180px;
+
+                .icon-wrapper {
+                  &.react {
+                    color: #61dafb;
+                    top: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                  }
+
+                  &.vue {
+                    color: #42b883;
+                    bottom: 0;
+                    right: 0;
+                  }
+
+                  &.typescript {
+                    color: #3178c6;
+                    bottom: 0;
+                    left: 0;
+                  }
+                }
+              }
+
+              .tools-layer {
+                position: absolute;
+                width: 240px;
+                height: 240px;
+
+                .icon-wrapper {
+                  &.node {
+                    color: #68a063;
+                    top: 20%;
+                    left: 0;
+                  }
+
+                  &.npm {
+                    color: #cb3837;
+                    top: 20%;
+                    right: 0;
+                  }
+
+                  &.github {
+                    color: #ffffff;
+                    bottom: 20%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -249,6 +366,39 @@
 @media (max-width: 1024px) {
   .about-container {
     .about-content {
+      .main-intro {
+        .intro-content {
+          .animated-illustration {
+            width: 280px;
+            height: 280px;
+
+            .floating-icons {
+              .icon-wrapper {
+                width: 44px;
+                height: 44px;
+                font-size: 1.6rem;
+
+                &.core {
+                  width: 56px;
+                  height: 56px;
+                  font-size: 2.2rem;
+                }
+              }
+
+              .framework-layer {
+                width: 160px;
+                height: 160px;
+              }
+
+              .tools-layer {
+                width: 220px;
+                height: 220px;
+              }
+            }
+          }
+        }
+      }
+
       .features-section {
         .features-grid {
           grid-template-columns: repeat(2, 1fr);
@@ -272,8 +422,35 @@
         .main-intro {
           padding: 2rem;
 
-          p {
-            font-size: 1rem;
+          .intro-content {
+            .animated-illustration {
+              width: 240px;
+              height: 240px;
+
+              .floating-icons {
+                .icon-wrapper {
+                  width: 40px;
+                  height: 40px;
+                  font-size: 1.4rem;
+
+                  &.core {
+                    width: 48px;
+                    height: 48px;
+                    font-size: 2rem;
+                  }
+                }
+
+                .framework-layer {
+                  width: 140px;
+                  height: 140px;
+                }
+
+                .tools-layer {
+                  width: 200px;
+                  height: 200px;
+                }
+              }
+            }
           }
         }
       }

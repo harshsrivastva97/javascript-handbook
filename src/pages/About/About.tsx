@@ -6,9 +6,21 @@ import {
   FaCode,
   FaLightbulb,
   FaUsers,
-  FaHeart
+  FaHeart,
+  FaJsSquare,
+  FaReact,
+  FaNodeJs,
+  FaNpm,
+  FaVuejs,
+  FaGithub,
+  FaCode as FaCodeAlt
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import {
+  SiTypescript,
+  SiWebpack,
+  SiOpenai
+} from "react-icons/si";
 import "./About.scss";
 
 const About: React.FC = () => {
@@ -20,8 +32,6 @@ const About: React.FC = () => {
       transition={{ duration: 0.8 }}
     >
       <div className="about-content">
-
-
         <section className="content-section">
           <motion.div
             className="main-intro"
@@ -37,12 +47,125 @@ const About: React.FC = () => {
             >
               About
             </motion.h1>
-            <p>
-              As a front-end developer, mastering JavaScript is essential, whether you're gearing up for job interviews or enhancing your personal skill set. Recognizing the scarcity of comprehensive and freely accessible resources on this pivotal topic, we have JavaScript Handbook, an open-source, community-driven platform dedicated to high-quality JavaScript education. Here, developers can engage with interactive learning modules, practice through real-life coding challenges, and achieve a profound understanding of JavaScript.
-            </p>
-            <p>
-              Join us and contribute to a thriving open-source community that values knowledge sharing and collective improvement. Together, we'll navigate the complexities of JavaScript, transforming challenges into opportunities for growth.
-            </p>
+
+            <div className="intro-content">
+              <div className="text-content">
+                <p>
+                  As a front-end developer, mastering JavaScript is essential, whether you're gearing up for job interviews or enhancing your personal skill set. Recognizing the scarcity of comprehensive and freely accessible resources on this pivotal topic, we have JavaScript Handbook, an open-source, community-driven platform dedicated to high-quality JavaScript education. Here, developers can engage with interactive learning modules, practice through real-life coding challenges, and achieve a profound understanding of JavaScript.
+                </p>
+                <p>
+                  Join us and contribute to a thriving open-source community that values knowledge sharing and collective improvement. Together, we'll navigate the complexities of JavaScript, transforming challenges into opportunities for growth.
+                </p>
+              </div>
+
+              <div className="animated-illustration">
+                <motion.div
+                  className="floating-icons"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {/* Core Layer */}
+                  <motion.div
+                    className="icon-wrapper js core"
+                    animate={{
+                      scale: [1, 1.05, 1],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    <FaJsSquare />
+                  </motion.div>
+
+                  {/* Framework Layer */}
+                  <div className="framework-layer">
+                    <motion.div
+                      className="icon-wrapper react"
+                      animate={{ y: [-3, 3] }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <FaReact />
+                    </motion.div>
+
+                    <motion.div
+                      className="icon-wrapper vue"
+                      animate={{ y: [3, -3] }}
+                      transition={{
+                        duration: 2.5,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <FaVuejs />
+                    </motion.div>
+
+                    <motion.div
+                      className="icon-wrapper typescript"
+                      animate={{ y: [-3, 3] }}
+                      transition={{
+                        duration: 2.2,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <SiTypescript />
+                    </motion.div>
+                  </div>
+
+                  {/* Tools Layer */}
+                  <div className="tools-layer">
+                    <motion.div
+                      className="icon-wrapper node"
+                      animate={{ y: [2, -2] }}
+                      transition={{
+                        duration: 2.3,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <FaNodeJs />
+                    </motion.div>
+
+                    <motion.div
+                      className="icon-wrapper npm"
+                      animate={{ y: [-2, 2] }}
+                      transition={{
+                        duration: 2.1,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <FaNpm />
+                    </motion.div>
+
+                    <motion.div
+                      className="icon-wrapper github"
+                      animate={{ y: [2, -2] }}
+                      transition={{
+                        duration: 2.4,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <FaGithub />
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
           </motion.div>
         </section>
 
