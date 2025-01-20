@@ -1,11 +1,17 @@
 import React, { useEffect, useState, useCallback } from "react";
 import ReactConfetti from "react-confetti";
-import { TABS } from "../../constants/constants.js";
+import { TABS } from "../../constants/constants";
 import "./Sidebar.scss";
 import { motion } from "framer-motion";
 
 interface SidebarProps {
   onTabSelect: (tab: string) => void;
+}
+
+// Add interface for tab items
+interface TabItem {
+  filename: string;
+  label: string;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
@@ -14,18 +20,15 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
     return params.get("tab") || "";
   });
 
-  const [expandedCategory, setExpandedCategory] = useState(
-    Object.keys(TABS)[0],
-  );
-
   // Add state for completed items
   const [completedItems, setCompletedItems] = useState<string[]>(() => {
     const saved = localStorage.getItem("completedItems");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Calculate progress
-  const totalItems = Object.values(TABS).flat().length;
+  // Calculate progress using flattened tabs
+  const allTabs = Object.values(TABS).flat() as TabItem[];
+  const totalItems = allTabs.length;
   const progress = (completedItems.length / totalItems) * 100;
 
   // Add state for reset confirmation dialog
@@ -70,7 +73,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
       )?.[0];
 
       if (category) {
-        setExpandedCategory(category);
         onTabSelect(selectedTab);
       }
     }
@@ -161,42 +163,22 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
       )}
 
       <nav className="sidebar__nav">
-        {Object.entries(TABS).map(([category, items]) => (
-          <div key={category} className="sidebar__category">
-            <div
-              className={`sidebar__category-header ${expandedCategory === category ? "active" : ""}`}
-              onClick={() => setExpandedCategory(category)}
-            >
-              <div className="category-header-content">
-                <span className="category-icon">•</span>
-                <span className="category-title">{category}</span>
-                <span className="category-count">{items.length}</span>
-              </div>
-              <span className="category-arrow">›</span>
-            </div>
-
-            <div
-              className={`sidebar__category-items ${expandedCategory === category ? "expanded" : ""}`}
-            >
-              {items.map((tab) => (
-                <div
-                  key={tab.filename}
-                  className={`sidebar__nav-item ${selectedTab === tab.filename ? "active" : ""}`}
-                >
-                  <div className="nav-item-label">
-                    <input
-                      type="checkbox"
-                      className="fancy-checkbox"
-                      checked={completedItems.includes(tab.filename)}
-                      onChange={() => handleCheckboxToggle(tab.filename)}
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                    <span onClick={() => handleTabSelect(tab.filename)}>
-                      {tab.label}
-                    </span>
-                  </div>
-                </div>
-              ))}
+        {allTabs.map((tab) => (
+          <div
+            key={tab.filename}
+            className={`sidebar__nav-item ${selectedTab === tab.filename ? "active" : ""}`}
+          >
+            <div className="nav-item-label">
+              <input
+                type="checkbox"
+                className="fancy-checkbox"
+                checked={completedItems.includes(tab.filename)}
+                onChange={() => handleCheckboxToggle(tab.filename)}
+                onClick={(e) => e.stopPropagation()}
+              />
+              <span onClick={() => handleTabSelect(tab.filename)}>
+                {tab.label}
+              </span>
             </div>
           </div>
         ))}

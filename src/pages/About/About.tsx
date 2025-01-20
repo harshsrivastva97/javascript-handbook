@@ -2,14 +2,11 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { 
-  FaGithub, 
-  FaCode, 
-  FaLightbulb, 
-  FaUsers, 
-  FaHeart, 
-  FaLinkedin, 
-  FaEnvelope 
+import {
+  FaCode,
+  FaLightbulb,
+  FaUsers,
+  FaHeart
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./About.scss";
@@ -23,11 +20,11 @@ const About: React.FC = () => {
       transition={{ duration: 0.5 }}
     >
       <div className="about-content">
-        
+
 
         <section className="content-section">
           <motion.div
-            className="content-block main-intro"
+            className="main-intro"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -41,7 +38,7 @@ const About: React.FC = () => {
               About
             </motion.h1>
             <p>
-              As a front-end developer, mastering JavaScript is essential, whether you're gearing up for job interviews or enhancing your personal skill set. Recognizing the scarcity of comprehensive and freely accessible resources on this pivotal topic, we've launched JavaScript Handbook—an open-source, community-driven platform dedicated to high-quality JavaScript education. Here, developers can engage with interactive learning modules, practice through real-life coding challenges, and achieve a profound understanding of JavaScript.
+              As a front-end developer, mastering JavaScript is essential, whether you're gearing up for job interviews or enhancing your personal skill set. Recognizing the scarcity of comprehensive and freely accessible resources on this pivotal topic, we have JavaScript Handbook, an open-source, community-driven platform dedicated to high-quality JavaScript education. Here, developers can engage with interactive learning modules, practice through real-life coding challenges, and achieve a profound understanding of JavaScript.
             </p>
             <p>
               Join us and contribute to a thriving open-source community that values knowledge sharing and collective improvement. Together, we'll navigate the complexities of JavaScript, transforming challenges into opportunities for growth.
@@ -61,7 +58,7 @@ const About: React.FC = () => {
                 <FaCode className="icon" />
                 <h2>Interactive Learning</h2>
                 <p>
-                  We are committed to making JavaScript learning accessible, practical, and highly engaging. By blending theory with interactive coding exercises, we ensure developers not only learn but truly comprehend and apply their JavaScript knowledge effectively.
+                  Dive into JavaScript with our interactive platform that blends theory with hands-on exercises. Master advanced concepts and best practices through engaging, real-world scenarios tailored for modern web development.
                 </p>
               </div>
             </motion.div>
@@ -76,7 +73,7 @@ const About: React.FC = () => {
                 <FaLightbulb className="icon" />
                 <h2>Our Vision</h2>
                 <p>
-                  We dream of a world where every developer, no matter their level of experience, has access to the tools and resources necessary to excel in JavaScript. With continuous contributions and feedback from our community, JavaScript Handbook is not just keeping pace with the evolution of JavaScript—it's helping shape it.
+                  Envisioning a world where developers at all levels access top JavaScript resources, our platform thrives on community contributions and collaborative learning, actively shaping the future of JavaScript in web development.
                 </p>
               </div>
             </motion.div>
@@ -91,7 +88,7 @@ const About: React.FC = () => {
                 <FaUsers className="icon" />
                 <h2>Join Our Community</h2>
                 <p>
-                  Join our mission, enhance your skills, and be part of a team that grows together. Let's code, learn, and create the future of JavaScript, one line at a time.
+                  Join us to code, learn, and contribute to JavaScript's future. Code, learn, and contribute to the future of JavaScript as we tackle real-world problems and create innovative solutions together.
                 </p>
               </div>
             </motion.div>

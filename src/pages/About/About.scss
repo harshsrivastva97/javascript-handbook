@@ -16,8 +16,7 @@
     .page-title {
       font-size: 3.5rem;
       font-weight: 800;
-      margin-bottom: 3rem;
-      text-align: center;
+      margin-bottom: 1.5rem;
       background: linear-gradient(to right, $accent-primary, $accent-light);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -25,11 +24,11 @@
     }
 
     .content-section {
-      margin-bottom: 4rem;
+      margin-bottom: 2rem;
 
       .main-intro {
         background: $background-secondary;
-        padding: 3rem;
+        padding: 2rem 6rem 3rem 3rem;
         border-radius: 24px;
         position: relative;
         overflow: hidden;

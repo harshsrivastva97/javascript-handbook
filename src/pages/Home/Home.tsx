@@ -30,7 +30,7 @@ const Home: React.FC = () => {
 
   const handleStatusChange = (topicId: number, newStatus: 'pending' | 'in-progress' | 'completed') => {
     try {
-      dispatch(updateTopicStatus({ 
+      dispatch(updateTopicStatus({
         topicId,
         status: newStatus
       }));
@@ -54,25 +54,25 @@ const Home: React.FC = () => {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
           >
             Master JavaScript Concepts and Level Up Your Coding Skills
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Enhance your JavaScript mastery through interactive learning, 
-            build a solid foundation with core concepts, 
+            Enhance your JavaScript mastery through interactive learning,
+            build a solid foundation with core concepts,
             and join a thriving community of developers.
           </motion.p>
         </div>
-        <motion.div 
+        <motion.div
           className="progress-chart"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
         >
           <CircularProgressbar
             value={calculateProgress()}
@@ -80,13 +80,14 @@ const Home: React.FC = () => {
             styles={buildStyles({
               pathColor: '#646cff',
               textColor: '#ffffff',
-              trailColor: '#2d2d2d',
+              trailColor: 'rgba(255, 255, 255, 0.1)',
+              pathTransition: 'ease-in-out',
             })}
           />
         </motion.div>
       </div>
 
-      <motion.div 
+      <motion.div
         className="topics-table-container"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -107,7 +108,7 @@ const Home: React.FC = () => {
                 <tr key={concept.id}>
                   <td>{concept.title}</td>
                   <td>
-                    <div 
+                    <div
                       className="status-toggle"
                       onClick={() => {
                         const nextStatus = {

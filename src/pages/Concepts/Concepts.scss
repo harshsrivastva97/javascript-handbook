@@ -20,23 +20,20 @@
 .concepts-container {
   min-height: 100vh;
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  padding: 2rem;
   overflow-x: hidden;
 
   .concepts-layout {
     display: grid;
     grid-template-columns: 300px 1fr;
-    gap: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-    min-height: calc(100vh - 4rem);
+    max-width: 100%;
+    margin: 0;
+    min-height: 100vh;
     position: relative;
   }
 
   .topics-list {
     background: rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
-    height: calc(100vh - 4rem);
+    height: 100vh;
     position: sticky;
     overflow: hidden;
     display: flex;
@@ -98,8 +95,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0.8rem 1rem;
-    margin-bottom: 0.5rem;
-    border-radius: 8px;
+    margin-bottom: 0;
     cursor: pointer;
     transition: all 0.2s ease;
     border: 1px solid transparent;
@@ -135,12 +131,11 @@
 
   .concept-details {
     background: rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.05);
     overflow: auto;
-    max-height: calc(100vh - 4rem);
+    max-height: 100vh;
 
     .concept-header {
       display: flex;

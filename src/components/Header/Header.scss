@@ -1,62 +1,81 @@
 @import '../../assets/scss/theme';
 
 .main-header {
-  background: rgba($bg-primary, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid $card-border;
+  background: rgba(15, 23, 41, 0.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   position: sticky;
   top: 0;
-  z-index: 1000;
-  padding: 1rem 2rem;
+  z-index: 100;
 
   .header-content {
     max-width: 1400px;
     margin: 0 auto;
+    padding: 0.75rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
 
-  .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $text-primary;
-    text-decoration: none;
-    transition: color $transition-normal;
-
-    &:hover {
-      color: $accent;
-    }
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-
-    .nav-link {
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      color: $text-secondary;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: all $transition-normal;
-      padding: 0.5rem 0.75rem;
-      border-radius: 6px;
+      opacity: 0.9;
+      transition: opacity 0.2s ease;
 
       &:hover {
-        color: $text-primary;
-        background: rgba($accent, 0.1);
+        opacity: 1;
       }
 
-      &.active {
-        color: $accent;
-        background: rgba($accent, 0.15);
-      }
-
-      .nav-icon {
+      &::before {
+        content: '</>';
         font-size: 1rem;
+        color: #646cff;
+        opacity: 0.9;
+      }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.5rem;
+
+      .nav-link {
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.7);
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+
+        &:hover {
+          color: #fff;
+          background: rgba(255, 255, 255, 0.03);
+        }
+
+        &.active {
+          color: #646cff;
+          background: rgba(100, 108, 255, 0.08);
+
+          .nav-icon {
+            color: #646cff;
+          }
+        }
+
+        .nav-icon {
+          font-size: 1rem;
+          opacity: 0.9;
+        }
+
+        .nav-text {
+          font-weight: 500;
+        }
       }
     }
   }
@@ -64,18 +83,18 @@
 
 @media (max-width: 768px) {
   .main-header {
-    padding: 1rem;
+    .header-content {
+      padding: 0.75rem 1rem;
 
-    .nav-links {
-      gap: 0.75rem;
+      .nav-links {
+        .nav-link {
+          padding: 0.5rem;
 
-      .nav-link {
-        padding: 0.5rem;
-
-        .nav-text {
-          display: none;
+          .nav-text {
+            display: none;
+          }
         }
       }
     }
   }
-} 
+}
