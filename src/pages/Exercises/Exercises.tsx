@@ -61,122 +61,309 @@ deleteTodo(1)`,
     },
     {
       id: 2,
-      title: "Infinite Scroll Implementation",
-      description: "Implement infinite scrolling functionality using Intersection Observer API. Learn about modern browser APIs and optimize performance for large datasets.",
+      title: "String Calculator",
+      description: "Build a calculator that evaluates mathematical expressions given as strings. Learn about string parsing, recursion, and operator precedence.",
       difficulty: "Medium",
       status: "pending",
-      timeEstimate: "3-4 hours",
-      skills: ["JavaScript", "Intersection Observer", "DOM", "Performance"],
+      timeEstimate: "2-3 hours",
+      skills: ["String Manipulation", "Recursion", "Math Operations"],
       requirements: [
-        "Use Intersection Observer API",
-        "Load items in batches of 10",
-        "Show loading indicator",
-        "Handle errors gracefully",
+        "Support basic operations (+, -, *, /)",
+        "Handle parentheses correctly",
+        "Respect operator precedence",
+        "Support floating-point numbers",
+        "Handle invalid input gracefully",
       ],
       example: {
-        input: `const observer = new IntersectionObserver(callback)
-observer.observe(targetElement)`,
-        output: `// When target element is visible
-loadNextBatch()
-showLoadingSpinner()
-// After loading
-hideLoadingSpinner()
-appendNewItems()`
+        input: `calculate("2 + 3 * 4");
+calculate("(2 + 3) * 4");
+calculate("1.5 * (2 + 3.5)");`,
+        output: `// Result: 14
+// Result: 20
+// Result: 8.25`
       },
       hints: [
-        "Research the IntersectionObserver API documentation",
-        "Consider using a throttle function for performance",
-        "Implement error boundaries for error handling",
+        "Split the problem into tokenization and evaluation",
+        "Use a stack to handle parentheses",
+        "Consider using the Shunting Yard algorithm",
       ],
     },
     {
       id: 3,
-      title: "Custom Event Emitter",
-      description: "Build a custom event emitter class that allows subscription to events and emitting events with data. Master the observer pattern and event-driven programming.",
-      difficulty: "Medium",
+      title: "Memory Game",
+      description: "Create a classic memory card matching game. Practice DOM manipulation, event handling, and game state management.",
+      difficulty: "Easy",
       status: "pending",
-      timeEstimate: "4-5 hours",
-      skills: ["JavaScript", "Design Patterns", "Event Handling", "OOP"],
+      timeEstimate: "2-3 hours",
+      skills: ["DOM Manipulation", "CSS Animation", "Game Logic"],
       requirements: [
-        "Implement on() method for subscribing to events",
-        "Implement emit() method for triggering events",
-        "Support multiple subscribers for the same event",
-        "Allow passing data when emitting events",
-        "Implement off() method to remove subscribers",
+        "Create a 4x4 grid of cards",
+        "Implement card flipping animation",
+        "Match pairs of cards",
+        "Track and display score",
+        "Add win condition and reset option",
       ],
       example: {
-        input: `const emitter = new EventEmitter()
-emitter.on('userLogin', (user) => console.log(user))
-emitter.emit('userLogin', { id: 1, name: 'John' })`,
-        output: `// Console output:
-{ id: 1, name: 'John' }`
+        input: `initializeGame(16); // 8 pairs
+// Player clicks first card
+flipCard(card1);
+// Player clicks second card
+flipCard(card2);`,
+        output: `// If cards match:
+keepCardsVisible();
+updateScore();
+// If cards don't match:
+flipCardsBack();
+nextTurn();`
       },
       hints: [
-        "Use a Map to store event listeners",
-        "Consider memory management when removing listeners",
-        "Implement method chaining for better API",
+        "Use CSS transforms for card flipping",
+        "Store card state in a data structure",
+        "Consider using setTimeout for timing",
       ],
     },
     {
       id: 4,
-      title: "Debounce Function Implementation",
-      description: "Create a debounce utility function that limits the rate at which a function can fire. Perfect for handling frequent events like window resize or search input.",
+      title: "Mini State Manager",
+      description: "Build a simplified version of Redux/Vuex state management system. Understand how state management libraries work under the hood.",
       difficulty: "Hard",
       status: "pending",
       timeEstimate: "3-4 hours",
-      skills: ["JavaScript", "Closures", "Timing Functions", "Function Decorators"],
+      skills: ["State Management", "Observer Pattern", "Immutability"],
       requirements: [
-        "Implement debounce function with setTimeout",
-        "Support immediate execution option",
-        "Handle this context correctly",
-        "Support cancellation of delayed execution",
-        "Preserve and pass original function arguments",
+        "Create a store with initial state",
+        "Implement subscribe/unsubscribe methods",
+        "Add dispatch method for actions",
+        "Support middleware",
+        "Maintain immutable state updates",
       ],
       example: {
-        input: `const debouncedSearch = debounce(search, 300)
-input.addEventListener('input', debouncedSearch)`,
-        output: `// Only executes search after 300ms of no input
-// Multiple rapid inputs only trigger one search`
+        input: `const store = createStore({count: 0});
+store.subscribe(state => console.log(state));
+store.dispatch({ type: 'INCREMENT' });`,
+        output: `// Initial state
+{ count: 0 }
+// After INCREMENT action
+{ count: 1 }`
       },
       hints: [
-        "Use closures to maintain state between calls",
-        "Remember to clear previous timeouts",
-        "Consider using Function.prototype.apply for context",
+        "Use an array to store subscribers",
+        "Keep state private using closures",
+        "Implement middleware as function composition",
       ],
     },
     {
       id: 5,
-      title: "DOM Element Builder",
-      description: "Create a fluent API for building and manipulating DOM elements programmatically. Learn about method chaining and DOM manipulation patterns.",
+      title: "Form Validator",
+      description: "Create a reusable form validation library. Learn about regular expressions, error handling, and builder patterns.",
       difficulty: "Medium",
       status: "pending",
-      timeEstimate: "4-5 hours",
-      skills: ["JavaScript", "DOM API", "Fluent Interface", "Design Patterns"],
+      timeEstimate: "2-3 hours",
+      skills: ["RegExp", "Error Handling", "Builder Pattern"],
       requirements: [
-        "Create chainable methods for setting attributes",
-        "Support adding child elements",
-        "Add methods for setting styles",
-        "Support event listener attachment",
-        "Implement method for inserting element into DOM",
-        "Allow removal of element from DOM",
+        "Validate email addresses",
+        "Check password strength",
+        "Validate phone numbers",
+        "Support custom validation rules",
+        "Return detailed error messages",
       ],
       example: {
-        input: `element('div')
-  .addClass('container')
-  .setStyle('background', 'blue')
-  .addChild('p')
-    .setText('Hello')
-    .addClass('greeting')
-  .appendTo(document.body)`,
-        output: `// Creates and appends:
-<div class="container" style="background: blue">
-  <p class="greeting">Hello</p>
-</div>`
+        input: `const validator = new FormValidator();
+validator
+  .field('email')
+    .required()
+    .email()
+  .field('password')
+    .required()
+    .minLength(8)
+    .hasNumber()
+    .hasSpecialChar();`,
+        output: `// Valid input
+{ isValid: true, errors: {} }
+
+// Invalid input
+{
+  isValid: false,
+  errors: {
+    password: ['Must contain a number']
+  }
+}`
       },
       hints: [
-        "Return this from chainable methods",
-        "Keep track of current element in focus",
-        "Implement a way to traverse up the tree",
+        "Start with basic regex patterns",
+        "Use builder pattern for chainable API",
+        "Create reusable validation functions",
+      ],
+    },
+    {
+      id: 6,
+      title: "Array Manipulator",
+      description: "Create functions to manipulate arrays without using built-in methods like map, filter, or reduce. This exercise will strengthen your understanding of array operations and loop control.",
+      difficulty: "Easy",
+      status: "pending",
+      timeEstimate: "1-2 hours",
+      skills: ["Arrays", "Loops", "Basic Algorithms"],
+      requirements: [
+        "Implement myMap(arr, fn) that works like Array.map()",
+        "Create myFilter(arr, fn) that works like Array.filter()",
+        "Build myReduce(arr, fn, initial) that works like Array.reduce()",
+        "Write tests for each function",
+        "Handle edge cases (empty arrays, undefined values)",
+      ],
+      example: {
+        input: `const numbers = [1, 2, 3, 4, 5];
+myMap(numbers, x => x * 2);
+myFilter(numbers, x => x % 2 === 0);
+myReduce(numbers, (acc, curr) => acc + curr, 0);`,
+        output: `// myMap result:
+[2, 4, 6, 8, 10]
+
+// myFilter result:
+[2, 4]
+
+// myReduce result:
+15`
+      },
+      hints: [
+        "Start with a simple for loop for each function",
+        "Remember to create new arrays for map and filter",
+        "Think about how to handle the accumulator in reduce",
+      ],
+    },
+    {
+      id: 7,
+      title: "String Calculator",
+      description: "Build a calculator that evaluates mathematical expressions given as strings. Learn about string parsing, recursion, and operator precedence.",
+      difficulty: "Medium",
+      status: "pending",
+      timeEstimate: "2-3 hours",
+      skills: ["String Manipulation", "Recursion", "Math Operations"],
+      requirements: [
+        "Support basic operations (+, -, *, /)",
+        "Handle parentheses correctly",
+        "Respect operator precedence",
+        "Support floating-point numbers",
+        "Handle invalid input gracefully",
+      ],
+      example: {
+        input: `calculate("2 + 3 * 4");
+calculate("(2 + 3) * 4");
+calculate("1.5 * (2 + 3.5)");`,
+        output: `// Result: 14
+// Result: 20
+// Result: 8.25`
+      },
+      hints: [
+        "Split the problem into tokenization and evaluation",
+        "Use a stack to handle parentheses",
+        "Consider using the Shunting Yard algorithm",
+      ],
+    },
+    {
+      id: 8,
+      title: "Memory Game",
+      description: "Create a classic memory card matching game. Practice DOM manipulation, event handling, and game state management.",
+      difficulty: "Easy",
+      status: "pending",
+      timeEstimate: "2-3 hours",
+      skills: ["DOM Manipulation", "CSS Animation", "Game Logic"],
+      requirements: [
+        "Create a 4x4 grid of cards",
+        "Implement card flipping animation",
+        "Match pairs of cards",
+        "Track and display score",
+        "Add win condition and reset option",
+      ],
+      example: {
+        input: `initializeGame(16); // 8 pairs
+// Player clicks first card
+flipCard(card1);
+// Player clicks second card
+flipCard(card2);`,
+        output: `// If cards match:
+keepCardsVisible();
+updateScore();
+// If cards don't match:
+flipCardsBack();
+nextTurn();`
+      },
+      hints: [
+        "Use CSS transforms for card flipping",
+        "Store card state in a data structure",
+        "Consider using setTimeout for timing",
+      ],
+    },
+    {
+      id: 9,
+      title: "Mini State Manager",
+      description: "Build a simplified version of Redux/Vuex state management system. Understand how state management libraries work under the hood.",
+      difficulty: "Hard",
+      status: "pending",
+      timeEstimate: "3-4 hours",
+      skills: ["State Management", "Observer Pattern", "Immutability"],
+      requirements: [
+        "Create a store with initial state",
+        "Implement subscribe/unsubscribe methods",
+        "Add dispatch method for actions",
+        "Support middleware",
+        "Maintain immutable state updates",
+      ],
+      example: {
+        input: `const store = createStore({count: 0});
+store.subscribe(state => console.log(state));
+store.dispatch({ type: 'INCREMENT' });`,
+        output: `// Initial state
+{ count: 0 }
+// After INCREMENT action
+{ count: 1 }`
+      },
+      hints: [
+        "Use an array to store subscribers",
+        "Keep state private using closures",
+        "Implement middleware as function composition",
+      ],
+    },
+    {
+      id: 10,
+      title: "Form Validator",
+      description: "Create a reusable form validation library. Learn about regular expressions, error handling, and builder patterns.",
+      difficulty: "Medium",
+      status: "pending",
+      timeEstimate: "2-3 hours",
+      skills: ["RegExp", "Error Handling", "Builder Pattern"],
+      requirements: [
+        "Validate email addresses",
+        "Check password strength",
+        "Validate phone numbers",
+        "Support custom validation rules",
+        "Return detailed error messages",
+      ],
+      example: {
+        input: `const validator = new FormValidator();
+validator
+  .field('email')
+    .required()
+    .email()
+  .field('password')
+    .required()
+    .minLength(8)
+    .hasNumber()
+    .hasSpecialChar();`,
+        output: `// Valid input
+{ isValid: true, errors: {} }
+
+// Invalid input
+{
+  isValid: false,
+  errors: {
+    password: ['Must contain a number']
+  }
+}`
+      },
+      hints: [
+        "Start with basic regex patterns",
+        "Use builder pattern for chainable API",
+        "Create reusable validation functions",
       ],
     },
   ]);
