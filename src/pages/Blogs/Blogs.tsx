@@ -7,59 +7,108 @@ import { blogs } from "../../data/blogs";
 import { BlogPost } from '../../types/blog.types';
 
 const Blogs: React.FC = () => {
-  return (
-    <motion.div 
-      className="blogs-container"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <motion.div 
-        className="page-title"
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        <h1>JavaScript Learning Hub</h1>
-        <p>Explore in-depth articles about JavaScript concepts, best practices, and modern development techniques.</p>
-      </motion.div>
+  const featuredBlog = blogs[0]; // Assuming first blog is featured
+  const remainingBlogs = blogs.slice(1);
 
-      <motion.div 
-        className="blogs-grid"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
+  return (
+    <div className="blogs">
+      <motion.div
+        className="hero-section"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
       >
-        {blogs.map((blog: BlogPost, index) => (
-          <motion.article
-            key={blog.id}
-            className="blog-card"
+        <div className="hero-content">
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 + 0.5 }}
+            transition={{ duration: 0.8 }}
           >
-            <div className="image-container">
-              <img src={blog.image} alt={blog.title} loading="lazy" />
-              <div className="tags">
-                {blog.tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
-                ))}
-              </div>
-            </div>
-            <div className="content">
-              <h2>{blog.title}</h2>
-              <p>{blog.excerpt}</p>
-              <Link 
-                to={`/blogs${blog.link}`} 
-                className="read-more"
-              >
-                Read More
-              </Link>
-            </div>
-          </motion.article>
-        ))}
+            JavaScript Learning Hub
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            Explore in-depth articles about JavaScript concepts, best practices, and modern development techniques.
+          </motion.p>
+        </div>
       </motion.div>
-    </motion.div>
+
+      <div className="blogs-content">
+        {/* Featured Blog */}
+        <motion.div
+          className="featured-blog"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <div className="featured-content">
+            <div className="meta">
+              <span className="date">
+                <FiCalendar /> Featured Post
+              </span>
+              <span className="read-time">
+                <FiClock /> 10 min read
+              </span>
+            </div>
+            <h2>{featuredBlog.title}</h2>
+            <p>{featuredBlog.excerpt}</p>
+            <div className="tags">
+              {featuredBlog.tags.map((tag) => (
+                <span key={tag} className="tag">{tag}</span>
+              ))}
+            </div>
+            <Link to={`/blogs${featuredBlog.link}`} className="read-more">
+              Read Article
+            </Link>
+          </div>
+          <div className="featured-image">
+            <img src={featuredBlog.image} alt={featuredBlog.title} />
+          </div>
+        </motion.div>
+
+        {/* Blog Grid */}
+        <motion.div
+          className="blogs-grid"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          {remainingBlogs.map((blog, index) => (
+            <motion.article
+              key={blog.id}
+              className="blog-card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 + 0.7 }}
+            >
+              <div className="card-image">
+                <img src={blog.image} alt={blog.title} loading="lazy" />
+              </div>
+              <div className="card-content">
+                <div className="meta">
+                  <span className="read-time">
+                    <FiClock /> 8 min read
+                  </span>
+                </div>
+                <h3>{blog.title}</h3>
+                <p>{blog.excerpt}</p>
+                <div className="tags">
+                  {blog.tags.map((tag) => (
+                    <span key={tag} className="tag">{tag}</span>
+                  ))}
+                </div>
+                <Link to={`/blogs${blog.link}`} className="read-more">
+                  Read Article
+                </Link>
+              </div>
+            </motion.article>
+          ))}
+        </motion.div>
+      </div>
+    </div>
   );
 };
 
