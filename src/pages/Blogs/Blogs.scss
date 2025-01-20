@@ -6,24 +6,6 @@
   overflow-y: auto;
   position: relative;
   padding-bottom: 4rem;
-  background: linear-gradient(135deg, #0f1729 0%, #1a1b4b 100%);
-  color: #fff;
-
-  // Stars effect (matching home page)
-  &::before {
-    content: '';
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-image:
-      radial-gradient(white, rgba(255, 255, 255, .2) 2px, transparent 3px);
-    background-size: 50px 50px;
-    opacity: 0.1;
-    pointer-events: none;
-    z-index: 0;
-  }
 
   .hero-section {
     padding: 4rem 8rem 2rem 4rem;

@@ -6,7 +6,7 @@ import App from "./App.tsx";
 
 // Styles
 import "./index.css";
-import "./assets/scss/index.scss";
+import "./assets/index.scss";
 
 const renderApp = () => {
   try {
