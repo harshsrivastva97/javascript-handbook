@@ -4,10 +4,9 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FiClock, FiCalendar } from "react-icons/fi";
 import { blogs } from "../../data/blogs";
-import { BlogPost } from '../../types/blog.types';
 
 const Blogs: React.FC = () => {
-  const featuredBlog = blogs[0]; // Assuming first blog is featured
+  const featuredBlog = blogs[0];
   const remainingBlogs = blogs.slice(1);
 
   return (
@@ -45,13 +44,9 @@ const Blogs: React.FC = () => {
           transition={{ delay: 0.4 }}
         >
           <div className="featured-content">
-            <div className="meta">
-              <span className="date">
-                <FiCalendar /> Featured Post
-              </span>
-              <span className="read-time">
-                <FiClock /> 10 min read
-              </span>
+            <div className="meta flex items-center mb-1">
+              <FiCalendar className="mr-2" />
+              Featured Post
             </div>
             <h2>{featuredBlog.title}</h2>
             <p>{featuredBlog.excerpt}</p>
@@ -88,11 +83,6 @@ const Blogs: React.FC = () => {
                 <img src={blog.image} alt={blog.title} loading="lazy" />
               </div>
               <div className="card-content">
-                <div className="meta">
-                  <span className="read-time">
-                    <FiClock /> 8 min read
-                  </span>
-                </div>
                 <h3>{blog.title}</h3>
                 <p>{blog.excerpt}</p>
                 <div className="tags">

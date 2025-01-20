@@ -1,5 +1,5 @@
 .blog-post {
-  max-width: 74rem;
+  max-width: 80rem;
   margin: 0 auto;
   padding: 2rem 2rem 4rem 2rem;
   min-height: 100%;
@@ -185,7 +185,7 @@
 }
 
 .blog-post-container {
-  max-width: 74rem;
+  max-width: 82rem;
   margin: 0 auto;
   padding: 2rem;
   position: relative;
@@ -223,6 +223,7 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(8px);
     padding: 2rem;
+    max-height: max-content;
 
     .blog-hero {
       text-align: center;
@@ -316,8 +317,8 @@
     }
 
     .blog-footer {
-      margin-top: 3rem;
-      padding-top: 2rem;
+      margin-top: 2rem;
+      padding: 1rem 0;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
       justify-content: space-between;

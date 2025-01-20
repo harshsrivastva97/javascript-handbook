@@ -58,17 +58,8 @@
         justify-content: center;
 
         .meta {
-          display: flex;
-          gap: 1rem;
-          margin-bottom: 1rem;
           color: #a8b2d1;
           font-size: 0.9rem;
-
-          span {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-          }
         }
 
         h2 {
@@ -153,7 +144,7 @@
         }
 
         .card-content {
-          padding: 1.5rem;
+          padding: 1rem 2rem;
 
           .meta {
             display: flex;

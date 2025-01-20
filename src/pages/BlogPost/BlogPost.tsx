@@ -62,7 +62,7 @@ const BlogPost: React.FC = () => {
           <button className="back-button" onClick={handleBack}>
             <FiArrowLeft /> Back to Blogs
           </button>
-          <button className="share-button" onClick={handleShare}>
+          <button onClick={handleShare}>
             <FiShare2 /> Share
           </button>
         </div>
@@ -111,8 +111,9 @@ const BlogPost: React.FC = () => {
                 <span key={tag} className="tag">{tag}</span>
               ))}
             </div>
-            <button className="share-button" onClick={handleShare}>
-              <FiShare2 /> Share Article
+            <button className="flex items-center" onClick={handleShare}>
+              <FiShare2 className='mr-2' />
+              Share Article
             </button>
           </motion.div>
         </article>
