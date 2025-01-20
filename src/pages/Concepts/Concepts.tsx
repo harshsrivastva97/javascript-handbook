@@ -28,6 +28,7 @@ const Concepts: React.FC = () => {
     const saved = localStorage.getItem("showProgress");
     return saved ? JSON.parse(saved) : true;
   });
+  const [showCopied, setShowCopied] = useState(false);
 
   const dispatch = useDispatch();
   const { topics } = useSelector((state: RootState) => state.topicsData);
@@ -74,7 +75,8 @@ const Concepts: React.FC = () => {
     if (!text) return;
     navigator.clipboard.writeText(text).then(
       () => {
-        console.log("Code copied to clipboard");
+        setShowCopied(true);
+        setTimeout(() => setShowCopied(false), 2000); // Hide after 2 seconds
       },
       (err) => {
         console.error("Failed to copy code:", err);
@@ -98,9 +100,8 @@ const Concepts: React.FC = () => {
             {listOfConcepts.map((concept: Concept) => (
               <motion.div
                 key={concept.id}
-                className={`topic-item ${selectedConcept?.id === concept.id ? "active" : ""} ${
-                  isConceptCompleted(concept.id) ? "completed" : ""
-                }`}
+                className={`topic-item ${selectedConcept?.id === concept.id ? "active" : ""} ${isConceptCompleted(concept.id) ? "completed" : ""
+                  }`}
                 onClick={() => setSelectedConcept(concept)}
                 whileHover={{ x: 4 }}
                 transition={{ type: "spring", stiffness: 300 }}
@@ -134,7 +135,7 @@ const Concepts: React.FC = () => {
                   onClick={() => toggleConceptComplete(selectedConcept.id)}
                 >
                   {isConceptCompleted(selectedConcept.id)
-                    ? "Completed ✓"
+                    ? "Completed"
                     : "Mark as Complete"}
                 </button>
               </div>
@@ -152,12 +153,10 @@ const Concepts: React.FC = () => {
                       <div className="code-example">
                         <h3>Example:</h3>
                         <button
-                          className="copy-button"
-                          onClick={() =>
-                            copyToClipboard(selectedConcept.content.codeExample)
-                          }
+                          className={`copy-button ${showCopied ? 'copied' : ''}`}
+                          onClick={() => copyToClipboard(selectedConcept.content.codeExample)}
                         >
-                          Copy
+                          {showCopied ? 'Copied!' : 'Copy'}
                         </button>
                         <pre className="language-javascript">
                           <code>{selectedConcept.content.codeExample}</code>
