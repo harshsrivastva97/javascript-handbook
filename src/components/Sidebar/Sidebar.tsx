@@ -164,23 +164,26 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
 
       <nav className="sidebar__nav">
         {allTabs.map((tab) => (
-          <div
+          <motion.div
             key={tab.filename}
             className={`sidebar__nav-item ${selectedTab === tab.filename ? "active" : ""}`}
+            onClick={() => handleTabSelect(tab.filename)}
           >
             <div className="nav-item-label">
-              <input
-                type="checkbox"
-                className="fancy-checkbox"
-                checked={completedItems.includes(tab.filename)}
-                onChange={() => handleCheckboxToggle(tab.filename)}
-                onClick={(e) => e.stopPropagation()}
-              />
-              <span onClick={() => handleTabSelect(tab.filename)}>
-                {tab.label}
-              </span>
+              <span>{tab.label}</span>
+              <div className="nav-item-actions">
+                <button
+                  className={`status-icon ${completedItems.includes(tab.filename) ? 'completed' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCheckboxToggle(tab.filename);
+                  }}
+                >
+                  {completedItems.includes(tab.filename) ? "✓" : "○"}
+                </button>
+              </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </nav>
 
