@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaClock, FaStar, FaCode, FaPlay, FaLightbulb } from "react-icons/fa";
+import { FaClock, FaStar, FaCode, FaPlay, FaLightbulb, FaDumbbell } from "react-icons/fa";
 import "./Exercises.scss";
 
 interface Exercise {
@@ -436,6 +436,18 @@ validator
 
   return (
     <div className="exercises-container">
+      <div className="exercises-header">
+        <div className="header-content">
+          <div className="header-icon">
+            <FaDumbbell />
+          </div>
+          <div className="header-text">
+            <h1>Coding Exercises</h1>
+            <p>Practice makes perfect. Choose an exercise and start coding!</p>
+          </div>
+        </div>
+      </div>
+
       <div className="progress-section">
         <div className="progress-bar">
           <div

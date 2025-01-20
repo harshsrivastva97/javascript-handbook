@@ -2,10 +2,54 @@
   height: calc(100vh - 4rem);
   padding: 2rem;
   overflow: auto;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .exercises-header {
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+
+      .header-icon {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 1rem;
+        border-radius: 50%;
+
+        svg {
+          font-size: 2rem;
+          color: white;
+        }
+      }
+
+      .header-text {
+        h1 {
+          color: white;
+          font-size: 2.5rem;
+          font-weight: 600;
+          margin: 0;
+          margin-bottom: 0.5rem;
+        }
+
+        p {
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 1.1rem;
+          margin: 0;
+        }
+      }
+    }
+  }
 
   .progress-section {
     max-width: 1200px;
     margin: 0 auto 2rem;
+    margin-bottom: 2rem;
 
     .progress-bar {
       height: 8px;
