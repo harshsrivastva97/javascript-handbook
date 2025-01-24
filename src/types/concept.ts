@@ -9,5 +9,5 @@ export interface Concept {
   id: number;
   content: ConceptContent;
   title: string;
-  status: string;
+  status: 'pending' | 'in-progress' | 'completed';
 }

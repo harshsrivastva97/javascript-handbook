@@ -16,11 +16,7 @@ import {
   FaCode as FaCodeAlt
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import {
-  SiTypescript,
-  SiWebpack,
-  SiOpenai
-} from "react-icons/si";
+import { SiTypescript } from "react-icons/si";
 import "./About.scss";
 
 const About: React.FC = () => {

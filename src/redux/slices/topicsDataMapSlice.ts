@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { listOfConcepts } from '../../data/concepts/index.ts';
 
 interface TopicsState {
   topics: Array<{
@@ -9,7 +10,7 @@ interface TopicsState {
 }
 
 const initialState: TopicsState = {
-  topics: [],
+  topics: [...listOfConcepts.map(concept => ({ id: concept.id, status: concept.status }))],
   topicsToConceptsMap: {}
 };
 
@@ -21,11 +22,9 @@ const topicsDataMapSlice = createSlice({
       try {
         const { topicId, status } = action.payload;
         const existingTopic = state.topics.find(t => t.id === topicId);
-        
+
         if (existingTopic) {
           existingTopic.status = status;
-        } else {
-          state.topics.push({ id: topicId, status });
         }
       } catch (error) {
         console.error('Error in updateTopicStatus reducer:', error);

@@ -23,15 +23,10 @@ body {
       radial-gradient(white, rgba(255, 255, 255, .2) 2px, transparent 3px);
     background-size: 50px 50px;
     opacity: 0.1;
+    z-index: -1;
   }
 
   color: $text-primary;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 // Clean up and standardize scrollbar styling

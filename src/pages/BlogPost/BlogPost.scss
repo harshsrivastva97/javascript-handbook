@@ -130,26 +130,6 @@
   }
 }
 
-// Common mixins for reusable styles
-@mixin scrollbar {
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba(100, 108, 255, 0.2);
-    border-radius: 4px;
-
-    &:hover {
-      background: rgba(100, 108, 255, 0.3);
-    }
-  }
-}
-
 @mixin glass-panel {
   background: rgba(15, 23, 41, 0.6);
   border-radius: 16px;
@@ -163,18 +143,12 @@
   -webkit-text-fill-color: transparent;
 }
 
-// Root styles
-:root {
-  scroll-behavior: smooth;
-}
-
 // Main container styles
 .blog-post-page {
   min-height: 100vh;
   max-height: 100vh;
   overflow-y: auto;
   position: relative;
-  @include scrollbar;
 }
 
 .blog-post-container {

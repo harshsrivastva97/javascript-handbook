@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { RootState } from '../../redux/store';
 import { updateTopicStatus } from '../../redux/slices/topicsDataMapSlice';
-import { FaBook, FaCode, FaInfoCircle, FaCheckCircle, FaRegCircle } from "react-icons/fa";
+import { FaBook, FaCode, FaLaptopCode, FaBrain, FaRocket, FaCheckCircle, FaRegCircle, FaNewspaper } from "react-icons/fa";
+import { BsThreeDots, BsLightningCharge, BsBookHalf } from "react-icons/bs";
 import { Tooltip } from 'react-tooltip';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { listOfConcepts } from '../../data/concepts';
-import { BsThreeDots } from "react-icons/bs";
 import "./Home.scss";
 
 interface Topic {
@@ -47,117 +47,225 @@ const Home: React.FC = () => {
     navigate(`/vault?concept=${conceptId}`);
   };
 
+  const features = [
+    {
+      icon: <FaLaptopCode />,
+      title: "Interactive Learning",
+      description: "Learn JavaScript concepts through hands-on coding exercises and real-world examples"
+    },
+    {
+      icon: <FaBrain />,
+      title: "Concept Mastery",
+      description: "Deep dive into core JavaScript concepts with comprehensive documentation"
+    },
+    {
+      icon: <BsLightningCharge />,
+      title: "Code Vault",
+      description: "Access a vast collection of code snippets and practice exercises"
+    },
+    {
+      icon: <BsBookHalf />,
+      title: "Progress Tracking",
+      description: "Track your learning journey with our intuitive progress system"
+    }
+  ];
+
+  const exploreSections = [
+    {
+      icon: <FaNewspaper />,
+      title: "Latest Articles",
+      description: "Stay updated with the latest trends in JavaScript and web development.",
+      link: "/blogs"
+    },
+    {
+      icon: <FaCode />,
+      title: "Exercises",
+      description: "Sharpen your skills with hands-on coding exercises.",
+      link: "/exercises"
+    },
+    {
+      icon: <FaBook />,
+      title: "Deep Dives",
+      description: "Explore in-depth articles on complex JavaScript topics.",
+      link: "/concepts"
+    }
+  ];
+
   return (
     <div className="home">
-      <div className="hero-section">
+      <motion.div className="hero-section flex flex-col items-center"
+        variants={{
+          hidden: { opacity: 0, y: 20 },
+          visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
+        }}
+        initial="hidden"
+        animate="visible"
+      >
         <div className="hero-content">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Master JavaScript Concepts and Level Up Your Coding Skills
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Enhance your JavaScript mastery through interactive learning,
-            build a solid foundation with core concepts,
-            and join a thriving community of developers.
-          </motion.p>
+          <h1>
+            Your Journey to JavaScript Mastery
+          </h1>
+          <p>
+            Master JavaScript through interactive learning, comprehensive documentation,
+            and hands-on coding exercises. Join thousands of developers on their path to excellence.
+          </p>
+          <div className="hero-buttons">
+            <button className="primary-btn" onClick={() => navigate('/concepts')}>
+              Start Learning <FaRocket />
+            </button>
+            <button className="secondary-btn" onClick={() => navigate('/vault')}>
+              Explore Code Vault <FaCode />
+            </button>
+          </div>
         </div>
-        <motion.div
-          className="progress-chart"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <CircularProgressbar
-            value={calculateProgress()}
-            text={`${calculateProgress()}%`}
-            styles={buildStyles({
-              pathColor: '#646cff',
-              textColor: '#ffffff',
-              trailColor: 'rgba(255, 255, 255, 0.1)',
-              pathTransition: 'ease-in-out',
-            })}
-          />
-        </motion.div>
+      </motion.div>
+
+      <div className="features-section">
+        <div className="features-grid">
+          {features.map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              className="feature-card"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: index * 0.1 }}
+            >
+              <div className="feature-icon">{feature.icon}</div>
+              <h3>{feature.title}</h3>
+              <p>{feature.description}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
-      <motion.div
-        className="topics-table-container"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.6 }}
-      >
-        <table className="topics-table">
-          <thead>
-            <tr>
-              <th>Topic</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {listOfConcepts.map((concept) => {
-              const topicStatus = topics.find((t: Topic) => t.id === concept.id)?.status || 'pending';
-              return (
-                <tr key={concept.id}>
-                  <td>{concept.title}</td>
-                  <td>
-                    <div
-                      className="status-toggle"
-                      onClick={() => {
-                        const nextStatus = {
-                          pending: "in-progress",
-                          "in-progress": "completed",
-                          completed: "pending"
-                        } as const;
-                        handleStatusChange(concept.id, nextStatus[topicStatus as keyof typeof nextStatus]);
-                      }}
-                    >
-                      <div className={`status-icon ${topicStatus}`}>
-                        {topicStatus === 'completed' && <FaCheckCircle />}
-                        {topicStatus === 'in-progress' && <BsThreeDots />}
-                        {topicStatus === 'pending' && <FaRegCircle />}
-                      </div>
-                      <span className="status-text">
-                        {topicStatus === 'completed' && 'Mastered'}
-                        {topicStatus === 'in-progress' && 'Learning'}
-                        {topicStatus === 'pending' && 'To Learn'}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="actions">
-                    <button
-                      data-tooltip-id={`readme-${concept.id}`}
-                      onClick={() => navigateToConcept(concept.id)}
-                    >
-                      <FaBook />
-                    </button>
-                    <Tooltip id={`readme-${concept.id}`} place="top">
-                      Read Documentation
-                    </Tooltip>
+      <div className="flex items-center justify-around">
+        <div className="topics-section">
+          <div className="section-header">
+            <h2>Learning Path</h2>
+            <p>Track your progress through essential JavaScript concepts</p>
+          </div>
 
-                    <button
-                      data-tooltip-id={`practice-${concept.id}`}
-                      onClick={() => navigateToCodeVault(concept.id)}
-                    >
-                      <FaCode />
-                    </button>
-                    <Tooltip id={`practice-${concept.id}`} place="top">
-                      Practice Code
-                    </Tooltip>
-                  </td>
+          <div className="topics-table-container">
+            <table className="topics-table">
+              <thead>
+                <tr>
+                  <th>Topic</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </motion.div>
+              </thead>
+              <tbody>
+                {listOfConcepts.map((concept) => {
+                  const topicStatus = topics.find((t: Topic) => t.id === concept.id)?.status || 'pending';
+                  return (
+                    <tr key={concept.id}>
+                      <td>{concept.title}</td>
+                      <td>
+                        <div
+                          className="status-toggle"
+                          onClick={() => {
+                            const nextStatus = {
+                              pending: "in-progress",
+                              "in-progress": "completed",
+                              completed: "pending"
+                            } as const;
+                            handleStatusChange(concept.id, nextStatus[topicStatus as keyof typeof nextStatus]);
+                          }}
+                        >
+                          <div className={`status-icon ${topicStatus}`}>
+                            {topicStatus === 'completed' && <FaCheckCircle />}
+                            {topicStatus === 'in-progress' && <BsThreeDots />}
+                            {topicStatus === 'pending' && <FaRegCircle />}
+                          </div>
+                          <span className="status-text">
+                            {topicStatus === 'completed' && 'Mastered'}
+                            {topicStatus === 'in-progress' && 'Learning'}
+                            {topicStatus === 'pending' && 'To Learn'}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="actions">
+                        <button
+                          data-tooltip-id={`readme-${concept.id}`}
+                          onClick={() => navigateToConcept(concept.id)}
+                        >
+                          <FaBook />
+                        </button>
+                        <Tooltip id={`readme-${concept.id}`} place="top">
+                          Read Documentation
+                        </Tooltip>
+
+                        <button
+                          data-tooltip-id={`practice-${concept.id}`}
+                          onClick={() => navigateToCodeVault(concept.id)}
+                        >
+                          <FaCode />
+                        </button>
+                        <Tooltip id={`practice-${concept.id}`} place="top">
+                          Practice Code
+                        </Tooltip>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="progress-chart-container">
+          <div className="progress-chart">
+            <CircularProgressbar
+              value={calculateProgress()}
+              text={`${calculateProgress()}%`}
+              styles={buildStyles({
+                pathColor: '#646cff',
+                textColor: '#ffffff',
+                trailColor: 'rgba(255, 255, 255, 0.1)',
+                pathTransition: 'ease-in-out',
+              })}
+            />
+          </div>
+          <p className="progress-text">Your Learning Progress</p>
+        </div>
+      </div>
+
+      <div className="cta-section">
+        <div className="cta-content">
+          <h2>Ready to Level Up Your JavaScript Skills?</h2>
+          <p>Start your learning journey today and join our community of developers.</p>
+          <button className="primary-btn" onClick={() => window.open('https://github.com/harshsrivastva97/javascript-handbook', '_blank')}>
+            Begin Your Journey <FaRocket />
+          </button>
+        </div>
+      </div>
+
+      <div className="explore-section">
+        <h2>Explore More</h2>
+        <div className="explore-grid">
+          {exploreSections.map((section, index) => (
+            <motion.div
+              key={section.title}
+              className="explore-card"
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: 0.2 + index * 0.1 }}
+            >
+              <div className="explore-icon">{section.icon}</div>
+              <h3>{section.title}</h3>
+              <p>{section.description}</p>
+              <button onClick={() => navigate(section.link)}>Learn More</button>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
