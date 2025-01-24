@@ -1,4 +1,4 @@
-@import '../../styles/theme';
+@import 'src/assets/scss/_theme.scss';
 
 .home {
   overflow: auto;
@@ -139,8 +139,6 @@
   }
 
   .topics-section {
-    padding: 2rem;
-
     .section-header {
       text-align: center;
       margin-bottom: 2rem;
@@ -158,31 +156,14 @@
     }
 
     .topics-table-container {
-      max-height: 480px;
-      overflow-y: auto;
-      margin: 2rem auto;
       max-width: 50rem;
       background: rgba(15, 23, 41, 0.6);
-      border-radius: 16px;
       border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-      // Scrollbar styling
       &::-webkit-scrollbar {
         width: 6px;
-        height: 6px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: transparent;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: rgba(100, 108, 255, 0.2);
-        border-radius: 3px;
-
-        &:hover {
-          background: rgba(100, 108, 255, 0.3);
-        }
       }
 
       .topics-table {
@@ -191,42 +172,59 @@
         border-spacing: 0;
 
         thead {
-          position: sticky;
-          top: 0;
-          background: rgba(15, 23, 41, 0.95);
-          z-index: 2;
+          display: block;
+          width: 100%;
+          background: rgba(15, 23, 41, 0.8);
+
+          tr {
+            display: block;
+            width: 100%;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+          }
 
           th {
+            display: inline-block;
             padding: 1rem 1.5rem;
-            color: #646cff;
-            font-weight: 500;
+            color: #fff;
+            font-weight: 600;
             text-align: left;
-            font-size: 0.95rem;
+            font-size: 1rem;
             letter-spacing: 0.5px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            width: 30%;
 
             &:first-child {
-              padding-left: 2rem;
+              width: 40%;
             }
           }
         }
 
         tbody {
+          display: block;
+          max-height: 25rem;
+          overflow-y: auto;
+
           tr {
-            transition: background 0.2s ease;
+            display: flex;
+            transition: background 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
             &:hover {
-              background: rgba(255, 255, 255, 0.03);
+              background: rgba(255, 255, 255, 0.05);
+            }
+
+            &:nth-child(odd) {
+              background: rgba(255, 255, 255, 0.02);
             }
 
             td {
               padding: 1rem 1.5rem;
               color: #fff;
-              border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+              width: 30%;
 
               &:first-child {
                 padding-left: 2rem;
                 font-weight: 500;
+                width: 40%;
               }
             }
           }

@@ -1,4 +1,4 @@
-@import '../../styles/theme';
+@import 'src/assets/scss/_theme.scss';
 
 .about-container {
   min-height: 100vh;
@@ -252,7 +252,7 @@
   .cta-section {
     text-align: center;
     padding: 3rem;
-    background: linear-gradient(135deg, rgba($accent-primary, 0.05), rgba($accent-light, 0.05));
+    background: linear-gradient(135deg, rgba($accent, 0.05), rgba($accent-light, 0.05));
     border-radius: 24px;
     margin-bottom: 2rem;
 
@@ -269,7 +269,7 @@
         align-items: center;
         gap: 0.5rem;
         padding: 1rem 2rem;
-        background: $accent-primary;
+        background: $accent;
         color: white;
         border-radius: 12px;
         text-decoration: none;
@@ -278,7 +278,7 @@
 
         &:hover {
           transform: translateY(-2px);
-          background: lighten($accent-primary, 5%);
+          background: lighten($accent, 5%);
         }
       }
     }

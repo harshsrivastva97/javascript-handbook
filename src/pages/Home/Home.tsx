@@ -78,7 +78,7 @@ const Home: React.FC = () => {
       link: "/blogs"
     },
     {
-      icon: <FaCode />,
+      icon: <FaLaptopCode />,
       title: "Exercises",
       description: "Sharpen your skills with hands-on coding exercises.",
       link: "/exercises"
@@ -142,13 +142,12 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-around">
-        <div className="topics-section">
-          <div className="section-header">
-            <h2>Learning Path</h2>
-            <p>Track your progress through essential JavaScript concepts</p>
-          </div>
-
+      <div className="topics-section p-8">
+        <div className="section-header">
+          <h2>Learning Path</h2>
+          <p>Track your progress through essential JavaScript concepts</p>
+        </div>
+        <div className="flex items-center justify-around">
           <div className="topics-table-container">
             <table className="topics-table">
               <thead>
@@ -163,7 +162,7 @@ const Home: React.FC = () => {
                   const topicStatus = topics.find((t: Topic) => t.id === concept.id)?.status || 'pending';
                   return (
                     <tr key={concept.id}>
-                      <td>{concept.title}</td>
+                      <td className="flex items-center">{concept.title}</td>
                       <td>
                         <div
                           className="status-toggle"
@@ -215,21 +214,33 @@ const Home: React.FC = () => {
               </tbody>
             </table>
           </div>
-        </div>
-        <div className="progress-chart-container">
-          <div className="progress-chart">
-            <CircularProgressbar
-              value={calculateProgress()}
-              text={`${calculateProgress()}%`}
-              styles={buildStyles({
-                pathColor: '#646cff',
-                textColor: '#ffffff',
-                trailColor: 'rgba(255, 255, 255, 0.1)',
-                pathTransition: 'ease-in-out',
-              })}
-            />
+          <div className="progress-chart-container">
+            <svg style={{ height: 0 }}>
+              <defs>
+                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#12c2e9" />
+                  <stop offset="50%" stopColor="#c471ed" />
+                  <stop offset="100%" stopColor="#f64f59" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="progress-chart">
+              <CircularProgressbar
+                value={calculateProgress()}
+                text={`${calculateProgress()}%`}
+                styles={buildStyles({
+                  pathColor: `url(#progressGradient)`,
+                  textColor: '#ffffff',
+                  trailColor: 'rgba(255, 255, 255, 0.2)',
+                  pathTransition: 'stroke-dashoffset 0.5s ease-in-out',
+                  strokeLinecap: 'round',
+                  textSize: '16px',
+                  pathTransitionDuration: 0.5
+                })}
+              />
+            </div>
+            <p className="progress-text">Your Learning Progress</p>
           </div>
-          <p className="progress-text">Your Learning Progress</p>
         </div>
       </div>
 

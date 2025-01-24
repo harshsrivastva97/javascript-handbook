@@ -2,10 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   FaCode,
-  FaLightbulb,
+  FaNewspaper,
   FaBook,
-  FaPencilAlt,
   FaHeart,
+  FaLaptopCode,
 } from "react-icons/fa";
 import './Header.scss';
 
@@ -14,7 +14,7 @@ const Header: React.FC = () => {
     {
       title: "Concepts",
       path: "/concepts",
-      icon: <FaLightbulb />,
+      icon: <FaNewspaper />,
     },
     {
       title: "Code Vault",
@@ -29,7 +29,7 @@ const Header: React.FC = () => {
     {
       title: "Exercises",
       path: "/exercises",
-      icon: <FaPencilAlt />,
+      icon: <FaLaptopCode />,
     },
     {
       title: "About",
