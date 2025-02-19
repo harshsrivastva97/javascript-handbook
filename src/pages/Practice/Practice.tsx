@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import ReactConfetti from "react-confetti";
 import Sidebar from "../../components/Sidebar/Sidebar.tsx";
 import CodeEditor from "../../components/CodeEditor/CodeEditor.tsx";
-import "./CodeVault.scss";
+import "./Practice.scss";
 
 const defaultJsTemplate = `// Welcome to JavaScript Essentials!
 // Select a topic from the sidebar to get started.
@@ -13,6 +14,7 @@ console.log(message);
 
 const CodeVault: React.FC = () => {
   const [currentCode, setCurrentCode] = useState(defaultJsTemplate);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   const errorScript = (
     fileName: string,
@@ -45,7 +47,18 @@ const CodeVault: React.FC = () => {
 
   return (
     <div className="code-vault">
-      <Sidebar onTabSelect={handleTabSelect} />
+      {showCelebration && (
+        <ReactConfetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          recycle={false}
+          numberOfPieces={1000}
+        />
+      )}
+      <Sidebar
+        onTabSelect={handleTabSelect}
+        onProgressComplete={() => setShowCelebration(true)}
+      />
       <main className="code-vault__main">
         <div className="code-vault__content">
           <CodeEditor code={currentCode} selectedFile={selectedFileName} />

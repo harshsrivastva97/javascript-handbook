@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
-import ReactConfetti from "react-confetti";
 import { TABS } from "../../constants/constants";
 import "./Sidebar.scss";
 import { motion } from "framer-motion";
 
 interface SidebarProps {
   onTabSelect: (tab: string) => void;
+  onProgressComplete: () => void;
 }
 
 // Add interface for tab items
@@ -14,7 +14,7 @@ interface TabItem {
   label: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
+const Sidebar: React.FC<SidebarProps> = ({ onTabSelect, onProgressComplete }) => {
   const [selectedTab, setSelectedTab] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     return params.get("tab") || "";
@@ -40,9 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
   // Check if progress is complete
   useEffect(() => {
     if (progress === 100 && !showCelebration) {
-      setShowCelebration(true);
-      // Hide celebration after 5 seconds
-      setTimeout(() => setShowCelebration(false), 5000);
+      onProgressComplete();
     }
   }, [progress]);
 
@@ -97,18 +95,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
 
   return (
     <aside className="sidebar flex flex-col">
-      {/* Celebration overlay */}
-      {showCelebration && (
-        <div className="celebration-overlay">
-          <ReactConfetti
-            width={window.innerWidth}
-            height={window.innerHeight}
-            recycle={false}
-            numberOfPieces={1000}
-          />
-        </div>
-      )}
-
       <div className="sidebar__header" onClick={handleHeaderClick}>
         <div className="progress-indicator">
           <div className="progress-text">
