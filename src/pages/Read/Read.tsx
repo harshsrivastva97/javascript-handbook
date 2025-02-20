@@ -5,7 +5,7 @@ import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-typescript";
-import { Concept } from "../../types/concept.ts";
+import { Concept } from "../../utils/types/concept.ts";
 import { listOfConcepts } from "../../data/concepts/index.ts";
 import "./Read.scss";
 import { useDispatch, useSelector } from 'react-redux';

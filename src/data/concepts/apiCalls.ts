@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const apiCalls: ConceptContent = {
     explanation: `<p>Modern JavaScript provides multiple ways to make API calls, with fetch being the built-in standard and Axios being a popular alternative.</p>`,

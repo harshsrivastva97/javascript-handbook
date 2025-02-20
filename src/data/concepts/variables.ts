@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const variables: ConceptContent = {
   explanation: `<p>JavaScript provides three ways to declare variables, each with distinct characteristics and use cases.</p>

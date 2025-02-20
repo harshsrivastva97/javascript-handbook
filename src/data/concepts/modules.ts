@@ -1,7 +1,7 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const modules: ConceptContent = {
-    explanation: `<p>JavaScript modules allow you to split code into separate files for better organization and maintainability. ES6 introduced a standardized module format.</p>
+  explanation: `<p>JavaScript modules allow you to split code into separate files for better organization and maintainability. ES6 introduced a standardized module format.</p>
 
 <h3>Module Features:</h3>
 <ul>
@@ -10,7 +10,7 @@ export const modules: ConceptContent = {
   <li>Module Scope: Encapsulated code</li>
   <li>Dynamic Imports: Lazy loading</li>
 </ul>`,
-    codeExample: `// Named exports
+  codeExample: `// Named exports
 export const sum = (a, b) => a + b;
 export const multiply = (a, b) => a * b;
 
@@ -40,12 +40,12 @@ export { sum as addition } from './math';
 // CommonJS (Node.js)
 const fs = require('fs');
 module.exports = { readFile: fs.readFile };`,
-    keyPoints: [
-        "Modules have their own scope",
-        "Support named and default exports",
-        "Enable code splitting and lazy loading",
-        "Improve code organization",
-        "Support circular dependencies",
-        "Compatible with bundlers like webpack"
-    ]
+  keyPoints: [
+    "Modules have their own scope",
+    "Support named and default exports",
+    "Enable code splitting and lazy loading",
+    "Improve code organization",
+    "Support circular dependencies",
+    "Compatible with bundlers like webpack"
+  ]
 }; 

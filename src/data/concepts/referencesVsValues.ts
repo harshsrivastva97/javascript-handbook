@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const referencesVsValues: ConceptContent = {
     explanation: `<p>Understanding how JavaScript handles primitive and reference types is crucial for writing bug-free code. Primitive types are passed by value, while objects are passed by reference.</p>

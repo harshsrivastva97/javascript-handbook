@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const throttle: ConceptContent = {
   explanation: `<p>Throttle limits the rate at which a function can execute, ensuring it runs at a regular interval regardless of how frequently the event occurs.</p>

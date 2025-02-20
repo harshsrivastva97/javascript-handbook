@@ -1,7 +1,7 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const fileHandling: ConceptContent = {
-    explanation: `<p>JavaScript provides various APIs for handling files in the browser, including Blob, FileReader, and WebSockets for real-time file operations.</p>
+  explanation: `<p>JavaScript provides various APIs for handling files in the browser, including Blob, FileReader, and WebSockets for real-time file operations.</p>
 
 <h3>File APIs:</h3>
 <ul>
@@ -10,7 +10,7 @@ export const fileHandling: ConceptContent = {
   <li>File Upload/Download</li>
   <li>Drag & Drop Operations</li>
 </ul>`,
-    codeExample: `// File Input Handling
+  codeExample: `// File Input Handling
 const fileInput = document.querySelector('input[type="file"]');
 fileInput.addEventListener('change', (e) => {
   const file = e.target.files[0];
@@ -46,12 +46,12 @@ dropZone.addEventListener('drop', (e) => {
   const files = Array.from(e.dataTransfer.files);
   files.forEach(processFile);
 });`,
-    keyPoints: [
-        "FileReader reads file contents asynchronously",
-        "Blob represents raw binary data",
-        "URL.createObjectURL creates temporary URLs",
-        "Support for drag and drop operations",
-        "Multiple file upload handling",
-        "Progress events for large files"
-    ]
+  keyPoints: [
+    "FileReader reads file contents asynchronously",
+    "Blob represents raw binary data",
+    "URL.createObjectURL creates temporary URLs",
+    "Support for drag and drop operations",
+    "Multiple file upload handling",
+    "Progress events for large files"
+  ]
 }; 

@@ -8,7 +8,6 @@ import Blogs from "./pages/Blogs/Blogs.tsx";
 import Exercises from "./pages/Exercises/Exercises.tsx";
 import About from "./pages/About/About.tsx";
 import PageNotFound from "./components/PageNotFound/PageNotFound.tsx";
-import Leaderboard from "./pages/Leaderboard/Leaderboard.tsx";
 import BlogPost from './pages/BlogPost/BlogPost.tsx';
 import { Provider } from 'react-redux';
 import store from './redux/index.ts';
@@ -40,7 +39,6 @@ const App: React.FC = () => {
             <Route path="/blogs/:slug" element={<BlogPost />} />
             <Route path="/exercises" element={<Exercises />} />
             <Route path="/about" element={<About />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>

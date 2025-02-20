@@ -1,7 +1,7 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const timers: ConceptContent = {
-    explanation: `<p>JavaScript provides timer functions for executing code after a delay or at intervals. Understanding timers is crucial for handling asynchronous operations and animations.</p>
+  explanation: `<p>JavaScript provides timer functions for executing code after a delay or at intervals. Understanding timers is crucial for handling asynchronous operations and animations.</p>
 
 <h3>Timer Functions:</h3>
 <ul>
@@ -10,7 +10,7 @@ export const timers: ConceptContent = {
   <li>clearTimeout: Cancel scheduled timeout</li>
   <li>clearInterval: Stop interval execution</li>
 </ul>`,
-    codeExample: `// setTimeout
+  codeExample: `// setTimeout
 const timeoutId = setTimeout(() => {
   console.log('Executed after 2 seconds');
 }, 2000);
@@ -55,12 +55,12 @@ function animate() {
 }
 
 requestAnimationFrame(animate);`,
-    keyPoints: [
-        "Timers are asynchronous functions",
-        "setTimeout executes once after delay",
-        "setInterval executes repeatedly",
-        "Always clear timers when not needed",
-        "Timers are not guaranteed to be precise",
-        "requestAnimationFrame for smooth animations"
-    ]
+  keyPoints: [
+    "Timers are asynchronous functions",
+    "setTimeout executes once after delay",
+    "setInterval executes repeatedly",
+    "Always clear timers when not needed",
+    "Timers are not guaranteed to be precise",
+    "requestAnimationFrame for smooth animations"
+  ]
 }; 

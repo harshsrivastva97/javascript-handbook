@@ -1,7 +1,7 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const thisKeyword: ConceptContent = {
-    explanation: `<p>The 'this' keyword in JavaScript refers to the current execution context and its behavior can vary based on how and where a function is called.</p>
+  explanation: `<p>The 'this' keyword in JavaScript refers to the current execution context and its behavior can vary based on how and where a function is called.</p>
 
 <h3>Context Rules:</h3>
 <ul>
@@ -10,7 +10,7 @@ export const thisKeyword: ConceptContent = {
   <li>Event handlers: 'this' refers to the element that triggered the event</li>
   <li>Constructor context: 'this' refers to the newly created instance</li>
 </ul>`,
-    codeExample: `// Global Context
+  codeExample: `// Global Context
 console.log(this === window); // true (in browser)
 
 // Method Context
@@ -45,12 +45,12 @@ const obj = {
 button.addEventListener('click', function() {
   console.log(this); // button element
 });`,
-    keyPoints: [
-        "Context depends on how function is called",
-        "Arrow functions inherit 'this' from enclosing scope",
-        "Methods like call(), apply(), bind() can change 'this'",
-        "'this' in global scope refers to global object",
-        "Strict mode affects 'this' behavior",
-        "Common source of bugs in JavaScript"
-    ]
+  keyPoints: [
+    "Context depends on how function is called",
+    "Arrow functions inherit 'this' from enclosing scope",
+    "Methods like call(), apply(), bind() can change 'this'",
+    "'this' in global scope refers to global object",
+    "Strict mode affects 'this' behavior",
+    "Common source of bugs in JavaScript"
+  ]
 }; 

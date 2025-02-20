@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const jsBasics: ConceptContent = {
   explanation: `<p>JavaScript is a high-level, interpreted programming language that conforms to the ECMAScript specification. Understanding its fundamentals is crucial for web development.</p>

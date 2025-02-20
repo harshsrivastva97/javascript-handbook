@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const memoryManagement: ConceptContent = {
   explanation: `<p>JavaScript manages memory automatically through garbage collection, which reclaims memory occupied by objects that are no longer in use. Understanding this process is crucial for writing efficient applications and preventing memory leaks.</p>

@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const eventLoop: ConceptContent = {
   explanation: `<p>The Event Loop is a fundamental mechanism in JavaScript that enables asynchronous programming in a single-threaded environment. Think of it as a continuous loop that coordinates the execution of code.</p>

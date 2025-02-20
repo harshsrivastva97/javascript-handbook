@@ -1,7 +1,7 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const performance: ConceptContent = {
-    explanation: `<p>JavaScript performance optimization involves various techniques to improve code execution speed, memory usage, and overall application responsiveness.</p>
+  explanation: `<p>JavaScript performance optimization involves various techniques to improve code execution speed, memory usage, and overall application responsiveness.</p>
 
 <h3>Optimization Areas:</h3>
 <ul>
@@ -10,7 +10,7 @@ export const performance: ConceptContent = {
   <li>Loading Performance</li>
   <li>Runtime Performance</li>
 </ul>`,
-    codeExample: `// Memoization
+  codeExample: `// Memoization
 const memoize = (fn) => {
   const cache = new Map();
   return (...args) => {
@@ -53,12 +53,12 @@ worker.postMessage({ data: complexData });
 worker.onmessage = (e) => {
   console.log('Processed:', e.data);
 };`,
-    keyPoints: [
-        "Use memoization for expensive calculations",
-        "Implement debouncing for frequent events",
-        "Virtual lists for large data sets",
-        "Web Workers for heavy computations",
-        "Code splitting for better loading",
-        "Optimize DOM operations"
-    ]
+  keyPoints: [
+    "Use memoization for expensive calculations",
+    "Implement debouncing for frequent events",
+    "Virtual lists for large data sets",
+    "Web Workers for heavy computations",
+    "Code splitting for better loading",
+    "Optimize DOM operations"
+  ]
 }; 

@@ -1,7 +1,7 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const security: ConceptContent = {
-    explanation: `<p>JavaScript security involves protecting against common web vulnerabilities like XSS, CSRF, and implementing proper authentication and data validation.</p>
+  explanation: `<p>JavaScript security involves protecting against common web vulnerabilities like XSS, CSRF, and implementing proper authentication and data validation.</p>
 
 <h3>Security Concerns:</h3>
 <ul>
@@ -10,7 +10,7 @@ export const security: ConceptContent = {
   <li>Content Security Policy (CSP)</li>
   <li>Secure Data Storage</li>
 </ul>`,
-    codeExample: `// XSS Prevention
+  codeExample: `// XSS Prevention
 const escapeHTML = (str) => {
   return str.replace(/[&<>"']/g, (match) => ({
     '&': '&amp;',
@@ -57,12 +57,12 @@ const secureStorage = {
     return encrypted ? JSON.parse(decrypt(encrypted)) : null;
   }
 };`,
-    keyPoints: [
-        "Always sanitize user input",
-        "Implement CSRF protection",
-        "Use Content Security Policy",
-        "Set secure cookie attributes",
-        "Encrypt sensitive data",
-        "Regular security audits"
-    ]
+  keyPoints: [
+    "Always sanitize user input",
+    "Implement CSRF protection",
+    "Use Content Security Policy",
+    "Set secure cookie attributes",
+    "Encrypt sensitive data",
+    "Regular security audits"
+  ]
 }; 

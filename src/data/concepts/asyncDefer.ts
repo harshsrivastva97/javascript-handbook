@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const asyncDefer: ConceptContent = {
     explanation: `<p>Script loading strategies in JavaScript using async and defer attributes help optimize page load performance.</p>`,

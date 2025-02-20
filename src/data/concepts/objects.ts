@@ -1,7 +1,7 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const objects: ConceptContent = {
-    explanation: `<p>Objects are collections of key-value pairs and form the foundation of JavaScript. They allow you to store related data and functionality together.</p>
+  explanation: `<p>Objects are collections of key-value pairs and form the foundation of JavaScript. They allow you to store related data and functionality together.</p>
 
 <h3>Key Concepts:</h3>
 <ul>
@@ -10,7 +10,7 @@ export const objects: ConceptContent = {
   <li>Property Descriptors</li>
   <li>Object Destructuring</li>
 </ul>`,
-    codeExample: `// Object Creation
+  codeExample: `// Object Creation
 const person = {
   name: 'John',
   age: 30,
@@ -37,11 +37,11 @@ Object.defineProperty(person, 'id', {
   enumerable: true,
   configurable: false
 });`,
-    keyPoints: [
-        "Objects store properties and methods",
-        "Properties can be accessed using dot or bracket notation",
-        "Objects are reference types",
-        "Support destructuring and spread operator",
-        "Properties can be configured using descriptors"
-    ]
+  keyPoints: [
+    "Objects store properties and methods",
+    "Properties can be accessed using dot or bracket notation",
+    "Objects are reference types",
+    "Support destructuring and spread operator",
+    "Properties can be configured using descriptors"
+  ]
 }; 

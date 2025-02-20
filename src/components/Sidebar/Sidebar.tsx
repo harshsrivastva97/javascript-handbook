@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { TABS } from "../../constants/constants";
+import { TABS } from "../../utils/constants";
 import "./Sidebar.scss";
 import { motion } from "framer-motion";
 
@@ -26,8 +26,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect, onProgressComplete }) =>
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Calculate progress using flattened tabs
-  const allTabs = Object.values(TABS).flat() as TabItem[];
+  const allTabs: TabItem[] = TABS;
   const totalItems = allTabs.length;
   const progress = (completedItems.length / totalItems) * 100;
 
@@ -66,9 +65,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect, onProgressComplete }) =>
 
   useEffect(() => {
     if (selectedTab) {
-      const category = Object.entries(TABS).find(([_, items]) =>
-        items.some((item) => item.filename === selectedTab),
-      )?.[0];
+      const category = allTabs.find((item) => item.filename === selectedTab);
 
       if (category) {
         onTabSelect(selectedTab);

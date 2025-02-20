@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const arrays: ConceptContent = {
     explanation: `<p>Arrays in JavaScript are ordered collections of values that can store elements of any type. They provide numerous built-in methods for data manipulation.</p>

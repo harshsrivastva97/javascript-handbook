@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const asyncAwait: ConceptContent = {
   explanation: `<p>Async/Await is a revolutionary syntax in JavaScript that transforms how we write asynchronous code. It builds on top of Promises to provide a more intuitive and synchronous-looking way to handle asynchronous operations.</p>

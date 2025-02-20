@@ -231,8 +231,6 @@ const About: React.FC = () => {
                 GitHub
               </a>
               <span className="separator">•</span>
-              <Link to="/leaderboard">Leaderboard</Link>
-              <span className="separator">•</span>
               <a href="mailto:harsh.srivastva97@gmail.com">Report an Issue</a>
             </div>
           </div>

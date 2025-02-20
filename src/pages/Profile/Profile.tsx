@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-    FaUser, FaEnvelope, FaCalendarAlt, FaGoogle, FaKey,
-    FaCog, FaBell, FaShieldAlt, FaHistory, FaEdit,
-    FaGithub, FaLinkedin, FaTwitter, FaGlobe
+    FaUser, FaEnvelope,
+    FaCog, FaShieldAlt, FaEdit, FaCheck, FaTimes,
+    FaLinkedin,
+    FaGithub,
+    FaTwitter,
+    FaGlobe,
+    FaChartLine,
+    FaTrophy, FaMedal, FaBookReader, FaCode,
+    FaCheckCircle, FaClock, FaFireAlt
 } from 'react-icons/fa';
 import { getAuth, updateProfile, updateEmail, sendEmailVerification } from 'firebase/auth';
 import './Profile.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../../redux/slices/auth.slice';
 
 interface UserProfile {
     displayName: string | null;
     email: string | null;
     photoUrl: string | null;
-    providerId: string;
     createdAt: string;
-    lastLoginAt: string;
     emailVerified: boolean;
     socialLinks?: {
         github?: string;
@@ -30,12 +36,28 @@ interface ProfileSection {
     icon: React.ReactNode;
 }
 
+interface Achievement {
+    id: string;
+    title: string;
+    description: string;
+    progress: number;
+    icon: React.ReactNode;
+    color: string;
+}
+
+interface Streak {
+    current: number;
+    best: number;
+    lastActive: string;
+}
+
 const Profile: React.FC = () => {
+    const dispatch = useDispatch();
+    const user = useSelector((state: any) => state.auth);
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const [activeSection, setActiveSection] = useState('profile');
-    const [isEditing, setIsEditing] = useState(false);
-    const [editForm, setEditForm] = useState({
+    const [formState, setFormState] = useState({
         displayName: '',
         email: '',
         github: '',
@@ -43,15 +65,64 @@ const Profile: React.FC = () => {
         twitter: '',
         website: ''
     });
+    const [passwordForm, setPasswordForm] = useState({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+    });
+
+    interface EditableField {
+        name: keyof typeof formState;
+        isEditing: boolean;
+    }
+
+    const [editableFields, setEditableFields] = useState<EditableField[]>([
+        { name: 'displayName', isEditing: false },
+        { name: 'email', isEditing: false },
+        { name: 'github', isEditing: true },
+        { name: 'linkedin', isEditing: true },
+        { name: 'twitter', isEditing: true },
+        { name: 'website', isEditing: true }
+    ]);
     const auth = getAuth();
 
     const sections: ProfileSection[] = [
         { id: 'profile', title: 'Profile Overview', icon: <FaUser /> },
-        { id: 'security', title: 'Security', icon: <FaShieldAlt /> },
-        { id: 'notifications', title: 'Notifications', icon: <FaBell /> },
-        { id: 'activity', title: 'Activity Log', icon: <FaHistory /> },
-        { id: 'settings', title: 'Settings', icon: <FaCog /> },
+        { id: 'My Progress', title: 'My Progress', icon: <FaChartLine /> },
     ];
+
+    const [achievements, setAchievements] = useState<Achievement[]>([
+        {
+            id: 'problems',
+            title: 'Problem Solver',
+            description: 'Problems solved',
+            progress: 65,
+            icon: <FaCode />,
+            color: '#4CAF50'
+        },
+        {
+            id: 'courses',
+            title: 'Course Progress',
+            description: 'Courses completed',
+            progress: 40,
+            icon: <FaBookReader />,
+            color: '#2196F3'
+        },
+        {
+            id: 'streak',
+            title: 'Daily Streak',
+            description: 'Days active',
+            progress: 80,
+            icon: <FaFireAlt />,
+            color: '#FF5722'
+        }
+    ]);
+
+    const [streak, setStreak] = useState<Streak>({
+        current: 7,
+        best: 15,
+        lastActive: 'Today'
+    });
 
     useEffect(() => {
         fetchUserProfile();
@@ -61,16 +132,11 @@ const Profile: React.FC = () => {
         try {
             const user = auth.currentUser;
             if (user) {
-                const idTokenResult = await user.getIdTokenResult();
-                const provider = user.providerData[0];
-
-                setProfile({
+                const userProfile = {
                     displayName: user.displayName || 'Anonymous User',
                     email: user.email,
                     photoUrl: user.photoURL,
-                    providerId: provider?.providerId || 'email/password',
                     createdAt: new Date(user.metadata.creationTime!).toLocaleDateString(),
-                    lastLoginAt: new Date(user.metadata.lastSignInTime!).toLocaleDateString(),
                     emailVerified: user.emailVerified,
                     socialLinks: {
                         github: '',
@@ -78,9 +144,18 @@ const Profile: React.FC = () => {
                         twitter: '',
                         website: ''
                     }
-                });
+                };
 
-                setEditForm({
+                // Store user data in Redux
+                dispatch(setUser({
+                    displayName: user.displayName || 'Anonymous User',
+                    email: user.email || '',
+                    photoURL: user.photoURL || '',
+                    uid: user.uid
+                }));
+
+                setProfile(userProfile);
+                setFormState({
                     displayName: user.displayName || '',
                     email: user.email || '',
                     github: '',
@@ -103,27 +178,117 @@ const Profile: React.FC = () => {
         try {
             const user = auth.currentUser;
             if (user) {
-                if (editForm.displayName !== user.displayName) {
+                if (formState.displayName !== user.displayName) {
                     await updateProfile(user, {
-                        displayName: editForm.displayName
+                        displayName: formState.displayName
                     });
                 }
 
-                if (editForm.email !== user.email) {
-                    await updateEmail(user, editForm.email);
+                if (formState.email !== user.email) {
+                    await updateEmail(user, formState.email);
                     await sendEmailVerification(user);
                 }
 
                 // Update social links in your database here
 
                 await fetchUserProfile();
-                setIsEditing(false);
             }
         } catch (error) {
             console.error('Error updating profile:', error);
         } finally {
             setLoading(false);
         }
+    };
+
+    const handlePasswordChange = async (e: React.FormEvent) => {
+        e.preventDefault();
+        // Implement password change logic here
+        setPasswordForm({
+            currentPassword: '',
+            newPassword: '',
+            confirmPassword: ''
+        });
+    };
+
+    const toggleFieldEdit = (fieldName: EditableField['name']) => {
+        setEditableFields(prev =>
+            prev.map(field =>
+                field.name === fieldName
+                    ? { ...field, isEditing: !field.isEditing }
+                    : field
+            )
+        );
+    };
+
+    const isFieldEditing = (fieldName: EditableField['name']) => {
+        return editableFields.find(field => field.name === fieldName)?.isEditing;
+    };
+
+    const renderEditableField = (
+        fieldName: EditableField['name'],
+        label: string,
+        icon?: React.ReactNode
+    ) => {
+        const isEditing = isFieldEditing(fieldName);
+        const hasValue = formState[fieldName] !== '';
+
+        return (
+            <div className="form-group">
+                <label>{icon} {label}</label>
+                <div className="input-wrapper">
+                    {(!hasValue || isEditing) ? (
+                        <input
+                            type={fieldName === 'email' ? 'email' : 'text'}
+                            value={formState[fieldName]}
+                            onChange={e => setFormState(prev => ({
+                                ...prev,
+                                [fieldName]: e.target.value
+                            }))}
+                            disabled={!isEditing}
+                            placeholder={`Your ${label}`}
+                        />
+                    ) : (
+                        <div className="field-value">
+                            {formState[fieldName]}
+                        </div>
+                    )}
+                    {hasValue && !isEditing && (
+                        <button
+                            type="button"
+                            className="edit-button"
+                            onClick={() => toggleFieldEdit(fieldName)}
+                        >
+                            <FaEdit />
+                        </button>
+                    )}
+                    {hasValue && isEditing && (
+                        <div className="edit-actions">
+                            <button
+                                type="button"
+                                className="confirm-button"
+                                onClick={() => toggleFieldEdit(fieldName)}
+                            >
+                                <FaCheck />
+                            </button>
+                            <button
+                                type="button"
+                                className="cancel-button"
+                                onClick={() => {
+                                    toggleFieldEdit(fieldName);
+                                    // Reset to original value
+                                    setFormState(prev => ({
+                                        ...prev,
+                                        [fieldName]: profile?.[fieldName as keyof UserProfile] || ''
+                                    }));
+                                }}
+                            >
+                                <FaTimes />
+                            </button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
     };
 
     if (loading) {
@@ -185,189 +350,116 @@ const Profile: React.FC = () => {
                             transition={{ delay: 0.3 }}
                         >
                             <h1>{sections.find(s => s.id === activeSection)?.title}</h1>
-                            {activeSection === 'profile' && !isEditing && (
-                                <button className="edit-button" onClick={() => setIsEditing(true)}>
-                                    <FaEdit />
-                                    Edit Profile
-                                </button>
-                            )}
                         </motion.div>
 
                         {activeSection === 'profile' && (
                             <div className="profile-section">
-                                {isEditing ? (
-                                    <form onSubmit={handleEditSubmit} className="edit-form">
-                                        <div className="form-group">
-                                            <label>Display Name</label>
-                                            <input
-                                                type="text"
-                                                value={editForm.displayName}
-                                                onChange={e => setEditForm(prev => ({
-                                                    ...prev,
-                                                    displayName: e.target.value
-                                                }))}
-                                            />
-                                        </div>
+                                <form onSubmit={handleEditSubmit} className="edit-form">
+                                    {renderEditableField('displayName', 'Display Name')}
+                                    {renderEditableField('email', 'Email', <FaEnvelope />)}
 
-                                        <div className="form-group">
-                                            <label>Email</label>
-                                            <input
-                                                type="email"
-                                                value={editForm.email}
-                                                onChange={e => setEditForm(prev => ({
-                                                    ...prev,
-                                                    email: e.target.value
-                                                }))}
-                                            />
-                                        </div>
-
-                                        <div className="social-links">
-                                            <h3>Social Links</h3>
-                                            <div className="form-group">
-                                                <label><FaGithub /> GitHub</label>
-                                                <input
-                                                    type="url"
-                                                    value={editForm.github}
-                                                    onChange={e => setEditForm(prev => ({
-                                                        ...prev,
-                                                        github: e.target.value
-                                                    }))}
-                                                    placeholder="Your GitHub profile URL"
-                                                />
-                                            </div>
-
-                                            <div className="form-group">
-                                                <label><FaLinkedin /> LinkedIn</label>
-                                                <input
-                                                    type="url"
-                                                    value={editForm.linkedin}
-                                                    onChange={e => setEditForm(prev => ({
-                                                        ...prev,
-                                                        linkedin: e.target.value
-                                                    }))}
-                                                    placeholder="Your LinkedIn profile URL"
-                                                />
-                                            </div>
-
-                                            <div className="form-group">
-                                                <label><FaTwitter /> Twitter</label>
-                                                <input
-                                                    type="url"
-                                                    value={editForm.twitter}
-                                                    onChange={e => setEditForm(prev => ({
-                                                        ...prev,
-                                                        twitter: e.target.value
-                                                    }))}
-                                                    placeholder="Your Twitter profile URL"
-                                                />
-                                            </div>
-
-                                            <div className="form-group">
-                                                <label><FaGlobe /> Website</label>
-                                                <input
-                                                    type="url"
-                                                    value={editForm.website}
-                                                    onChange={e => setEditForm(prev => ({
-                                                        ...prev,
-                                                        website: e.target.value
-                                                    }))}
-                                                    placeholder="Your personal website URL"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div className="form-actions">
-                                            <button type="submit" className="save-button">
-                                                Save Changes
-                                            </button>
-                                            <button
-                                                type="button"
-                                                className="cancel-button"
-                                                onClick={() => setIsEditing(false)}
-                                            >
-                                                Cancel
-                                            </button>
-                                        </div>
-                                    </form>
-                                ) : (
-                                    <div className="profile-info">
-                                        <div className="info-card account-info">
-                                            <h3>Account Information</h3>
-                                            <div className="info-grid">
-                                                <div className="info-item">
-                                                    <FaUser className="icon" />
-                                                    <div>
-                                                        <span className="label">Display Name</span>
-                                                        <span className="value">{profile?.displayName}</span>
-                                                    </div>
-                                                </div>
-                                                <div className="info-item">
-                                                    <FaEnvelope className="icon" />
-                                                    <div>
-                                                        <span className="label">Email</span>
-                                                        <span className="value">{profile?.email}</span>
-                                                    </div>
-                                                </div>
-                                                <div className="info-item">
-                                                    <FaCalendarAlt className="icon" />
-                                                    <div>
-                                                        <span className="label">Member Since</span>
-                                                        <span className="value">{profile?.createdAt}</span>
-                                                    </div>
-                                                </div>
-                                                <div className="info-item">
-                                                    {profile?.providerId === 'google.com' ?
-                                                        <FaGoogle className="icon" /> :
-                                                        <FaKey className="icon" />
-                                                    }
-                                                    <div>
-                                                        <span className="label">Login Method</span>
-                                                        <span className="value">
-                                                            {profile?.providerId === 'google.com' ? 'Google' : 'Email/Password'}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div className="info-card social-info">
-                                            <h3>Social Links</h3>
-                                            <div className="social-grid">
-                                                {profile?.socialLinks && Object.entries(profile.socialLinks).map(([platform, url]) => (
-                                                    url && (
-                                                        <a
-                                                            key={platform}
-                                                            href={url}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="social-link"
-                                                        >
-                                                            {platform === 'github' && <FaGithub />}
-                                                            {platform === 'linkedin' && <FaLinkedin />}
-                                                            {platform === 'twitter' && <FaTwitter />}
-                                                            {platform === 'website' && <FaGlobe />}
-                                                            <span>{platform}</span>
-                                                        </a>
-                                                    )
-                                                ))}
-                                            </div>
-                                        </div>
+                                    <div className="social-links">
+                                        <h3>Social Links</h3>
+                                        {renderEditableField('github', 'GitHub', <FaGithub />)}
+                                        {renderEditableField('linkedin', 'LinkedIn', <FaLinkedin />)}
+                                        {renderEditableField('twitter', 'Twitter', <FaTwitter />)}
+                                        {renderEditableField('website', 'Website', <FaGlobe />)}
                                     </div>
-                                )}
+
+                                    <div className="form-actions">
+                                        <button type="submit" className="save-button">
+                                            Save Changes
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         )}
 
-                        {/* Placeholder for other sections */}
-                        {activeSection === 'security' && (
-                            <div className="security-section">
-                                <div className="info-card">
-                                    <h3>Security Settings</h3>
-                                    {/* Add security settings content */}
+                        {activeSection === 'My Progress' && (
+                            <div className="progress-section">
+                                <div className="stats-grid">
+                                    {achievements.map(achievement => (
+                                        <motion.div
+                                            key={achievement.id}
+                                            className="achievement-card"
+                                            initial={{ scale: 0.9, opacity: 0 }}
+                                            animate={{ scale: 1, opacity: 1 }}
+                                            transition={{ duration: 0.3 }}
+                                        >
+                                            <div className="achievement-icon" style={{ backgroundColor: achievement.color }}>
+                                                {achievement.icon}
+                                            </div>
+                                            <div className="achievement-info">
+                                                <h3>{achievement.title}</h3>
+                                                <p>{achievement.description}</p>
+                                                <div className="progress-bar-container">
+                                                    <div
+                                                        className="progress-bar"
+                                                        style={{
+                                                            width: `${achievement.progress}%`,
+                                                            backgroundColor: achievement.color
+                                                        }}
+                                                    />
+                                                </div>
+                                                <span className="progress-text">{achievement.progress}%</span>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+
+                                <div className="streak-section">
+                                    <motion.div
+                                        className="streak-card"
+                                        initial={{ y: 20, opacity: 0 }}
+                                        animate={{ y: 0, opacity: 1 }}
+                                        transition={{ delay: 0.2 }}
+                                    >
+                                        <div className="streak-header">
+                                            <FaFireAlt className="streak-icon" />
+                                            <h3>Coding Streak</h3>
+                                        </div>
+                                        <div className="streak-stats">
+                                            <div className="streak-stat">
+                                                <span className="streak-value">{streak.current}</span>
+                                                <span className="streak-label">Current Streak</span>
+                                            </div>
+                                            <div className="streak-stat">
+                                                <span className="streak-value">{streak.best}</span>
+                                                <span className="streak-label">Best Streak</span>
+                                            </div>
+                                            <div className="streak-stat">
+                                                <span className="streak-value">{streak.lastActive}</span>
+                                                <span className="streak-label">Last Active</span>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                </div>
+
+                                <div className="recent-activity">
+                                    <h3>Recent Activity</h3>
+                                    <motion.div
+                                        className="activity-timeline"
+                                        initial={{ x: -20, opacity: 0 }}
+                                        animate={{ x: 0, opacity: 1 }}
+                                        transition={{ delay: 0.3 }}
+                                    >
+                                        {[
+                                            { icon: <FaCheckCircle />, text: 'Completed "Advanced JavaScript" course', time: '2 hours ago' },
+                                            { icon: <FaTrophy />, text: 'Earned "Problem Solver" badge', time: '1 day ago' },
+                                            { icon: <FaCode />, text: 'Solved 3 coding challenges', time: '2 days ago' },
+                                        ].map((activity, index) => (
+                                            <div key={index} className="activity-item">
+                                                <div className="activity-icon">{activity.icon}</div>
+                                                <div className="activity-content">
+                                                    <p>{activity.text}</p>
+                                                    <span>{activity.time}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </motion.div>
                                 </div>
                             </div>
                         )}
-
-                        {/* Add other section content similarly */}
                     </main>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const debounce: ConceptContent = {
   explanation: `<p>Debounce is a programming pattern that delays the execution of a function until after a period of inactivity.</p>

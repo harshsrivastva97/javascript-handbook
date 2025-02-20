@@ -31,7 +31,7 @@ import { fileHandling } from './fileHandling';
 import { errorHandling } from './errorHandling';
 import { performance } from './performance';
 import { security } from './security';
-import { Concept } from '../../types/concept';
+import { Concept } from '../../utils/types/concept';
 
 export const listOfConcepts: Concept[] = [
   {

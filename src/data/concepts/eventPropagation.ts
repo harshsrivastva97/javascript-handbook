@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const eventPropagation: ConceptContent = {
   explanation: `<p>Event propagation describes how events travel through the DOM tree, affecting how event handlers are triggered on nested elements.</p>

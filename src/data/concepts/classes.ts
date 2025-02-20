@@ -1,7 +1,7 @@
-import { ConceptContent } from "../../types/concept";
+import { ConceptContent } from "../../utils/types/concept";
 
 export const classes: ConceptContent = {
-    explanation: `<p>JavaScript classes provide a cleaner syntax for object-oriented programming, introduced in ES6. They are primarily syntactic sugar over the prototype-based inheritance.</p>
+  explanation: `<p>JavaScript classes provide a cleaner syntax for object-oriented programming, introduced in ES6. They are primarily syntactic sugar over the prototype-based inheritance.</p>
 
 <h3>Class Features:</h3>
 <ul>
@@ -10,7 +10,7 @@ export const classes: ConceptContent = {
   <li>Private Fields & Methods</li>
   <li>Inheritance & Super Calls</li>
 </ul>`,
-    codeExample: `// Class Declaration
+  codeExample: `// Class Declaration
 class Animal {
   // Private field
   #age;
@@ -63,12 +63,12 @@ class Example {
     return this.#privateMethod();
   }
 }`,
-    keyPoints: [
-        "Classes are templates for creating objects",
-        "Support inheritance via extends keyword",
-        "Private fields start with # symbol",
-        "Constructor initializes new instances",
-        "Static methods belong to class itself",
-        "Getters/setters control property access"
-    ]
+  keyPoints: [
+    "Classes are templates for creating objects",
+    "Support inheritance via extends keyword",
+    "Private fields start with # symbol",
+    "Constructor initializes new instances",
+    "Static methods belong to class itself",
+    "Getters/setters control property access"
+  ]
 }; 

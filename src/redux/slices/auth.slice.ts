@@ -5,34 +5,53 @@ interface User {
     email: string;
     photoURL: string;
     uid: string;
+    emailVerified?: boolean;
+    createdAt?: string;
+    socialLinks?: {
+        github?: string;
+        linkedin?: string;
+        twitter?: string;
+        website?: string;
+    };
 }
 
-const initialState: User = {
-    displayName: '',
-    email: '',
-    photoURL: '',
-    uid: ''
+interface AuthState {
+    user: User | null;
+    isAuthenticated: boolean;
+    loading: boolean;
+    error: string | null;
+}
+
+const initialState: AuthState = {
+    user: null,
+    isAuthenticated: false,
+    loading: false,
+    error: null
 };
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        registerUser: (state, action: PayloadAction<{ username: string; email: string; password: string }>) => {
-            try {
-                const { username, email, password } = action.payload;
-            } catch (error) {
-                console.error('Error in updateTopicStatus reducer:', error);
+        setUser: (state, action: PayloadAction<User>) => {
+            state.user = action.payload;
+            state.isAuthenticated = true;
+            state.error = null;
+        },
+        clearUser: (state) => {
+            state.user = null;
+            state.isAuthenticated = false;
+        },
+        updateUserProfile: (state, action: PayloadAction<Partial<User>>) => {
+            if (state.user) {
+                state.user = { ...state.user, ...action.payload };
             }
         },
-        setUser: (state, action: PayloadAction<User>) => {
-            state.displayName = action.payload.displayName;
-            state.email = action.payload.email;
-            state.photoURL = action.payload.photoURL;
-            state.uid = action.payload.uid;
+        setError: (state, action: PayloadAction<string>) => {
+            state.error = action.payload;
         }
     }
 });
 
-export const { registerUser, setUser } = authSlice.actions;
+export const { setUser, clearUser, updateUserProfile, setError } = authSlice.actions;
 export default authSlice.reducer;
