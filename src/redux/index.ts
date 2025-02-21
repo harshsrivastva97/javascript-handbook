@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
+import userReducer from './slices/userSlice';
 import topicsDataMapReducer from './slices/topicsDataMapSlice';
 
 const store = configureStore({
   reducer: {
-    topicsData: topicsDataMapReducer
+    user: userReducer,
+    topicsData: topicsDataMapReducer,
   },
 });
 

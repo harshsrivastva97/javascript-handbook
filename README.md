@@ -58,9 +58,17 @@ javascript-handbook/
 - Community features
 - Mobile app
 
+## Related Projects
+
+- [JavaScript Handbook Backend](https://github.com/harshsrivastva97/javascript-handbook-be)
+
 ## Contact
 
 Harsh Srivastva - [@dev_harsh_x](https://x.com/dev_harsh_x)
+
+## License
+
+MIT License
 
 ## Acknowledgments
 

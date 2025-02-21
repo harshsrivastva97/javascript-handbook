@@ -1,47 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import {
-    FaEnvelope,
-    FaLock,
-    FaGoogle,
-    FaGithub,
-    FaEye,
-    FaEyeSlash,
-} from "react-icons/fa";
-import { initializeApp } from "firebase/app";
-import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signInWithPopup,
-    signOut,
-    GoogleAuthProvider,
-    GithubAuthProvider,
-    sendEmailVerification,
-} from "firebase/auth";
+import { FaEnvelope, FaLock, FaGoogle, FaGithub, FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Auth.scss";
+import firebase from "../../firebase/firebase";
+import { useAppDispatch } from "../../redux/hooks";
 
 interface AuthForm {
     email: string;
     password: string;
 }
-
-// Firebase configuration and initialization
-const firebaseConfig = {
-    apiKey: "AIzaSyANEfmTY7TQ3QuZjTS_ppZzgCicg9wqbIU",
-    authDomain: "javascripthandbook.firebaseapp.com",
-    projectId: "javascripthandbook",
-    storageBucket: "javascripthandbook.firebasestorage.app",
-    messagingSenderId: "146490970959",
-    appId: "1:146490970959:web:2f56d6f2272703fd042b3a",
-    measurementId: "G-5CK5ZNR83Z",
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
-const githubProvider = new GithubAuthProvider();
 
 const Auth: React.FC = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -53,6 +20,7 @@ const Auth: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const validateForm = (): boolean => {
         if (!formData.email.includes("@")) {
@@ -74,34 +42,23 @@ const Auth: React.FC = () => {
 
         try {
             if (isLogin) {
-                // Sign In Flow
-                const userCredential = await signInWithEmailAndPassword(
-                    auth,
+                const userCredential = await firebase.signInWithEmailIdAndPassword(
                     formData.email,
                     formData.password
                 );
-
-                if (!userCredential.user.emailVerified) {
-                    // If the email is not verified, sign out and prompt the user.
-                    await signOut(auth);
-                    setError("Please verify your email address before logging in.");
-                } else {
-                    const token = await userCredential.user.getIdToken();
-                    localStorage.setItem("token", token);
-                    navigate("/");
-                }
+                const token = await userCredential.user.getIdToken();
+                localStorage.setItem("token", token);
+                navigate("/");
             } else {
-                // Sign Up Flow
-                const userCredential = await createUserWithEmailAndPassword(
-                    auth,
+                const userCredential = await firebase.signUpWithEmailIdAndPassword(
                     formData.email,
-                    formData.password
+                    formData.password,
+                    dispatch
                 );
 
-                // Send verification email and sign out to prevent unverified access.
-                await sendEmailVerification(userCredential.user);
+                await firebase.sendVerificationEmail(userCredential.user);
                 setError("A verification email has been sent. Please verify your email before logging in.");
-                await signOut(auth);
+                await firebase.logout();
             }
         } catch (err: any) {
             if (err.code === "auth/email-already-in-use") {
@@ -126,7 +83,7 @@ const Auth: React.FC = () => {
         setError(null);
         setLoading(true);
         try {
-            const userCredential = await signInWithPopup(auth, googleProvider);
+            const userCredential = await firebase.signInWithProvider('google', dispatch);
             const token = await userCredential.user.getIdToken();
             localStorage.setItem("token", token);
             navigate("/");
@@ -141,7 +98,7 @@ const Auth: React.FC = () => {
         setError(null);
         setLoading(true);
         try {
-            const userCredential = await signInWithPopup(auth, githubProvider);
+            const userCredential = await firebase.signInWithProvider('github', dispatch);
             const token = await userCredential.user.getIdToken();
             localStorage.setItem("token", token);
             navigate("/");
@@ -154,33 +111,15 @@ const Auth: React.FC = () => {
 
     return (
         <section>
-            <motion.div
-                className="auth-container"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
-            >
+            <div className="auth-container">
                 <div className="auth-content">
-                    <motion.div
-                        className="auth-header"
-                        initial={{ y: -20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.2 }}
-                    >
-                        <h1>JavaScript Handbook</h1>
-                        <p>
-                            {isLogin
-                                ? "Sign In to have a better experience"
-                                : "Start today"}
-                        </p>
-                    </motion.div>
+                    <div className="auth-header">
+                        <h1>
+                            {isLogin ? "Sign in to your account" : "Create a new account"}
+                        </h1>
+                    </div>
 
-                    <motion.form
-                        onSubmit={handleSubmit}
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.3 }}
-                    >
+                    <form onSubmit={handleSubmit}>
                         <div className="input-group">
                             <FaEnvelope className="input-icon" />
                             <input
@@ -213,7 +152,7 @@ const Auth: React.FC = () => {
                             </button>
                         </div>
 
-                        {error && <div className="error-message">{error}</div>}
+                        {error && <div className="error-message mb-2 text-red-500 text-center">{error}</div>}
 
                         <button type="submit" className="auth-btn" disabled={loading}>
                             {loading ? "Processing..." : isLogin ? "Login" : "Sign Up"}
@@ -227,14 +166,9 @@ const Auth: React.FC = () => {
                                 {isLogin ? "Sign up" : "Login"}
                             </button>
                         </div>
-                    </motion.form>
+                    </form>
 
-                    <motion.div
-                        className="auth-providers"
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.4 }}
-                    >
+                    <div className="auth-providers">
                         <div className="or-separator">
                             <span>OR</span>
                         </div>
@@ -258,10 +192,10 @@ const Auth: React.FC = () => {
                                 GitHub
                             </button>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
-            </motion.div>
-        </section>
+            </div>
+        </section >
     );
 };
 

@@ -1,34 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import {
-    FaUser, FaEnvelope,
-    FaCog, FaShieldAlt, FaEdit, FaCheck, FaTimes,
-    FaLinkedin,
-    FaGithub,
-    FaTwitter,
-    FaGlobe,
-    FaChartLine,
-    FaTrophy, FaMedal, FaBookReader, FaCode,
-    FaCheckCircle, FaClock, FaFireAlt
-} from 'react-icons/fa';
-import { getAuth, updateProfile, updateEmail, sendEmailVerification } from 'firebase/auth';
+import { FaUser, FaEnvelope, FaEdit, FaCheck, FaTimes, FaLinkedin, FaGithub, FaTwitter, FaGlobe } from 'react-icons/fa';
+import { getAuth, updateProfile, updateEmail, sendEmailVerification, UserProfile } from 'firebase/auth';
 import './Profile.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '../../redux/slices/auth.slice';
-
-interface UserProfile {
-    displayName: string | null;
-    email: string | null;
-    photoUrl: string | null;
-    createdAt: string;
-    emailVerified: boolean;
-    socialLinks?: {
-        github?: string;
-        linkedin?: string;
-        twitter?: string;
-        website?: string;
-    };
-}
+import { User } from '../../api/types/userTypes';
 
 interface ProfileSection {
     id: string;
@@ -36,24 +12,9 @@ interface ProfileSection {
     icon: React.ReactNode;
 }
 
-interface Achievement {
-    id: string;
-    title: string;
-    description: string;
-    progress: number;
-    icon: React.ReactNode;
-    color: string;
-}
-
-interface Streak {
-    current: number;
-    best: number;
-    lastActive: string;
-}
-
 const Profile: React.FC = () => {
     const dispatch = useDispatch();
-    const user = useSelector((state: any) => state.auth);
+    const user = useSelector((state: any) => state.user);
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const [activeSection, setActiveSection] = useState('profile');
@@ -64,11 +25,6 @@ const Profile: React.FC = () => {
         linkedin: '',
         twitter: '',
         website: ''
-    });
-    const [passwordForm, setPasswordForm] = useState({
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
     });
 
     interface EditableField {
@@ -88,41 +44,7 @@ const Profile: React.FC = () => {
 
     const sections: ProfileSection[] = [
         { id: 'profile', title: 'Profile Overview', icon: <FaUser /> },
-        { id: 'My Progress', title: 'My Progress', icon: <FaChartLine /> },
     ];
-
-    const [achievements, setAchievements] = useState<Achievement[]>([
-        {
-            id: 'problems',
-            title: 'Problem Solver',
-            description: 'Problems solved',
-            progress: 65,
-            icon: <FaCode />,
-            color: '#4CAF50'
-        },
-        {
-            id: 'courses',
-            title: 'Course Progress',
-            description: 'Courses completed',
-            progress: 40,
-            icon: <FaBookReader />,
-            color: '#2196F3'
-        },
-        {
-            id: 'streak',
-            title: 'Daily Streak',
-            description: 'Days active',
-            progress: 80,
-            icon: <FaFireAlt />,
-            color: '#FF5722'
-        }
-    ]);
-
-    const [streak, setStreak] = useState<Streak>({
-        current: 7,
-        best: 15,
-        lastActive: 'Today'
-    });
 
     useEffect(() => {
         fetchUserProfile();
@@ -131,19 +53,13 @@ const Profile: React.FC = () => {
     const fetchUserProfile = async () => {
         try {
             const user = auth.currentUser;
+            debugger
             if (user) {
                 const userProfile = {
                     displayName: user.displayName || 'Anonymous User',
                     email: user.email,
                     photoUrl: user.photoURL,
-                    createdAt: new Date(user.metadata.creationTime!).toLocaleDateString(),
                     emailVerified: user.emailVerified,
-                    socialLinks: {
-                        github: '',
-                        linkedin: '',
-                        twitter: '',
-                        website: ''
-                    }
                 };
 
                 // Store user data in Redux
@@ -151,7 +67,7 @@ const Profile: React.FC = () => {
                     displayName: user.displayName || 'Anonymous User',
                     email: user.email || '',
                     photoURL: user.photoURL || '',
-                    uid: user.uid
+                    user_id: user.user_id
                 }));
 
                 setProfile(userProfile);
@@ -198,16 +114,6 @@ const Profile: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    };
-
-    const handlePasswordChange = async (e: React.FormEvent) => {
-        e.preventDefault();
-        // Implement password change logic here
-        setPasswordForm({
-            currentPassword: '',
-            newPassword: '',
-            confirmPassword: ''
-        });
     };
 
     const toggleFieldEdit = (fieldName: EditableField['name']) => {
@@ -372,92 +278,6 @@ const Profile: React.FC = () => {
                                         </button>
                                     </div>
                                 </form>
-                            </div>
-                        )}
-
-                        {activeSection === 'My Progress' && (
-                            <div className="progress-section">
-                                <div className="stats-grid">
-                                    {achievements.map(achievement => (
-                                        <motion.div
-                                            key={achievement.id}
-                                            className="achievement-card"
-                                            initial={{ scale: 0.9, opacity: 0 }}
-                                            animate={{ scale: 1, opacity: 1 }}
-                                            transition={{ duration: 0.3 }}
-                                        >
-                                            <div className="achievement-icon" style={{ backgroundColor: achievement.color }}>
-                                                {achievement.icon}
-                                            </div>
-                                            <div className="achievement-info">
-                                                <h3>{achievement.title}</h3>
-                                                <p>{achievement.description}</p>
-                                                <div className="progress-bar-container">
-                                                    <div
-                                                        className="progress-bar"
-                                                        style={{
-                                                            width: `${achievement.progress}%`,
-                                                            backgroundColor: achievement.color
-                                                        }}
-                                                    />
-                                                </div>
-                                                <span className="progress-text">{achievement.progress}%</span>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
-
-                                <div className="streak-section">
-                                    <motion.div
-                                        className="streak-card"
-                                        initial={{ y: 20, opacity: 0 }}
-                                        animate={{ y: 0, opacity: 1 }}
-                                        transition={{ delay: 0.2 }}
-                                    >
-                                        <div className="streak-header">
-                                            <FaFireAlt className="streak-icon" />
-                                            <h3>Coding Streak</h3>
-                                        </div>
-                                        <div className="streak-stats">
-                                            <div className="streak-stat">
-                                                <span className="streak-value">{streak.current}</span>
-                                                <span className="streak-label">Current Streak</span>
-                                            </div>
-                                            <div className="streak-stat">
-                                                <span className="streak-value">{streak.best}</span>
-                                                <span className="streak-label">Best Streak</span>
-                                            </div>
-                                            <div className="streak-stat">
-                                                <span className="streak-value">{streak.lastActive}</span>
-                                                <span className="streak-label">Last Active</span>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                </div>
-
-                                <div className="recent-activity">
-                                    <h3>Recent Activity</h3>
-                                    <motion.div
-                                        className="activity-timeline"
-                                        initial={{ x: -20, opacity: 0 }}
-                                        animate={{ x: 0, opacity: 1 }}
-                                        transition={{ delay: 0.3 }}
-                                    >
-                                        {[
-                                            { icon: <FaCheckCircle />, text: 'Completed "Advanced JavaScript" course', time: '2 hours ago' },
-                                            { icon: <FaTrophy />, text: 'Earned "Problem Solver" badge', time: '1 day ago' },
-                                            { icon: <FaCode />, text: 'Solved 3 coding challenges', time: '2 days ago' },
-                                        ].map((activity, index) => (
-                                            <div key={index} className="activity-item">
-                                                <div className="activity-icon">{activity.icon}</div>
-                                                <div className="activity-content">
-                                                    <p>{activity.text}</p>
-                                                    <span>{activity.time}</span>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </motion.div>
-                                </div>
                             </div>
                         )}
                     </main>
