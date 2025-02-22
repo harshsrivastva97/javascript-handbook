@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { RootState } from '../../redux/store';
+import { RootState } from '../../redux';
 import { updateTopicStatus } from '../../redux/slices/topicsDataMapSlice';
 import { FaBook, FaCode, FaLaptopCode, FaBrain, FaRocket, FaCheckCircle, FaRegCircle, FaNewspaper } from "react-icons/fa";
 import { BsThreeDots, BsLightningCharge, BsBookHalf } from "react-icons/bs";
@@ -93,32 +93,25 @@ const Home: React.FC = () => {
 
   return (
     <div className="home">
-      <motion.div className="hero-section flex flex-col items-center"
-        variants={{
-          hidden: { opacity: 0, y: 20 },
-          visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
-        }}
-        initial="hidden"
-        animate="visible"
-      >
-        <div className="hero-content">
-          <h1>
+      <div className="hero flex flex-col items-center">
+        <div className="flex flex-col items-center text-center">
+          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
             Your Journey to JavaScript Mastery
           </h1>
-          <p>
+          <p className="text-lg text-gray-300 max-w-2xl mb-8">
             Master JavaScript through interactive learning, comprehensive documentation,
             and hands-on coding exercises. Join thousands of developers on their path to excellence.
           </p>
-          <div className="hero-buttons">
-            <button className="primary-btn" onClick={() => navigate('/concepts')}>
+          <div className="flex gap-4">
+            <button className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold flex items-center gap-2 hover:from-blue-600 hover:to-purple-700 transition-all" onClick={() => navigate('/concepts')}>
               Start Learning <FaRocket />
             </button>
-            <button className="secondary-btn" onClick={() => navigate('/vault')}>
+            <button className="px-6 py-3 border-2 border-purple-500 text-purple-500 rounded-full font-semibold flex items-center gap-2 hover:bg-purple-500 hover:text-white transition-all" onClick={() => navigate('/vault')}>
               Explore Code Vault <FaCode />
             </button>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       <div className="features-section">
         <div className="features-grid">

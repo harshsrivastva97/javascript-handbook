@@ -1,19 +1,20 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { motion } from "framer-motion";
-import Home from "./pages/Home/Home.tsx";
-import Practice from "./pages/Practice/Practice.tsx";
-import Read from "./pages/Read/Read.tsx";
-import Blogs from "./pages/Blogs/Blogs.tsx";
-import Exercises from "./pages/Exercises/Exercises.tsx";
-import About from "./pages/About/About.tsx";
-import PageNotFound from "./components/PageNotFound/PageNotFound.tsx";
-import BlogPost from './pages/BlogPost/BlogPost.tsx';
+import Home from "./pages/Home/Home";
+import Practice from "./pages/Practice/Practice";
+import Read from "./pages/Read/Read";
+import Blogs from "./pages/Blogs/Blogs";
+import Exercises from "./pages/Exercises/Exercises";
+import About from "./pages/About/About";
+import PageNotFound from "./components/PageNotFound/PageNotFound";
+import BlogPost from './pages/BlogPost/BlogPost';
 import { Provider } from 'react-redux';
-import store from './redux/index.ts';
-import Header from "./components/Header/Header.tsx";
-import Auth from "./pages/Auth/Auth.tsx";
-import Profile from "./pages/Profile/Profile.tsx";
+import store from './redux/index';
+import Header from "./components/Header/Header";
+import Auth from "./pages/Auth/Auth";
+import Profile from "./pages/Profile/Profile";
+import './App.scss';
 
 const App: React.FC = () => {
   return (

@@ -1,6 +1,6 @@
-@import 'src/assets/scss/_theme.scss';
+@use "sass:color";
 
-.about-container {
+.about {
   min-height: 100vh;
   max-height: 100vh;
   position: relative;
@@ -278,7 +278,7 @@
 
         &:hover {
           transform: translateY(-2px);
-          background: lighten($accent, 5%);
+          background: color.adjust($accent, $lightness: 5%);
         }
       }
     }
@@ -351,7 +351,7 @@
 }
 
 @media (max-width: 1024px) {
-  .about-container {
+  .about {
     .about-content {
       .main-intro {
         .intro-content {
@@ -396,7 +396,7 @@
 }
 
 @media (max-width: 768px) {
-  .about-container {
+  .about {
     .about-content {
       padding: 1.5rem;
 

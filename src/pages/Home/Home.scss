@@ -1,71 +1,60 @@
-@import 'src/assets/scss/_theme.scss';
-
 .home {
-  overflow: auto;
-  min-height: 100vh;
-  max-height: 100vh;
-
-  .hero-section {
+  .hero {
     padding: 2rem 4rem;
     gap: 3rem;
 
-    .hero-content {
-      max-width: 50rem;
-      text-align: center;
+    &__title {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, #fff, #646cff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+      font-weight: 700;
+    }
 
-      h1 {
-        font-size: clamp(2.2rem, 5vw, 3.5rem);
-        margin-bottom: 1.5rem;
-        background: linear-gradient(90deg, #fff, #646cff);
-        background-clip: text;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        line-height: 1.2;
-        font-weight: 700;
-      }
+    &__description {
+      font-size: clamp(1.1rem, 2vw, 1.3rem);
+      color: #a8b2d1;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
 
-      p {
-        font-size: clamp(1.1rem, 2vw, 1.3rem);
-        color: #a8b2d1;
-        line-height: 1.6;
-        margin-bottom: 2rem;
-      }
+    &__buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
 
-      .hero-buttons {
+      button {
         display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.8rem 1.5rem;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
 
-        button {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.8rem 1.5rem;
-          font-size: 1.1rem;
-          border-radius: 8px;
-          transition: all 0.3s ease;
+        &.primary-btn {
+          background: #646cff;
+          color: white;
+          border: none;
 
-          &.primary-btn {
-            background: #646cff;
-            color: white;
-            border: none;
-
-            &:hover {
-              background: #7c82ff;
-              transform: translateY(-2px);
-            }
+          &:hover {
+            background: #7c82ff;
+            transform: translateY(-2px);
           }
+        }
 
-          &.secondary-btn {
-            background: rgba(100, 108, 255, 0.1);
-            color: #646cff;
-            border: 1px solid #646cff;
+        &.secondary-btn {
+          background: rgba(100, 108, 255, 0.1);
+          color: #646cff;
+          border: 1px solid #646cff;
 
-            &:hover {
-              background: rgba(100, 108, 255, 0.2);
-              transform: translateY(-2px);
-            }
+          &:hover {
+            background: rgba(100, 108, 255, 0.2);
+            transform: translateY(-2px);
           }
         }
       }
