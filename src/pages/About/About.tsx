@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import {
   FaCode,
   FaLightbulb,
@@ -11,253 +10,191 @@ import {
   FaNpm,
   FaVuejs,
   FaGithub,
+  FaRocket,
 } from "react-icons/fa";
 import { SiTypescript } from "react-icons/si";
 
 const About: React.FC = () => {
   return (
-    <motion.div
-      className="min-h-screen max-h-screen relative overflow-auto text-white"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
-      <div className="max-w-[74rem] mx-auto p-8 pb-24 relative z-10">
-        <section className="mb-8">
-          <motion.div
-            className="bg-[rgba(15,23,41,0.6)] p-8 lg:p-12 rounded-2xl relative overflow-hidden border border-white/[0.08] backdrop-blur-md"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#646cff] to-[#a8b2d1]" />
+    <div className="bg-gray-900 min-h-screen pt-10">
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
+          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+            About JavaScript Handbook
+          </h1>
+          <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+            An open-source platform dedicated to making JavaScript education accessible,
+            interactive, and community-driven.
+          </p>
+        </div>
 
-            <motion.h1
-              className="text-5xl font-extrabold mb-6 bg-gradient-to-r from-white to-[#646cff] bg-clip-text text-transparent -tracking-wider"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              About
-            </motion.h1>
-
-            <div className="flex gap-16 items-center">
-              <div className="flex-1">
-                <p className="text-[#a8b2d1] leading-relaxed text-lg mb-6">
-                  As a front-end developer, mastering JavaScript is essential, whether you're gearing up for job interviews or enhancing your personal skill set. Recognizing the scarcity of comprehensive and freely accessible resources on this pivotal topic, we have JavaScript Handbook, an open-source, community-driven platform dedicated to high-quality JavaScript education. Here, developers can engage with interactive learning modules, practice through real-life coding challenges, and achieve a profound understanding of JavaScript.
-                </p>
-                <p className="text-[#a8b2d1] leading-relaxed text-lg">
-                  Join us and contribute to a thriving open-source community that values knowledge sharing and collective improvement. Together, we'll navigate the complexities of JavaScript, transforming challenges into opportunities for growth.
-                </p>
-              </div>
-
-              <div className="w-80 h-80 relative flex-shrink-0 hidden lg:block">
-                <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(100,108,255,0.1)_0%,transparent_70%)] rounded-full" />
-                <motion.div
-                  className="w-full h-full relative flex items-center justify-center"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  {/* Core Icon */}
-                  <motion.div
-                    className="absolute w-16 h-16 flex items-center justify-center text-4xl bg-[rgba(15,23,41,0.9)] border border-white/10 rounded-xl backdrop-blur text-[#f7df1e] z-30 shadow-lg"
-                    animate={{
-                      scale: [1, 1.05, 1],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  >
-                    <FaJsSquare />
-                  </motion.div>
-
-                  {/* Framework Layer */}
-                  <div className="absolute w-[180px] h-[180px]">
-                    {/* React */}
-                    <motion.div
-                      className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-12 flex items-center justify-center text-2xl bg-[rgba(15,23,41,0.8)] border border-white/10 rounded-xl backdrop-blur text-[#61dafb]"
-                      animate={{ y: [-3, 3] }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <FaReact />
-                    </motion.div>
-
-                    {/* Vue */}
-                    <motion.div
-                      className="absolute bottom-0 right-0 w-12 h-12 flex items-center justify-center text-2xl bg-[rgba(15,23,41,0.8)] border border-white/10 rounded-xl backdrop-blur text-[#42b883]"
-                      animate={{ y: [3, -3] }}
-                      transition={{
-                        duration: 2.5,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <FaVuejs />
-                    </motion.div>
-
-                    {/* TypeScript */}
-                    <motion.div
-                      className="absolute bottom-0 left-0 w-12 h-12 flex items-center justify-center text-2xl bg-[rgba(15,23,41,0.8)] border border-white/10 rounded-xl backdrop-blur text-[#3178c6]"
-                      animate={{ y: [-3, 3] }}
-                      transition={{
-                        duration: 2.2,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <SiTypescript />
-                    </motion.div>
-                  </div>
-
-                  {/* Tools Layer */}
-                  <div className="absolute w-[240px] h-[240px]">
-                    <motion.div
-                      className="absolute top-[20%] left-0 w-12 h-12 flex items-center justify-center text-2xl bg-[rgba(15,23,41,0.8)] border border-white/10 rounded-xl backdrop-blur text-[#68a063]"
-                      animate={{ y: [2, -2] }}
-                      transition={{
-                        duration: 2.3,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <FaNodeJs />
-                    </motion.div>
-
-                    <motion.div
-                      className="absolute top-[20%] right-0 w-12 h-12 flex items-center justify-center text-2xl bg-[rgba(15,23,41,0.8)] border border-white/10 rounded-xl backdrop-blur text-[#cb3837]"
-                      animate={{ y: [-2, 2] }}
-                      transition={{
-                        duration: 2.1,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <FaNpm />
-                    </motion.div>
-
-                    <motion.div
-                      className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-12 h-12 flex items-center justify-center text-2xl bg-[rgba(15,23,41,0.8)] border border-white/10 rounded-xl backdrop-blur text-white"
-                      animate={{ y: [2, -2] }}
-                      transition={{
-                        duration: 2.4,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <FaGithub />
-                    </motion.div>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </motion.div>
-        </section>
-
-        <section className="mb-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Feature Cards */}
-            <motion.div
-              className="bg-[rgba(15,23,41,0.6)] rounded-2xl border border-white/[0.08] backdrop-blur-md overflow-hidden transition-transform hover:-translate-y-1"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              <div className="p-10 relative group">
-                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#646cff] to-[#a8b2d1] opacity-0 group-hover:opacity-100 transition-opacity" />
-                <FaCode className="text-4xl text-[#646cff] mb-6 transition-transform group-hover:scale-110" />
-                <h2 className="text-xl font-semibold mb-4">Interactive Learning</h2>
-                <p className="text-[#a8b2d1] leading-relaxed">
-                  Explore JavaScript with our hands-on platform, blending theory with practical exercises. Master advanced techniques and best practices while engaging with real-world scenarios designed for modern web development.
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="bg-[rgba(15,23,41,0.6)] rounded-2xl border border-white/[0.08] backdrop-blur-md overflow-hidden transition-transform hover:-translate-y-1"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              <div className="p-10 relative group">
-                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#646cff] to-[#a8b2d1] opacity-0 group-hover:opacity-100 transition-opacity" />
-                <FaLightbulb className="text-4xl text-[#646cff] mb-6 transition-transform group-hover:scale-110" />
-                <h2 className="text-xl font-semibold mb-4">Our Vision</h2>
-                <p className="text-[#a8b2d1] leading-relaxed">
-                  Envisioning a world where developers at all levels access top JavaScript resources, our platform thrives on community contributions and collaborative learning, actively shaping the future of JavaScript in web development.
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="bg-[rgba(15,23,41,0.6)] rounded-2xl border border-white/[0.08] backdrop-blur-md overflow-hidden transition-transform hover:-translate-y-1"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              <div className="p-10 relative group">
-                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#646cff] to-[#a8b2d1] opacity-0 group-hover:opacity-100 transition-opacity" />
-                <FaUsers className="text-4xl text-[#646cff] mb-6 transition-transform group-hover:scale-110" />
-                <h2 className="text-xl font-semibold mb-4">Join Our Community</h2>
-                <p className="text-[#a8b2d1] leading-relaxed">
-                  At JavaScript Handbook, we turn challenges into opportunities and ideas into reality. Dive into JavaScript, raise your first PR, and collaborate with peers to create innovative solutions. Your contributions drive our collective creativity and success.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <motion.footer
-          className="fixed bottom-0 left-0 right-0 bg-[rgba(15,23,41,0.95)] py-4 border-t border-white/[0.08] backdrop-blur z-50"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-        >
-          <div className="max-w-[74rem] mx-auto px-8 flex justify-center items-center gap-8 text-sm flex-wrap">
-            <p className="flex items-center gap-2 text-[#a8b2d1]">
-              Made with <FaHeart className="text-[#ff4d4d]" /> by{" "}
-              <a
-                href="https://www.linkedin.com/in/harsh-srivastva/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#646cff] font-medium hover:underline"
-              >
-                Harsh Srivastva
-              </a>
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
+          <div className="bg-gray-800 rounded-xl p-8 border border-purple-500/20">
+            <h2 className="text-2xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+              Our Mission
+            </h2>
+            <p className="text-gray-300 leading-relaxed mb-6">
+              As a front-end developer, mastering JavaScript is essential, whether you're gearing up
+              for job interviews or enhancing your personal skill set. Recognizing the scarcity of
+              comprehensive and freely accessible resources on this pivotal topic, we created
+              JavaScript Handbook.
             </p>
-            <div className="flex items-center gap-4">
-              <a
-                href="https://github.com/harshsrivastva97/javascript-handbook"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#a8b2d1] hover:text-[#646cff] transition-colors"
+            <p className="text-gray-300 leading-relaxed">
+              Join us and contribute to a thriving open-source community that values knowledge
+              sharing and collective improvement. Together, we'll navigate the complexities of
+              JavaScript, transforming challenges into opportunities for growth.
+            </p>
+          </div>
+
+          <div className="bg-gray-800 rounded-xl p-8 border border-purple-500/20">
+            <div className="w-full h-full relative flex items-center justify-center">
+              {/* Core Icon */}
+              <div
+                className="absolute w-16 h-16 flex items-center justify-center text-4xl bg-[rgba(15,23,41,0.9)] border border-white/10 rounded-xl backdrop-blur text-[#f7df1e] z-30 shadow-lg"
               >
-                GitHub
-              </a>
-              <span className="text-white/30">•</span>
-              <a
-                href="mailto:harsh.srivastva97@gmail.com"
-                className="text-[#a8b2d1] hover:text-[#646cff] transition-colors"
-              >
-                Report an Issue
-              </a>
+                <FaJsSquare />
+              </div>
+
+              {/* Framework Layer */}
+              <div className="absolute w-[180px] h-[180px]">
+                {/* React */}
+                <div
+                  className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-12 flex items-center justify-center text-2xl bg-[rgba(15,23,41,0.8)] border border-white/10 rounded-xl backdrop-blur text-[#61dafb]"
+                >
+                  <FaReact />
+                </div>
+
+                {/* Vue */}
+                <div
+                  className="absolute bottom-0 right-0 w-12 h-12 flex items-center justify-center text-2xl bg-[rgba(15,23,41,0.8)] border border-white/10 rounded-xl backdrop-blur text-[#42b883]"
+                >
+                  <FaVuejs />
+                </div>
+
+                {/* TypeScript */}
+                <div
+                  className="absolute bottom-0 left-0 w-12 h-12 flex items-center justify-center text-2xl bg-[rgba(15,23,41,0.8)] border border-white/10 rounded-xl backdrop-blur text-[#3178c6]"
+                >
+                  <SiTypescript />
+                </div>
+              </div>
+
+              {/* Tools Layer */}
+              <div className="absolute w-[240px] h-[240px]">
+                <div
+                  className="absolute top-[20%] left-0 w-12 h-12 flex items-center justify-center text-2xl bg-[rgba(15,23,41,0.8)] border border-white/10 rounded-xl backdrop-blur text-[#68a063]"
+                >
+                  <FaNodeJs />
+                </div>
+
+                <div
+                  className="absolute top-[20%] right-0 w-12 h-12 flex items-center justify-center text-2xl bg-[rgba(15,23,41,0.8)] border border-white/10 rounded-xl backdrop-blur text-[#cb3837]"
+                >
+                  <FaNpm />
+                </div>
+
+                <div
+                  className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-12 h-12 flex items-center justify-center text-2xl bg-[rgba(15,23,41,0.8)] border border-white/10 rounded-xl backdrop-blur text-white"
+                >
+                  <FaGithub />
+                </div>
+              </div>
             </div>
           </div>
-        </motion.footer>
+        </div>
+
+        {/* Features Grid */}
+        <div className="mb-20">
+          <h2 className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+            What Sets Us Apart
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-6 rounded-xl bg-gray-800 hover:bg-gray-750 transition-all border border-purple-500/20">
+              <div className="text-3xl mb-4 text-purple-500">
+                <FaCode />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Interactive Learning</h3>
+              <p className="text-gray-400">
+                Explore JavaScript with our hands-on platform, blending theory with practical
+                exercises designed for modern web development.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-xl bg-gray-800 hover:bg-gray-750 transition-all border border-purple-500/20">
+              <div className="text-3xl mb-4 text-purple-500">
+                <FaLightbulb />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Our Vision</h3>
+              <p className="text-gray-400">
+                Creating a world where developers at all levels can access top-quality JavaScript
+                resources and contribute to collective learning.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-xl bg-gray-800 hover:bg-gray-750 transition-all border border-purple-500/20">
+              <div className="text-3xl mb-4 text-purple-500">
+                <FaUsers />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Community Driven</h3>
+              <p className="text-gray-400">
+                Join our thriving community of developers, contribute to open source, and shape
+                the future of JavaScript learning.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="text-center py-16 px-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-purple-600/10 border border-purple-500/20">
+          <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+            Ready to Join Our Community?
+          </h2>
+          <p className="text-gray-400 mb-8">
+            Contribute to open source and help shape the future of JavaScript education.
+          </p>
+          <button
+            className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold flex items-center gap-2 hover:from-blue-600 hover:to-purple-700 transition-all mx-auto"
+            onClick={() => window.open('https://github.com/harshsrivastva97/javascript-handbook', '_blank')}
+          >
+            Join on GitHub <FaRocket />
+          </button>
+        </div>
+
+        {/* Footer */}
+        <footer className="mt-20 text-center">
+          <p className="flex items-center justify-center gap-2 text-gray-400">
+            Made with <FaHeart className="text-red-500" /> by{" "}
+            <a
+              href="https://www.linkedin.com/in/harsh-srivastva/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-purple-500 hover:text-purple-400 transition-colors"
+            >
+              Harsh Srivastva
+            </a>
+          </p>
+          <div className="flex items-center justify-center gap-4 mt-4">
+            <a
+              href="https://github.com/harshsrivastva97/javascript-handbook"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-purple-500 transition-colors"
+            >
+              GitHub
+            </a>
+            <span className="text-gray-600">•</span>
+            <a
+              href="mailto:harsh.srivastva97@gmail.com"
+              className="text-gray-400 hover:text-purple-500 transition-colors"
+            >
+              Report an Issue
+            </a>
+          </div>
+        </footer>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

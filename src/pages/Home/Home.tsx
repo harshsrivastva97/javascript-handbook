@@ -1,16 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { RootState } from '../../redux';
 import { updateTopicStatus } from '../../redux/slices/topicsDataMapSlice';
 import { FaBook, FaCode, FaLaptopCode, FaBrain, FaRocket, FaCheckCircle, FaRegCircle, FaNewspaper } from "react-icons/fa";
 import { BsThreeDots, BsLightningCharge, BsBookHalf } from "react-icons/bs";
-import { Tooltip } from 'react-tooltip';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { listOfConcepts } from '../../data/concepts';
-import "./Home.scss";
 
 interface Topic {
   id: number;
@@ -40,11 +37,11 @@ const Home: React.FC = () => {
   };
 
   const navigateToConcept = (conceptId: number) => {
-    navigate(`/concepts?conceptId=${conceptId}`);
+    navigate(`/read?conceptId=${conceptId}`);
   };
 
   const navigateToCodeVault = (conceptId: number) => {
-    navigate(`/vault?concept=${conceptId}`);
+    navigate(`/practice?concept=${conceptId}`);
   };
 
   const features = [
@@ -87,12 +84,12 @@ const Home: React.FC = () => {
       icon: <FaBook />,
       title: "Deep Dives",
       description: "Explore in-depth articles on complex JavaScript topics.",
-      link: "/concepts"
+      link: "/read"
     }
   ];
 
   return (
-    <div className="home">
+    <div className="home bg-gray-900 min-h-screen pt-10">
       <div className="hero flex flex-col items-center">
         <div className="flex flex-col items-center text-center">
           <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
@@ -103,171 +100,170 @@ const Home: React.FC = () => {
             and hands-on coding exercises. Join thousands of developers on their path to excellence.
           </p>
           <div className="flex gap-4">
-            <button className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold flex items-center gap-2 hover:from-blue-600 hover:to-purple-700 transition-all" onClick={() => navigate('/concepts')}>
+            <button className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold flex items-center gap-2 hover:from-blue-600 hover:to-purple-700 transition-all" onClick={() => navigate('/read')}>
               Start Learning <FaRocket />
             </button>
-            <button className="px-6 py-3 border-2 border-purple-500 text-purple-500 rounded-full font-semibold flex items-center gap-2 hover:bg-purple-500 hover:text-white transition-all" onClick={() => navigate('/vault')}>
+            <button className="px-6 py-3 border-2 border-purple-500 text-purple-500 rounded-full font-semibold flex items-center gap-2 hover:bg-purple-500 hover:text-white transition-all" onClick={() => navigate('/practice')}>
               Explore Code Vault <FaCode />
             </button>
           </div>
         </div>
       </div>
 
-      <div className="features-section">
-        <div className="features-grid">
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              className="feature-card"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-              }}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: index * 0.1 }}
-            >
-              <div className="feature-icon">{feature.icon}</div>
-              <h3>{feature.title}</h3>
-              <p>{feature.description}</p>
-            </motion.div>
-          ))}
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        {/* Features Section */}
+        <div className="mb-20">
+          <h2 className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+            Why Choose Our Platform?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <div
+                key={feature.title}
+                className="p-6 rounded-xl bg-gray-800 hover:bg-gray-750 transition-all"
+              >
+                <div className="text-3xl mb-4 text-purple-500">{feature.icon}</div>
+                <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
+                <p className="text-gray-400">{feature.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="topics-section p-8">
-        <div className="section-header">
-          <h2>Learning Path</h2>
-          <p>Track your progress through essential JavaScript concepts</p>
-        </div>
-        <div className="flex items-center justify-around">
-          <div className="topics-table-container">
-            <table className="topics-table">
-              <thead>
-                <tr>
-                  <th>Topic</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {listOfConcepts.map((concept) => {
-                  const topicStatus = topics.find((t: Topic) => t.id === concept.id)?.status || 'pending';
-                  return (
-                    <tr key={concept.id}>
-                      <td className="flex items-center">{concept.title}</td>
-                      <td>
-                        <div
-                          className="status-toggle"
-                          onClick={() => {
-                            const nextStatus = {
-                              pending: "in-progress",
-                              "in-progress": "completed",
-                              completed: "pending"
-                            } as const;
-                            handleStatusChange(concept.id, nextStatus[topicStatus as keyof typeof nextStatus]);
-                          }}
-                        >
-                          <div className={`status-icon ${topicStatus}`}>
-                            {topicStatus === 'completed' && <FaCheckCircle />}
-                            {topicStatus === 'in-progress' && <BsThreeDots />}
-                            {topicStatus === 'pending' && <FaRegCircle />}
+        {/* Topics Section */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+              Your Learning Journey
+            </h2>
+            <p className="text-gray-400">Track your progress through essential JavaScript concepts</p>
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-8">
+            <div className="flex-grow bg-gray-800 rounded-xl p-6">
+              <table className="w-full">
+                <thead>
+                  <tr className="text-gray-400 border-b border-gray-700">
+                    <th className="text-left py-3 px-4">Topic</th>
+                    <th className="text-left py-3 px-4">Status</th>
+                    <th className="text-left py-3 px-4">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {listOfConcepts.map((concept) => {
+                    const topicStatus = topics.find((t: Topic) => t.id === concept.id)?.status || 'pending';
+                    return (
+                      <tr key={concept.id} className="border-b border-gray-700">
+                        <td className="py-3 px-4 text-white">{concept.title}</td>
+                        <td className="py-3 px-4">
+                          <div
+                            className="flex items-center gap-2 cursor-pointer"
+                            onClick={() => {
+                              const nextStatus = {
+                                pending: "in-progress",
+                                "in-progress": "completed",
+                                completed: "pending"
+                              } as const;
+                              handleStatusChange(concept.id, nextStatus[topicStatus as keyof typeof nextStatus]);
+                            }}
+                          >
+                            <div className={`text-xl ${topicStatus === 'completed' ? 'text-green-500' :
+                              topicStatus === 'in-progress' ? 'text-yellow-500' :
+                                'text-gray-500'
+                              }`}>
+                              {topicStatus === 'completed' && <FaCheckCircle />}
+                              {topicStatus === 'in-progress' && <BsThreeDots />}
+                              {topicStatus === 'pending' && <FaRegCircle />}
+                            </div>
+                            <span className="text-gray-400">
+                              {topicStatus === 'completed' && 'Mastered'}
+                              {topicStatus === 'in-progress' && 'Learning'}
+                              {topicStatus === 'pending' && 'To Learn'}
+                            </span>
                           </div>
-                          <span className="status-text">
-                            {topicStatus === 'completed' && 'Mastered'}
-                            {topicStatus === 'in-progress' && 'Learning'}
-                            {topicStatus === 'pending' && 'To Learn'}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="actions">
-                        <button
-                          data-tooltip-id={`readme-${concept.id}`}
-                          onClick={() => navigateToConcept(concept.id)}
-                        >
-                          <FaBook />
-                        </button>
-                        <Tooltip id={`readme-${concept.id}`} place="top">
-                          Read Documentation
-                        </Tooltip>
-
-                        <button
-                          data-tooltip-id={`practice-${concept.id}`}
-                          onClick={() => navigateToCodeVault(concept.id)}
-                        >
-                          <FaCode />
-                        </button>
-                        <Tooltip id={`practice-${concept.id}`} place="top">
-                          Practice Code
-                        </Tooltip>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-          <div className="progress-chart-container">
-            <svg style={{ height: 0 }}>
-              <defs>
-                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#12c2e9" />
-                  <stop offset="50%" stopColor="#c471ed" />
-                  <stop offset="100%" stopColor="#f64f59" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <div className="progress-chart">
-              <CircularProgressbar
-                value={calculateProgress()}
-                text={`${calculateProgress()}%`}
-                styles={buildStyles({
-                  pathColor: `url(#progressGradient)`,
-                  textColor: '#ffffff',
-                  trailColor: 'rgba(255, 255, 255, 0.2)',
-                  pathTransition: 'stroke-dashoffset 0.5s ease-in-out',
-                  strokeLinecap: 'round',
-                  textSize: '16px',
-                  pathTransitionDuration: 0.5
-                })}
-              />
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="flex gap-3">
+                            <button
+                              className="text-blue-500 hover:text-blue-400 transition-colors"
+                              onClick={() => navigateToConcept(concept.id)}
+                              data-tooltip-id={`readme-${concept.id}`}
+                            >
+                              <FaBook />
+                            </button>
+                            <button
+                              className="text-purple-500 hover:text-purple-400 transition-colors"
+                              onClick={() => navigateToCodeVault(concept.id)}
+                              data-tooltip-id={`practice-${concept.id}`}
+                            >
+                              <FaCode />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-            <p className="progress-text">Your Learning Progress</p>
+
+            <div className="lg:w-80 bg-gray-800 rounded-xl p-6 flex flex-col items-center">
+              <div className="w-48 mb-4">
+                <CircularProgressbar
+                  value={calculateProgress()}
+                  text={`${calculateProgress()}%`}
+                  styles={buildStyles({
+                    pathColor: `url(#progressGradient)`,
+                    textColor: '#ffffff',
+                    trailColor: 'rgba(255, 255, 255, 0.2)',
+                    pathTransitionDuration: 0.5
+                  })}
+                />
+              </div>
+              <p className="text-gray-400 text-center">Overall Progress</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="cta-section">
-        <div className="cta-content">
-          <h2>Ready to Level Up Your JavaScript Skills?</h2>
-          <p>Start your learning journey today and join our community of developers.</p>
-          <button className="primary-btn" onClick={() => window.open('https://github.com/harshsrivastva97/javascript-handbook', '_blank')}>
+        {/* CTA Section */}
+        <div className="mb-20 text-center py-16 px-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-purple-600/10 border border-purple-500/20">
+          <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+            Ready to Level Up Your JavaScript Skills?
+          </h2>
+          <p className="text-gray-400 mb-8">
+            Start your learning journey today and join our community of developers.
+          </p>
+          <button
+            className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold flex items-center gap-2 hover:from-blue-600 hover:to-purple-700 transition-all mx-auto"
+            onClick={() => window.open('https://github.com/harshsrivastva97/javascript-handbook', '_blank')}
+          >
             Begin Your Journey <FaRocket />
           </button>
         </div>
-      </div>
 
-      <div className="explore-section">
-        <h2>Explore More</h2>
-        <div className="explore-grid">
-          {exploreSections.map((section, index) => (
-            <motion.div
-              key={section.title}
-              className="explore-card"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-              }}
-              initial="hidden"
-              animate="visible"
-              transition={{ delay: 0.2 + index * 0.1 }}
-            >
-              <div className="explore-icon">{section.icon}</div>
-              <h3>{section.title}</h3>
-              <p>{section.description}</p>
-              <button onClick={() => navigate(section.link)}>Learn More</button>
-            </motion.div>
-          ))}
+        {/* Explore Section */}
+        <div>
+          <h2 className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+            Explore More
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {exploreSections.map((section, index) => (
+              <div
+                key={section.title}
+                className="p-6 rounded-xl bg-gray-800 hover:bg-gray-750 transition-all"
+              >
+                <div className="text-3xl mb-4 text-purple-500">{section.icon}</div>
+                <h3 className="text-xl font-semibold text-white mb-2">{section.title}</h3>
+                <p className="text-gray-400 mb-4">{section.description}</p>
+                <button
+                  className="text-purple-500 hover:text-purple-400 transition-colors font-semibold flex items-center gap-2"
+                  onClick={() => navigate(section.link)}
+                >
+                  Learn More <FaRocket className="text-sm" />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
