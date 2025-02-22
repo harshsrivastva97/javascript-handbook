@@ -110,7 +110,7 @@ const Auth: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 h-[calc(100vh-64px)]">
             <div className="max-w-md w-full space-y-8 bg-gray-800 p-8 rounded-xl border border-purple-500/20">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">

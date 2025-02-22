@@ -1,7 +1,5 @@
 .exercises-container {
-  height: calc(100vh - 4rem);
   padding: 2rem;
-  overflow: auto;
   max-width: 74rem;
   margin: 0 auto;
 
@@ -322,6 +320,11 @@
         }
       }
     }
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
 }
 

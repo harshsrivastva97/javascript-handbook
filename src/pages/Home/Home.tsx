@@ -89,7 +89,7 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <div className="home bg-gray-900 min-h-screen pt-10">
+    <div className="home scrollable bg-gray-900 min-h-screen pt-10 pb-6">
       <div className="hero flex flex-col items-center">
         <div className="flex flex-col items-center text-center">
           <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
@@ -139,88 +139,102 @@ const Home: React.FC = () => {
             <p className="text-gray-400">Track your progress through essential JavaScript concepts</p>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-8">
-            <div className="flex-grow bg-gray-800 rounded-xl p-6">
-              <table className="w-full">
-                <thead>
-                  <tr className="text-gray-400 border-b border-gray-700">
-                    <th className="text-left py-3 px-4">Topic</th>
-                    <th className="text-left py-3 px-4">Status</th>
-                    <th className="text-left py-3 px-4">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {listOfConcepts.map((concept) => {
-                    const topicStatus = topics.find((t: Topic) => t.id === concept.id)?.status || 'pending';
-                    return (
-                      <tr key={concept.id} className="border-b border-gray-700">
-                        <td className="py-3 px-4 text-white">{concept.title}</td>
-                        <td className="py-3 px-4">
-                          <div
-                            className="flex items-center gap-2 cursor-pointer"
-                            onClick={() => {
-                              const nextStatus = {
-                                pending: "in-progress",
-                                "in-progress": "completed",
-                                completed: "pending"
-                              } as const;
-                              handleStatusChange(concept.id, nextStatus[topicStatus as keyof typeof nextStatus]);
-                            }}
-                          >
-                            <div className={`text-xl ${topicStatus === 'completed' ? 'text-green-500' :
-                              topicStatus === 'in-progress' ? 'text-yellow-500' :
-                                'text-gray-500'
-                              }`}>
-                              {topicStatus === 'completed' && <FaCheckCircle />}
-                              {topicStatus === 'in-progress' && <BsThreeDots />}
-                              {topicStatus === 'pending' && <FaRegCircle />}
-                            </div>
-                            <span className="text-gray-400">
-                              {topicStatus === 'completed' && 'Mastered'}
-                              {topicStatus === 'in-progress' && 'Learning'}
-                              {topicStatus === 'pending' && 'To Learn'}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="py-3 px-4">
-                          <div className="flex gap-3">
-                            <button
-                              className="text-blue-500 hover:text-blue-400 transition-colors"
-                              onClick={() => navigateToConcept(concept.id)}
-                              data-tooltip-id={`readme-${concept.id}`}
-                            >
-                              <FaBook />
-                            </button>
-                            <button
-                              className="text-purple-500 hover:text-purple-400 transition-colors"
-                              onClick={() => navigateToCodeVault(concept.id)}
-                              data-tooltip-id={`practice-${concept.id}`}
-                            >
-                              <FaCode />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="lg:w-80 bg-gray-800 rounded-xl p-6 flex flex-col items-center">
-              <div className="w-48 mb-4">
-                <CircularProgressbar
-                  value={calculateProgress()}
-                  text={`${calculateProgress()}%`}
-                  styles={buildStyles({
-                    pathColor: `url(#progressGradient)`,
-                    textColor: '#ffffff',
-                    trailColor: 'rgba(255, 255, 255, 0.2)',
-                    pathTransitionDuration: 0.5
-                  })}
-                />
+          <div className="bg-gray-800 rounded-xl p-6">
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Progress Section */}
+              <div className="lg:w-64 flex flex-col items-center justify-center p-4 border-b lg:border-b-0 lg:border-r border-gray-700">
+                <div className="w-48 mb-4">
+                  <CircularProgressbar
+                    value={calculateProgress()}
+                    text={`${calculateProgress()}%`}
+                    styles={buildStyles({
+                      pathColor: `url(#progressGradient)`,
+                      textColor: '#ffffff',
+                      trailColor: 'rgba(255, 255, 255, 0.2)',
+                      pathTransitionDuration: 0.5
+                    })}
+                  />
+                </div>
+                <p className="text-gray-400 text-center font-medium">Overall Progress</p>
+                <p className="text-sm text-gray-500 text-center mt-2">
+                  {topics.filter((t: Topic) => t.status === "completed").length} of {listOfConcepts.length} concepts mastered
+                </p>
               </div>
-              <p className="text-gray-400 text-center">Overall Progress</p>
+
+              {/* Table Section */}
+              <div className="flex-grow">
+                <div className="overflow-hidden">
+                  <div className="overflow-y-auto" style={{ maxHeight: '600px' }}>
+                    <table className="w-full">
+                      <thead className="sticky top-0 bg-gray-800 z-10">
+                        <tr className="text-gray-400 border-b border-gray-700">
+                          <th className="text-left py-3 px-4 font-semibold">Topic</th>
+                          <th className="text-left py-3 px-4 font-semibold">Status</th>
+                          <th className="text-left py-3 px-4 font-semibold">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-700">
+                        {listOfConcepts.map((concept) => {
+                          const topicStatus = topics.find((t: Topic) => t.id === concept.id)?.status || 'pending';
+                          return (
+                            <tr key={concept.id} className="hover:bg-gray-750 transition-colors">
+                              <td className="py-4 px-4 text-white">{concept.title}</td>
+                              <td className="py-4 px-4">
+                                <div
+                                  className="flex items-center gap-2 cursor-pointer"
+                                  onClick={() => {
+                                    const nextStatus = {
+                                      pending: "in-progress",
+                                      "in-progress": "completed",
+                                      completed: "pending"
+                                    } as const;
+                                    handleStatusChange(concept.id, nextStatus[topicStatus as keyof typeof nextStatus]);
+                                  }}
+                                >
+                                  <div className={`text-xl ${topicStatus === 'completed' ? 'text-green-500' :
+                                      topicStatus === 'in-progress' ? 'text-yellow-500' :
+                                        'text-gray-500'
+                                    }`}>
+                                    {topicStatus === 'completed' && <FaCheckCircle />}
+                                    {topicStatus === 'in-progress' && <BsThreeDots />}
+                                    {topicStatus === 'pending' && <FaRegCircle />}
+                                  </div>
+                                  <span className={`text-sm font-medium ${topicStatus === 'completed' ? 'text-green-500' :
+                                      topicStatus === 'in-progress' ? 'text-yellow-500' :
+                                        'text-gray-400'
+                                    }`}>
+                                    {topicStatus === 'completed' && 'Mastered'}
+                                    {topicStatus === 'in-progress' && 'Learning'}
+                                    {topicStatus === 'pending' && 'To Learn'}
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="py-4 px-4">
+                                <div className="flex gap-3">
+                                  <button
+                                    className="p-2 text-blue-500 hover:bg-blue-500/10 rounded-lg transition-colors"
+                                    onClick={() => navigateToConcept(concept.id)}
+                                    data-tooltip-id={`readme-${concept.id}`}
+                                  >
+                                    <FaBook />
+                                  </button>
+                                  <button
+                                    className="p-2 text-purple-500 hover:bg-purple-500/10 rounded-lg transition-colors"
+                                    onClick={() => navigateToCodeVault(concept.id)}
+                                    data-tooltip-id={`practice-${concept.id}`}
+                                  >
+                                    <FaCode />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

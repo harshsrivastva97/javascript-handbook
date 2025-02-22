@@ -1,26 +1,224 @@
 .code-vault {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-  color: #e0e0e0;
+  display: flex;
+  height: 100vh;
+  background-color: var(--background);
+  color: var(--text);
 
-  &__main {
-    position: relative;
-    height: 100vh;
-    overflow: hidden;
+  .sidebar {
+    width: 300px;
+    min-width: 300px;
+    background: var(--sidebar-bg, #1a1a1a);
+    border-right: 1px solid var(--border-color, #2a2a2a);
+    height: 100%;
+    overflow-y: auto;
+
+    &__header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border-color, #2a2a2a);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: var(--hover-bg, #252525);
+      }
+
+      .progress-indicator {
+        .progress-text {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.5rem;
+          font-size: 0.9rem;
+          color: var(--text-muted, #a0a0a0);
+
+          .reset-button {
+            background: none;
+            border: none;
+            color: var(--text-muted, #a0a0a0);
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+
+            &:hover {
+              background-color: var(--hover-bg, #252525);
+              color: var(--text);
+            }
+          }
+        }
+
+        .progress-bar {
+          height: 4px;
+          background-color: var(--progress-bg, #2a2a2a);
+          border-radius: 2px;
+          overflow: hidden;
+
+          .progress-fill {
+            height: 100%;
+            background-color: var(--accent-color, #4CAF50);
+            transition: width 0.3s ease;
+          }
+        }
+      }
+    }
+
+    &__nav {
+      padding: 1rem 0;
+
+      &-item {
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+
+        &:hover {
+          background-color: var(--hover-bg, #252525);
+        }
+
+        &.active {
+          background-color: var(--active-bg, #2a2a2a);
+          border-left-color: var(--accent-color, #4CAF50);
+        }
+
+        .nav-item-label {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          span {
+            font-size: 0.95rem;
+          }
+
+          .nav-item-actions {
+            .status-icon {
+              background: none;
+              border: none;
+              padding: 4px 8px;
+              cursor: pointer;
+              color: var(--text-muted, #a0a0a0);
+              transition: all 0.2s ease;
+              border-radius: 4px;
+
+              &.completed {
+                color: var(--accent-color, #4CAF50);
+              }
+
+              &:hover {
+                background-color: var(--hover-bg, #252525);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &__footer {
+      padding: 1.5rem;
+      border-top: 1px solid var(--border-color, #2a2a2a);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text-muted, #a0a0a0);
+      font-size: 0.9rem;
+
+      .footer-icon {
+        font-size: 1.2rem;
+      }
+    }
   }
 
-  &__content {
-    height: 100%;
+  .reset-confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 
-    .editor-container {
-      height: calc(100vh - 3rem);
-      border-radius: 12px;
-      overflow: hidden;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    .reset-confirm-dialog {
+      background-color: var(--dialog-bg, #2a2a2a);
+      padding: 1.5rem;
+      border-radius: 8px;
+      min-width: 300px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+      h3 {
+        margin: 0 0 1rem 0;
+        color: var(--text);
+      }
+
+      p {
+        margin: 0 0 1.5rem 0;
+        color: var(--text-muted, #a0a0a0);
+      }
+
+      .reset-confirm-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+
+        .reset-confirm-button {
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          border: none;
+          cursor: pointer;
+          font-size: 0.9rem;
+          transition: all 0.2s ease;
+
+          &.cancel {
+            background-color: transparent;
+            color: var(--text-muted, #a0a0a0);
+            border: 1px solid var(--border-color, #2a2a2a);
+
+            &:hover {
+              background-color: var(--hover-bg, #252525);
+            }
+          }
+
+          &.confirm {
+            background-color: var(--danger-color, #dc3545);
+            color: white;
+
+            &:hover {
+              background-color: darken(#dc3545, 10%);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .code-vault__main {
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+
+    .code-vault__content {
+      height: 100%;
+    }
+  }
+}
+
+// Custom scrollbar for the sidebar
+.sidebar {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb, #404040);
+    border-radius: 4px;
+
+    &:hover {
+      background-color: var(--scrollbar-thumb-hover, #505050);
     }
   }
 }

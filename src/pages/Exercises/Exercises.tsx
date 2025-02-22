@@ -435,145 +435,169 @@ validator
   };
 
   return (
-    <div className="exercises-container">
-      <div className="exercises-header">
-        <div className="header-content">
-          <div className="header-icon">
-            <FaDumbbell />
-          </div>
-          <div className="header-text">
-            <h1>Coding Exercises</h1>
-            <p>Practice makes perfect. Choose an exercise and start coding!</p>
-          </div>
+    <div className="scrollable min-h-screen bg-gray-900 text-gray-100 pt-10 pb-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+            Coding Exercises
+          </h1>
+          <p className="text-lg text-gray-400">
+            Practice makes perfect. Choose an exercise and start coding!
+          </p>
         </div>
-      </div>
 
-      <div className="progress-section">
-        <div className="progress-bar">
-          <div
-            className="progress-fill"
-            style={{ width: `${calculateProgress()}%` }}
-          />
+        {/* Progress Section */}
+        <div className="bg-gray-800/50 rounded-xl p-6 mb-8 backdrop-blur-sm border border-gray-700/50">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-gray-300 font-medium">Progress Overview</span>
+            <span className="text-gray-400">{calculateProgress()}% Complete</span>
+          </div>
+          <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300"
+              style={{ width: `${calculateProgress()}%` }}
+            />
+          </div>
         </div>
-        <div className="progress-text">
-          {calculateProgress()}% Complete
-        </div>
-      </div>
 
-      <div className="exercises-list">
-        {exercises.map((exercise) => (
-          <div key={exercise.id} className="exercise-item">
-            <div className="exercise-header">
-              <div
-                className={`status-icon ${exercise.status}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleStatusChange(exercise.id);
-                }}
-              >
-                {getStatusIcon(exercise.status)}
-              </div>
-              <div
-                className="exercise-info"
-                onClick={() =>
-                  setExpandedId(expandedId === exercise.id ? null : exercise.id)
-                }
-              >
-                <div className="title-section">
-                  <span className="title">{exercise.title}</span>
-                  <div className="exercise-meta">
-                    <span className="time-estimate">
-                      <FaClock /> {exercise.timeEstimate}
-                    </span>
-                    <div className="difficulty-indicator">
-                      {[...Array(getDifficultyDetails(exercise.difficulty).stars)].map((_, i) => (
-                        <FaStar key={i} />
+        {/* Exercises List */}
+        <div className="space-y-4">
+          {exercises.map((exercise) => (
+            <div
+              key={exercise.id}
+              className="bg-gray-800/50 rounded-xl overflow-hidden backdrop-blur-sm border border-gray-700/50 transition-all hover:border-gray-600/50"
+            >
+              <div className="p-6">
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleStatusChange(exercise.id);
+                    }}
+                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${exercise.status === 'completed'
+                      ? 'bg-green-500/20 text-green-500 hover:bg-green-500/30'
+                      : exercise.status === 'in-progress'
+                        ? 'bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/30'
+                        : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+                      }`}
+                  >
+                    {getStatusIcon(exercise.status)}
+                  </button>
+
+                  <div className="flex-grow">
+                    <div
+                      className="flex items-center justify-between cursor-pointer"
+                      onClick={() => setExpandedId(expandedId === exercise.id ? null : exercise.id)}
+                    >
+                      <div>
+                        <h3 className="text-xl font-semibold text-white mb-2">
+                          {exercise.title}
+                        </h3>
+                        <div className="flex items-center gap-4 text-sm text-gray-400">
+                          <span className="flex items-center gap-2">
+                            <FaClock /> {exercise.timeEstimate}
+                          </span>
+                          <div className={`flex gap-1 ${getDifficultyDetails(exercise.difficulty).color}`}>
+                            {[...Array(getDifficultyDetails(exercise.difficulty).stars)].map((_, i) => (
+                              <FaStar key={i} />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      {exercise.skills.map((skill, index) => (
+                        <span
+                          key={index}
+                          className="px-3 py-1 text-sm rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                        >
+                          {skill}
+                        </span>
                       ))}
                     </div>
                   </div>
                 </div>
-                <div className="skills-tags">
-                  {exercise.skills.map((skill, index) => (
-                    <span key={index} className="skill-tag">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
               </div>
-            </div>
 
-            <AnimatePresence>
-              {expandedId === exercise.id && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="exercise-details"
-                >
-                  <p className="description">{exercise.description}</p>
+              <AnimatePresence>
+                {expandedId === exercise.id && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="border-t border-gray-700/50 p-6 bg-gray-800/30"
+                  >
+                    <p className="text-gray-300 mb-8 leading-relaxed">
+                      {exercise.description}
+                    </p>
 
-                  <div className="requirements-section">
-                    <h4>Requirements</h4>
-                    <ul className="requirements-list">
-                      {exercise.requirements.map((req, index) => (
-                        <li key={index}>{req}</li>
-                      ))}
-                    </ul>
-                  </div>
+                    <div className="mb-8">
+                      <h4 className="text-lg font-semibold text-white mb-4">Requirements</h4>
+                      <ul className="space-y-2">
+                        {exercise.requirements.map((req, index) => (
+                          <li key={index} className="flex items-center gap-3 text-gray-300">
+                            <div className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                            {req}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                  {exercise.example && (
-                    <div className="example-section">
-                      <h4>Example</h4>
-                      <div className="code-preview">
-                        <div className="input">
-                          <h5>Input:</h5>
-                          <pre>{exercise.example.input}</pre>
+                    {exercise.example && (
+                      <div className="mb-8">
+                        <h4 className="text-lg font-semibold text-white mb-4">Example</h4>
+                        <div className="bg-gray-900/50 rounded-lg p-6 space-y-4">
+                          <div>
+                            <h5 className="text-sm font-medium text-gray-400 mb-2">Input:</h5>
+                            <pre className="font-mono text-sm text-blue-400 bg-gray-900/50 p-4 rounded-lg">
+                              {exercise.example.input}
+                            </pre>
+                          </div>
+                          <div>
+                            <h5 className="text-sm font-medium text-gray-400 mb-2">Expected Output:</h5>
+                            <pre className="font-mono text-sm text-green-400 bg-gray-900/50 p-4 rounded-lg">
+                              {exercise.example.output}
+                            </pre>
+                          </div>
                         </div>
-                        <div className="output">
-                          <h5>Expected Output:</h5>
-                          <pre>{exercise.example.output}</pre>
-                        </div>
-                        {exercise.example.animation && (
-                          <div className="animation-preview">
-                            {exercise.example.animation}
+                      </div>
+                    )}
+
+                    {exercise.hints && (
+                      <div>
+                        <button
+                          className="px-4 py-2 bg-purple-500/20 text-purple-400 rounded-lg flex items-center gap-2 hover:bg-purple-500/30 transition-colors"
+                          onClick={() => showNextHint(exercise.id)}
+                        >
+                          <FaLightbulb /> Need a hint?
+                        </button>
+                        {showHint[exercise.id] && (
+                          <div className="mt-4 space-y-3">
+                            {exercise.hints
+                              .slice(0, showHint[exercise.id])
+                              .map((hint, index) => (
+                                <motion.div
+                                  key={index}
+                                  initial={{ opacity: 0, y: 20 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  className="bg-purple-500/10 border border-purple-500/20 p-4 rounded-lg text-gray-300"
+                                >
+                                  {hint}
+                                </motion.div>
+                              ))}
                           </div>
                         )}
                       </div>
-                    </div>
-                  )}
-
-                  {exercise.hints && (
-                    <div className="hints-section">
-                      <button
-                        className="hint-button"
-                        onClick={() => showNextHint(exercise.id)}
-                      >
-                        <FaLightbulb /> Need a hint?
-                      </button>
-                      {showHint[exercise.id] && (
-                        <div className="hint-content">
-                          {exercise.hints
-                            .slice(0, showHint[exercise.id])
-                            .map((hint, index) => (
-                              <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="hint-item"
-                              >
-                                {hint}
-                              </motion.div>
-                            ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        ))}
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

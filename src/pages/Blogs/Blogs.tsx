@@ -10,7 +10,7 @@ const Blogs: React.FC = () => {
   const remainingBlogs = blogs.slice(1);
 
   return (
-    <div className="min-h-screen bg-gray-900 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="scrollable min-h-screen bg-gray-900 px-4 pt-12 pb-20 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <motion.div
         className="max-w-7xl mx-auto text-center mb-16"

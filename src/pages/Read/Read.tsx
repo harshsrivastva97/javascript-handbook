@@ -87,48 +87,83 @@ const Concepts: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900">
       <div className="mx-auto bg-gray-800 border border-purple-500/20 overflow-hidden">
-        <div className="flex flex-col md:flex-row h-[calc(100vh-72px)]">
+        <div className="flex flex-col md:flex-row h-[calc(100vh-64px)]">
           {/* Left Sidebar */}
-          <div className="w-full md:w-80 bg-gray-800 border-r border-purple-500/20">
-            <div className="p-4 border-b border-purple-500/20">
-              <div className="mb-2 text-gray-400">
-                Progress: {completedCount} / {listOfConcepts.length} completed
+          <div className="w-full md:w-80 bg-gray-800/50 border-r border-purple-500/20 flex flex-col">
+            {/* Progress Section */}
+            <div className="p-6 border-b border-purple-500/20 bg-gray-800/80">
+              <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
+                Learning Progress
+              </h3>
+              <div className="mb-3 flex justify-between items-center">
+                <span className="text-sm text-gray-400">
+                  {completedCount} of {listOfConcepts.length} completed
+                </span>
+                <span className="text-sm font-medium text-purple-400">
+                  {Math.round(progress)}%
+                </span>
               </div>
-              <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+              <div className="h-1.5 bg-gray-700/50 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300"
+                  className="h-full bg-gradient-to-r from-purple-500 to-purple-700 transition-all duration-300 ease-in-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
             </div>
 
-            <div className="overflow-y-auto h-full p-2">
-              {listOfConcepts.map((concept: Concept) => (
-                <motion.div
-                  key={concept.id}
-                  className={`p-3 rounded-lg cursor-pointer mb-2 transition-all
-                    ${selectedConcept?.id === concept.id
-                      ? "bg-purple-500/20 border border-purple-500/30"
-                      : "hover:bg-gray-700"}
-                    ${isConceptCompleted(concept.id) ? "border border-green-500/30" : ""}`}
-                  onClick={() => setSelectedConcept(concept)}
-                  whileHover={{ x: 4 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-300">{concept.title}</span>
-                    {isConceptCompleted(concept.id) && (
-                      <motion.span
-                        className="text-green-500"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                      >
-                        ✓
-                      </motion.span>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
+            {/* Concepts List */}
+            <div className="flex-1 overflow-y-auto">
+              <div className="p-6">
+                <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-4">
+                  Concepts
+                </h3>
+                <div className="space-y-2">
+                  {listOfConcepts.map((concept: Concept) => (
+                    <motion.div
+                      key={concept.id}
+                      className={`group relative px-4 py-3 rounded-lg cursor-pointer transition-all
+                        ${selectedConcept?.id === concept.id
+                          ? "bg-purple-500/20 border border-purple-500/30"
+                          : "hover:bg-gray-700/50"}
+                        ${isConceptCompleted(concept.id)
+                          ? "border border-purple-500/10"
+                          : "border border-transparent"}`}
+                      onClick={() => setSelectedConcept(concept)}
+                      whileHover={{ x: 4 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-2 h-2 rounded-full transition-colors
+                            ${isConceptCompleted(concept.id)
+                              ? "bg-green-500"
+                              : selectedConcept?.id === concept.id
+                                ? "bg-purple-500"
+                                : "bg-gray-600"}`}
+                          />
+                          <span className={`text-sm font-medium transition-colors
+                            ${selectedConcept?.id === concept.id
+                              ? "text-purple-400"
+                              : "text-gray-300 group-hover:text-purple-400"}`}>
+                            {concept.title}
+                          </span>
+                        </div>
+                        {isConceptCompleted(concept.id) && (
+                          <motion.svg
+                            className="w-4 h-4 text-green-500"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </motion.svg>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
