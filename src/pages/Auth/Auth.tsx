@@ -16,7 +16,7 @@ const Auth: React.FC = () => {
         email: "",
         password: "",
     });
-    const [error, setError] = useState<string | null>(null);
+    const [statusMessage, setStatusMessage] = useState<{ type: 'error' | 'success', message: string } | null>(null);
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
@@ -24,11 +24,17 @@ const Auth: React.FC = () => {
 
     const validateForm = (): boolean => {
         if (!formData.email.includes("@")) {
-            setError("Please enter a valid email");
+            setStatusMessage({
+                type: 'error',
+                message: "Please enter a valid email"
+            });
             return false;
         }
         if (formData.password.length < 6) {
-            setError("Password must be at least 6 characters");
+            setStatusMessage({
+                type: 'error',
+                message: "Password must be at least 6 characters"
+            });
             return false;
         }
         return true;
@@ -36,7 +42,7 @@ const Auth: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null);
+        setStatusMessage(null);
         if (!validateForm()) return;
         setLoading(true);
 
@@ -57,14 +63,23 @@ const Auth: React.FC = () => {
                 );
 
                 await firebase.sendVerificationEmail(userCredential.user);
-                setError("A verification email has been sent. Please verify your email before logging in.");
+                setStatusMessage({
+                    type: 'success',
+                    message: "A verification email has been sent. Please verify your email before logging in."
+                });
                 await firebase.logout();
             }
         } catch (err: any) {
             if (err.code === "auth/email-already-in-use") {
-                setError("Email already in use. Please log in instead.");
+                setStatusMessage({
+                    type: 'error',
+                    message: "Email already in use. Please log in instead."
+                });
             } else {
-                setError(err.message || "Authentication failed");
+                setStatusMessage({
+                    type: 'error',
+                    message: err.message || "Authentication failed"
+                });
             }
         } finally {
             setLoading(false);
@@ -80,7 +95,7 @@ const Auth: React.FC = () => {
     };
 
     const handleGoogleSignIn = async () => {
-        setError(null);
+        setStatusMessage(null);
         setLoading(true);
         try {
             const userCredential = await firebase.signInWithProvider('google', dispatch);
@@ -88,14 +103,17 @@ const Auth: React.FC = () => {
             localStorage.setItem("token", token);
             navigate("/");
         } catch (error: any) {
-            setError(error.message || "Google Sign-In failed");
+            setStatusMessage({
+                type: 'error',
+                message: error.message || "Google Sign-In failed"
+            });
         } finally {
             setLoading(false);
         }
     };
 
     const handleGithubSignIn = async () => {
-        setError(null);
+        setStatusMessage(null);
         setLoading(true);
         try {
             const userCredential = await firebase.signInWithProvider('github', dispatch);
@@ -103,7 +121,10 @@ const Auth: React.FC = () => {
             localStorage.setItem("token", token);
             navigate("/");
         } catch (error: any) {
-            setError(error.message || "GitHub Sign-In failed");
+            setStatusMessage({
+                type: 'error',
+                message: error.message || "GitHub Sign-In failed"
+            });
         } finally {
             setLoading(false);
         }
@@ -163,9 +184,12 @@ const Auth: React.FC = () => {
                         </div>
                     </div>
 
-                    {error && (
-                        <div className="text-red-500 text-sm text-center bg-red-500/10 py-2 rounded-lg">
-                            {error}
+                    {statusMessage && (
+                        <div className={`text-sm text-center py-2 rounded-lg ${statusMessage.type === 'success'
+                            ? 'text-green-500 bg-green-500/10'
+                            : 'text-red-500 bg-red-500/10'
+                            }`}>
+                            {statusMessage.message}
                         </div>
                     )}
 

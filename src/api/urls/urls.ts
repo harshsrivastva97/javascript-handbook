@@ -4,6 +4,6 @@ export const USER_URL = `${API_URL}/user`;
 
 export const ENDPOINTS = {
     REGISTER: `${USER_URL}/register`,
-    PROFILE: `${USER_URL}/profile`,
-    UPDATE_PROFILE: `${USER_URL}/update`,
+    GET_USER: `${USER_URL}/:uid`,
+    UPDATE_PROFILE: `${USER_URL}/:uid`,
 };

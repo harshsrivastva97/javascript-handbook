@@ -15,36 +15,39 @@ import Header from "./components/Header/Header";
 import Auth from "./pages/Auth/Auth";
 import Profile from "./pages/Profile/Profile";
 import './App.scss';
+import { AuthProvider } from './contexts/AuthContext';
 
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.1,
-          ease: "easeOut",
-          type: "spring",
-          stiffness: 200,
-        }}
-      >
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/practice" element={<Practice />} />
-            <Route path="/read" element={<Read />} />
-            <Route path="/blogs" element={<Blogs />} />
-            <Route path="/blogs/:slug" element={<BlogPost />} />
-            <Route path="/exercises" element={<Exercises />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </Router>
-      </motion.div>
+      <AuthProvider>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.1,
+            ease: "easeOut",
+            type: "spring",
+            stiffness: 200,
+          }}
+        >
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/practice" element={<Practice />} />
+              <Route path="/read" element={<Read />} />
+              <Route path="/blogs" element={<Blogs />} />
+              <Route path="/blogs/:slug" element={<BlogPost />} />
+              <Route path="/exercises" element={<Exercises />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </Router>
+        </motion.div>
+      </AuthProvider>
     </Provider>
   );
 };

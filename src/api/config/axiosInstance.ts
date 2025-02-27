@@ -1,4 +1,4 @@
-import { API_URL } from '../api/urls/urls';
+import { API_URL } from '../urls/urls';
 import axios from 'axios';
 
 const axiosInstance = axios.create({

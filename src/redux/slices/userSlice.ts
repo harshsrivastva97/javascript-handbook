@@ -1,35 +1,31 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { User, RegisterRequest, ProfileUpdateRequest } from '../../api/types/userTypes';
-import { registerUser, fetchUserProfile, updateUserProfile } from '../../api/services/userApi';
-
+import { User, UserDataObject } from '../../api/types/userTypes';
+import { getUser, registerUser, updateUser } from '../../api/services/userApi';
 
 interface UserState {
     user: User | null;
     loading: boolean;
     error: string | null;
-    token: string | null;
 }
 
 const initialState: UserState = {
     user: null,
     loading: false,
     error: null,
-    token: null,
 };
 
-// Async thunks
-export const register = createAsyncThunk('user/register', async (data: RegisterRequest) => {
+export const register = createAsyncThunk<UserDataObject, UserDataObject>('user/register', async (data: UserDataObject) => {
     const response = await registerUser(data);
     return response;
 });
 
-export const getProfile = createAsyncThunk('user/getProfile', async () => {
-    const response = await fetchUserProfile();
+export const getUserProfile = createAsyncThunk<UserDataObject, string>('user/get', async (uid: string) => {
+    const response = await getUser(uid);
     return response;
 });
 
-export const updateProfile = createAsyncThunk('user/updateProfile', async (data: ProfileUpdateRequest) => {
-    const response = await updateUserProfile(data);
+export const updateUserProfile = createAsyncThunk<UserDataObject, UserDataObject>('user/update', async (data: UserDataObject) => {
+    const response = await updateUser(data.uid, data);
     return response;
 });
 
@@ -39,8 +35,6 @@ const userSlice = createSlice({
     reducers: {
         logout: (state) => {
             state.user = null;
-            state.token = null;
-            localStorage.removeItem('token');
         },
     },
     extraReducers: (builder) => {
@@ -51,21 +45,35 @@ const userSlice = createSlice({
             })
             .addCase(register.fulfilled, (state, action) => {
                 state.loading = false;
-                state.user = action.payload.user;
-                state.token = action.payload.token;
-                localStorage.setItem('token', action.payload.token);
+                state.user = action.payload;
             })
             .addCase(register.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || 'Registration failed';
             })
-            .addCase(getProfile.fulfilled, (state, action) => {
-                state.user = action.payload;
-                state.loading = false;
+            .addCase(getUserProfile.pending, (state) => {
+                state.loading = true;
+                state.error = null;
             })
-            .addCase(updateProfile.fulfilled, (state, action) => {
-                state.user = action.payload;
+            .addCase(getUserProfile.fulfilled, (state, action) => {
                 state.loading = false;
+                state.user = action.payload;
+            })
+            .addCase(getUserProfile.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to get user profile';
+            })
+            .addCase(updateUserProfile.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateUserProfile.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+            })
+            .addCase(updateUserProfile.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to update user profile';
             });
     },
 });

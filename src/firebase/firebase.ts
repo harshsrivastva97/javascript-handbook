@@ -8,17 +8,19 @@ import {
     GoogleAuthProvider,
     GithubAuthProvider,
     sendEmailVerification,
-    User,
     UserCredential,
+    User,
 } from "firebase/auth";
 import firebaseConfig from "./firebaseConfig";
 import errorMap from "../utils/errorMap";
 import { register } from "../redux/slices/userSlice";
 import { useAppDispatch } from "../redux/hooks";
+import { UserDataObject } from "../api/types/userTypes";
 
 const app = initializeApp(firebaseConfig);
 
-const auth = getAuth(app);
+export const auth = getAuth(app);
+
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
 
@@ -41,7 +43,7 @@ export const signUpWithEmailIdAndPassword = async (
 ): Promise<UserCredential> => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        dispatch(register({ email }));
+        dispatch(register({ uid: userCredential.user.uid }));
         return userCredential;
     } catch (error) {
         throw handleAuthError(error);
@@ -66,12 +68,19 @@ export const signInWithProvider = async (
     try {
         const providerInstance = provider === "google" ? googleProvider : githubProvider;
         const userCredential = await signInWithPopup(auth, providerInstance);
-        console.log(userCredential);
-        const email = userCredential.user.email;
-        if (email) {
-            dispatch(register({ email }));
+        const { localId, displayName, email, emailVerified, isNewUser, photoUrl, providerId } = (userCredential as any)._tokenResponse;
+        if (isNewUser) {
+            const payload: UserDataObject = {
+                uid: localId,
+                display_name: displayName,
+                email,
+                email_verified: emailVerified,
+                photo_url: photoUrl,
+                provider_id: providerId
+            };
+            dispatch(register(payload));
         } else {
-            console.warn("No email found for user:", userCredential.user.uid);
+            console.warn("No email found for user:", userCredential.user.email);
         }
         return userCredential;
     } catch (error) {
@@ -95,4 +104,10 @@ export const logout = async (): Promise<void> => {
     }
 };
 
-export default { signInWithProvider, signUpWithEmailIdAndPassword, signInWithEmailIdAndPassword, sendVerificationEmail, logout };
+export default {
+    signInWithProvider,
+    signUpWithEmailIdAndPassword,
+    signInWithEmailIdAndPassword,
+    sendVerificationEmail,
+    logout,
+};
