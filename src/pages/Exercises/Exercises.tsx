@@ -435,7 +435,7 @@ validator
   };
 
   return (
-    <div className="scrollable min-h-screen bg-gray-900 text-gray-100 pt-10 pb-20">
+    <div className="scrollable min-h-screen  text-gray-100 pt-10 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="text-center mb-12">
@@ -448,12 +448,12 @@ validator
         </div>
 
         {/* Progress Section */}
-        <div className="bg-gray-800/50 rounded-xl p-6 mb-8 backdrop-blur-sm border border-gray-700/50">
+        <div className=" rounded-xl p-6 mb-8 backdrop-blur-sm border border-gray-700/50">
           <div className="flex items-center justify-between mb-3">
             <span className="text-gray-300 font-medium">Progress Overview</span>
             <span className="text-gray-400">{calculateProgress()}% Complete</span>
           </div>
-          <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
+          <div className="h-2  rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300"
               style={{ width: `${calculateProgress()}%` }}
@@ -466,7 +466,7 @@ validator
           {exercises.map((exercise) => (
             <div
               key={exercise.id}
-              className="bg-gray-800/50 rounded-xl overflow-hidden backdrop-blur-sm border border-gray-700/50 transition-all hover:border-gray-600/50"
+              className=" rounded-xl overflow-hidden backdrop-blur-sm border border-gray-700/50 transition-all hover:border-gray-600/50"
             >
               <div className="p-6">
                 <div className="flex items-center gap-4">
@@ -479,7 +479,7 @@ validator
                       ? 'bg-green-500/20 text-green-500 hover:bg-green-500/30'
                       : exercise.status === 'in-progress'
                         ? 'bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/30'
-                        : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+                        : ' text-gray-400 hover:bg-gray-600'
                       }`}
                   >
                     {getStatusIcon(exercise.status)}
@@ -528,7 +528,7 @@ validator
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="border-t border-gray-700/50 p-6 bg-gray-800/30"
+                    className="border-t border-gray-700/50 p-6 /30"
                   >
                     <p className="text-gray-300 mb-8 leading-relaxed">
                       {exercise.description}
@@ -549,16 +549,16 @@ validator
                     {exercise.example && (
                       <div className="mb-8">
                         <h4 className="text-lg font-semibold text-white mb-4">Example</h4>
-                        <div className="bg-gray-900/50 rounded-lg p-6 space-y-4">
+                        <div className="/50 rounded-lg p-6 space-y-4">
                           <div>
                             <h5 className="text-sm font-medium text-gray-400 mb-2">Input:</h5>
-                            <pre className="font-mono text-sm text-blue-400 bg-gray-900/50 p-4 rounded-lg">
+                            <pre className="font-mono text-sm text-blue-400 /50 p-4 rounded-lg">
                               {exercise.example.input}
                             </pre>
                           </div>
                           <div>
                             <h5 className="text-sm font-medium text-gray-400 mb-2">Expected Output:</h5>
-                            <pre className="font-mono text-sm text-green-400 bg-gray-900/50 p-4 rounded-lg">
+                            <pre className="font-mono text-sm text-green-400 /50 p-4 rounded-lg">
                               {exercise.example.output}
                             </pre>
                           </div>

@@ -33,13 +33,11 @@ const Concepts: React.FC = () => {
   const dispatch = useDispatch();
   const { topics } = useSelector((state: RootState) => state.topicsData);
 
-  // Helper function to check if a concept is completed
   const isConceptCompleted = (conceptId: number) => {
     const topic = topics.find((t: { id: number }) => t.id === conceptId);
     return topic?.status === 'completed';
   };
 
-  // Calculate progress based on Redux state
   const completedCount = topics.filter((t: { status: string }) => t.status === 'completed').length;
   const progress = (completedCount / listOfConcepts.length) * 100;
 
@@ -76,7 +74,7 @@ const Concepts: React.FC = () => {
     navigator.clipboard.writeText(text).then(
       () => {
         setShowCopied(true);
-        setTimeout(() => setShowCopied(false), 2000); // Hide after 2 seconds
+        setTimeout(() => setShowCopied(false), 2000);
       },
       (err) => {
         console.error("Failed to copy code:", err);
@@ -85,13 +83,11 @@ const Concepts: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900">
-      <div className="mx-auto bg-gray-800 border border-purple-500/20 overflow-hidden">
+    <div className="min-h-screen ">
+      <div className="mx-auto  border border-purple-500/20 overflow-hidden">
         <div className="flex flex-col md:flex-row h-[calc(100vh-64px)]">
-          {/* Left Sidebar */}
-          <div className="w-full md:w-80 bg-gray-800/50 border-r border-purple-500/20 flex flex-col">
-            {/* Progress Section */}
-            <div className="p-6 border-b border-purple-500/20 bg-gray-800/80">
+          <div className="w-full md:w-80  border-r border-purple-500/20 flex flex-col">
+            <div className="p-6 border-b border-purple-500/20 /80">
               <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-3">
                 Learning Progress
               </h3>
@@ -103,7 +99,7 @@ const Concepts: React.FC = () => {
                   {Math.round(progress)}%
                 </span>
               </div>
-              <div className="h-1.5 bg-gray-700/50 rounded-full overflow-hidden">
+              <div className="h-1.5 /50 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-purple-500 to-purple-700 transition-all duration-300 ease-in-out"
                   style={{ width: `${progress}%` }}
@@ -111,7 +107,6 @@ const Concepts: React.FC = () => {
               </div>
             </div>
 
-            {/* Concepts List */}
             <div className="flex-1 overflow-y-auto">
               <div className="p-6">
                 <h3 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-4">
@@ -124,7 +119,7 @@ const Concepts: React.FC = () => {
                       className={`group relative px-4 py-3 rounded-lg cursor-pointer transition-all
                         ${selectedConcept?.id === concept.id
                           ? "bg-purple-500/20 border border-purple-500/30"
-                          : "hover:bg-gray-700/50"}
+                          : "hover:/50"}
                         ${isConceptCompleted(concept.id)
                           ? "border border-purple-500/10"
                           : "border border-transparent"}`}
@@ -167,8 +162,7 @@ const Concepts: React.FC = () => {
             </div>
           </div>
 
-          {/* Main Content */}
-          <div className="flex-1 overflow-y-auto bg-gray-800">
+          <div className="flex-1 overflow-y-auto ">
             {selectedConcept ? (
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
@@ -196,13 +190,13 @@ const Concepts: React.FC = () => {
                     />
 
                     {selectedConcept.content.codeExample && (
-                      <div className="relative mt-4 bg-gray-900 rounded-lg p-4">
+                      <div className="relative mt-4  rounded-lg p-4">
                         <h3 className="text-lg font-semibold text-gray-300 mb-2">Example:</h3>
                         <button
                           className={`absolute top-4 right-4 px-3 py-1 rounded text-sm
                             ${showCopied
                               ? "bg-green-500/20 text-green-400"
-                              : "bg-gray-700 text-gray-400 hover:bg-gray-600"}`}
+                              : " text-gray-400 hover:bg-gray-600"}`}
                           onClick={() => copyToClipboard(selectedConcept.content.codeExample)}
                         >
                           {showCopied ? 'Copied!' : 'Copy'}
@@ -213,7 +207,7 @@ const Concepts: React.FC = () => {
                       </div>
                     )}
 
-                    <div className="bg-gray-900/50 rounded-lg p-6">
+                    <div className="/50 rounded-lg p-6">
                       <h3 className="text-lg font-semibold text-gray-300 mb-4">Key Points:</h3>
                       <ul className="space-y-2">
                         {selectedConcept.content.keyPoints?.map((point, index) => (

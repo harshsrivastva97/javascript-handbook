@@ -32,9 +32,9 @@ const BlogPost: React.FC = () => {
 
   if (!blog) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen  flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="max-w-3xl w-full space-y-8 bg-gray-800 p-8 rounded-xl border border-purple-500/20"
+          className="max-w-3xl w-full space-y-8  p-8 rounded-xl border border-purple-500/20"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
@@ -54,7 +54,7 @@ const BlogPost: React.FC = () => {
   }
 
   return (
-    <div className="scrollable min-h-screen bg-gray-900 pt-12 pb-20 px-4 sm:px-6 lg:px-8">
+    <div className="scrollable min-h-screen  pt-12 pb-20 px-4 sm:px-6 lg:px-8">
       <motion.div
         className="max-w-7xl mx-auto space-y-8"
         initial={{ opacity: 0 }}
@@ -76,7 +76,7 @@ const BlogPost: React.FC = () => {
           </button>
         </div>
 
-        <article className="bg-gray-800 rounded-xl border border-purple-500/20 overflow-hidden">
+        <article className=" rounded-xl border border-purple-500/20 overflow-hidden">
           <motion.div
             className="p-8"
             initial={{ opacity: 0, y: 20 }}
@@ -91,7 +91,7 @@ const BlogPost: React.FC = () => {
               {blog.tags.map(tag => (
                 <span
                   key={tag}
-                  className="px-3 py-1 rounded-full text-sm bg-gray-700 text-purple-400 border border-purple-500/20"
+                  className="px-3 py-1 rounded-full text-sm  text-purple-400 border border-purple-500/20"
                 >
                   {tag}
                 </span>
@@ -132,7 +132,7 @@ const BlogPost: React.FC = () => {
                 {blog.tags.map(tag => (
                   <span
                     key={tag}
-                    className="px-3 py-1 rounded-full text-sm bg-gray-700 text-purple-400 border border-purple-500/20"
+                    className="px-3 py-1 rounded-full text-sm  text-purple-400 border border-purple-500/20"
                   >
                     {tag}
                   </span>

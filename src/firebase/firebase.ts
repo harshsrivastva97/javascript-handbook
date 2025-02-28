@@ -15,7 +15,7 @@ import firebaseConfig from "./firebaseConfig";
 import errorMap from "../utils/errorMap";
 import { register } from "../redux/slices/userSlice";
 import { useAppDispatch } from "../redux/hooks";
-import { UserDataObject } from "../api/types/userTypes";
+import { BackendUserSchema } from "../api/types/userTypes";
 
 const app = initializeApp(firebaseConfig);
 
@@ -70,7 +70,7 @@ export const signInWithProvider = async (
         const userCredential = await signInWithPopup(auth, providerInstance);
         const { localId, displayName, email, emailVerified, isNewUser, photoUrl, providerId } = (userCredential as any)._tokenResponse;
         if (isNewUser) {
-            const payload: UserDataObject = {
+            const payload: BackendUserSchema = {
                 uid: localId,
                 display_name: displayName,
                 email,

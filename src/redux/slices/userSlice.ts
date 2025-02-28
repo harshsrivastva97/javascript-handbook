@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { User, UserDataObject } from '../../api/types/userTypes';
+import { BackendUserSchema } from '../../api/types/userTypes';
 import { getUser, registerUser, updateUser } from '../../api/services/userApi';
 
 interface UserState {
-    user: User | null;
+    user: BackendUserSchema | null;
     loading: boolean;
     error: string | null;
 }
@@ -14,17 +14,17 @@ const initialState: UserState = {
     error: null,
 };
 
-export const register = createAsyncThunk<UserDataObject, UserDataObject>('user/register', async (data: UserDataObject) => {
+export const register = createAsyncThunk<BackendUserSchema, BackendUserSchema>('user/register', async (data: BackendUserSchema) => {
     const response = await registerUser(data);
     return response;
 });
 
-export const getUserProfile = createAsyncThunk<UserDataObject, string>('user/get', async (uid: string) => {
+export const getUserProfile = createAsyncThunk<BackendUserSchema, string>('user/get', async (uid: string) => {
     const response = await getUser(uid);
     return response;
 });
 
-export const updateUserProfile = createAsyncThunk<UserDataObject, UserDataObject>('user/update', async (data: UserDataObject) => {
+export const updateUserProfile = createAsyncThunk<BackendUserSchema, BackendUserSchema>('user/update', async (data: BackendUserSchema) => {
     const response = await updateUser(data.uid, data);
     return response;
 });

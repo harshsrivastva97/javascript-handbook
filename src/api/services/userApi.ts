@@ -1,18 +1,18 @@
 import axiosInstance from '../config/axiosInstance';
 import { ENDPOINTS } from '../urls/urls';
-import { UserDataObject } from '../types/userTypes';
+import { BackendUserSchema } from '../types/userTypes';
 
-export const registerUser = async (data: UserDataObject): Promise<UserDataObject> => {
+export const registerUser = async (data: BackendUserSchema): Promise<BackendUserSchema> => {
     const response = await axiosInstance.post(ENDPOINTS.REGISTER, data);
     return response.data.user;
 };
 
-export const getUser = async (uid: string): Promise<UserDataObject> => {
+export const getUser = async (uid: string): Promise<BackendUserSchema> => {
     const response = await axiosInstance.get(ENDPOINTS.GET_USER.replace(':uid', uid));
     return response.data.user;
 };
 
-export const updateUser = async (uid: string, data: UserDataObject): Promise<UserDataObject> => {
-    const response = await axiosInstance.put(ENDPOINTS.UPDATE_PROFILE.replace(':uid', uid));
+export const updateUser = async (uid: string, data: BackendUserSchema): Promise<BackendUserSchema> => {
+    const response = await axiosInstance.put(ENDPOINTS.UPDATE_PROFILE.replace(':uid', uid), data);
     return response.data.user;
 };

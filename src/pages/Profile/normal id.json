@@ -1,0 +1,24 @@
+{
+    "kind": "identitytoolkit#GetAccountInfoResponse",
+    "users": [
+        {
+            "localId": "XXyhI9f4fDhxP4atLCvxcvyCLh83",
+            "email": "harsh.srivastva@rediffmail.com",
+            "passwordHash": "UkVEQUNURUQ=",
+            "emailVerified": false,
+            "passwordUpdatedAt": 1740472104014,
+            "providerUserInfo": [
+                {
+                    "providerId": "password",
+                    "federatedId": "harsh.srivastva@rediffmail.com",
+                    "email": "harsh.srivastva@rediffmail.com",
+                    "rawId": "harsh.srivastva@rediffmail.com"
+                }
+            ],
+            "validSince": "1740472104",
+            "lastLoginAt": "1740472104014",
+            "createdAt": "1740472104014",
+            "lastRefreshAt": "2025-02-25T08:28:24.014Z"
+        }
+    ]
+}

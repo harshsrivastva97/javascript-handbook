@@ -4,7 +4,7 @@ import "./Loading.scss";
 
 const Loading: React.FC = () => {
   return (
-    <div className="h-screen w-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+    <div className="h-screen w-screen flex items-center justify-center  dark:">
       <div className="flex flex-col items-center">
         <motion.div
           className="flex space-x-2"

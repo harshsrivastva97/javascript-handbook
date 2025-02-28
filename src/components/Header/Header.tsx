@@ -9,14 +9,22 @@ import {
   FaUser,
   FaSignOutAlt,
   FaChevronDown,
+  FaMoon,
+  FaSun,
 } from "react-icons/fa";
 import { getAuth, signOut } from "firebase/auth";
 import './Header.scss';
+import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
   const navigate = useNavigate();
   const auth = getAuth();
+  const { currentUser } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -29,6 +37,30 @@ const Header: React.FC = () => {
     await signOut(auth);
     navigate('/auth');
   };
+
+  const handleDropdownOpen = () => {
+    if (dropdownTimeout) {
+      clearTimeout(dropdownTimeout);
+      setDropdownTimeout(null);
+    }
+    setIsDropdownOpen(true);
+  };
+
+  const handleDropdownClose = () => {
+    const timeout = setTimeout(() => {
+      setIsDropdownOpen(false);
+    }, 300); // 300ms delay before closing
+    setDropdownTimeout(timeout as NodeJS.Timeout);
+  };
+
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (dropdownTimeout) {
+        clearTimeout(dropdownTimeout);
+      }
+    };
+  }, [dropdownTimeout]);
 
   const navLinks = [
     {
@@ -59,73 +91,82 @@ const Header: React.FC = () => {
   ];
 
   return (
-    <header className="bg-gray-900 border-b border-gray-800">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <NavLink
-            to="/"
-            className="flex items-center gap-2 text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600"
-          >
-            <span className="text-2xl">&lt;/&gt;</span>
-            <span>JS Handbook</span>
-          </NavLink>
+    <header className="header">
+      <div className="header-container">
+        <NavLink to="/" className="logo">
+          <span className="logo-symbol">&lt;/&gt;</span>
+          <span className="logo-text">JS Handbook</span>
+        </NavLink>
 
-          <div className="flex items-center gap-6">
-            <nav className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <NavLink
-                  key={link.path}
-                  to={link.path}
-                  className={({ isActive }) =>
-                    `px-4 py-2 rounded-lg flex items-center gap-2 transition-all
-                    ${isActive
-                      ? 'bg-gradient-to-r from-blue-500/10 to-purple-600/10 text-white'
-                      : 'text-gray-400 hover:text-white hover:bg-gray-800'
-                    }`
-                  }
+        <div className="nav-wrapper">
+          <nav className="main-nav">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? 'active' : ''}`
+                }
+              >
+                {link.icon}
+                <span>{link.title}</span>
+              </NavLink>
+            ))}
+          </nav>
+
+          <div className="actions-group">
+            <button
+              onClick={toggleTheme}
+              className="theme-toggle"
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? <FaSun /> : <FaMoon />}
+            </button>
+
+            {isLoggedIn ? (
+              <div
+                className="user-menu"
+                onMouseEnter={handleDropdownOpen}
+                onMouseLeave={handleDropdownClose}
+              >
+                <button
+                  className="user-button"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
-                  <span className="text-lg">{link.icon}</span>
-                  <span>{link.title}</span>
-                </NavLink>
-              ))}
-            </nav>
+                  <div className="user-avatar">
+                    {currentUser?.photoURL ? (
+                      <img src={currentUser.photoURL} alt="User avatar" />
+                    ) : (
+                      <FaUser />
+                    )}
+                  </div>
+                  <span className={`user-name ${theme}`}>{currentUser?.displayName}</span>
+                  <FaChevronDown className={`chevron-icon ${isDropdownOpen ? 'rotate' : ''}`} />
+                </button>
 
-            <div className="flex items-center">
-              {isLoggedIn ? (
-                <div className="relative group">
-                  <button className="flex items-center gap-2 px-4 py-2 rounded-lg text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all">
-                    <FaUser className="text-lg" />
-                    <span className="hidden sm:inline">My Profile</span>
-                    <FaChevronDown className="text-sm transition-transform group-hover:rotate-180" />
-                  </button>
-
-                  <div className="absolute right-0 mt-2 w-48 py-2 bg-gray-800 rounded-lg shadow-xl border border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                    <NavLink
-                      to="/profile"
-                      className="flex items-center gap-2 px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700"
-                    >
+                {isDropdownOpen && (
+                  <div
+                    className="dropdown-menu"
+                    onMouseEnter={handleDropdownOpen}
+                    onMouseLeave={handleDropdownClose}
+                  >
+                    <NavLink to="/profile" className="dropdown-item">
                       <FaUser />
                       <span>Profile</span>
                     </NavLink>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center gap-2 px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700"
-                    >
+                    <button onClick={handleLogout} className="dropdown-item">
                       <FaSignOutAlt />
                       <span>Logout</span>
                     </button>
                   </div>
-                </div>
-              ) : (
-                <NavLink
-                  to="/auth"
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 transition-all"
-                >
-                  <FaUser className="text-lg" />
-                  <span className="hidden sm:inline">Sign In</span>
-                </NavLink>
-              )}
-            </div>
+                )}
+              </div>
+            ) : (
+              <NavLink to="/auth" className="auth-button">
+                <FaUser />
+                <span>Sign In</span>
+              </NavLink>
+            )}
           </div>
         </div>
       </div>

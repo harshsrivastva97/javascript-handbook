@@ -89,7 +89,7 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <div className="home scrollable bg-gray-900 min-h-screen pt-10 pb-6">
+    <div className="home scrollable  min-h-screen pt-10 pb-20">
       <div className="hero flex flex-col items-center">
         <div className="flex flex-col items-center text-center">
           <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
@@ -120,7 +120,7 @@ const Home: React.FC = () => {
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className="p-6 rounded-xl bg-gray-800 hover:bg-gray-750 transition-all"
+                className="p-6 rounded-xl  hover:bg-gray-750 transition-all"
               >
                 <div className="text-3xl mb-4 text-purple-500">{feature.icon}</div>
                 <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
@@ -130,7 +130,6 @@ const Home: React.FC = () => {
           </div>
         </div>
 
-        {/* Topics Section */}
         <div className="mb-20">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
@@ -139,7 +138,7 @@ const Home: React.FC = () => {
             <p className="text-gray-400">Track your progress through essential JavaScript concepts</p>
           </div>
 
-          <div className="bg-gray-800 rounded-xl p-6">
+          <div className=" rounded-xl p-6">
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Progress Section */}
               <div className="lg:w-64 flex flex-col items-center justify-center p-4 border-b lg:border-b-0 lg:border-r border-gray-700">
@@ -161,13 +160,12 @@ const Home: React.FC = () => {
                 </p>
               </div>
 
-              {/* Table Section */}
               <div className="flex-grow">
                 <div className="overflow-hidden">
                   <div className="overflow-y-auto" style={{ maxHeight: '600px' }}>
                     <table className="w-full">
-                      <thead className="sticky top-0 bg-gray-800 z-10">
-                        <tr className="text-gray-400 border-b border-gray-700">
+                      <thead className="sticky top-0  z-10">
+                        <tr className="text-gray-400 border-b border-gray-700 z-10 bg-gray-800">
                           <th className="text-left py-3 px-4 font-semibold">Topic</th>
                           <th className="text-left py-3 px-4 font-semibold">Status</th>
                           <th className="text-left py-3 px-4 font-semibold">Actions</th>
@@ -192,16 +190,16 @@ const Home: React.FC = () => {
                                   }}
                                 >
                                   <div className={`text-xl ${topicStatus === 'completed' ? 'text-green-500' :
-                                      topicStatus === 'in-progress' ? 'text-yellow-500' :
-                                        'text-gray-500'
+                                    topicStatus === 'in-progress' ? 'text-yellow-500' :
+                                      'text-gray-500'
                                     }`}>
                                     {topicStatus === 'completed' && <FaCheckCircle />}
                                     {topicStatus === 'in-progress' && <BsThreeDots />}
                                     {topicStatus === 'pending' && <FaRegCircle />}
                                   </div>
                                   <span className={`text-sm font-medium ${topicStatus === 'completed' ? 'text-green-500' :
-                                      topicStatus === 'in-progress' ? 'text-yellow-500' :
-                                        'text-gray-400'
+                                    topicStatus === 'in-progress' ? 'text-yellow-500' :
+                                      'text-gray-400'
                                     }`}>
                                     {topicStatus === 'completed' && 'Mastered'}
                                     {topicStatus === 'in-progress' && 'Learning'}
@@ -264,7 +262,7 @@ const Home: React.FC = () => {
             {exploreSections.map((section, index) => (
               <div
                 key={section.title}
-                className="p-6 rounded-xl bg-gray-800 hover:bg-gray-750 transition-all"
+                className="p-6 rounded-xl  hover:bg-gray-750 transition-all"
               >
                 <div className="text-3xl mb-4 text-purple-500">{section.icon}</div>
                 <h3 className="text-xl font-semibold text-white mb-2">{section.title}</h3>

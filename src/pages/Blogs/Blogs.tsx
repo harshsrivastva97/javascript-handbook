@@ -10,7 +10,7 @@ const Blogs: React.FC = () => {
   const remainingBlogs = blogs.slice(1);
 
   return (
-    <div className="scrollable min-h-screen bg-gray-900 px-4 pt-12 pb-20 sm:px-6 lg:px-8">
+    <div className="scrollable min-h-screen  px-4 pt-12 pb-20 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <motion.div
         className="max-w-7xl mx-auto text-center mb-16"
@@ -43,7 +43,7 @@ const Blogs: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
-        <div className="bg-gray-800 rounded-xl border border-purple-500/20 overflow-hidden">
+        <div className=" rounded-xl border border-purple-500/20 overflow-hidden">
           <div className="grid md:grid-cols-2 gap-8 p-8">
             <div className="space-y-4">
               <div className="flex items-center text-sm text-purple-500">
@@ -56,7 +56,7 @@ const Blogs: React.FC = () => {
                 {featuredBlog.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 text-sm bg-gray-700 text-gray-300 rounded-full flex items-center"
+                    className="px-3 py-1 text-sm  text-gray-300 rounded-full flex items-center"
                   >
                     <FiTag className="mr-1" />
                     {tag}
@@ -92,7 +92,7 @@ const Blogs: React.FC = () => {
           {remainingBlogs.map((blog, index) => (
             <motion.article
               key={blog.id}
-              className="bg-gray-800 rounded-xl border border-purple-500/20 overflow-hidden hover:border-purple-500/40 transition-all"
+              className=" rounded-xl border border-purple-500/20 overflow-hidden hover:border-purple-500/40 transition-all"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 + 0.7 }}
@@ -112,7 +112,7 @@ const Blogs: React.FC = () => {
                   {blog.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 text-sm bg-gray-700 text-gray-300 rounded-full flex items-center"
+                      className="px-3 py-1 text-sm  text-gray-300 rounded-full flex items-center"
                     >
                       <FiTag className="mr-1" />
                       {tag}

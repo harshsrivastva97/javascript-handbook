@@ -1,0 +1,25 @@
+{
+    "kind": "identitytoolkit#GetAccountInfoResponse",
+    "users": [
+        {
+            "localId": "JbiLRPFny7PdPuGEzLZfGqWnisf1",
+            "displayName": "Harsh Srivastva",
+            "photoUrl": "https://avatars.githubusercontent.com/u/174382388?v=4",
+            "providerUserInfo": [
+                {
+                    "providerId": "github.com",
+                    "displayName": "Harsh Srivastva",
+                    "photoUrl": "https://avatars.githubusercontent.com/u/174382388?v=4",
+                    "federatedId": "174382388",
+                    "rawId": "174382388",
+                    "screenName": "harshsrivastva97"
+                }
+            ],
+            "validSince": "1740472180",
+            "lastLoginAt": "1740472180780",
+            "createdAt": "1740472180780",
+            "screenName": "harshsrivastva97",
+            "lastRefreshAt": "2025-02-25T08:29:40.780Z"
+        }
+    ]
+}

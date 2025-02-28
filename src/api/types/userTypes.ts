@@ -1,4 +1,4 @@
-export interface UserDataObject {
+export interface BackendUserSchema {
     uid: string,
     display_name?: string,
     email?: string,
@@ -7,12 +7,11 @@ export interface UserDataObject {
     provider_id?: string,
     github?: string,
     linkedin?: string,
-    twitter?: string,
-    website?: string,
+    x_link?: string,
+    website_link?: string,
 }
 
-export interface User {
-    uid: string;
+export interface UserProfileState {
     email?: string;
     displayName?: string;
     photoURL?: string;

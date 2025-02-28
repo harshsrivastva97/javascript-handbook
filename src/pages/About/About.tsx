@@ -16,9 +16,8 @@ import { SiTypescript } from "react-icons/si";
 
 const About: React.FC = () => {
   return (
-    <div className="scrollable min-h-screen bg-gradient-to-b from-gray-900 to-gray-950">
+    <div className="scrollable min-h-screen bg-gradient-to-b">
       <div className="max-w-7xl mx-auto px-4 py-20">
-        {/* Hero Section */}
         <div className="text-center mb-24">
           <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
             About JavaScript Handbook
@@ -30,7 +29,7 @@ const About: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <div className="backdrop-blur-sm bg-gray-800/50 rounded-2xl p-10 border border-gray-700/50 shadow-xl mb-24">
+        <div className="backdrop-blur-sm  rounded-2xl p-10 border border-gray-700/50 shadow-xl mb-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div>
               <h2 className="text-3xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
@@ -53,32 +52,32 @@ const About: React.FC = () => {
 
             <div className="w-full h-full relative flex items-center justify-center min-h-[300px]">
               {/* Core Icon */}
-              <div className="absolute w-20 h-20 flex items-center justify-center text-5xl bg-gray-900/90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-[#f7df1e] z-30 shadow-2xl transform hover:scale-110 transition-transform duration-300">
+              <div className="absolute w-20 h-20 flex items-center justify-center text-5xl /90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-[#f7df1e] z-30 shadow-2xl transform hover:scale-110 transition-transform duration-300">
                 <FaJsSquare />
               </div>
 
               {/* Framework Layer */}
               <div className="absolute w-[220px] h-[220px]">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-16 flex items-center justify-center text-3xl bg-gray-900/90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-[#61dafb] transform hover:scale-110 transition-transform duration-300">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-16 flex items-center justify-center text-3xl /90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-[#61dafb] transform hover:scale-110 transition-transform duration-300">
                   <FaReact />
                 </div>
-                <div className="absolute bottom-0 right-0 w-16 h-16 flex items-center justify-center text-3xl bg-gray-900/90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-[#42b883] transform hover:scale-110 transition-transform duration-300">
+                <div className="absolute bottom-0 right-0 w-16 h-16 flex items-center justify-center text-3xl /90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-[#42b883] transform hover:scale-110 transition-transform duration-300">
                   <FaVuejs />
                 </div>
-                <div className="absolute bottom-0 left-0 w-16 h-16 flex items-center justify-center text-3xl bg-gray-900/90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-[#3178c6] transform hover:scale-110 transition-transform duration-300">
+                <div className="absolute bottom-0 left-0 w-16 h-16 flex items-center justify-center text-3xl /90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-[#3178c6] transform hover:scale-110 transition-transform duration-300">
                   <SiTypescript />
                 </div>
               </div>
 
               {/* Tools Layer */}
               <div className="absolute w-[300px] h-[300px]">
-                <div className="absolute top-[20%] left-0 w-16 h-16 flex items-center justify-center text-3xl bg-gray-900/90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-[#68a063] transform hover:scale-110 transition-transform duration-300">
+                <div className="absolute top-[20%] left-0 w-16 h-16 flex items-center justify-center text-3xl /90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-[#68a063] transform hover:scale-110 transition-transform duration-300">
                   <FaNodeJs />
                 </div>
-                <div className="absolute top-[20%] right-0 w-16 h-16 flex items-center justify-center text-3xl bg-gray-900/90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-[#cb3837] transform hover:scale-110 transition-transform duration-300">
+                <div className="absolute top-[20%] right-0 w-16 h-16 flex items-center justify-center text-3xl /90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-[#cb3837] transform hover:scale-110 transition-transform duration-300">
                   <FaNpm />
                 </div>
-                <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-16 h-16 flex items-center justify-center text-3xl bg-gray-900/90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-white transform hover:scale-110 transition-transform duration-300">
+                <div className="absolute bottom-[20%] left-1/2 -translate-x-1/2 w-16 h-16 flex items-center justify-center text-3xl /90 border border-gray-700/50 rounded-2xl backdrop-blur-xl text-white transform hover:scale-110 transition-transform duration-300">
                   <FaGithub />
                 </div>
               </div>
@@ -114,7 +113,7 @@ const About: React.FC = () => {
             ].map((feature, index) => (
               <div
                 key={index}
-                className="backdrop-blur-sm bg-gray-800/50 rounded-2xl p-8 border border-gray-700/50 shadow-xl hover:transform hover:-translate-y-1 transition-all duration-300"
+                className="backdrop-blur-sm  rounded-2xl p-8 border border-gray-700/50 shadow-xl hover:transform hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="text-4xl mb-6 text-purple-400">{feature.icon}</div>
                 <h3 className="text-2xl font-semibold text-white mb-4">{feature.title}</h3>

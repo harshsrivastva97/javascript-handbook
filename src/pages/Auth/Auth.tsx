@@ -131,8 +131,8 @@ const Auth: React.FC = () => {
     };
 
     return (
-        <div className="bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 h-[calc(100vh-64px)]">
-            <div className="max-w-md w-full space-y-8 bg-gray-800 p-8 rounded-xl border border-purple-500/20">
+        <div className=" flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 h-[calc(100vh-64px)]">
+            <div className="max-w-md w-full space-y-8  p-8 rounded-xl border border-purple-500/20">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
                         {isLogin ? "Welcome Back" : "Create Account"}
@@ -153,7 +153,7 @@ const Auth: React.FC = () => {
                                     type="email"
                                     name="email"
                                     required
-                                    className="w-full bg-gray-700 border border-gray-600 rounded-lg py-3 px-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                    className="w-full  border border-gray-600 rounded-lg py-3 px-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                                     placeholder="Email address"
                                     value={formData.email}
                                     onChange={handleInputChange}
@@ -168,7 +168,7 @@ const Auth: React.FC = () => {
                                     type={showPassword ? "text" : "password"}
                                     name="password"
                                     required
-                                    className="w-full bg-gray-700 border border-gray-600 rounded-lg py-3 px-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                    className="w-full  border border-gray-600 rounded-lg py-3 px-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                                     placeholder="Password"
                                     value={formData.password}
                                     onChange={handleInputChange}
@@ -208,7 +208,7 @@ const Auth: React.FC = () => {
                             <div className="w-full border-t border-gray-600"></div>
                         </div>
                         <div className="relative flex justify-center text-sm">
-                            <span className="px-2 bg-gray-800 text-gray-400">Or continue with</span>
+                            <span className="px-2  text-gray-400">Or continue with</span>
                         </div>
                     </div>
 
@@ -217,7 +217,7 @@ const Auth: React.FC = () => {
                             type="button"
                             onClick={handleGoogleSignIn}
                             disabled={loading}
-                            className="flex items-center justify-center py-2.5 px-4 rounded-lg text-white bg-gray-700 hover:bg-gray-600 transition-all border border-gray-600"
+                            className="flex items-center justify-center py-2.5 px-4 rounded-lg text-white  hover:bg-gray-600 transition-all border border-gray-600"
                         >
                             <FaGoogle className="mr-2" />
                             Google
@@ -226,7 +226,7 @@ const Auth: React.FC = () => {
                             type="button"
                             onClick={handleGithubSignIn}
                             disabled={loading}
-                            className="flex items-center justify-center py-2.5 px-4 rounded-lg text-white bg-gray-700 hover:bg-gray-600 transition-all border border-gray-600"
+                            className="flex items-center justify-center py-2.5 px-4 rounded-lg text-white  hover:bg-gray-600 transition-all border border-gray-600"
                         >
                             <FaGithub className="mr-2" />
                             GitHub
