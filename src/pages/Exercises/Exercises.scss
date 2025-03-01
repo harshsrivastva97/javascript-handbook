@@ -379,7 +379,7 @@
     border-color: var(--border-color);
 
     &:hover {
-      border-color: rgba(var(--primary-color-rgb), 0.3);
+      border-color: rgba(var(--primary-color), 0.3);
     }
   }
 
@@ -432,12 +432,12 @@
 
   /* Skill tags */
   .skill-tag {
-    background-color: rgba(var(--primary-color-rgb), 0.1);
+    background-color: rgba(var(--primary-color), 0.1);
     color: var(--primary-color);
-    border-color: rgba(var(--primary-color-rgb), 0.2);
+    border-color: rgba(var(--primary-color), 0.2);
 
     &:hover {
-      background-color: rgba(var(--primary-color-rgb), 0.15);
+      background-color: rgba(var(--primary-color), 0.15);
     }
   }
 
@@ -469,17 +469,17 @@
 
   /* Hint button and container */
   .hint-button {
-    background-color: rgba(var(--primary-color-rgb), 0.1);
+    background-color: rgba(var(--primary-color), 0.1);
     color: var(--primary-color);
 
     &:hover {
-      background-color: rgba(var(--primary-color-rgb), 0.2);
+      background-color: rgba(var(--primary-color), 0.2);
     }
   }
 
   .hint-container {
-    background-color: rgba(var(--primary-color-rgb), 0.05);
-    border-color: rgba(var(--primary-color-rgb), 0.1);
+    background-color: rgba(var(--primary-color), 0.05);
+    border-color: rgba(var(--primary-color), 0.1);
     color: var(--text-primary);
   }
 

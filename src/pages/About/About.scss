@@ -26,7 +26,7 @@
   .card-container {
     backdrop-filter: blur(8px);
     border-color: var(--border-color);
-    background-color: rgba(var(--primary-color-rgb), 0.03);
+    background-color: rgba(var(--primary-color), 0.03);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   }
 
@@ -90,8 +90,8 @@
   /* CTA section */
   .cta-section {
     background: linear-gradient(to right,
-        rgba(var(--primary-color-rgb), 0.05),
-        rgba(var(--secondary-color-rgb), 0.05));
+        rgba(var(--primary-color), 0.05),
+        rgba(var(--secondary-color), 0.05));
     border-color: var(--border-color);
     backdrop-filter: blur(8px);
   }

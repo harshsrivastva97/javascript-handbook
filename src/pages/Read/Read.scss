@@ -80,7 +80,7 @@
     }
 
     code {
-      background-color: rgba(var(--primary-color-rgb), 0.1);
+      background-color: rgba(var(--primary-color), 0.1);
       padding: 0.2em 0.4em;
       border-radius: 3px;
       font-family: monospace;
@@ -131,12 +131,12 @@
     }
 
     &.active {
-      background-color: rgba(var(--primary-color-rgb), 0.2);
-      border-color: rgba(var(--primary-color-rgb), 0.3);
+      background-color: rgba(var(--primary-color), 0.2);
+      border-color: rgba(var(--primary-color), 0.3);
     }
 
     &.completed {
-      border-color: rgba(var(--primary-color-rgb), 0.1);
+      border-color: rgba(var(--primary-color), 0.1);
     }
   }
 
@@ -205,11 +205,11 @@
   }
 
   .button-pending {
-    background-color: rgba(var(--primary-color-rgb), 0.2);
+    background-color: rgba(var(--primary-color), 0.2);
     color: var(--primary-color);
 
     &:hover {
-      background-color: rgba(var(--primary-color-rgb), 0.3);
+      background-color: rgba(var(--primary-color), 0.3);
     }
   }
 
@@ -244,9 +244,9 @@
 
   /* Key Points */
   .key-points {
-    background-color: rgba(var(--primary-color-rgb), 0.05);
+    background-color: rgba(var(--primary-color), 0.05);
     border-radius: 8px;
-    border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+    border: 1px solid rgba(var(--primary-color), 0.1);
   }
 
   .key-point-bullet {

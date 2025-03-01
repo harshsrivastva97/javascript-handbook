@@ -27,12 +27,18 @@
   }
 
   .secondary-button {
+    background-color: transparent;
     border: 2px solid var(--accent-primary);
     color: var(--accent-primary);
+    transition: all 0.3s ease;
 
     &:hover {
-      background-color: var(--accent-primary);
-      color: var(--text-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active {
+      transform: translateY(-1px);
     }
   }
 
@@ -94,7 +100,7 @@
   }
 
   .hover-button:hover {
-    background-color: rgba(var(--primary-color-rgb), 0.1);
+    background-color: rgba(var(--primary-color), 0.1);
   }
 
   /* Progress Section */
@@ -110,9 +116,9 @@
   /* CTA Section */
   .cta-section {
     background-image: linear-gradient(to right,
-        rgba(var(--primary-color-rgb), 0.1),
+        rgba(var(--primary-color), 0.1),
         rgba(var(--secondary-color), 0.1));
-    border: 1px solid rgba(var(--primary-color-rgb), 0.2);
+    border: 1px solid rgba(var(--primary-color), 0.2);
   }
 
   /* Explore More Button */

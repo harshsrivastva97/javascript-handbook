@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
   FaCode,
   FaNewspaper,
@@ -11,6 +11,7 @@ import {
   FaChevronDown,
   FaMoon,
   FaSun,
+  FaBookmark,
 } from "react-icons/fa";
 import { getAuth, signOut } from "firebase/auth";
 import './Header.scss';
@@ -20,8 +21,10 @@ import { useTheme } from '../../contexts/ThemeContext';
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [dropdownTimeout, setDropdownTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const auth = getAuth();
   const { currentUser } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -33,72 +36,94 @@ const Header: React.FC = () => {
     return () => unsubscribe();
   }, [auth]);
 
+  useEffect(() => {
+    // Close mobile menu when route changes
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    // Handle clicks outside of dropdown
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const handleLogout = async () => {
     await signOut(auth);
     navigate('/auth');
+    setIsDropdownOpen(false);
   };
 
-  const handleDropdownOpen = () => {
-    if (dropdownTimeout) {
-      clearTimeout(dropdownTimeout);
-      setDropdownTimeout(null);
-    }
-    setIsDropdownOpen(true);
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleDropdownClose = () => {
-    const timeout = setTimeout(() => {
-      setIsDropdownOpen(false);
-    }, 300); // 300ms delay before closing
-    setDropdownTimeout(timeout as NodeJS.Timeout);
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
-  // Clean up timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (dropdownTimeout) {
-        clearTimeout(dropdownTimeout);
-      }
-    };
-  }, [dropdownTimeout]);
 
   const navLinks = [
     {
       title: "Read",
       path: "/read",
       icon: <FaNewspaper />,
+      description: "Tutorials & guides"
     },
     {
       title: "Practice",
       path: "/practice",
       icon: <FaCode />,
+      description: "Hands-on coding"
     },
     {
       title: "Blogs",
       path: "/blogs",
       icon: <FaBook />,
+      description: "Latest insights"
     },
     {
       title: "Exercises",
       path: "/exercises",
       icon: <FaLaptopCode />,
+      description: "Skill challenges"
     },
     {
       title: "About",
       path: "/about",
       icon: <FaHeart />,
+      description: "Our mission"
     },
   ];
 
   return (
-    <header className="header">
+    <header className={`header ${theme}`}>
       <div className="header-container">
         <NavLink to="/" className="logo">
-          <span className="logo-symbol">&lt;/&gt;</span>
-          <span className="logo-text">JS Handbook</span>
+          <div className="logo-icon">
+            <span className="logo-symbol">&lt;/&gt;</span>
+          </div>
+          <div className="logo-text-container">
+            <span className="logo-text">JS Handbook</span>
+            <span className="logo-tagline">Master JavaScript, one step at a time</span>
+          </div>
         </NavLink>
 
-        <div className="nav-wrapper">
+        <div className="mobile-toggle" onClick={toggleMobileMenu}>
+          <div className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <div className={`nav-wrapper ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
           <nav className="main-nav">
             {navLinks.map((link) => (
               <NavLink
@@ -108,8 +133,11 @@ const Header: React.FC = () => {
                   `nav-link ${isActive ? 'active' : ''}`
                 }
               >
-                {link.icon}
-                <span>{link.title}</span>
+                <div className="nav-icon">{link.icon}</div>
+                <div className="nav-content">
+                  <span className="nav-title">{link.title}</span>
+                  <span className="nav-description">{link.description}</span>
+                </div>
               </NavLink>
             ))}
           </nav>
@@ -124,14 +152,10 @@ const Header: React.FC = () => {
             </button>
 
             {isLoggedIn ? (
-              <div
-                className="user-menu"
-                onMouseEnter={handleDropdownOpen}
-                onMouseLeave={handleDropdownClose}
-              >
+              <div className="user-menu" ref={dropdownRef}>
                 <button
                   className="user-button"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  onClick={toggleDropdown}
                 >
                   <div className="user-avatar">
                     {currentUser?.photoURL ? (
@@ -140,21 +164,38 @@ const Header: React.FC = () => {
                       <FaUser />
                     )}
                   </div>
-                  <span className={`user-name ${theme}`}>{currentUser?.displayName}</span>
+                  <span className="user-name">{currentUser?.displayName || 'User'}</span>
                   <FaChevronDown className={`chevron-icon ${isDropdownOpen ? 'rotate' : ''}`} />
                 </button>
 
                 {isDropdownOpen && (
-                  <div
-                    className="dropdown-menu"
-                    onMouseEnter={handleDropdownOpen}
-                    onMouseLeave={handleDropdownClose}
-                  >
+                  <div className="dropdown-menu">
+                    <div className="dropdown-header">
+                      <div className="dropdown-user-info">
+                        <div className="dropdown-avatar">
+                          {currentUser?.photoURL ? (
+                            <img src={currentUser.photoURL} alt="User avatar" />
+                          ) : (
+                            <FaUser />
+                          )}
+                        </div>
+                        <div className="dropdown-user-details">
+                          <span className="dropdown-user-name">{currentUser?.displayName || 'User'}</span>
+                          <span className="dropdown-user-email">{currentUser?.email}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="dropdown-divider"></div>
                     <NavLink to="/profile" className="dropdown-item">
                       <FaUser />
                       <span>Profile</span>
                     </NavLink>
-                    <button onClick={handleLogout} className="dropdown-item">
+                    <NavLink to="/bookmarks" className="dropdown-item">
+                      <FaBookmark />
+                      <span>Bookmarks</span>
+                    </NavLink>
+                    <div className="dropdown-divider"></div>
+                    <button onClick={handleLogout} className="dropdown-item logout-item">
                       <FaSignOutAlt />
                       <span>Logout</span>
                     </button>

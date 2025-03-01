@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background with rounded corners and subtle shadow -->
+    <rect width="32" height="32" rx="8" fill="url(#gradient)">
+        <animate attributeName="rx" values="8;9;8" dur="4s" repeatCount="indefinite" />
+    </rect>
+
+    <!-- JS letters -->
+    <g transform="translate(8, 8)">
+        <!-- J -->
+        <path d="M4 2V10C4 11.1046 3.10457 12 2 12H1" stroke="white" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round" />
+        <!-- S -->
+        <path
+            d="M11 2H8C7.44772 2 7 2.44772 7 3V5C7 5.55228 7.44772 6 8 6H10C10.5523 6 11 6.44772 11 7V9C11 9.55228 10.5523 10 10 10H7"
+            stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+
+    <!-- Subtle code bracket accent in background -->
+    <path d="M6 10L4 16L6 22" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+        opacity="0.3" />
+    <path d="M26 10L28 16L26 22" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+        opacity="0.3" />
+
+    <!-- Gradient definition -->
+    <defs>
+        <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#4f46e5" />
+            <stop offset="1" stop-color="#3b82f6" />
+        </linearGradient>
+    </defs>
+</svg>

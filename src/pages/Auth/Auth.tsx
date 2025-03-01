@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaEnvelope, FaLock, FaGoogle, FaGithub, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaGoogle, FaGithub, FaEye, FaEyeSlash, FaArrowRight } from "react-icons/fa";
 import "./Auth.scss";
 import firebase from "../../firebase/firebase";
 import { useAppDispatch } from "../../redux/hooks";
+import { useTheme } from "../../contexts/ThemeContext";
 
 interface AuthForm {
     email: string;
@@ -21,6 +22,7 @@ const Auth: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const { theme } = useTheme();
 
     const validateForm = (): boolean => {
         if (!formData.email.includes("@")) {
@@ -131,29 +133,32 @@ const Auth: React.FC = () => {
     };
 
     return (
-        <div className=" flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 h-[calc(100vh-64px)]">
-            <div className="max-w-md w-full space-y-8  p-8 rounded-xl border border-purple-500/20">
-                <div>
-                    <h2 className="mt-6 text-center text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+        <div className={`auth-container ${theme}`}>
+            <div className="auth-card">
+                <div className="auth-header">
+                    <div className="logo-icon">
+                        <span className="logo-symbol">&lt;/&gt;</span>
+                    </div>
+                    <h2 className="auth-title">
                         {isLogin ? "Welcome Back" : "Create Account"}
                     </h2>
-                    <p className="mt-2 text-center text-sm text-gray-400">
+                    <p className="auth-subtitle">
                         {isLogin
                             ? "Sign in to continue your learning journey"
                             : "Join our community of developers"}
                     </p>
                 </div>
 
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                    <div className="space-y-4">
-                        <div>
-                            <div className="relative">
-                                <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <form className="auth-form" onSubmit={handleSubmit}>
+                    <div className="form-fields">
+                        <div className="form-field">
+                            <div className="input-wrapper">
+                                <FaEnvelope className="field-icon" />
                                 <input
                                     type="email"
                                     name="email"
                                     required
-                                    className="w-full  border border-gray-600 rounded-lg py-3 px-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                    className="auth-input"
                                     placeholder="Email address"
                                     value={formData.email}
                                     onChange={handleInputChange}
@@ -161,14 +166,14 @@ const Auth: React.FC = () => {
                             </div>
                         </div>
 
-                        <div>
-                            <div className="relative">
-                                <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <div className="form-field">
+                            <div className="input-wrapper">
+                                <FaLock className="field-icon" />
                                 <input
                                     type={showPassword ? "text" : "password"}
                                     name="password"
                                     required
-                                    className="w-full  border border-gray-600 rounded-lg py-3 px-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                    className="auth-input"
                                     placeholder="Password"
                                     value={formData.password}
                                     onChange={handleInputChange}
@@ -176,7 +181,8 @@ const Auth: React.FC = () => {
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
+                                    className="toggle-password"
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
                                 >
                                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                                 </button>
@@ -185,62 +191,57 @@ const Auth: React.FC = () => {
                     </div>
 
                     {statusMessage && (
-                        <div className={`text-sm text-center py-2 rounded-lg ${statusMessage.type === 'success'
-                            ? 'text-green-500 bg-green-500/10'
-                            : 'text-red-500 bg-red-500/10'
-                            }`}>
+                        <div className={`status-message ${statusMessage.type}`}>
                             {statusMessage.message}
                         </div>
                     )}
 
-                    <div>
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 font-medium transition-all disabled:opacity-50"
-                        >
-                            {loading ? "Processing..." : isLogin ? "Sign In" : "Create Account"}
-                        </button>
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="submit-button"
+                    >
+                        {loading ? "Processing..." : (
+                            <>
+                                {isLogin ? "Sign In" : "Create Account"}
+                                <FaArrowRight className="button-icon" />
+                            </>
+                        )}
+                    </button>
+
+                    <div className="divider">
+                        <span>Or continue with</span>
                     </div>
 
-                    <div className="relative">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-600"></div>
-                        </div>
-                        <div className="relative flex justify-center text-sm">
-                            <span className="px-2  text-gray-400">Or continue with</span>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="social-buttons">
                         <button
                             type="button"
                             onClick={handleGoogleSignIn}
                             disabled={loading}
-                            className="flex items-center justify-center py-2.5 px-4 rounded-lg text-white  hover:bg-gray-600 transition-all border border-gray-600"
+                            className="social-button google"
                         >
-                            <FaGoogle className="mr-2" />
-                            Google
+                            <FaGoogle className="social-icon" />
+                            <span>Google</span>
                         </button>
                         <button
                             type="button"
                             onClick={handleGithubSignIn}
                             disabled={loading}
-                            className="flex items-center justify-center py-2.5 px-4 rounded-lg text-white  hover:bg-gray-600 transition-all border border-gray-600"
+                            className="social-button github"
                         >
-                            <FaGithub className="mr-2" />
-                            GitHub
+                            <FaGithub className="social-icon" />
+                            <span>GitHub</span>
                         </button>
                     </div>
 
-                    <div className="text-center text-sm">
-                        <span className="text-gray-400">
-                            {isLogin ? "Don't have an account? " : "Already have an account? "}
+                    <div className="auth-footer">
+                        <span className="footer-text">
+                            {isLogin ? "Don't have an account?" : "Already have an account?"}
                         </span>
                         <button
                             type="button"
                             onClick={() => setIsLogin(!isLogin)}
-                            className="text-purple-500 hover:text-purple-400 font-medium"
+                            className="toggle-auth-mode"
                         >
                             {isLogin ? "Sign up" : "Sign in"}
                         </button>
