@@ -1,4 +1,129 @@
 .home {
+
+  /* Theme-based general styles */
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .gradient-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  }
+
+  /* Buttons */
+  .primary-button {
+    background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    color: var(--text-color);
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+
+  .secondary-button {
+    border: 2px solid var(--accent-primary);
+    color: var(--accent-primary);
+
+    &:hover {
+      background-color: var(--accent-primary);
+      color: var(--text-color);
+    }
+  }
+
+  /* Feature Cards */
+  .feature-card {
+    background-color: var(--card-bg);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: var(--hover);
+      transform: translateY(-5px);
+    }
+  }
+
+  .accent-icon {
+    color: var(--accent-primary);
+  }
+
+  /* Table Styling */
+  .table-header {
+    border-color: var(--border-color);
+    background-color: var(--card-bg);
+  }
+
+  .table-body {
+    border-color: var(--border-color);
+  }
+
+  .table-row {
+    border-color: var(--border-color);
+
+    &:hover {
+      background-color: var(--hover);
+    }
+  }
+
+  /* Status indicators */
+  .status-completed {
+    color: #22c55e;
+    /* Green that works in both themes */
+  }
+
+  .status-in-progress {
+    color: #eab308;
+    /* Yellow that works in both themes */
+  }
+
+  .status-pending {
+    color: var(--text-secondary);
+  }
+
+  /* Action Buttons */
+  .read-button {
+    color: var(--primary-color);
+  }
+
+  .practice-button {
+    color: var(--secondary-color);
+  }
+
+  .hover-button:hover {
+    background-color: rgba(var(--primary-color-rgb), 0.1);
+  }
+
+  /* Progress Section */
+  .progress-border {
+    border-bottom: 1px solid var(--border-color);
+
+    @media (min-width: 1024px) {
+      border-bottom: 0;
+      border-right: 1px solid var(--border-color);
+    }
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background-image: linear-gradient(to right,
+        rgba(var(--primary-color-rgb), 0.1),
+        rgba(var(--secondary-color), 0.1));
+    border: 1px solid rgba(var(--primary-color-rgb), 0.2);
+  }
+
+  /* Explore More Button */
+  .explore-more-button {
+    color: var(--accent-primary);
+
+    &:hover {
+      color: var(--accent-secondary);
+    }
+  }
+
   .hero {
     padding: 2rem 4rem;
     gap: 3rem;

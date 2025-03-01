@@ -1,5 +1,138 @@
 @use "sass:color";
 
+.about-page {
+  background-color: var(--background);
+  color: var(--text-primary);
+  min-height: 100vh;
+
+  /* Text colors */
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  }
+
+  /* Card container */
+  .card-container {
+    backdrop-filter: blur(8px);
+    border-color: var(--border-color);
+    background-color: rgba(var(--primary-color-rgb), 0.03);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Feature cards */
+  .feature-card {
+    backdrop-filter: blur(8px);
+    border-color: var(--border-color);
+    background-color: var(--card-bg);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-icon {
+      color: var(--secondary-color);
+    }
+  }
+
+  /* Tech icon containers */
+  .tech-icon {
+    border-color: var(--border-color);
+    background-color: var(--card-bg);
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &.javascript {
+      color: #f7df1e;
+    }
+
+    &.react {
+      color: #61dafb;
+    }
+
+    &.vue {
+      color: #42b883;
+    }
+
+    &.typescript {
+      color: #3178c6;
+    }
+
+    &.node {
+      color: #68a063;
+    }
+
+    &.npm {
+      color: #cb3837;
+    }
+
+    &.github {
+      color: var(--text-primary);
+    }
+  }
+
+  /* CTA section */
+  .cta-section {
+    background: linear-gradient(to right,
+        rgba(var(--primary-color-rgb), 0.05),
+        rgba(var(--secondary-color-rgb), 0.05));
+    border-color: var(--border-color);
+    backdrop-filter: blur(8px);
+  }
+
+  /* CTA button */
+  .cta-button {
+    background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    color: white;
+    transition: all 0.3s ease;
+
+    &:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+  }
+
+  /* Footer links */
+  .footer-link {
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: var(--secondary-color);
+    }
+  }
+
+  /* Heart icon */
+  .heart-icon {
+    color: #ef4444;
+  }
+
+  /* Author link */
+  .author-link {
+    color: var(--secondary-color);
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+}
+
 .about {
   min-height: 100vh;
   max-height: 100vh;

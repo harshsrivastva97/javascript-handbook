@@ -8,6 +8,60 @@ body {
   overflow: hidden;
 }
 
+/* Hide scrollbars completely without reserving space */
+* {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
+/* Webkit browsers (Chrome, Safari, etc.) */
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* Global scrollbar styling */
+* {
+  scrollbar-width: thin;
+  /* Firefox */
+  -ms-overflow-style: thin;
+  /* IE and Edge */
+}
+
+/* Webkit browsers (Chrome, Safari, etc.) */
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(155, 155, 155, 0.5);
+  border-radius: 20px;
+  transition: background-color 0.2s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(155, 155, 155, 0.7);
+}
+
+/* If you want to completely hide scrollbars, uncomment this section:
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+*/
 
 a {
   color: var(--accent-primary);

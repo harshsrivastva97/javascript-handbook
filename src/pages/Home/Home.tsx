@@ -8,6 +8,7 @@ import { BsThreeDots, BsLightningCharge, BsBookHalf } from "react-icons/bs";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { listOfConcepts } from '../../data/concepts';
+import './Home.scss';
 
 interface Topic {
   id: number;
@@ -89,21 +90,21 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <div className="home scrollable  min-h-screen pt-10 pb-20">
+    <div className="home scrollable min-h-screen pt-10 pb-20">
       <div className="hero flex flex-col items-center">
         <div className="flex flex-col items-center text-center">
-          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+          <h1 className="text-4xl font-bold mb-4 gradient-text">
             Your Journey to JavaScript Mastery
           </h1>
-          <p className="text-lg text-gray-300 max-w-2xl mb-8">
+          <p className="text-lg text-secondary max-w-2xl mb-8">
             Master JavaScript through interactive learning, comprehensive documentation,
             and hands-on coding exercises. Join thousands of developers on their path to excellence.
           </p>
           <div className="flex gap-4">
-            <button className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold flex items-center gap-2 hover:from-blue-600 hover:to-purple-700 transition-all" onClick={() => navigate('/read')}>
+            <button className="primary-button px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition-all" onClick={() => navigate('/read')}>
               Start Learning <FaRocket />
             </button>
-            <button className="px-6 py-3 border-2 border-purple-500 text-purple-500 rounded-full font-semibold flex items-center gap-2 hover:bg-purple-500 hover:text-white transition-all" onClick={() => navigate('/practice')}>
+            <button className="secondary-button px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition-all" onClick={() => navigate('/practice')}>
               Explore Code Vault <FaCode />
             </button>
           </div>
@@ -113,18 +114,18 @@ const Home: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 py-16">
         {/* Features Section */}
         <div className="mb-20">
-          <h2 className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+          <h2 className="text-3xl font-bold text-center mb-12 gradient-text">
             Why Choose Our Platform?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className="p-6 rounded-xl  hover:bg-gray-750 transition-all"
+                className="feature-card p-6 rounded-xl transition-all"
               >
-                <div className="text-3xl mb-4 text-purple-500">{feature.icon}</div>
-                <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-gray-400">{feature.description}</p>
+                <div className="text-3xl mb-4 accent-icon">{feature.icon}</div>
+                <h3 className="text-xl font-semibold text-primary mb-2">{feature.title}</h3>
+                <p className="text-secondary">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -132,30 +133,30 @@ const Home: React.FC = () => {
 
         <div className="mb-20">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+            <h2 className="text-3xl font-bold mb-4 gradient-text">
               Your Learning Journey
             </h2>
-            <p className="text-gray-400">Track your progress through essential JavaScript concepts</p>
+            <p className="text-secondary">Track your progress through essential JavaScript concepts</p>
           </div>
 
-          <div className=" rounded-xl p-6">
+          <div className="rounded-xl p-6">
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Progress Section */}
-              <div className="lg:w-64 flex flex-col items-center justify-center p-4 border-b lg:border-b-0 lg:border-r border-gray-700">
+              <div className="lg:w-64 flex flex-col items-center justify-center p-4 progress-border">
                 <div className="w-48 mb-4">
                   <CircularProgressbar
                     value={calculateProgress()}
                     text={`${calculateProgress()}%`}
                     styles={buildStyles({
-                      pathColor: `url(#progressGradient)`,
-                      textColor: '#ffffff',
-                      trailColor: 'rgba(255, 255, 255, 0.2)',
+                      pathColor: `var(--accent-primary)`,
+                      textColor: 'var(--text-primary)',
+                      trailColor: 'var(--border-color)',
                       pathTransitionDuration: 0.5
                     })}
                   />
                 </div>
-                <p className="text-gray-400 text-center font-medium">Overall Progress</p>
-                <p className="text-sm text-gray-500 text-center mt-2">
+                <p className="text-secondary text-center font-medium">Overall Progress</p>
+                <p className="text-sm text-secondary text-center mt-2">
                   {topics.filter((t: Topic) => t.status === "completed").length} of {listOfConcepts.length} concepts mastered
                 </p>
               </div>
@@ -164,19 +165,19 @@ const Home: React.FC = () => {
                 <div className="overflow-hidden">
                   <div className="overflow-y-auto" style={{ maxHeight: '600px' }}>
                     <table className="w-full">
-                      <thead className="sticky top-0  z-10">
-                        <tr className="text-gray-400 border-b border-gray-700 z-10 bg-gray-800">
+                      <thead className="sticky top-0 z-10">
+                        <tr className="text-secondary table-header border-b z-10">
                           <th className="text-left py-3 px-4 font-semibold">Topic</th>
                           <th className="text-left py-3 px-4 font-semibold">Status</th>
                           <th className="text-left py-3 px-4 font-semibold">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-700">
+                      <tbody className="table-body">
                         {listOfConcepts.map((concept) => {
                           const topicStatus = topics.find((t: Topic) => t.id === concept.id)?.status || 'pending';
                           return (
-                            <tr key={concept.id} className="hover:bg-gray-750 transition-colors">
-                              <td className="py-4 px-4 text-white">{concept.title}</td>
+                            <tr key={concept.id} className="table-row transition-colors">
+                              <td className="py-4 px-4 text-primary">{concept.title}</td>
                               <td className="py-4 px-4">
                                 <div
                                   className="flex items-center gap-2 cursor-pointer"
@@ -189,17 +190,17 @@ const Home: React.FC = () => {
                                     handleStatusChange(concept.id, nextStatus[topicStatus as keyof typeof nextStatus]);
                                   }}
                                 >
-                                  <div className={`text-xl ${topicStatus === 'completed' ? 'text-green-500' :
-                                    topicStatus === 'in-progress' ? 'text-yellow-500' :
-                                      'text-gray-500'
+                                  <div className={`text-xl ${topicStatus === 'completed' ? 'status-completed' :
+                                    topicStatus === 'in-progress' ? 'status-in-progress' :
+                                      'status-pending'
                                     }`}>
                                     {topicStatus === 'completed' && <FaCheckCircle />}
                                     {topicStatus === 'in-progress' && <BsThreeDots />}
                                     {topicStatus === 'pending' && <FaRegCircle />}
                                   </div>
-                                  <span className={`text-sm font-medium ${topicStatus === 'completed' ? 'text-green-500' :
-                                    topicStatus === 'in-progress' ? 'text-yellow-500' :
-                                      'text-gray-400'
+                                  <span className={`text-sm font-medium ${topicStatus === 'completed' ? 'status-completed' :
+                                    topicStatus === 'in-progress' ? 'status-in-progress' :
+                                      'text-secondary'
                                     }`}>
                                     {topicStatus === 'completed' && 'Mastered'}
                                     {topicStatus === 'in-progress' && 'Learning'}
@@ -210,14 +211,14 @@ const Home: React.FC = () => {
                               <td className="py-4 px-4">
                                 <div className="flex gap-3">
                                   <button
-                                    className="p-2 text-blue-500 hover:bg-blue-500/10 rounded-lg transition-colors"
+                                    className="p-2 read-button hover-button rounded-lg transition-colors"
                                     onClick={() => navigateToConcept(concept.id)}
                                     data-tooltip-id={`readme-${concept.id}`}
                                   >
                                     <FaBook />
                                   </button>
                                   <button
-                                    className="p-2 text-purple-500 hover:bg-purple-500/10 rounded-lg transition-colors"
+                                    className="p-2 practice-button hover-button rounded-lg transition-colors"
                                     onClick={() => navigateToCodeVault(concept.id)}
                                     data-tooltip-id={`practice-${concept.id}`}
                                   >
@@ -238,15 +239,15 @@ const Home: React.FC = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="mb-20 text-center py-16 px-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-purple-600/10 border border-purple-500/20">
-          <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+        <div className="mb-20 text-center py-16 px-4 rounded-xl cta-section">
+          <h2 className="text-3xl font-bold mb-4 gradient-text">
             Ready to Level Up Your JavaScript Skills?
           </h2>
-          <p className="text-gray-400 mb-8">
+          <p className="text-secondary mb-8">
             Start your learning journey today and join our community of developers.
           </p>
           <button
-            className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold flex items-center gap-2 hover:from-blue-600 hover:to-purple-700 transition-all mx-auto"
+            className="primary-button px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition-all mx-auto"
             onClick={() => window.open('https://github.com/harshsrivastva97/javascript-handbook', '_blank')}
           >
             Begin Your Journey <FaRocket />
@@ -255,20 +256,20 @@ const Home: React.FC = () => {
 
         {/* Explore Section */}
         <div>
-          <h2 className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+          <h2 className="text-3xl font-bold text-center mb-12 gradient-text">
             Explore More
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {exploreSections.map((section, index) => (
               <div
                 key={section.title}
-                className="p-6 rounded-xl  hover:bg-gray-750 transition-all"
+                className="feature-card p-6 rounded-xl transition-all"
               >
-                <div className="text-3xl mb-4 text-purple-500">{section.icon}</div>
-                <h3 className="text-xl font-semibold text-white mb-2">{section.title}</h3>
-                <p className="text-gray-400 mb-4">{section.description}</p>
+                <div className="text-3xl mb-4 accent-icon">{section.icon}</div>
+                <h3 className="text-xl font-semibold text-primary mb-2">{section.title}</h3>
+                <p className="text-secondary mb-4">{section.description}</p>
                 <button
-                  className="text-purple-500 hover:text-purple-400 transition-colors font-semibold flex items-center gap-2"
+                  className="explore-more-button font-semibold flex items-center gap-2"
                   onClick={() => navigate(section.link)}
                 >
                   Learn More <FaRocket className="text-sm" />

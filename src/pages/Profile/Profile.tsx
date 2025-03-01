@@ -29,7 +29,8 @@ const INITIAL_FORM_STATE: UserProfileState = {
 };
 
 const PROFILE_SECTIONS: ProfileSection[] = [
-    { id: 'profile', title: 'Profile Overview', icon: <FaUser /> },
+    { id: 'overview', title: 'Overview', icon: <FaUser /> },
+    { id: 'profile', title: 'Profile', icon: <FaUser /> }
 ];
 
 const EDITABLE_FIELDS: EditableField[] = [

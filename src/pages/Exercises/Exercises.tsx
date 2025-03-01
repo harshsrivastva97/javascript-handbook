@@ -399,24 +399,24 @@ validator
     switch (difficulty) {
       case "Easy":
         return {
-          color: "text-green-500",
+          class: "easy",
           stars: 1,
           text: "Perfect for beginners",
         };
       case "Medium":
         return {
-          color: "text-yellow-500",
+          class: "medium",
           stars: 2,
           text: "Some programming experience needed",
         };
       case "Hard":
         return {
-          color: "text-red-500",
+          class: "hard",
           stars: 3,
           text: "Advanced concepts involved",
         };
       default:
-        return { color: "", stars: 0, text: "" };
+        return { class: "", stars: 0, text: "" };
     }
   };
 
@@ -435,27 +435,27 @@ validator
   };
 
   return (
-    <div className="scrollable min-h-screen  text-gray-100 pt-10 pb-20">
+    <div className="exercises-page scrollable min-h-screen pt-10 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+          <h1 className="text-4xl font-bold mb-4 gradient-text">
             Coding Exercises
           </h1>
-          <p className="text-lg text-gray-400">
+          <p className="text-lg text-secondary">
             Practice makes perfect. Choose an exercise and start coding!
           </p>
         </div>
 
         {/* Progress Section */}
-        <div className=" rounded-xl p-6 mb-8 backdrop-blur-sm border border-gray-700/50">
+        <div className="progress-container rounded-xl p-6 mb-8 border">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-gray-300 font-medium">Progress Overview</span>
-            <span className="text-gray-400">{calculateProgress()}% Complete</span>
+            <span className="text-primary font-medium">Progress Overview</span>
+            <span className="text-secondary">{calculateProgress()}% Complete</span>
           </div>
-          <div className="h-2  rounded-full overflow-hidden">
+          <div className="progress-bar">
             <div
-              className="h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300"
+              className="progress-fill transition-all duration-300"
               style={{ width: `${calculateProgress()}%` }}
             />
           </div>
@@ -466,7 +466,7 @@ validator
           {exercises.map((exercise) => (
             <div
               key={exercise.id}
-              className=" rounded-xl overflow-hidden backdrop-blur-sm border border-gray-700/50 transition-all hover:border-gray-600/50"
+              className="exercise-card rounded-xl overflow-hidden border transition-all"
             >
               <div className="p-6">
                 <div className="flex items-center gap-4">
@@ -475,12 +475,7 @@ validator
                       e.stopPropagation();
                       handleStatusChange(exercise.id);
                     }}
-                    className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${exercise.status === 'completed'
-                      ? 'bg-green-500/20 text-green-500 hover:bg-green-500/30'
-                      : exercise.status === 'in-progress'
-                        ? 'bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/30'
-                        : ' text-gray-400 hover:bg-gray-600'
-                      }`}
+                    className={`status-button w-10 h-10 rounded-full flex items-center justify-center transition-all ${exercise.status}`}
                   >
                     {getStatusIcon(exercise.status)}
                   </button>
@@ -491,14 +486,14 @@ validator
                       onClick={() => setExpandedId(expandedId === exercise.id ? null : exercise.id)}
                     >
                       <div>
-                        <h3 className="text-xl font-semibold text-white mb-2">
+                        <h3 className="text-xl font-semibold text-primary mb-2">
                           {exercise.title}
                         </h3>
-                        <div className="flex items-center gap-4 text-sm text-gray-400">
+                        <div className="flex items-center gap-4 text-sm text-secondary">
                           <span className="flex items-center gap-2">
                             <FaClock /> {exercise.timeEstimate}
                           </span>
-                          <div className={`flex gap-1 ${getDifficultyDetails(exercise.difficulty).color}`}>
+                          <div className={`difficulty flex gap-1 ${getDifficultyDetails(exercise.difficulty).class}`}>
                             {[...Array(getDifficultyDetails(exercise.difficulty).stars)].map((_, i) => (
                               <FaStar key={i} />
                             ))}
@@ -511,7 +506,7 @@ validator
                       {exercise.skills.map((skill, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 text-sm rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                          className="skill-tag px-3 py-1 text-sm rounded-full border"
                         >
                           {skill}
                         </span>
@@ -528,18 +523,18 @@ validator
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="border-t border-gray-700/50 p-6 /30"
+                    className="border-t border-theme p-6"
                   >
-                    <p className="text-gray-300 mb-8 leading-relaxed">
+                    <p className="text-primary mb-8 leading-relaxed">
                       {exercise.description}
                     </p>
 
                     <div className="mb-8">
-                      <h4 className="text-lg font-semibold text-white mb-4">Requirements</h4>
-                      <ul className="space-y-2">
+                      <h4 className="text-lg font-semibold text-primary mb-4">Requirements</h4>
+                      <ul className="requirements-list space-y-2">
                         {exercise.requirements.map((req, index) => (
-                          <li key={index} className="flex items-center gap-3 text-gray-300">
-                            <div className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                          <li key={index} className="requirement-item flex items-center gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                             {req}
                           </li>
                         ))}
@@ -547,18 +542,18 @@ validator
                     </div>
 
                     {exercise.example && (
-                      <div className="mb-8">
-                        <h4 className="text-lg font-semibold text-white mb-4">Example</h4>
-                        <div className="/50 rounded-lg p-6 space-y-4">
+                      <div className="mb-8 example-section">
+                        <h4 className="text-lg font-semibold text-primary mb-4">Example</h4>
+                        <div className="rounded-lg p-6 space-y-4">
                           <div>
-                            <h5 className="text-sm font-medium text-gray-400 mb-2">Input:</h5>
-                            <pre className="font-mono text-sm text-blue-400 /50 p-4 rounded-lg">
+                            <h5 className="text-sm font-medium text-secondary mb-2">Input:</h5>
+                            <pre className="code-block input font-mono text-sm p-4 rounded-lg">
                               {exercise.example.input}
                             </pre>
                           </div>
                           <div>
-                            <h5 className="text-sm font-medium text-gray-400 mb-2">Expected Output:</h5>
-                            <pre className="font-mono text-sm text-green-400 /50 p-4 rounded-lg">
+                            <h5 className="text-sm font-medium text-secondary mb-2">Expected Output:</h5>
+                            <pre className="code-block output font-mono text-sm p-4 rounded-lg">
                               {exercise.example.output}
                             </pre>
                           </div>
@@ -569,7 +564,7 @@ validator
                     {exercise.hints && (
                       <div>
                         <button
-                          className="px-4 py-2 bg-purple-500/20 text-purple-400 rounded-lg flex items-center gap-2 hover:bg-purple-500/30 transition-colors"
+                          className="hint-button px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
                           onClick={() => showNextHint(exercise.id)}
                         >
                           <FaLightbulb /> Need a hint?
@@ -583,7 +578,7 @@ validator
                                   key={index}
                                   initial={{ opacity: 0, y: 20 }}
                                   animate={{ opacity: 1, y: 0 }}
-                                  className="bg-purple-500/10 border border-purple-500/20 p-4 rounded-lg text-gray-300"
+                                  className="hint-container p-4 rounded-lg text-primary border"
                                 >
                                   {hint}
                                 </motion.div>
