@@ -17,6 +17,8 @@ import { getAuth, signOut } from "firebase/auth";
 import './Header.scss';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useAppDispatch } from '../../redux/hooks';
+import { logout } from '../../redux/slices/userSlice';
 
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -28,6 +30,7 @@ const Header: React.FC = () => {
   const auth = getAuth();
   const { currentUser } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -57,6 +60,7 @@ const Header: React.FC = () => {
 
   const handleLogout = async () => {
     await signOut(auth);
+    dispatch(logout());
     navigate('/auth');
     setIsDropdownOpen(false);
   };

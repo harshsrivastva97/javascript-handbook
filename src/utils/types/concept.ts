@@ -4,10 +4,3 @@ export interface ConceptContent {
   styles?: string;
   keyPoints: string[];
 }
-
-export interface Concept {
-  id: number;
-  content: ConceptContent;
-  title: string;
-  status: 'pending' | 'in-progress' | 'completed';
-}

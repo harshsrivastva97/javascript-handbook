@@ -1,35 +1,63 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { RootState } from '../../redux';
-import { updateTopicStatus } from '../../redux/slices/topicsDataMapSlice';
-import { FaBook, FaCode, FaLaptopCode, FaBrain, FaRocket, FaCheckCircle, FaRegCircle, FaNewspaper } from "react-icons/fa";
-import { BsThreeDots, BsLightningCharge, BsBookHalf } from "react-icons/bs";
+import { FaBook, FaCode, FaRocket, FaCheckCircle, FaRegCircle } from "react-icons/fa";
+import { BsThreeDots } from "react-icons/bs";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { listOfConcepts } from '../../data/concepts';
 import './Home.scss';
-
-interface Topic {
-  id: number;
-  status: 'pending' | 'in-progress' | 'completed';
-}
+import { getAllTopics } from "../../redux/slices/topicsSlice";
+import { getUserProgress, updateTopicStatus } from "../../redux/slices/userProgressSlice";
+import { TopicSchema } from "../../api/types/topicTypes";
+import { FEATURES, exploreSections } from './constants';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { topics } = useAppSelector((state: RootState) => state.topicsData);
+
+  const user = useAppSelector((state: RootState) => state.userData.user);
+  const topics = useAppSelector((state: RootState) => state.topicsData.topics);
+  const userProgress = useAppSelector((state: RootState) => state.userProgressData.progress);
+
+  useEffect(() => {
+    dispatch(getAllTopics());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (user?.user_id) {
+      dispatch(getUserProgress(user.user_id));
+    }
+  }, [user?.user_id, dispatch]);
 
   const calculateProgress = () => {
     if (!topics?.length) return 0;
-    const completed = topics.filter((topic: Topic) => topic.status === "completed").length;
-    return Math.round((completed / listOfConcepts.length) * 100);
+    const completed = topics.filter((topic: TopicSchema) => topic.status === "COMPLETED").length;
+    return Math.round((completed / topics.length) * 100);
   };
 
-  const handleStatusChange = (topicId: number, newStatus: 'pending' | 'in-progress' | 'completed') => {
+  const handleStatusChange = (topicId: number, currentStatus: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED') => {
+    if (!user?.user_id) return;
+
+    let newStatus: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
+    switch (currentStatus) {
+      case 'PENDING':
+        newStatus = 'IN_PROGRESS';
+        break;
+      case 'IN_PROGRESS':
+        newStatus = 'COMPLETED';
+        break;
+      case 'COMPLETED':
+        newStatus = 'PENDING';
+        break;
+      default:
+        newStatus = 'PENDING';
+    }
+
     try {
       dispatch(updateTopicStatus({
-        topicId,
+        user_id: user.user_id,
+        topic_id: topicId.toString(),
         status: newStatus
       }));
     } catch (error) {
@@ -37,57 +65,13 @@ const Home: React.FC = () => {
     }
   };
 
-  const navigateToConcept = (conceptId: number) => {
-    navigate(`/read?conceptId=${conceptId}`);
+  const navigateToConcept = (topicId: number) => {
+    navigate(`/read?conceptId=${topicId}`);
   };
 
-  const navigateToCodeVault = (conceptId: number) => {
-    navigate(`/practice?concept=${conceptId}`);
+  const navigateToCodeVault = (topicId: number) => {
+    navigate(`/practice?concept=${topicId}`);
   };
-
-  const features = [
-    {
-      icon: <FaLaptopCode />,
-      title: "Interactive Learning",
-      description: "Learn JavaScript concepts through hands-on coding exercises and real-world examples"
-    },
-    {
-      icon: <FaBrain />,
-      title: "Concept Mastery",
-      description: "Deep dive into core JavaScript concepts with comprehensive documentation"
-    },
-    {
-      icon: <BsLightningCharge />,
-      title: "Code Vault",
-      description: "Access a vast collection of code snippets and practice exercises"
-    },
-    {
-      icon: <BsBookHalf />,
-      title: "Progress Tracking",
-      description: "Track your learning journey with our intuitive progress system"
-    }
-  ];
-
-  const exploreSections = [
-    {
-      icon: <FaNewspaper />,
-      title: "Latest Articles",
-      description: "Stay updated with the latest trends in JavaScript and web development.",
-      link: "/blogs"
-    },
-    {
-      icon: <FaLaptopCode />,
-      title: "Exercises",
-      description: "Sharpen your skills with hands-on coding exercises.",
-      link: "/exercises"
-    },
-    {
-      icon: <FaBook />,
-      title: "Deep Dives",
-      description: "Explore in-depth articles on complex JavaScript topics.",
-      link: "/read"
-    }
-  ];
 
   return (
     <div className="home scrollable min-h-screen pt-10 pb-20">
@@ -118,7 +102,7 @@ const Home: React.FC = () => {
             Why Choose Our Platform?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
+            {FEATURES.map((feature) => (
               <div
                 key={feature.title}
                 className="feature-card p-6 rounded-xl transition-all"
@@ -157,7 +141,7 @@ const Home: React.FC = () => {
                 </div>
                 <p className="text-secondary text-center font-medium">Overall Progress</p>
                 <p className="text-sm text-secondary text-center mt-2">
-                  {topics.filter((t: Topic) => t.status === "completed").length} of {listOfConcepts.length} concepts mastered
+                  {topics?.filter(topic => topic.status === "COMPLETED").length} of {topics?.length} concepts mastered
                 </p>
               </div>
 
@@ -173,38 +157,29 @@ const Home: React.FC = () => {
                         </tr>
                       </thead>
                       <tbody className="table-body">
-                        {listOfConcepts.map((concept) => {
-                          const topicStatus = topics.find((t: Topic) => t.id === concept.id)?.status || 'pending';
+                        {topics?.map((topic: TopicSchema) => {
+                          const topicStatus = topic.status || 'PENDING';
                           return (
-                            <tr key={concept.id} className="table-row transition-colors">
-                              <td className="py-4 px-4 text-primary">{concept.title}</td>
+                            <tr key={topic.topic_id} className="table-row transition-colors">
+                              <td className="py-4 px-4 text-primary">{topic.title}</td>
                               <td className="py-4 px-4">
                                 <div
                                   className="flex items-center gap-2 cursor-pointer"
-                                  onClick={() => {
-                                    const nextStatus = {
-                                      pending: "in-progress",
-                                      "in-progress": "completed",
-                                      completed: "pending"
-                                    } as const;
-                                    handleStatusChange(concept.id, nextStatus[topicStatus as keyof typeof nextStatus]);
-                                  }}
+                                  onClick={() => handleStatusChange(topic.topic_id, topicStatus)}
                                 >
-                                  <div className={`text-xl ${topicStatus === 'completed' ? 'status-completed' :
-                                    topicStatus === 'in-progress' ? 'status-in-progress' :
+                                  <div className={`text-xl ${topicStatus === 'COMPLETED' ? 'status-completed' :
+                                    topicStatus === 'IN_PROGRESS' ? 'status-in-progress' :
                                       'status-pending'
                                     }`}>
-                                    {topicStatus === 'completed' && <FaCheckCircle />}
-                                    {topicStatus === 'in-progress' && <BsThreeDots />}
-                                    {topicStatus === 'pending' && <FaRegCircle />}
+                                    {topicStatus === 'COMPLETED' && <FaCheckCircle />}
+                                    {topicStatus === 'IN_PROGRESS' && <BsThreeDots />}
+                                    {topicStatus === 'PENDING' && <FaRegCircle />}
                                   </div>
-                                  <span className={`text-sm font-medium ${topicStatus === 'completed' ? 'status-completed' :
-                                    topicStatus === 'in-progress' ? 'status-in-progress' :
-                                      'text-secondary'
-                                    }`}>
-                                    {topicStatus === 'completed' && 'Mastered'}
-                                    {topicStatus === 'in-progress' && 'Learning'}
-                                    {topicStatus === 'pending' && 'To Learn'}
+                                  <span className={`text-sm font-medium ${topicStatus === 'COMPLETED' ? 'status-completed' :
+                                    topicStatus === 'IN_PROGRESS' ? 'status-in-progress' : 'text-secondary' }`}>
+                                    {topicStatus === 'COMPLETED' && 'Mastered'}
+                                    {topicStatus === 'IN_PROGRESS' && 'Learning'}
+                                    {topicStatus === 'PENDING' && 'To Learn'}
                                   </span>
                                 </div>
                               </td>
@@ -212,15 +187,15 @@ const Home: React.FC = () => {
                                 <div className="flex gap-3">
                                   <button
                                     className="p-2 read-button hover-button rounded-lg transition-colors"
-                                    onClick={() => navigateToConcept(concept.id)}
-                                    data-tooltip-id={`readme-${concept.id}`}
+                                    onClick={() => navigateToConcept(topic.topic_id)}
+                                    data-tooltip-id={`readme-${topic.topic_id}`}
                                   >
                                     <FaBook />
                                   </button>
                                   <button
                                     className="p-2 practice-button hover-button rounded-lg transition-colors"
-                                    onClick={() => navigateToCodeVault(concept.id)}
-                                    data-tooltip-id={`practice-${concept.id}`}
+                                    onClick={() => navigateToCodeVault(topic.topic_id)}
+                                    data-tooltip-id={`practice-${topic.topic_id}`}
                                   >
                                     <FaCode />
                                   </button>
@@ -260,7 +235,7 @@ const Home: React.FC = () => {
             Explore More
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {exploreSections.map((section, index) => (
+            {exploreSections.map((section) => (
               <div
                 key={section.title}
                 className="feature-card p-6 rounded-xl transition-all"

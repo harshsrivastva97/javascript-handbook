@@ -1,5 +1,5 @@
 export interface BackendUserSchema {
-    uid: string,
+    user_id: string,
     display_name?: string,
     email?: string,
     email_verified?: boolean,

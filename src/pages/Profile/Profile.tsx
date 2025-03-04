@@ -3,9 +3,10 @@ import { FaUser, FaEnvelope, FaEdit, FaCheck, FaTimes, FaLinkedin, FaGithub, FaT
 import { useSelector } from 'react-redux';
 import { UserProfileState, BackendUserSchema } from '../../api/types/userTypes';
 import { useAuth } from '../../contexts/AuthContext';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getUserProfile, updateUserProfile } from '../../redux/slices/userSlice';
 import './Profile.scss';
+import { RootState } from '../../redux/types';
 
 interface EditableField {
     name: keyof UserProfileState;
@@ -45,7 +46,7 @@ const EDITABLE_FIELDS: EditableField[] = [
 const Profile: React.FC = () => {
     const dispatch = useAppDispatch();
     const { currentUser } = useAuth();
-    const user = useSelector((state: { user: { user: BackendUserSchema } }) => state.user.user);
+    const user = useAppSelector((state: RootState) => state.auth.user);
 
     const [activeSection, setActiveSection] = useState<string>('profile');
     const [formState, setFormState] = useState<UserProfileState>(INITIAL_FORM_STATE);
@@ -103,7 +104,7 @@ const Profile: React.FC = () => {
         setIsSaving(true);
         try {
             const payload: BackendUserSchema = {
-                uid: currentUser.uid,
+                user_id: currentUser.uid,
                 ...(formState.displayName && { display_name: formState.displayName }),
                 ...(formState.email && { email: formState.email }),
                 ...(formState.github && { github: formState.github }),

@@ -4,66 +4,78 @@ import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-typescript";
-import { Concept } from "../../utils/types/concept";
-import { listOfConcepts } from "../../data/concepts/index";
 import "./Read.scss";
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/index';
-import { updateTopicStatus } from '../../redux/slices/topicsDataMapSlice';
+import { updateTopicStatus } from "../../redux/slices/userProgressSlice";
+import { TopicSchema } from "../../api/types/topicTypes";
+import { getAllTopics, getTopicDetails } from "../../redux/slices/topicsSlice";
 
 const Concepts: React.FC = () => {
-  const location = useLocation()
+  const location = useLocation();
+  const dispatch = useAppDispatch();
 
-  const queryParams = new URLSearchParams(location.search)
-  const conceptId = Number(queryParams.get('conceptId'))
-  const [selectedConcept, setSelectedConcept] = useState<Concept>(() => {
-    if (conceptId) {
-      const concept = listOfConcepts.find(c => c.id === conceptId);
-      return concept || listOfConcepts[0];
-    }
-    return listOfConcepts[0];
-  });
+  const queryParams = new URLSearchParams(location.search);
+  const conceptId = Number(queryParams.get('conceptId'));
+  const topics = useAppSelector((state: RootState) => state.topicsData.topics);
+  const loading = useAppSelector((state: RootState) => state.topicsData.loading);
+  const [selectedConcept, setSelectedConcept] = useState<TopicSchema | null>(null);
   const [showProgress, setShowProgress] = useState(() => {
     const saved = localStorage.getItem("showProgress");
     return saved ? JSON.parse(saved) : true;
   });
   const [showCopied, setShowCopied] = useState(false);
 
-  const dispatch = useDispatch();
-  const { topics } = useSelector((state: RootState) => state.topicsData);
+  const user = useAppSelector((state: RootState) => state.userData.user);
 
   const isConceptCompleted = (conceptId: number) => {
-    const topic = topics.find((t: { id: number }) => t.id === conceptId);
-    return topic?.status === 'completed';
+    const topic = topics.find((t: TopicSchema) => t.topic_id === conceptId);
+    return topic?.status === 'COMPLETED';
   };
 
-  const completedCount = topics.filter((t: { status: string }) => t.status === 'completed').length;
-  const progress = (completedCount / listOfConcepts.length) * 100;
+  const completedCount = topics.filter((t: TopicSchema) => t.status === 'COMPLETED').length;
+  const progress = (completedCount / topics.length) * 100;
 
   useEffect(() => {
-    if (conceptId) {
-      const concept = listOfConcepts.find(c => c.id === conceptId);
-      if (concept) {
-        setSelectedConcept(concept);
+    if (!topics?.length) {
+      dispatch(getAllTopics());
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (topics?.length) {
+      if (conceptId) {
+        const concept = topics.find(c => c.topic_id === conceptId);
+        if (concept) {
+          setSelectedConcept(concept);
+          dispatch(getTopicDetails(conceptId.toString()));
+        }
+      } else {
+        setSelectedConcept(topics[0]);
+        dispatch(getTopicDetails(topics[0].topic_id.toString()));
       }
     }
-  }, [conceptId]);
+  }, [dispatch]);
 
   useEffect(() => {
     localStorage.setItem("showProgress", JSON.stringify(showProgress));
   }, [showProgress]);
 
   const toggleConceptComplete = (conceptId: number) => {
-    const topic = topics.find((t: { id: number }) => t.id === conceptId);
-    const newStatus = topic?.status === 'completed' ? 'pending' : 'completed';
+    if (!user?.user_id) return;
+    
+    const topic = topics.find((t: TopicSchema) => t.topic_id === conceptId);
+    const newStatus = topic?.status === 'COMPLETED' ? 'PENDING' : 'COMPLETED';
+    
     dispatch(updateTopicStatus({
-      topicId: conceptId,
+      user_id: user.user_id,
+      topic_id: conceptId.toString(),
       status: newStatus
     }));
   };
 
   useEffect(() => {
-    if (selectedConcept?.content.codeExample) {
+    if (selectedConcept?.codeExample) {
       Prism.highlightAll();
     }
   }, [selectedConcept]);
@@ -81,6 +93,15 @@ const Concepts: React.FC = () => {
     );
   };
 
+  const handleTopicSelect = async (concept: TopicSchema) => {
+    setSelectedConcept(concept);
+    try {
+      await dispatch(getTopicDetails(concept.topic_id.toString())).unwrap();
+    } catch (error) {
+      console.error('Failed to fetch topic details:', error);
+    }
+  };
+
   return (
     <div className="read-page min-h-screen">
       <div className="mx-auto border border-theme overflow-hidden">
@@ -92,7 +113,7 @@ const Concepts: React.FC = () => {
               </h3>
               <div className="mb-3 flex justify-between items-center">
                 <span className="text-sm text-secondary">
-                  {completedCount} of {listOfConcepts.length} completed
+                  {completedCount} of {topics?.length} completed
                 </span>
                 <span className="text-sm font-medium" style={{ color: 'var(--primary-color)' }}>
                   {Math.round(progress)}%
@@ -112,29 +133,29 @@ const Concepts: React.FC = () => {
                   Concepts
                 </h3>
                 <div className="space-y-2">
-                  {listOfConcepts.map((concept: Concept) => (
+                  {topics.map((concept: TopicSchema) => (
                     <div
-                      key={concept.id}
+                      key={concept.topic_id}
                       className={`sidebar-item group relative px-4 py-3 rounded-lg cursor-pointer
-                        ${selectedConcept?.id === concept.id ? "active" : ""}
-                        ${isConceptCompleted(concept.id) ? "completed" : ""}`}
-                      onClick={() => setSelectedConcept(concept)}
+                        ${selectedConcept?.topic_id === concept.topic_id ? "active" : ""}
+                        ${isConceptCompleted(concept.topic_id) ? "completed" : ""}`}
+                      onClick={() => handleTopicSelect(concept)}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                          <div className={`status-dot ${isConceptCompleted(concept.id)
+                          <div className={`status-dot ${isConceptCompleted(concept.topic_id)
                             ? "completed"
-                            : selectedConcept?.id === concept.id
+                            : selectedConcept?.topic_id === concept.topic_id
                               ? "active"
                               : "default"}`}
                           />
-                          <span className={`sidebar-text ${selectedConcept?.id === concept.id
+                          <span className={`sidebar-text ${selectedConcept?.topic_id === concept.topic_id
                             ? "active"
                             : "default"}`}>
                             {concept.title}
                           </span>
                         </div>
-                        {isConceptCompleted(concept.id) && (
+                        {isConceptCompleted(concept.topic_id) && (
                           <svg
                             className="w-4 h-4 status-completed"
                             viewBox="0 0 20 20"
@@ -152,63 +173,63 @@ const Concepts: React.FC = () => {
           </div>
 
           <div className="flex-1 overflow-y-auto">
-            {selectedConcept ? (
+            {loading ? (
+              <div className="h-full flex items-center justify-center">
+                <div className="text-secondary">Loading topic details...</div>
+              </div>
+            ) : selectedConcept ? (
               <div className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h1 className="text-2xl font-bold gradient-text">
                     {selectedConcept.title}
                   </h1>
                   <button
-                    onClick={() => toggleConceptComplete(selectedConcept.id)}
+                    onClick={() => toggleConceptComplete(selectedConcept.topic_id)}
                     className={`px-4 py-2 rounded-lg font-medium transition-all
-                      ${isConceptCompleted(selectedConcept.id)
+                      ${isConceptCompleted(selectedConcept.topic_id)
                         ? "button-completed"
                         : "button-pending"}`}
                   >
-                    {isConceptCompleted(selectedConcept.id) ? "Completed ✓" : "Mark as Complete"}
+                    {isConceptCompleted(selectedConcept.topic_id) ? "Completed ✓" : "Mark as Complete"}
                   </button>
                 </div>
 
-                {selectedConcept?.content ? (
-                  <div className="space-y-6">
-                    <div
-                      className="prose max-w-none"
-                      dangerouslySetInnerHTML={{
-                        __html: selectedConcept.content.explanation || '',
-                      }}
-                    />
+                <div className="space-y-6">
+                  <div
+                    className="prose max-w-none"
+                    dangerouslySetInnerHTML={{
+                      __html: selectedConcept.explanation || '',
+                    }}
+                  />
 
-                    {selectedConcept.content.codeExample && (
-                      <div className="relative mt-4 code-container rounded-lg p-4">
-                        <h3 className="text-lg font-semibold example-heading mb-2">Example:</h3>
-                        <button
-                          className={`absolute top-4 right-4 px-3 py-1 rounded text-sm copy-button
-                            ${showCopied ? "copied" : ""}`}
-                          onClick={() => copyToClipboard(selectedConcept.content.codeExample)}
-                        >
-                          {showCopied ? 'Copied!' : 'Copy'}
-                        </button>
-                        <pre className="language-javascript rounded-lg">
-                          <code>{selectedConcept.content.codeExample}</code>
-                        </pre>
-                      </div>
-                    )}
-
-                    <div className="key-points rounded-lg p-6">
-                      <h3 className="text-lg font-semibold text-primary mb-4">Key Points:</h3>
-                      <ul className="space-y-2">
-                        {selectedConcept.content.keyPoints?.map((point, index) => (
-                          <li key={index} className="flex items-start">
-                            <span className="key-point-bullet mr-2">•</span>
-                            <span className="text-primary">{point}</span>
-                          </li>
-                        ))}
-                      </ul>
+                  {selectedConcept.codeExample && (
+                    <div className="relative mt-4 code-container rounded-lg p-4">
+                      <h3 className="text-lg font-semibold example-heading mb-2">Example:</h3>
+                      <button
+                        className={`absolute top-4 right-4 px-3 py-1 rounded text-sm copy-button
+                          ${showCopied ? "copied" : ""}`}
+                        onClick={() => copyToClipboard(selectedConcept.codeExample)}
+                      >
+                        {showCopied ? 'Copied!' : 'Copy'}
+                      </button>
+                      <pre className="language-javascript rounded-lg">
+                        <code>{selectedConcept.codeExample}</code>
+                      </pre>
                     </div>
+                  )}
+
+                  <div className="key-points rounded-lg p-6">
+                    <h3 className="text-lg font-semibold text-primary mb-4">Key Points:</h3>
+                    <ul className="space-y-2">
+                      {selectedConcept.keyPoints?.map((point, index) => (
+                        <li key={index} className="flex items-start">
+                          <span className="key-point-bullet mr-2">•</span>
+                          <span className="text-primary">{point}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                ) : (
-                  <div className="text-secondary">Loading content...</div>
-                )}
+                </div>
               </div>
             ) : (
               <div className="h-full flex items-center justify-center">

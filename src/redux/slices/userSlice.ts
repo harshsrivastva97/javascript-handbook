@@ -25,7 +25,7 @@ export const getUserProfile = createAsyncThunk<BackendUserSchema, string>('user/
 });
 
 export const updateUserProfile = createAsyncThunk<BackendUserSchema, BackendUserSchema>('user/update', async (data: BackendUserSchema) => {
-    const response = await updateUser(data.uid, data);
+    const response = await updateUser(data.user_id, data);
     return response;
 });
 

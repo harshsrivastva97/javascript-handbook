@@ -43,7 +43,7 @@ export const signUpWithEmailIdAndPassword = async (
 ): Promise<UserCredential> => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        dispatch(register({ uid: userCredential.user.uid }));
+        dispatch(register({ user_id: userCredential.user.uid }));
         return userCredential;
     } catch (error) {
         throw handleAuthError(error);
@@ -71,7 +71,7 @@ export const signInWithProvider = async (
         const { localId, displayName, email, emailVerified, isNewUser, photoUrl, providerId } = (userCredential as any)._tokenResponse;
         if (isNewUser) {
             const payload: BackendUserSchema = {
-                uid: localId,
+                user_id: localId,
                 display_name: displayName,
                 email,
                 email_verified: emailVerified,
