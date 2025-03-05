@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const performance: ConceptContent = {
   explanation: `<p>JavaScript performance optimization involves various techniques to improve code execution speed, memory usage, and overall application responsiveness.</p>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { TABS } from "../../utils/constants";
+import { TABS } from "../../constants/constants";
 import "./Sidebar.scss";
 import { motion } from "framer-motion";
 

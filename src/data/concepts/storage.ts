@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const storage: ConceptContent = {
   explanation: `<p>Web Storage APIs provide mechanisms to store data in the browser. The main storage types are localStorage, sessionStorage, and cookies, each with its own use cases and limitations.</p>

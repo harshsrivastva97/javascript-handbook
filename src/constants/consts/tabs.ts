@@ -1,9 +1,6 @@
-interface TabItem {
-  filename: string;
-  label: string;
-}
+import { SnippetTabItem } from '../types/navigationTypes';
 
-export const TABS: TabItem[] = [
+export const SNIPPETS_TABS: SnippetTabItem[] = [
   {
     label: "forEach",
     filename: "forEach",
@@ -43,4 +40,4 @@ export const TABS: TabItem[] = [
     label: "Throttle",
     filename: "throttle",
   },
-];
+]; 

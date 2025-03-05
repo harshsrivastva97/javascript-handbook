@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const callApplyBind: ConceptContent = {
   explanation: `<p>The methods <strong>call</strong>, <strong>apply</strong>, and <strong>bind</strong> allow us to explicitly set the value of <code>this</code> for a function. They are particularly useful when borrowing methods from one object or controlling the execution context of a function.</p>

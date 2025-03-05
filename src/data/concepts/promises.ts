@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const promises: ConceptContent = {
   explanation: `<p>Promises are objects that represent the eventual completion (or failure) of an asynchronous operation. They provide a more elegant and manageable way to handle asynchronous operations compared to callbacks.</p>

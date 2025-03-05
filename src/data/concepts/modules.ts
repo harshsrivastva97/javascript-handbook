@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const modules: ConceptContent = {
   explanation: `<p>JavaScript modules allow you to split code into separate files for better organization and maintainability. ES6 introduced a standardized module format.</p>

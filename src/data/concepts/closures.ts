@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const closures: ConceptContent = {
   explanation: `<p>Closures are one of the most powerful features in JavaScript. A closure is formed when a function is defined inside another function, allowing the inner function to access variables from the outer (enclosing) function's scope, even after the outer function has finished executing.</p>

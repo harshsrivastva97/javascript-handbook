@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const errorHandling: ConceptContent = {
   explanation: `<p>Error handling in JavaScript involves catching and managing runtime errors using try-catch blocks and custom error types.</p>

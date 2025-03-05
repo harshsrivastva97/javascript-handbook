@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const executionContext: ConceptContent = {
   explanation: `<p>The Execution Context and Call Stack are fundamental concepts in JavaScript that manage code execution and scope.</p>

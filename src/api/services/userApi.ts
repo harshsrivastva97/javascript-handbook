@@ -1,6 +1,6 @@
 import axiosInstance from '../config/axiosInstance';
 import { ENDPOINTS } from '../urls/urls';
-import { BackendUserSchema } from '../types/userTypes';
+import { BackendUserSchema } from '../../constants/types/userTypes';
 
 export const registerUser = async (data: BackendUserSchema): Promise<BackendUserSchema> => {
     const response = await axiosInstance.post(ENDPOINTS.REGISTER, data);

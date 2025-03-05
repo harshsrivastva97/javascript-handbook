@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const timers: ConceptContent = {
   explanation: `<p>JavaScript provides timer functions for executing code after a delay or at intervals. Understanding timers is crucial for handling asynchronous operations and animations.</p>

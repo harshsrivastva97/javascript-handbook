@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const thisKeyword: ConceptContent = {
   explanation: `<p>The 'this' keyword in JavaScript refers to the current execution context and its behavior can vary based on how and where a function is called.</p>

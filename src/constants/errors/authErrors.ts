@@ -13,4 +13,4 @@ export default {
     "auth/popup-blocked": "Pop-up was blocked by your browser. Please allow pop-ups and try again.",
     "auth/network-request-failed": "Network error. Please check your connection and try again.",
     "auth/too-many-requests": "Too many unsuccessful attempts. Please try again later.",
-}
+} 

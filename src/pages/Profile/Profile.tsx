@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { FaUser, FaEnvelope, FaEdit, FaCheck, FaTimes, FaLinkedin, FaGithub, FaTwitter, FaGlobe } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
-import { UserProfileState, BackendUserSchema } from '../../api/types/userTypes';
+import { UserProfileState, BackendUserSchema } from '../../constants/types/userTypes';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getUserProfile, updateUserProfile } from '../../redux/slices/userSlice';

@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const fileHandling: ConceptContent = {
   explanation: `<p>JavaScript provides various APIs for handling files in the browser, including Blob, FileReader, and WebSockets for real-time file operations.</p>

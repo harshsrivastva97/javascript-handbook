@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const currying: ConceptContent = {
   explanation: `<p>Currying is a functional programming technique where a function with multiple arguments is transformed into a series of functions, each accepting a single argument.</p>

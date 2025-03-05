@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const eventBubbling: ConceptContent = {
   explanation: `<p>Event bubbling and capturing are fundamental concepts in DOM event propagation. When an event occurs on an element, it triggers a complex propagation process through the DOM tree.</p>

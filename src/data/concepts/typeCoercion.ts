@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const typeCoercion: ConceptContent = {
     explanation: `<p>Type Coercion is JavaScript's automatic conversion of values from one type to another. Understanding coercion is crucial for avoiding unexpected behavior.</p>

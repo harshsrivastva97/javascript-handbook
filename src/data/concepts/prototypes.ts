@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const prototypes: ConceptContent = {
   explanation: `<p>JavaScript uses prototypal inheritance, which allows objects to inherit properties and methods from other objects through a prototype chain.</p>

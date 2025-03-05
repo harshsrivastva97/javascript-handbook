@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const classes: ConceptContent = {
   explanation: `<p>JavaScript classes provide a cleaner syntax for object-oriented programming, introduced in ES6. They are primarily syntactic sugar over the prototype-based inheritance.</p>

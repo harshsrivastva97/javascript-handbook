@@ -7,8 +7,8 @@ import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { RootState } from '../../redux'; 
 import { getAllTopics, updateTopicStatus } from "../../redux/slices/topicsSlice";
 import { TopicSchema } from "../../api/types/topicTypes";
-import { FEATURES, EXPLORER_SECTIONS, STATUS_ICONS, STATUS_LABELS } from './constants';
-import { ProgressStatus } from "../../utils/enums/enums";
+import { FEATURES, EXPLORER_SECTIONS, STATUS_ICONS, STATUS_LABELS } from './homePageConstants';
+import { ProgressStatus } from "../../constants/enums/progressStatus";
 import './Home.scss';
 
 const Home: React.FC = () => {

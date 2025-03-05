@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const hoisting: ConceptContent = {
   explanation: `<p>Hoisting is JavaScript's default behavior of moving declarations to the top of the scope during the compilation phase.</p>

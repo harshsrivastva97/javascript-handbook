@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const functions: ConceptContent = {
   explanation: `<p>Functions are one of the fundamental building blocks in JavaScript. A function is a reusable block of code that performs a specific task.</p>

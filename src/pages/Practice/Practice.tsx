@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import ReactConfetti from "react-confetti";
 import CodeEditor from "../../components/CodeEditor/CodeEditor";
-import { TABS } from "../../utils/constants";
+import { TABS } from "../../constants/constants";
 import "./Practice.scss";
 
 // Add interfaces

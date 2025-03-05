@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const objects: ConceptContent = {
   explanation: `<p>Objects are collections of key-value pairs and form the foundation of JavaScript. They allow you to store related data and functionality together.</p>

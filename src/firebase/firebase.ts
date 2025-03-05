@@ -12,10 +12,10 @@ import {
     User,
 } from "firebase/auth";
 import firebaseConfig from "./firebaseConfig";
-import errorMap from "../utils/errorMap";
+import errorMap from "../constants/errorMap";
 import { register } from "../redux/slices/userSlice";
 import { useAppDispatch } from "../redux/hooks";
-import { BackendUserSchema } from "../api/types/userTypes";
+import { BackendUserSchema } from "../constants/types/userTypes";
 
 const app = initializeApp(firebaseConfig);
 

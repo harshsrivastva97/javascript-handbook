@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const operators: ConceptContent = {
   explanation: `<p>JavaScript provides various operators for working with values, including modern operators like spread/rest, nullish coalescing, and optional chaining.</p>

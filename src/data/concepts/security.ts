@@ -1,4 +1,4 @@
-import { ConceptContent } from "../../utils/types/concept";
+import { ConceptContent } from "../../constants/types/concept";
 
 export const security: ConceptContent = {
   explanation: `<p>JavaScript security involves protecting against common web vulnerabilities like XSS, CSRF, and implementing proper authentication and data validation.</p>
