@@ -1,4 +1,4 @@
-import { ProgressStatus } from "../../constants/enums/enums";
+import { ProgressStatus } from "../../constants/enums/progressStatus";
 
 export interface TopicSchema {
     topic_id: number;

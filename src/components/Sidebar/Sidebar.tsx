@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { TABS } from "../../constants/constants";
+import { SNIPPETS_TABS } from "../../constants/consts/tabs";
 import "./Sidebar.scss";
 import { motion } from "framer-motion";
 
@@ -26,7 +26,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTabSelect, onProgressComplete }) =>
     return saved ? JSON.parse(saved) : [];
   });
 
-  const allTabs: TabItem[] = TABS;
+  const allTabs: TabItem[] = SNIPPETS_TABS;
   const totalItems = allTabs.length;
   const progress = (completedItems.length / totalItems) * 100;
 

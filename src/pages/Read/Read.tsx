@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/index';
 import { TopicSchema } from "../../api/types/topicTypes";
 import { getAllTopics, getTopicDetails, updateTopicStatus } from "../../redux/slices/topicsSlice";
-import { ProgressStatus } from "../../constants/enums/enums";
+import { ProgressStatus } from "../../constants/enums/progressStatus";
 import "./Read.scss";
 
 const Concepts: React.FC = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import ReactConfetti from "react-confetti";
 import CodeEditor from "../../components/CodeEditor/CodeEditor";
-import { TABS } from "../../constants/constants";
+import { SNIPPETS_TABS } from "../../constants/consts/tabs";
 import "./Practice.scss";
 
 // Add interfaces
@@ -36,7 +36,7 @@ const CodeVault: React.FC = () => {
     return saved ? JSON.parse(saved) : [];
   });
 
-  const allTabs: TabItem[] = TABS;
+  const allTabs: TabItem[] = SNIPPETS_TABS;
   const totalItems = allTabs.length;
   const progress = (completedItems.length / totalItems) * 100;
 

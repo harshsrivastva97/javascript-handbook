@@ -1,4 +1,4 @@
-import { ProgressStatus } from "../../constants/enums/enums";
+import { ProgressStatus } from "../../constants/enums/progressStatus";
 
 export interface UserProgressSchema {
     user_id: string;
