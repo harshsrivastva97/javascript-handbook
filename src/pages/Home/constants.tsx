@@ -1,18 +1,7 @@
-import React from 'react';
-import { FaBook, FaCode, FaLaptopCode, FaBrain, FaRocket, FaCheckCircle, FaRegCircle, FaNewspaper } from "react-icons/fa";
-import { BsLightningCharge, BsBookHalf } from "react-icons/bs";
+import { FaBook, FaLaptopCode, FaBrain, FaNewspaper, FaCheckCircle, FaRegCircle } from "react-icons/fa";
+import { BsLightningCharge, BsBookHalf, BsThreeDots } from "react-icons/bs";
 
-interface FeatureItem {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-}
-
-interface ExploreSection extends FeatureItem {
-    link: string;
-}
-
-export const FEATURES: FeatureItem[] = [
+export const FEATURES = [
     {
         icon: <FaLaptopCode />,
         title: "Interactive Learning",
@@ -35,7 +24,7 @@ export const FEATURES: FeatureItem[] = [
     }
 ];
 
-export const exploreSections: ExploreSection[] = [
+export const EXPLORER_SECTIONS = [
     {
         icon: <FaNewspaper />,
         title: "Latest Articles",
@@ -54,4 +43,16 @@ export const exploreSections: ExploreSection[] = [
         description: "Explore in-depth articles on complex JavaScript topics.",
         link: "/read"
     }
-]; 
+];
+
+export const STATUS_ICONS = {
+    COMPLETED: <FaCheckCircle />,
+    IN_PROGRESS: <BsThreeDots />,
+    PENDING: <FaRegCircle />
+};
+
+export const STATUS_LABELS = {
+    COMPLETED: 'Mastered',
+    IN_PROGRESS: 'Learning',
+    PENDING: 'To Learn'
+};

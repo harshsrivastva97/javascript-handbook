@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { TopicSchema } from "../../api/types/topicTypes";
 import { fetchTopicsList, fetchTopicDetails } from "../../api/services/topicApis";
+import { updateUserProgress } from "../../api/services/userProgressApi";
+import { UserProgressSchema } from "../../api/types/userProgress";
 
 interface TopicsState {
     topics: TopicSchema[];
@@ -14,13 +16,19 @@ const initialState: TopicsState = {
     error: null
 }
 
-export const getAllTopics = createAsyncThunk<TopicSchema[]>('topics/list', async () => {
-    const response = await fetchTopicsList();
+export const getAllTopics = createAsyncThunk<TopicSchema[], string>('topics/list', async (userId: string) => {
+    const response = await fetchTopicsList(userId);
     return response;
 })
 
 export const getTopicDetails = createAsyncThunk<TopicSchema, string>('topics/details', async (topicId: string) => {
     const response = await fetchTopicDetails(topicId)
+    return response
+})
+
+// progress api
+export const updateTopicStatus = createAsyncThunk<UserProgressSchema, UserProgressSchema>('userProgress/update', async (userProgress: UserProgressSchema) => {
+    const response = await updateUserProgress(userProgress)
     return response
 })
 
@@ -59,6 +67,24 @@ const topicsSlice = createSlice({
         .addCase(getTopicDetails.rejected, (state, action) => {
             state.loading = false
             state.error = action.error.message || "Unable to fetch topics"
+        })
+        .addCase(updateTopicStatus.pending, (state) => {
+            state.loading = true
+            state.error = null
+        })
+        .addCase(updateTopicStatus.fulfilled, (state, action) => {
+            state.loading = false
+            const index = state.topics.findIndex(topic => {
+                return topic.topic_id === action.payload.topic_id
+            });
+            state.topics[index] = {
+                ...state.topics[index],
+                status: action.payload.status
+            };
+        })
+        .addCase(updateTopicStatus.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.error.message || "Unable to update topic status"
         })
     }
 });

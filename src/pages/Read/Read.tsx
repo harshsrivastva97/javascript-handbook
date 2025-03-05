@@ -7,9 +7,9 @@ import "prismjs/components/prism-typescript";
 import "./Read.scss";
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { RootState } from '../../redux/index';
-import { updateTopicStatus } from "../../redux/slices/userProgressSlice";
 import { TopicSchema } from "../../api/types/topicTypes";
-import { getAllTopics, getTopicDetails } from "../../redux/slices/topicsSlice";
+import { getAllTopics, getTopicDetails, updateTopicStatus } from "../../redux/slices/topicsSlice";
+import { ProgressStatus } from "../../utils/enums/enums";
 
 const Concepts: React.FC = () => {
   const location = useLocation();
@@ -37,8 +37,8 @@ const Concepts: React.FC = () => {
   const progress = (completedCount / topics.length) * 100;
 
   useEffect(() => {
-    if (!topics?.length) {
-      dispatch(getAllTopics());
+    if (user?.user_id) {
+      dispatch(getAllTopics(user?.user_id));
     }
   }, [dispatch]);
 
@@ -65,11 +65,11 @@ const Concepts: React.FC = () => {
     if (!user?.user_id) return;
     
     const topic = topics.find((t: TopicSchema) => t.topic_id === conceptId);
-    const newStatus = topic?.status === 'COMPLETED' ? 'PENDING' : 'COMPLETED';
+    const newStatus: ProgressStatus = topic?.status === ProgressStatus.COMPLETED ? ProgressStatus.PENDING : ProgressStatus.COMPLETED;
     
     dispatch(updateTopicStatus({
       user_id: user.user_id,
-      topic_id: conceptId.toString(),
+      topic_id: conceptId,
       status: newStatus
     }));
   };

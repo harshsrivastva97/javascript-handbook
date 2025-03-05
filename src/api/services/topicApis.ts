@@ -2,8 +2,8 @@ import axiosInstance from '../config/axiosInstance';
 import { TopicSchema } from '../types/topicTypes';
 import { ENDPOINTS } from '../urls/urls';
 
-export const fetchTopicsList = async (): Promise<TopicSchema[]> => {
-    const response = await axiosInstance.get(ENDPOINTS.GET_TOPICS_LIST);
+export const fetchTopicsList = async (userId: string): Promise<TopicSchema[]> => {
+    const response = await axiosInstance.get(ENDPOINTS.GET_TOPICS_LIST.replace(':userId', userId));
     return response.data;
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { motion } from "framer-motion";
 import Home from "./pages/Home/Home";
@@ -33,9 +33,10 @@ const App: React.FC = () => {
               stiffness: 200,
             }}
           >
-            <Router>
-              <Header />
-              <Routes>
+            <StrictMode>
+              <Router>
+                <Header />
+                <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/practice" element={<Practice />} />
@@ -47,7 +48,8 @@ const App: React.FC = () => {
                 <Route path="/auth" element={<Auth />} />
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
-            </Router>
+              </Router>
+            </StrictMode>
           </motion.div>
         </AuthProvider>
       </ThemeProvider>

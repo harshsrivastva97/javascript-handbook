@@ -1,10 +1,12 @@
+import { ProgressStatus } from "../../utils/enums/enums";
+
 export interface TopicSchema {
     topic_id: number;
+    user_id: string;
     title: string;
     order: number;
     explanation?: string;
     codeExample?: string;
-    styles?: string;
     keyPoints: string[];
-    status?: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
+    status?: ProgressStatus;
 }
