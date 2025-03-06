@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import Prism from "prismjs";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-typescript";
@@ -15,13 +16,14 @@ import "./Read.scss";
 const Topics: React.FC = () => {
   const dispatch = useAppDispatch();
   const { theme } = useTheme();
+  const [searchParams] = useSearchParams();
 
   const topics = useAppSelector(state => state.topicsData.topics);
   const progress = useMemo(() => calculateProgress(topics), [topics]);
-
   const loading = useAppSelector(state => state.topicsData.loading);
   const [selectedConcept, setSelectedConcept] = useState<TopicSchema | null>(null);
   const [showCopied, setShowCopied] = useState(false);
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false);
 
   const user = useAppSelector(state => state.userData.user);
 
@@ -59,11 +61,14 @@ const Topics: React.FC = () => {
   };
 
   const handleTopicSelect = async (topic: TopicSchema) => {
-    setSelectedConcept(topic);
+    setIsLoadingDetails(true);
     try {
-      await dispatch(getTopicDetails(topic.topic_id.toString())).unwrap();
+      const result = await dispatch(getTopicDetails(topic.topic_id.toString())).unwrap();
+      setSelectedConcept(result);
     } catch (error) {
       console.error('Failed to fetch topic details:', error);
+    } finally {
+      setIsLoadingDetails(false);
     }
   };
 
@@ -71,13 +76,23 @@ const Topics: React.FC = () => {
     if (user?.user_id) {
       dispatch(getAllTopics(user?.user_id));
     }
-  }, [dispatch]);
+  }, [dispatch, user?.user_id]);
 
   useEffect(() => {
     if (selectedConcept?.code_example) {
       Prism.highlightAll();
     }
   }, [selectedConcept]);
+
+  useEffect(() => {
+    const conceptId = searchParams.get('conceptId');
+    if (conceptId && topics.length > 0) {
+      const topic = topics.find(t => t.topic_id.toString() === conceptId);
+      if (topic) {
+        handleTopicSelect(topic);
+      }
+    }
+  }, [searchParams, topics]);
 
   return (
     <div className="read-page">
@@ -90,7 +105,7 @@ const Topics: React.FC = () => {
               <span className="text-sm text-secondary">
                 {completedCount} of {topics?.length} completed
               </span>
-              <span className="text-sm font-medium" style={{ color: 'var(--success)' }}>
+              <span className="text-sm font-medium text-success">
                 {Math.round(progress)}%
               </span>
             </div>
@@ -139,7 +154,7 @@ const Topics: React.FC = () => {
 
         {/* Content Area */}
         <div className="content-area">
-          {loading ? (
+          {isLoadingDetails ? (
             <AppLoader fullScreen text="Loading topic details..." />
           ) : selectedConcept ? (
             <div className="max-w-4xl mx-auto">

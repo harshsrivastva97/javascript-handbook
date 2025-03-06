@@ -58,7 +58,11 @@ const topicsSlice = createSlice({
             const id = action.payload.topic_id
             const index = state.topics.findIndex(topic => topic.topic_id === id)
             if (index !== -1) {
-                state.topics[index] = action.payload
+                const existingTopic = state.topics[index];
+                state.topics[index] = {
+                    ...action.payload,
+                    status: existingTopic.status
+                };
             } else {
                 state.topics.push(action.payload)
             }
