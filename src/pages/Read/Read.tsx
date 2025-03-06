@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import Prism from "prismjs";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-typescript";
+import { LuCopy } from "react-icons/lu";
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { TopicSchema } from "../../api/types/topicTypes";
 import { getAllTopics, getTopicDetails, updateTopicStatus } from "../../redux/slices/topicsSlice";
@@ -13,6 +14,30 @@ import { useTheme } from "../../contexts/ThemeContext";
 import "../../assets/styles/prism-theme.scss";
 import "./Read.scss";
 
+// Icons
+const BookIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+  </svg>
+);
+
+const CheckIcon = ({ className = '' }: { className?: string }) => (
+  <svg 
+    className={className}
+    width="16" 
+    height="16" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <polyline points="20 6 9 17 4 12"></polyline>
+  </svg>
+);
+
 const Topics: React.FC = () => {
   const dispatch = useAppDispatch();
   const { theme } = useTheme();
@@ -20,7 +45,7 @@ const Topics: React.FC = () => {
 
   const topics = useAppSelector(state => state.topicsData.topics);
   const progress = useMemo(() => calculateProgress(topics), [topics]);
-  const loading = useAppSelector(state => state.topicsData.loading);
+
   const [selectedConcept, setSelectedConcept] = useState<TopicSchema | null>(null);
   const [showCopied, setShowCopied] = useState(false);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
@@ -47,17 +72,19 @@ const Topics: React.FC = () => {
     }));
   };
 
-  const copyToClipboard = (text: string | undefined) => {
+  const copyToClipboard = async (text: string | undefined) => {
     if (!text) return;
-    navigator.clipboard.writeText(text).then(
-      () => {
-        setShowCopied(true);
-        setTimeout(() => setShowCopied(false), 2000);
-      },
-      (err) => {
-        console.error("Failed to copy code:", err);
-      },
-    );
+    
+    try {
+      await navigator.clipboard.writeText(text);
+      setShowCopied(true);
+      
+      setTimeout(() => {
+        setShowCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.error("Failed to copy code:", err);
+    }
   };
 
   const handleTopicSelect = async (topic: TopicSchema) => {
@@ -91,6 +118,8 @@ const Topics: React.FC = () => {
       if (topic) {
         handleTopicSelect(topic);
       }
+    } else if (topics.length > 0 && !selectedConcept) {
+      handleTopicSelect(topics[0]);
     }
   }, [searchParams, topics]);
 
@@ -100,7 +129,10 @@ const Topics: React.FC = () => {
         {/* Sidebar */}
         <div className="sidebar">
           <div className="progress-container">
-            <h3 className="text-xs mb-2 tracking-widest">JAVASCRIPT BASICS</h3>
+            <div className="flex items-center gap-2 mb-4">
+              <BookIcon />
+              <h3 className="text-xs tracking-widest">JAVASCRIPT BASICS</h3>
+            </div>
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-secondary">
                 {completedCount} of {topics?.length} completed
@@ -117,7 +149,7 @@ const Topics: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-6">
+          <div className="py-4">
             <div className="space-y-1">
               {topics.map((topic: TopicSchema) => {
                 const isCompleted = isTopicCompleted(topic.topic_id);
@@ -131,19 +163,11 @@ const Topics: React.FC = () => {
                     onClick={() => handleTopicSelect(topic)}
                   >
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
+                      <div className="flex items-center">
                         <div className="status-dot" />
                         <span className="sidebar-text">{topic.title}</span>
                       </div>
-                      {isCompleted && (
-                        <svg
-                          className="w-4 h-4 status-completed"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
+                      {isCompleted && <CheckIcon className="check-icon" />}
                     </div>
                   </div>
                 );
@@ -157,20 +181,41 @@ const Topics: React.FC = () => {
           {isLoadingDetails ? (
             <AppLoader fullScreen text="Loading topic details..." />
           ) : selectedConcept ? (
-            <div className="max-w-4xl mx-auto">
-              <div className="flex items-center justify-between mb-8">
-                <h1 className="topic-title">{selectedConcept.title}</h1>
-                <button
-                  onClick={() => toggleTopicComplete(selectedConcept.topic_id)}
-                  className={`complete-button ${
-                    isTopicCompleted(selectedConcept.topic_id) ? 'completed' : 'pending'
-                  }`}
-                >
-                  {isTopicCompleted(selectedConcept.topic_id) ? "Completed ✓" : "Mark as Complete"}
-                </button>
+            <div className="content-wrapper">
+              <div className="flex flex-col gap-2 mb-6">
+                <div className="flex items-center justify-between gap-4">
+                  <h1 className="font-bold text-3xl gradient-text truncate">{selectedConcept.title}</h1>
+                  <button
+                    onClick={() => toggleTopicComplete(selectedConcept.topic_id)}
+                    className={`complete-button gradient-button font-medium text-sm whitespace-nowrap text-center ${
+                      isTopicCompleted(selectedConcept.topic_id) ? 'completed' : 'pending'
+                    }`}
+                  >
+                    {isTopicCompleted(selectedConcept.topic_id) ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <CheckIcon className="check-icon" /> Completed
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg 
+                          className="w-4 h-4" 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth="2.5" 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round"
+                        >
+                          <path d="M20 6L9 17L4 12" />
+                        </svg>
+                        Mark as Complete
+                      </span>
+                    )}
+                  </button>
+                </div>
               </div>
 
-              <div className="space-y-8">
+              <div className="space-y-6">
                 <div
                   className="prose"
                   dangerouslySetInnerHTML={{
@@ -179,31 +224,43 @@ const Topics: React.FC = () => {
                 />
 
                 {selectedConcept.code_example && (
-                  <div className={`code-container ${theme}-theme`}>
+                  <div className={`code-container my-7 w-full ${theme}-theme`}>
                     <div className="code-header">
-                      <h3 className="example-heading">Example</h3>
-                      <div className="copy-icon-wrapper">
-                        <svg
-                          className={`copy-icon ${showCopied ? 'copied' : ''}`}
-                          onClick={() => copyToClipboard(selectedConcept.code_example)}
-                          width="18"
-                          height="18"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
+                      <h3 className="flex items-center gap-2 text-accent-primary font-semibold text-lg">
+                        <svg 
+                          className="w-5 h-5" 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth="2" 
+                          strokeLinecap="round" 
                           strokeLinejoin="round"
                         >
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                          <path d="M16 18L22 12L16 6" />
+                          <path d="M8 6L2 12L8 18" />
                         </svg>
+                        Example Code
+                      </h3>
+                      <div 
+                        className={`copy-icon-wrapper ${showCopied ? 'copied' : ''}`}
+                        onClick={() => copyToClipboard(selectedConcept.code_example)}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={showCopied ? "Code copied!" : "Copy code"}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            copyToClipboard(selectedConcept.code_example);
+                          }
+                        }}
+                      >
+                        <LuCopy className={`w-4 h-4 ${showCopied ? 'text-success' : 'text-text-secondary'}`} />
                         <span className={`copy-tooltip ${showCopied ? 'show' : ''}`}>
-                          Copied!
+                          {showCopied ? 'Copied!' : 'Copy code'}
                         </span>
                       </div>
                     </div>
-                    <pre>
+                    <pre className="p-4 overflow-x-auto">
                       <code className="language-javascript">
                         {selectedConcept.code_example}
                       </code>
@@ -211,12 +268,40 @@ const Topics: React.FC = () => {
                   </div>
                 )}
 
-                <div className="key-points">
-                  <h3>Key Points</h3>
-                  <ul>
+                {selectedConcept.pro_tips && selectedConcept.pro_tips.length > 0 && (
+                  <div className="pro-tips">
+                    <h3>Pro Tips</h3>
+                    <ul>
+                      {selectedConcept.pro_tips.map((tip, index) => (
+                        <li key={index}>
+                          <span className="tip-bullet">•</span>
+                          <span>{tip}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {selectedConcept.common_mistakes && selectedConcept.common_mistakes.length > 0 && (
+                  <div className="common-mistakes">
+                    <h3>Common Mistakes to Avoid</h3>
+                    <ul>
+                      {selectedConcept.common_mistakes.map((mistake, index) => (
+                        <li key={index}>
+                          <span className="mistake-bullet">•</span>
+                          <span>{mistake}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="key-points bg-card-bg rounded-lg p-6 border border-border-color hover:translate-y-[-1px] hover:shadow-lg transition-all duration-200">
+                  <h3 className="text-accent-primary font-semibold text-lg mb-5 flex items-center gap-3">Key Points</h3>
+                  <ul className="space-y-3">
                     {selectedConcept.key_points?.map((point, index) => (
-                      <li key={index}>
-                        <span className="key-point-bullet">•</span>
+                      <li key={index} className="flex items-start gap-3.5 py-3 border-b border-border-color last:border-0 last:pb-0 first:pt-0 text-text-secondary">
+                        <span className="text-accent-primary text-xl leading-none opacity-80">•</span>
                         <span>{point}</span>
                       </li>
                     ))}
@@ -224,11 +309,7 @@ const Topics: React.FC = () => {
                 </div>
               </div>
             </div>
-          ) : (
-            <div className="h-full flex items-center justify-center">
-              <h2 className="text-xl text-secondary">Select a concept to start learning</h2>
-            </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

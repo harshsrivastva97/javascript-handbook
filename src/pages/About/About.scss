@@ -365,7 +365,7 @@
   .cta-section {
     text-align: center;
     padding: 3rem;
-    background: linear-gradient(135deg, rgba($accent, 0.05), rgba($accent-light, 0.05));
+    background: linear-gradient(135deg, rgba(var(--accent-primary), 0.05), rgba(var(--secondary-color), 0.05));
     border-radius: 24px;
     margin-bottom: 2rem;
 
@@ -381,7 +381,7 @@
         align-items: center;
         gap: 0.5rem;
         padding: 1rem 2rem;
-        background: $accent;
+        background: var(--accent-primary);
         color: white;
         border-radius: 12px;
         text-decoration: none;
@@ -390,7 +390,7 @@
 
         &:hover {
           transform: translateY(-2px);
-          background: color.adjust($accent, $lightness: 5%);
+          // background: color.adjust(var(--accent-primary), $lightness: 5%);
         }
       }
     }

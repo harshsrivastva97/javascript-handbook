@@ -8,5 +8,7 @@ export interface TopicSchema {
     explanation?: string;
     code_example?: string;
     key_points: string[];
+    common_mistakes: string[];
+    pro_tips: string[];
     status?: ProgressStatus;
 }

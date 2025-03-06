@@ -3,18 +3,3 @@ body {
     color: var(--text-primary);
     transition: all 0.3s ease;
 }
-
-.text-primary {
-    color: var(--text-primary);
-}
-
-.text-secondary {
-    color: var(--text-secondary);
-}
-
-.gradient-text {
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-}

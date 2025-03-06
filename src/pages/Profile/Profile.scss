@@ -164,13 +164,6 @@
         font-weight: 700;
         margin: 0;
     }
-
-    .gradient-text {
-        background-image: linear-gradient(90deg, var(--accent-color-light), var(--accent-color));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-    }
 }
 
 .profile-section {
