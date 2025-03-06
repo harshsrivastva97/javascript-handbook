@@ -1,45 +1,296 @@
 .read-page {
+  background-color: var(--background);
+  color: var(--text-primary);
+  min-height: 100vh;
 
-  /* Typography */
-  .text-primary {
-    color: var(--text-primary);
-  }
-
-  .text-secondary {
-    color: var(--text-secondary);
-  }
-
-  /* Gradient text effect */
-  .gradient-text {
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  }
-
-  /* Borders and backgrounds */
-  .border-theme {
-    border-color: var(--border-color);
-  }
-
-  .bg-card {
+  .progress-container {
+    position: sticky;
+    top: 0;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
     background-color: var(--card-bg);
   }
 
-  .bg-hover {
-    background-color: var(--hover);
+  .progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba($success, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+
+    .progress-fill {
+      height: 100%;
+      background-color: $success;
+      transition: width 0.3s ease;
+    }
   }
 
-  /* Explanation content in light/dark themes */
-  .prose {
-    color: var(--text-primary);
+  /* Sidebar Styles */
+  .sidebar {
+    background-color: var(--card-bg);
+    border-right: 1px solid var(--border-color);
+    width: 320px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--border-color);
+      border-radius: 3px;
+    }
+  }
+
+  .sidebar-item {
+    padding: 0.75rem 1rem;
+    margin: 0.25rem 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-left: 2px solid transparent;
+
+    &:hover {
+      background-color: var(--hover);
+    }
+
+    &.active {
+      background-color: rgba($accent, 0.1);
+      border-left-color: $accent;
+
+      .sidebar-text {
+        color: $accent;
+      }
+
+      .status-dot {
+        background-color: $accent;
+      }
+
+      &.completed {
+        background-color: rgba($success, 0.1);
+        border-left-color: $success;
+
+        .sidebar-text {
+          color: $success;
+        }
+
+        .status-dot {
+          background-color: $success;
+        }
+      }
+    }
+
+    &.completed {
+      .status-dot {
+        background-color: $success;
+      }
+
+      .status-completed {
+        color: $success;
+      }
+
+      &:hover {
+        background-color: rgba($success, 0.1);
+      }
+    }
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--text-secondary);
+    transition: background-color 0.2s ease;
+  }
+
+  .sidebar-text {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+  }
+
+  /* Content Area */
+  .content-area {
+    background-color: var(--background);
+    flex: 1;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    padding: 2rem;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--border-color);
+      border-radius: 3px;
+    }
+  }
+
+  /* Topic Title */
+  .topic-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    background: linear-gradient(to right, $accent, $accent-light);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Complete Button */
+  .complete-button {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &.completed {
+      background-color: rgba($success, 0.1);
+      color: $success;
+
+      &:hover {
+        background-color: rgba($success, 0.2);
+      }
+    }
+
+    &.pending {
+      background-color: $accent;
+      color: white;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  /* Code Example Section */
+  .code-container {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .example-heading {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .copy-button {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    background-color: var(--hover);
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--hover-bg);
+      color: var(--text-primary);
+    }
+
+    &.copied {
+      background-color: rgba($accent, 0.2);
+      color: $accent;
+    }
+  }
+
+  pre {
+    margin: 0;
+    padding: 1.5rem;
+    overflow-x: auto;
+    background-color: var(--card-bg) !important;
+
+    code {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: var(--text-primary);
+      background: none !important;
+    }
+
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--border-color);
+      border-radius: 3px;
+    }
+  }
+
+  /* Key Points Section */
+  .key-points {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+
+    h3 {
+      color: $accent;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: flex;
+      align-items: flex-start;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .key-point-bullet {
+      color: $accent;
+      margin-right: 0.75rem;
+      font-size: 1.2em;
+      line-height: 1;
+    }
+  }
+
+  /* Explanation Content */
+  .prose {
+    color: var(--text-secondary);
+    line-height: 1.7;
+
+    h1, h2, h3, h4, h5, h6 {
       color: var(--text-primary);
       margin-top: 1.5em;
       margin-bottom: 0.75em;
@@ -48,209 +299,33 @@
 
     p {
       margin-bottom: 1.25em;
-      line-height: 1.7;
-      color: var(--text-primary);
     }
 
     a {
-      color: var(--primary-color);
-      text-decoration: underline;
+      color: $accent;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
 
       &:hover {
         opacity: 0.8;
       }
     }
 
-    ul,
-    ol {
+    ul, ol {
       padding-left: 1.5em;
       margin-bottom: 1.25em;
 
       li {
         margin-bottom: 0.5em;
-        color: var(--text-primary);
       }
-    }
-
-    blockquote {
-      border-left: 4px solid var(--border-color);
-      padding-left: 1em;
-      font-style: italic;
-      color: var(--text-secondary);
     }
 
     code {
-      background-color: rgba(var(--primary-color), 0.1);
+      background-color: rgba($accent, 0.1);
       padding: 0.2em 0.4em;
       border-radius: 3px;
       font-family: monospace;
-      color: var(--primary-color);
+      color: $accent;
     }
-
-    pre {
-      background-color: #1f2937; // Dark background for code blocks regardless of theme
-      padding: 1em;
-      border-radius: 6px;
-      overflow-x: auto;
-      margin-bottom: 1.5em;
-
-      code {
-        background-color: transparent;
-        padding: 0;
-        color: #e5e7eb; // Light color for code text
-      }
-    }
-
-    strong,
-    b {
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    em,
-    i {
-      font-style: italic;
-      color: var(--text-primary);
-    }
-
-    // Fix specifically for explanation HTML content from backend
-    div,
-    span {
-      color: var(--text-primary);
-    }
-  }
-
-  /* Sidebar Items */
-  .sidebar-item {
-    transition: all 0.3s ease;
-    border: 1px solid transparent;
-
-    &:hover {
-      background-color: var(--hover);
-      transform: translateX(4px);
-    }
-
-    &.active {
-      background-color: rgba(var(--primary-color), 0.2);
-      border-color: rgba(var(--primary-color), 0.3);
-    }
-
-    &.completed {
-      border-color: rgba(var(--primary-color), 0.1);
-    }
-  }
-
-  /* Status indicators */
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    transition: background-color 0.3s ease;
-
-    &.completed {
-      background-color: #22c55e;
-      /* Green that works in both themes */
-    }
-
-    &.active {
-      background-color: var(--primary-color);
-    }
-
-    &.default {
-      background-color: var(--text-secondary);
-      /* Use text-secondary for better contrast */
-    }
-  }
-
-  .sidebar-text {
-    font-size: 14px;
-    font-weight: 500;
-    transition: color 0.3s ease;
-
-    &.active {
-      color: var(--primary-color);
-    }
-
-    &.default {
-      color: var(--text-primary);
-    }
-  }
-
-  /* Progress Section */
-  .progress-container {
-    border-color: var(--border-color);
-  }
-
-  .progress-bar {
-    height: 6px;
-    border-radius: 999px;
-    overflow: hidden;
-    background-color: var(--border-color);
-
-    .progress-fill {
-      height: 100%;
-      background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-      transition: width 0.3s ease-in-out;
-    }
-  }
-
-  /* Status Buttons */
-  .button-completed {
-    background-color: rgba(34, 197, 94, 0.2);
-    color: #22c55e;
-
-    &:hover {
-      background-color: rgba(34, 197, 94, 0.3);
-    }
-  }
-
-  .button-pending {
-    background-color: rgba(var(--primary-color), 0.2);
-    color: var(--primary-color);
-
-    &:hover {
-      background-color: rgba(var(--primary-color), 0.3);
-    }
-  }
-
-  /* Code Example */
-  .code-container {
-    background-color: #1f2937;
-    /* Consistent dark background for code regardless of theme */
-    border: 1px solid #374151;
-
-    .example-heading {
-      color: #ffffff;
-      /* White text for "Example:" heading on dark background */
-      font-weight: 600;
-    }
-  }
-
-  .copy-button {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #e5e7eb;
-    font-weight: 500;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-
-    &.copied {
-      background-color: rgba(34, 197, 94, 0.3);
-      color: #4ade80;
-    }
-  }
-
-  /* Key Points */
-  .key-points {
-    background-color: rgba(var(--primary-color), 0.05);
-    border-radius: 8px;
-    border: 1px solid rgba(var(--primary-color), 0.1);
-  }
-
-  .key-point-bullet {
-    color: var(--primary-color);
-    font-size: 1.2em;
   }
 }

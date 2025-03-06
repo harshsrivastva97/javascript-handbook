@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { FaUser, FaEnvelope, FaEdit, FaCheck, FaTimes, FaLinkedin, FaGithub, FaTwitter, FaGlobe } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
 import { UserProfileState, BackendUserSchema } from '../../constants/types/userTypes';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getUserProfile, updateUserProfile } from '../../redux/slices/userSlice';
 import './Profile.scss';
-import { RootState } from '../../redux/types';
 
 interface EditableField {
     name: keyof UserProfileState;
@@ -46,7 +44,8 @@ const EDITABLE_FIELDS: EditableField[] = [
 const Profile: React.FC = () => {
     const dispatch = useAppDispatch();
     const { currentUser } = useAuth();
-    const user = useAppSelector((state: RootState) => state.auth.user);
+
+    const user = useAppSelector(state => state.userData.user);
 
     const [activeSection, setActiveSection] = useState<string>('profile');
     const [formState, setFormState] = useState<UserProfileState>(INITIAL_FORM_STATE);

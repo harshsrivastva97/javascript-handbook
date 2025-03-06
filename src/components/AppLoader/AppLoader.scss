@@ -1,0 +1,54 @@
+.api-loader {
+  &-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  &-spinner {
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  &-text {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .api-loader {
+    &-text {
+      color: var(--text-secondary-dark);
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 640px) {
+  .api-loader {
+    &-text {
+      font-size: 0.75rem;
+    }
+  }
+} 

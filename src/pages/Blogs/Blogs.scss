@@ -7,25 +7,6 @@
 }
 
 .blogs-page {
-
-    /* Typography */
-    .text-primary {
-        color: var(--text-primary);
-    }
-
-    .text-secondary {
-        color: var(--text-secondary);
-    }
-
-    /* Gradient text effect */
-    .gradient-text {
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
-        background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-    }
-
-    /* Card styling */
     .blog-card {
         background-color: var(--card-bg);
         border-color: var(--border-color);

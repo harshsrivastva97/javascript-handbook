@@ -1,7 +1,41 @@
-// Color Palette
-$primary-dark: #1a1a2e;
-$primary: #16213e;
-$primary-light: #0f3460;
+:root,
+.dark-theme {
+    --background: #1E2525;
+    --text-primary: #EDEDED;
+    --text-secondary: #A3A3A3;
+    --accent-primary: #4A90E2;
+    --accent-secondary: #F5C107;
+    --card-bg: #2C3434;
+    --hover: #3B4444;
+    --header-bg: rgba(33, 37, 41, 0.8);
+    --dropdown-bg: #343a40;
+    --button-bg: #343a40;
+    --hover-bg: #495057;
+    --border-color: #495057;
+    --text-color: #f8f9fa;
+    --primary-color: #339af0;
+    --primary-color-rgb: 51, 154, 240;
+    --secondary-color: #22b8cf;
+}
+
+.light-theme {
+    --background: #F5F6F5;
+    --text-primary: #1A1A1A;
+    --text-secondary: #5C5C5C;
+    --accent-primary: #2A4D69;
+    --accent-secondary: #D4A017;
+    --card-bg: #FFFFFF;
+    --hover: #E8ECEF;
+    --header-bg: rgba(255, 255, 255, 0.8);
+    --dropdown-bg: #ffffff;
+    --button-bg: #f8f9fa;
+    --hover-bg: #f1f3f5;
+    --border-color: #e9ecef;
+    --text-color: #343a40;
+    --primary-color: #228be6;
+    --primary-color-rgb: 34, 139, 230;
+    --secondary-color: #15aabf;
+}
 
 $accent-dark: #4c0bce;
 $accent: #646cff;
@@ -10,35 +44,3 @@ $accent-light: #747bff;
 $success: #2ecc71;
 $warning: #f1c40f;
 $error: #e74c3c;
-
-// Text Colors
-$text-primary: #ffffff;
-$text-secondary: #adb5bd;
-$text-muted: #6c757d;
-
-// Background Colors
-$bg-dark: #0a0a1b;
-$bg-primary: #1a1a2e;
-$bg-light: #16213e;
-$bg-lighter: #0f3460;
-
-// Card & Component Colors
-$card-bg: rgba(26, 26, 46, 0.95);
-$card-border: rgba(255, 255, 255, 0.1);
-$card-hover: rgba(26, 26, 46, 0.98);
-
-// Gradients
-$gradient-primary: linear-gradient(135deg, $accent-dark, $accent);
-$gradient-secondary: linear-gradient(135deg, $primary-light, $accent-dark);
-
-// Shadows
-$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-
-// Transitions
-$transition-fast: 0.2s ease;
-$transition-normal: 0.3s ease;
-$transition-slow: 0.5s ease;
-
-// Add any other variables you're using in your styles

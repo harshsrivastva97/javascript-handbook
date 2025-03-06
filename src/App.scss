@@ -8,6 +8,15 @@ body {
   overflow: hidden;
 }
 
+/* Theme transition */
+body,
+body *,
+code[class*="language-"],
+pre[class*="language-"],
+.token {
+  transition: all 0.3s ease;
+}
+
 /* Hide scrollbars completely without reserving space */
 * {
   scrollbar-width: none;

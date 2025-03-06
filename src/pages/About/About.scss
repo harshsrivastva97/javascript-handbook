@@ -2,25 +2,7 @@
 
 .about-page {
   background-color: var(--background);
-  color: var(--text-primary);
   min-height: 100vh;
-
-  /* Text colors */
-  .text-primary {
-    color: var(--text-primary);
-  }
-
-  .text-secondary {
-    color: var(--text-secondary);
-  }
-
-  /* Gradient text */
-  .gradient-text {
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  }
 
   /* Card container */
   .card-container {
@@ -83,7 +65,6 @@
     }
 
     &.github {
-      color: var(--text-primary);
     }
   }
 
@@ -153,7 +134,6 @@
       font-weight: 800;
       margin-bottom: 1.5rem;
       background: linear-gradient(90deg, #fff, #646cff);
-      -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: -1px;
     }
@@ -392,7 +372,6 @@
     .cta-content {
       p {
         font-size: 1.5rem;
-        color: $text-primary;
         margin-bottom: 1.5rem;
         font-weight: 600;
       }

@@ -6,7 +6,7 @@ export interface TopicSchema {
     title: string;
     order: number;
     explanation?: string;
-    codeExample?: string;
-    keyPoints: string[];
+    code_example?: string;
+    key_points: string[];
     status?: ProgressStatus;
 }

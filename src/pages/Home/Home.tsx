@@ -4,25 +4,21 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { FaBook, FaCode, FaRocket } from "react-icons/fa";
 import 'react-circular-progressbar/dist/styles.css';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { RootState } from '../../redux'; 
 import { getAllTopics, updateTopicStatus } from "../../redux/slices/topicsSlice";
 import { TopicSchema } from "../../api/types/topicTypes";
 import { FEATURES, EXPLORER_SECTIONS, STATUS_ICONS, STATUS_LABELS } from './homePageConstants';
 import { ProgressStatus } from "../../constants/enums/progressStatus";
+import { calculateProgress } from '../../utils/progressUtils';
 import './Home.scss';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const user = useAppSelector((state: RootState) => state.userData.user);
-  const topics = useAppSelector((state: RootState) => state.topicsData.topics);
+  const user = useAppSelector(state => state.userData.user);
+  const topics = useAppSelector(state => state.topicsData.topics);
 
-  const progress = useMemo(() => {
-    if (!topics?.length) return 0;
-    const completed = topics.filter((topic: TopicSchema) => topic.status === ProgressStatus.COMPLETED).length;
-    return Math.round((completed / topics.length) * 100);
-  }, [topics]);
+  const progress = useMemo(() => calculateProgress(topics), [topics]);
 
   const handleStatusChange = async (topicId: number, currentStatus: ProgressStatus) => {
     if (!user?.user_id) return;
@@ -176,7 +172,7 @@ const Home: React.FC = () => {
                 </div>
                 <p className="text-secondary text-center font-medium">Overall Progress</p>
                 <p className="text-sm text-secondary text-center mt-2">
-                  {topics?.filter(topic => topic.status === "COMPLETED").length} of {topics?.length} concepts mastered
+                  {topics?.filter(topic => topic.status === ProgressStatus.COMPLETED).length} of {topics?.length} concepts mastered
                 </p>
               </div>
 
