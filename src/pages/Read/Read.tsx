@@ -108,9 +108,9 @@ const Topics: React.FC = () => {
         {/* Sidebar */}
         <div className="sidebar">
           <div className="progress">
-            <div className="flex items-center gap-2 mb-4">
-              <RiJavascriptLine className="progress__title size-4" />
-              <h3 className="progress__title text-xs tracking-widest">JAVASCRIPT BASICS</h3>
+            <div className="progress__title flex items-center gap-2 mb-4">
+              <RiJavascriptLine className="size-4" />
+              <h3 className="text-xs tracking-widest">JAVASCRIPT BASICS</h3>
             </div>
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-secondary">
@@ -129,29 +129,27 @@ const Topics: React.FC = () => {
           </div>
 
           <div className="py-4">
-            <div className="space-y-1">
-              {topics.map((topic: TopicSchema) => {
-                const isCompleted = isTopicCompleted(topic.topic_id);
-                const isActive = selectedConcept?.topic_id === topic.topic_id;
-                
-                return (
-                  <div
-                    key={topic.topic_id}
-                    className={`sidebar-item ${isActive ? 'active' : ''} 
-                      ${isCompleted ? 'completed' : ''}`}
-                    onClick={() => handleTopicSelect(topic)}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className="status-dot" />
-                        <span className="sidebar-text">{topic.title}</span>
-                      </div>
-                      {isCompleted && <TiTick className="check-icon" />}
+            {topics.map((topic: TopicSchema) => {
+              const isCompleted = isTopicCompleted(topic.topic_id);
+              const isActive = selectedConcept?.topic_id === topic.topic_id;
+              
+              return (
+                <div
+                  key={topic.topic_id}
+                  className={`sidebar-item ${isActive ? 'active' : ''} 
+                    ${isCompleted ? 'completed' : ''}`}
+                  onClick={() => handleTopicSelect(topic)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <div className="status-dot" />
+                      <span className="sidebar-text">{topic.title}</span>
                     </div>
+                    {isCompleted && <TiTick className="check-icon" />}
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -177,7 +175,7 @@ const Topics: React.FC = () => {
                 </div>
               </div>
 
-              <div className="space-y-6">
+              <div>
                 <div
                   className="prose"
                   dangerouslySetInnerHTML={{
@@ -186,7 +184,7 @@ const Topics: React.FC = () => {
                 />
 
                 {selectedConcept.code_example && (
-                  <div className={`code-container my-7 w-full ${theme}-theme`}>
+                  <div className={`code-container mt-7 w-full ${theme}-theme`}>
                     <div className="code-header">
                       <h3 className="flex items-center gap-2 text-accent-primary font-semibold text-lg">
                         <FaCode className="size-5" />
@@ -248,10 +246,10 @@ const Topics: React.FC = () => {
                 )}
 
                 <div className="key-points bg-card-bg p-6 hover:translate-y-[-1px] hover:shadow-lg transition-all duration-200">
-                  <h3 className="text-accent-primary font-semibold text-lg mb-5 flex items-center gap-3">Key Points</h3>
-                  <ul className="space-y-3">
+                  <h3 className="text-accent-primary font-semibold text-lg flex items-center gap-3">Key Points</h3>
+                  <ul>
                     {selectedConcept.key_points?.map((point, index) => (
-                      <li key={index} className="flex items-start gap-3.5 py-3 border-b border-border-color last:border-0 last:pb-0 first:pt-0 text-text-secondary">
+                      <li key={index} className="flex items-start gap-2.5 border-b border-border-color last:border-0 last:pb-0 first:pt-0 text-text-secondary">
                         <span className="text-accent-primary text-xl leading-none opacity-80">•</span>
                         <span>{point}</span>
                       </li>

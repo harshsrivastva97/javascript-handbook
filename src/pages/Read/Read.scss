@@ -273,7 +273,7 @@
 
   /* Content Sections */
   .key-points, .pro-tips, .common-mistakes {
-    padding: 0.5rem 1rem;
+    padding: 1.5rem 1rem;
     width: 100%;
     font-size: 0.9375rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -286,11 +286,10 @@
       color: var(--accent-primary);
       font-weight: 600;
       font-size: 1.1rem;
-      margin-bottom: 1rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      letter-spacing: -0.01em;
+      @apply mb-4;
     }
 
     ul {
@@ -408,7 +407,6 @@
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    margin: 1.75rem 0;
     position: relative;
     overflow: hidden;
     width: 100%;
