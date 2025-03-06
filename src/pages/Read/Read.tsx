@@ -4,6 +4,9 @@ import Prism from "prismjs";
 import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-typescript";
 import { LuCopy } from "react-icons/lu";
+import { RiJavascriptLine } from "react-icons/ri";
+import { FaCode } from "react-icons/fa";
+import { TiTick } from "react-icons/ti";
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { TopicSchema } from "../../api/types/topicTypes";
 import { getAllTopics, getTopicDetails, updateTopicStatus } from "../../redux/slices/topicsSlice";
@@ -13,30 +16,6 @@ import AppLoader from "../../components/AppLoader/AppLoader";
 import { useTheme } from "../../contexts/ThemeContext";
 import "../../assets/styles/prism-theme.scss";
 import "./Read.scss";
-
-// Icons
-const BookIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-  </svg>
-);
-
-const CheckIcon = ({ className = '' }: { className?: string }) => (
-  <svg 
-    className={className}
-    width="16" 
-    height="16" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
-  >
-    <polyline points="20 6 9 17 4 12"></polyline>
-  </svg>
-);
 
 const Topics: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -128,10 +107,10 @@ const Topics: React.FC = () => {
       <div className="flex h-[calc(100vh-64px)]">
         {/* Sidebar */}
         <div className="sidebar">
-          <div className="progress-container">
+          <div className="progress">
             <div className="flex items-center gap-2 mb-4">
-              <BookIcon />
-              <h3 className="text-xs tracking-widest">JAVASCRIPT BASICS</h3>
+              <RiJavascriptLine className="progress__title size-4" />
+              <h3 className="progress__title text-xs tracking-widest">JAVASCRIPT BASICS</h3>
             </div>
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-secondary">
@@ -167,7 +146,7 @@ const Topics: React.FC = () => {
                         <div className="status-dot" />
                         <span className="sidebar-text">{topic.title}</span>
                       </div>
-                      {isCompleted && <CheckIcon className="check-icon" />}
+                      {isCompleted && <TiTick className="check-icon" />}
                     </div>
                   </div>
                 );
@@ -191,26 +170,9 @@ const Topics: React.FC = () => {
                       isTopicCompleted(selectedConcept.topic_id) ? 'completed' : 'pending'
                     }`}
                   >
-                    {isTopicCompleted(selectedConcept.topic_id) ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <CheckIcon className="check-icon" /> Completed
-                      </span>
-                    ) : (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg 
-                          className="w-4 h-4" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          strokeWidth="2.5" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        >
-                          <path d="M20 6L9 17L4 12" />
-                        </svg>
-                        Mark as Complete
-                      </span>
-                    )}
+                    <span className="flex items-center justify-center">
+                      <TiTick className="size-5" /> {isTopicCompleted(selectedConcept.topic_id) ? 'Completed' : 'Mark as Complete'}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -227,18 +189,7 @@ const Topics: React.FC = () => {
                   <div className={`code-container my-7 w-full ${theme}-theme`}>
                     <div className="code-header">
                       <h3 className="flex items-center gap-2 text-accent-primary font-semibold text-lg">
-                        <svg 
-                          className="w-5 h-5" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        >
-                          <path d="M16 18L22 12L16 6" />
-                          <path d="M8 6L2 12L8 18" />
-                        </svg>
+                        <FaCode className="size-5" />
                         Example Code
                       </h3>
                       <div 
@@ -260,7 +211,7 @@ const Topics: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                    <pre className="p-4 overflow-x-auto">
+                    <pre className="py-4 px-6 overflow-x-auto">
                       <code className="language-javascript">
                         {selectedConcept.code_example}
                       </code>
@@ -296,7 +247,7 @@ const Topics: React.FC = () => {
                   </div>
                 )}
 
-                <div className="key-points bg-card-bg rounded-lg p-6 border border-border-color hover:translate-y-[-1px] hover:shadow-lg transition-all duration-200">
+                <div className="key-points bg-card-bg p-6 hover:translate-y-[-1px] hover:shadow-lg transition-all duration-200">
                   <h3 className="text-accent-primary font-semibold text-lg mb-5 flex items-center gap-3">Key Points</h3>
                   <ul className="space-y-3">
                     {selectedConcept.key_points?.map((point, index) => (
