@@ -198,22 +198,60 @@
     font-weight: 600;
   }
 
-  .copy-button {
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    font-size: 0.875rem;
-    background-color: var(--hover);
+  .copy-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .copy-icon {
     color: var(--text-secondary);
     transition: all 0.2s ease;
+    opacity: 0.6;
+    cursor: pointer;
 
     &:hover {
-      background-color: var(--hover-bg);
+      opacity: 1;
       color: var(--text-primary);
     }
 
     &.copied {
-      background-color: rgba($accent, 0.2);
-      color: $accent;
+      color: $success;
+      opacity: 1;
+    }
+  }
+
+  .copy-tooltip {
+    position: absolute;
+    right: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%) translateX(5px);
+    background-color: var(--card-bg);
+    color: $success;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    border: 1px solid rgba($success, 0.2);
+    transition: all 0.2s ease;
+
+    &.show {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border-width: 4px;
+      border-style: solid;
+      border-color: transparent transparent transparent var(--card-bg);
     }
   }
 
