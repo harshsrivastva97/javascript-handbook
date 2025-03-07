@@ -42,7 +42,9 @@ const Topics: React.FC = () => {
     if (!user?.user_id) return;
     
     const topic = topics.find((t: TopicSchema) => t.topic_id === topicId);
-    const newStatus: ProgressStatus = topic?.status === ProgressStatus.COMPLETED ? ProgressStatus.PENDING : ProgressStatus.COMPLETED;
+    const newStatus: ProgressStatus = topic?.status === ProgressStatus.COMPLETED 
+      ? ProgressStatus.PENDING 
+      : ProgressStatus.COMPLETED;
     
     dispatch(updateTopicStatus({
       user_id: user.user_id,
@@ -108,9 +110,11 @@ const Topics: React.FC = () => {
         {/* Sidebar */}
         <div className="sidebar">
           <div className="progress">
-            <div className="progress__title flex items-center gap-2 mb-4">
-              <RiJavascriptLine className="size-4" />
-              <h3 className="text-xs tracking-widest">JAVASCRIPT BASICS</h3>
+            <div className="flex items-center justify-between mb-2">
+              <div className="progress__title flex items-center gap-2">
+                <RiJavascriptLine className="size-4" />
+                <h3 className="text-xs tracking-widest">JAVASCRIPT BASICS</h3>
+              </div>
             </div>
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-secondary">
@@ -169,7 +173,8 @@ const Topics: React.FC = () => {
                     }`}
                   >
                     <span className="flex items-center justify-center">
-                      <TiTick className="size-5" /> {isTopicCompleted(selectedConcept.topic_id) ? 'Completed' : 'Mark as Complete'}
+                      <TiTick className="size-5" /> 
+                      {isTopicCompleted(selectedConcept.topic_id) ? 'Completed' : 'Mark as Complete'}
                     </span>
                   </button>
                 </div>

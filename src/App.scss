@@ -8,7 +8,6 @@ body {
   overflow: hidden;
 }
 
-/* Theme transition */
 body,
 body *,
 code[class*="language-"],
@@ -17,30 +16,22 @@ pre[class*="language-"],
   transition: all 0.3s ease;
 }
 
-/* Hide scrollbars completely without reserving space */
 * {
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* IE and Edge */
 }
 
-/* Webkit browsers (Chrome, Safari, etc.) */
 *::-webkit-scrollbar {
   width: 0;
   height: 0;
   display: none;
 }
 
-/* Global scrollbar styling */
 * {
   scrollbar-width: thin;
-  /* Firefox */
   -ms-overflow-style: thin;
-  /* IE and Edge */
 }
 
-/* Webkit browsers (Chrome, Safari, etc.) */
 *::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -60,7 +51,6 @@ pre[class*="language-"],
   background-color: rgba(155, 155, 155, 0.7);
 }
 
-/* If you want to completely hide scrollbars, uncomment this section:
 * {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -70,7 +60,6 @@ pre[class*="language-"],
   width: 0;
   display: none;
 }
-*/
 
 a {
   color: var(--accent-primary);

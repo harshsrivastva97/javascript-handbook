@@ -1,5 +1,4 @@
 .home {
-  /* Buttons */
   .primary-button {
     background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
     color: var(--text-color);
@@ -25,7 +24,6 @@
     }
   }
 
-  /* Feature Cards */
   .feature-card {
     background-color: var(--card-bg);
     transition: all 0.3s ease;
@@ -40,7 +38,6 @@
     color: var(--accent-primary);
   }
 
-  /* Table Styling */
   .table-header {
     border-color: var(--border-color);
     background-color: var(--card-bg);
@@ -58,22 +55,18 @@
     }
   }
 
-  /* Status indicators */
   .status-completed {
     color: #22c55e;
-    /* Green that works in both themes */
   }
 
   .status-in-progress {
     color: #eab308;
-    /* Yellow that works in both themes */
   }
 
   .status-pending {
     color: var(--text-secondary);
   }
 
-  /* Action Buttons */
   .read-button {
     color: var(--primary-color);
   }
@@ -86,7 +79,6 @@
     background-color: rgba(var(--primary-color), 0.1);
   }
 
-  /* Progress Section */
   .progress-border {
     border-bottom: 1px solid var(--border-color);
 
@@ -96,7 +88,6 @@
     }
   }
 
-  /* CTA Section */
   .cta-section {
     background-image: linear-gradient(to right,
         rgba(var(--primary-color), 0.1),
@@ -104,7 +95,6 @@
     border: 1px solid rgba(var(--primary-color), 0.2);
   }
 
-  /* Explore More Button */
   .explore-more-button {
     color: var(--accent-primary);
 

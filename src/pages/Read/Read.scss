@@ -28,13 +28,12 @@
       z-index: 10;
       backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border-color);
-  
+
       &__title {
         font-weight: 600;
         letter-spacing: 0.1em;
         color: var(--accent-primary);
         font-size: 0.75rem;
-        opacity: 0.9;
         background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -155,8 +154,6 @@
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
   }
-
-  
 
   .status-dot {
     width: 6px;
