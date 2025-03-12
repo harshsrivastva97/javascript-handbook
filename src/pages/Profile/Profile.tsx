@@ -1,5 +1,21 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { FaUser, FaEnvelope, FaEdit, FaCheck, FaTimes, FaLinkedin, FaGithub, FaTwitter, FaGlobe } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  FaUser, 
+  FaEnvelope, 
+  FaEdit, 
+  FaCheck, 
+  FaTimes, 
+  FaLinkedin, 
+  FaGithub, 
+  FaTwitter, 
+  FaGlobe,
+  FaCog,
+  FaInfoCircle,
+  FaChevronLeft,
+  FaSave,
+  FaCheckCircle
+} from 'react-icons/fa';
 import { UserProfileState, BackendUserSchema } from '../../constants/types/userTypes';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -15,6 +31,7 @@ interface ProfileSection {
     id: string;
     title: string;
     icon: React.ReactNode;
+    description?: string;
 }
 
 const INITIAL_FORM_STATE: UserProfileState = {
@@ -28,8 +45,18 @@ const INITIAL_FORM_STATE: UserProfileState = {
 };
 
 const PROFILE_SECTIONS: ProfileSection[] = [
-    { id: 'overview', title: 'Overview', icon: <FaUser /> },
-    { id: 'profile', title: 'Profile', icon: <FaUser /> }
+    { 
+      id: 'overview', 
+      title: 'Overview', 
+      icon: <FaInfoCircle />,
+      description: 'Your account summary and activity'
+    },
+    { 
+      id: 'profile', 
+      title: 'Profile', 
+      icon: <FaUser />,
+      description: 'Manage your personal information and social links'
+    }
 ];
 
 const EDITABLE_FIELDS: EditableField[] = [
@@ -41,10 +68,25 @@ const EDITABLE_FIELDS: EditableField[] = [
     { name: 'website', isEditing: true }
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
+};
+
 const Profile: React.FC = () => {
     const dispatch = useAppDispatch();
     const { currentUser } = useAuth();
-
     const user = useAppSelector(state => state.userData.user);
 
     const [activeSection, setActiveSection] = useState<string>('profile');
@@ -52,6 +94,7 @@ const Profile: React.FC = () => {
     const [editableFields, setEditableFields] = useState<EditableField[]>(EDITABLE_FIELDS);
     const [isSaving, setIsSaving] = useState<boolean>(false);
     const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
+    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
 
     const toggleFieldEdit = useCallback((fieldName: keyof UserProfileState) => {
         setEditableFields(prev =>
@@ -153,64 +196,83 @@ const Profile: React.FC = () => {
         const value = formState[fieldName];
 
         return (
-            <div className="form-group">
+            <motion.div 
+                className="form-group"
+                variants={itemVariants}
+            >
                 <label className="field-label">
                     {icon && <span className="field-icon">{icon}</span>}
                     {label}
                 </label>
                 <div className="input-wrapper">
-                    {isEditing ? (
-                        <div
-                            key="editing"
-                            className="edit-container"
-                        >
-                            <input
-                                type={fieldName === 'email' ? 'email' : 'text'}
-                                value={value as string}
-                                onChange={(e) => handleInputChange(fieldName, e.target.value)}
-                                placeholder={`Your ${label}`}
-                                aria-label={label}
-                                className="field-input"
-                            />
-                            <div className="action-buttons">
-                                <button
-                                    type="button"
-                                    className="action-button confirm"
-                                    onClick={() => toggleFieldEdit(fieldName)}
-                                    aria-label={`Confirm ${label}`}
-                                >
-                                    <FaCheck />
-                                </button>
-                                <button
-                                    type="button"
-                                    className="action-button cancel"
-                                    onClick={() => handleCancel(fieldName)}
-                                    aria-label={`Cancel ${label}`}
-                                >
-                                    <FaTimes />
-                                </button>
-                            </div>
-                        </div>
-                    ) : (
-                        <div
-                            key="display"
-                            className="display-container"
-                        >
-                            <div className="field-value">
-                                {value || <span className="placeholder-text">Your {label}</span>}
-                            </div>
-                            <button
-                                type="button"
-                                className="action-button edit"
-                                onClick={() => toggleFieldEdit(fieldName)}
-                                aria-label={`Edit ${label}`}
+                    <AnimatePresence mode="wait">
+                        {isEditing ? (
+                            <motion.div
+                                key="editing"
+                                className="edit-container"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2 }}
                             >
-                                <FaEdit />
-                            </button>
-                        </div>
-                    )}
+                                <input
+                                    type={fieldName === 'email' ? 'email' : 'text'}
+                                    value={value as string}
+                                    onChange={(e) => handleInputChange(fieldName, e.target.value)}
+                                    placeholder={`Your ${label}`}
+                                    aria-label={label}
+                                    className="field-input"
+                                />
+                                <div className="action-buttons">
+                                    <motion.button
+                                        type="button"
+                                        className="action-button confirm"
+                                        onClick={() => toggleFieldEdit(fieldName)}
+                                        aria-label={`Confirm ${label}`}
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <FaCheck />
+                                    </motion.button>
+                                    <motion.button
+                                        type="button"
+                                        className="action-button cancel"
+                                        onClick={() => handleCancel(fieldName)}
+                                        aria-label={`Cancel ${label}`}
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <FaTimes />
+                                    </motion.button>
+                                </div>
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                key="display"
+                                className="display-container"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                <div className="field-value">
+                                    {value || <span className="placeholder-text">Add your {label.toLowerCase()}</span>}
+                                </div>
+                                <motion.button
+                                    type="button"
+                                    className="action-button edit"
+                                    onClick={() => toggleFieldEdit(fieldName)}
+                                    aria-label={`Edit ${label}`}
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    <FaEdit />
+                                </motion.button>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
-            </div >
+            </motion.div>
         );
     });
 
@@ -219,14 +281,42 @@ const Profile: React.FC = () => {
         updateProfile();
     };
 
+    // Toggle mobile sidebar
+    const toggleMobileSidebar = () => {
+        setIsMobileSidebarOpen(!isMobileSidebarOpen);
+    };
+
     return (
-        <div className="profile-container">
+        <div className="profile-container scrollable min-h-screen">
             <div className="profile-content">
+                {/* Mobile sidebar toggle */}
+                <button 
+                    className="mobile-sidebar-toggle"
+                    onClick={toggleMobileSidebar}
+                    aria-label="Toggle sidebar"
+                >
+                    <FaChevronLeft className={isMobileSidebarOpen ? "open" : ""} />
+                </button>
+
                 <div className="profile-layout">
-                    <aside className="profile-sidebar">
-                        <div className="sidebar-header">
+                    {/* Sidebar */}
+                    <motion.aside 
+                        className={`profile-sidebar ${isMobileSidebarOpen ? 'mobile-open' : ''}`}
+                        initial={{ x: -20, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 0.4 }}
+                    >
+                        <motion.div 
+                            className="sidebar-header"
+                            initial={{ y: -10, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.2, duration: 0.4 }}
+                        >
                             <div className="avatar-container">
-                                <div className="avatar-wrapper">
+                                <motion.div 
+                                    className="avatar-wrapper"
+                                    whileHover={{ scale: 1.05 }}
+                                >
                                     {currentUser?.photoURL ? (
                                         <img src={currentUser.photoURL} alt="Profile avatar" className="avatar" />
                                     ) : (
@@ -234,72 +324,160 @@ const Profile: React.FC = () => {
                                             <FaUser />
                                         </div>
                                     )}
-                                </div>
+                                </motion.div>
                             </div>
-                            <h2 className="user-name text-2xl">{currentUser?.displayName || 'User'}</h2>
+                            <h2 className="user-name text-xl">{currentUser?.displayName || 'User'}</h2>
                             <span className="user-email text-sm">{currentUser?.email || ''}</span>
-                        </div>
+                        </motion.div>
 
                         <nav className="sidebar-nav">
-                            {PROFILE_SECTIONS.map(section => (
-                                <button
+                            {PROFILE_SECTIONS.map((section, index) => (
+                                <motion.button
                                     key={section.id}
                                     className={`nav-item ${activeSection === section.id ? 'active' : ''}`}
-                                    onClick={() => setActiveSection(section.id)}
+                                    onClick={() => {
+                                        setActiveSection(section.id);
+                                        setIsMobileSidebarOpen(false);
+                                    }}
                                     aria-label={section.title}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.3 + index * 0.1, duration: 0.4 }}
+                                    whileHover={{ x: 5 }}
                                 >
                                     <span className="nav-icon">{section.icon}</span>
-                                    <span>{section.title}</span>
-                                </button>
+                                    <div className="nav-text">
+                                        <span className="nav-title">{section.title}</span>
+                                        {section.description && (
+                                            <span className="nav-description">{section.description}</span>
+                                        )}
+                                    </div>
+                                </motion.button>
                             ))}
                         </nav>
-                    </aside>
+                    </motion.aside>
 
-                    <main className="profile-main">
-                        <div className="section-header">
-                            <h1 className="gradient-text">
+                    <motion.main 
+                        className="profile-main"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                    >
+                        <motion.div 
+                            className="section-header"
+                            initial={{ y: -20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.4 }}
+                        >
+                            <h1 className="gradient-text text-3xl md:text-4xl">
                                 {PROFILE_SECTIONS.find(s => s.id === activeSection)?.title}
                             </h1>
-                        </div>
+                            <p className="section-description">
+                                {PROFILE_SECTIONS.find(s => s.id === activeSection)?.description}
+                            </p>
+                        </motion.div>
+
+                        {activeSection === 'overview' && (
+                            <motion.div 
+                                className="profile-overview"
+                                variants={containerVariants}
+                                initial="hidden"
+                                animate="visible"
+                            >
+                                <motion.div 
+                                    className="overview-card"
+                                    variants={itemVariants}
+                                >
+                                    <div className="card-header">
+                                        <h3 className="card-title">Account Information</h3>
+                                    </div>
+                                    <div className="card-content">
+                                        <div className="info-item">
+                                            <span className="info-label">Display Name</span>
+                                            <span className="info-value">{currentUser?.displayName || 'Not set'}</span>
+                                        </div>
+                                        <div className="info-item">
+                                            <span className="info-label">Email</span>
+                                            <span className="info-value">{currentUser?.email || 'Not set'}</span>
+                                        </div>
+                                        <div className="info-item">
+                                            <span className="info-label">Account Created</span>
+                                            <span className="info-value">
+                                                {currentUser?.metadata?.creationTime 
+                                                    ? new Date(currentUser.metadata.creationTime).toLocaleDateString() 
+                                                    : 'Unknown'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </motion.div>
+                        )}
 
                         {activeSection === 'profile' && (
-                            <div className="profile-section">
+                            <motion.div 
+                                className="profile-section"
+                                variants={containerVariants}
+                                initial="hidden"
+                                animate="visible"
+                            >
                                 <form
                                     onSubmit={handleSubmit}
                                     className="edit-form"
                                 >
-                                    <div className="profile-card">
+                                    <motion.div 
+                                        className="profile-card"
+                                        variants={itemVariants}
+                                    >
                                         <h3 className="card-title">Personal Information</h3>
                                         <EditableField fieldName="displayName" label="Display Name" icon={<FaUser />} />
                                         <EditableField fieldName="email" label="Email" icon={<FaEnvelope />} />
-                                    </div>
+                                    </motion.div>
 
-                                    <div className="profile-card social-links">
+                                    <motion.div 
+                                        className="profile-card social-links"
+                                        variants={itemVariants}
+                                    >
                                         <h3 className="card-title">Social Media & Links</h3>
                                         <EditableField fieldName="github" label="GitHub" icon={<FaGithub />} />
                                         <EditableField fieldName="linkedin" label="LinkedIn" icon={<FaLinkedin />} />
                                         <EditableField fieldName="twitter" label="Twitter" icon={<FaTwitter />} />
                                         <EditableField fieldName="website" label="Website" icon={<FaGlobe />} />
-                                    </div>
+                                    </motion.div>
 
-                                    <div className="action-card">
-                                        {saveSuccess && (
-                                            <div className="save-success">
-                                                Profile updated successfully!
-                                            </div>
-                                        )}
-                                        <button
+                                    <motion.div 
+                                        className="action-card"
+                                        variants={itemVariants}
+                                    >
+                                        <AnimatePresence>
+                                            {saveSuccess && (
+                                                <motion.div 
+                                                    className="save-success"
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0 }}
+                                                >
+                                                    <FaCheckCircle /> Profile updated successfully!
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                        <motion.button
                                             type="submit"
                                             className={`save-button ${isSaving ? 'saving' : ''}`}
                                             disabled={isSaving}
+                                            whileHover={{ scale: 1.03 }}
+                                            whileTap={{ scale: 0.97 }}
                                         >
-                                            {isSaving ? 'Saving...' : 'Save Changes'}
-                                        </button>
-                                    </div>
+                                            {isSaving ? (
+                                                <>Saving... <FaCog className="spin-icon" /></>
+                                            ) : (
+                                                <>Save Changes <FaSave /></>
+                                            )}
+                                        </motion.button>
+                                    </motion.div>
                                 </form>
-                            </div>
+                            </motion.div>
                         )}
-                    </main>
+                    </motion.main>
                 </div>
             </div>
         </div>

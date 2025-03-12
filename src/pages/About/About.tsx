@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import {
   FaCode,
   FaLightbulb,
@@ -7,170 +8,335 @@ import {
   FaJsSquare,
   FaReact,
   FaNodeJs,
-  FaNpm,
   FaVuejs,
   FaGithub,
   FaRocket,
+  FaBookOpen,
+  FaLaptopCode,
+  FaGraduationCap,
 } from "react-icons/fa";
-import { SiTypescript } from "react-icons/si";
+import { SiTypescript, SiWebpack, SiBabel, SiEslint, SiJavascript, SiNpm } from "react-icons/si";
 import "./About.scss";
 
 const About: React.FC = () => {
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
+  };
+
+  const techIcons = [
+    { Icon: SiJavascript, color: "#f7df1e", name: "JavaScript" },
+    { Icon: SiTypescript, color: "#3178c6", name: "TypeScript" },
+    { Icon: FaReact, color: "#61dafb", name: "React" },
+    { Icon: FaVuejs, color: "#42b883", name: "Vue.js" },
+    { Icon: FaNodeJs, color: "#539e43", name: "Node.js" },
+    { Icon: SiWebpack, color: "#8dd6f9", name: "Webpack" },
+    { Icon: SiBabel, color: "#f9dc3e", name: "Babel" },
+    { Icon: SiEslint, color: "#4b32c3", name: "ESLint" },
+    { Icon: SiNpm, color: "#cb3837", name: "npm" },
+  ];
+
   return (
-    <div className="about-page scrollable">
-      <div className="max-w-7xl mx-auto px-4 py-20">
-        <div className="text-center mb-24">
-          <h1 className="text-5xl font-bold mb-6 gradient-text">
+    <div className="about-page scrollable min-h-screen pb-8">
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        {/* Hero Section - More compact */}
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <motion.h1
+            className="text-4xl md:text-5xl font-bold mb-4 gradient-text"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+          >
             About JavaScript Handbook
-          </h1>
-          <p className="text-xl text-secondary max-w-3xl mx-auto leading-relaxed">
-            An open-source platform dedicated to making JavaScript education accessible,
-            interactive, and community-driven.
-          </p>
-        </div>
+          </motion.h1>
+          <motion.p
+            className="text-lg text-secondary max-w-2xl mx-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+          >
+            Your comprehensive guide to mastering modern JavaScript — from core concepts to advanced patterns.
+          </motion.p>
+        </motion.div>
 
-        {/* Main Content */}
-        <div className="card-container rounded-2xl p-10 border shadow-xl mb-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div>
-              <h2 className="text-3xl font-bold mb-8 gradient-text">
-                Our Mission
-              </h2>
-              <div className="space-y-6">
-                <p className="text-secondary leading-relaxed text-lg">
-                  As a front-end developer, mastering JavaScript is essential, whether you're gearing up
-                  for job interviews or enhancing your personal skill set. Recognizing the scarcity of
-                  comprehensive and freely accessible resources on this pivotal topic, we created
-                  JavaScript Handbook.
+        {/* Mission Section - Refined and compact */}
+        <motion.section 
+          className="mb-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-center">
+            <motion.div 
+              className="flex-1 order-2 md:order-1"
+              variants={itemVariants}
+            >
+              <h2 className="text-3xl font-bold mb-6 gradient-text">Our Mission</h2>
+              <div className="space-y-4">
+                <p className="text-secondary">
+                  JavaScript Handbook provides an accessible, interactive learning platform for JavaScript developers at all skill levels.
                 </p>
-                <p className="text-secondary leading-relaxed text-lg">
-                  Join us and contribute to a thriving open-source community that values knowledge
-                  sharing and collective improvement. Together, we'll navigate the complexities of
-                  JavaScript, transforming challenges into opportunities for growth.
+                <p className="text-secondary">
+                  We focus on learning by doing, combining in-depth tutorials with hands-on exercises that cover modern JavaScript concepts,
+                  patterns, and best practices relevant to today's development ecosystem.
+                </p>
+                <p className="text-secondary">
+                  From closures and promises to observables and proxies, our exercises challenge you to think deeply about JavaScript's core concepts.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="w-full h-full relative flex items-center justify-center min-h-[300px]">
-              {/* Core Icon */}
-              <div className="tech-icon javascript absolute w-20 h-20 flex items-center justify-center text-5xl border rounded-2xl shadow-2xl z-30 transform hover:scale-110 transition-transform duration-300">
-                <FaJsSquare />
+            <motion.div 
+              className="tech-icons-grid flex-1 order-1 md:order-2 grid grid-cols-3 gap-4"
+              variants={itemVariants}
+            >
+              <div className="col-span-3 flex justify-center mb-2">
+                <motion.div 
+                  className="js-logo-container p-3 rounded-lg border shadow-sm"
+                  whileHover={{ scale: 1.05, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
+                >
+                  <SiJavascript className="text-6xl text-yellow-400" />
+                </motion.div>
               </div>
-
-              {/* Framework Layer */}
-              <div className="absolute w-[220px] h-[220px]">
-                <div className="tech-icon react absolute top-0 left-1/2 -translate-x-1/2 w-16 h-16 flex items-center justify-center text-3xl border rounded-2xl transform hover:scale-110 transition-transform duration-300">
-                  <FaReact />
-                </div>
-                <div className="tech-icon vue absolute bottom-0 right-0 w-16 h-16 flex items-center justify-center text-3xl border rounded-2xl transform hover:scale-110 transition-transform duration-300">
-                  <FaVuejs />
-                </div>
-                <div className="tech-icon typescript absolute bottom-0 left-0 w-16 h-16 flex items-center justify-center text-3xl border rounded-2xl transform hover:scale-110 transition-transform duration-300">
-                  <SiTypescript />
-                </div>
-              </div>
-
-              {/* Tools Layer */}
-              <div className="absolute w-[300px] h-[300px]">
-                <div className="tech-icon node absolute top-[20%] left-0 w-16 h-16 flex items-center justify-center text-3xl border rounded-2xl transform hover:scale-110 transition-transform duration-300">
-                  <FaNodeJs />
-                </div>
-                <div className="tech-icon npm absolute top-[20%] right-0 w-16 h-16 flex items-center justify-center text-3xl border rounded-2xl transform hover:scale-110 transition-transform duration-300">
-                  <FaNpm />
-                </div>
-                <div className="tech-icon github absolute bottom-[20%] left-1/2 -translate-x-1/2 w-16 h-16 flex items-center justify-center text-3xl border rounded-2xl transform hover:scale-110 transition-transform duration-300">
-                  <FaGithub />
-                </div>
-              </div>
-            </div>
+              {techIcons.slice(1).map((tech, index) => (
+                <motion.div
+                  key={index}
+                  className="tech-icon-box flex justify-center"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  whileHover={{ scale: 1.1, y: -5 }}
+                >
+                  <div className="p-3 rounded-lg border shadow-sm">
+                    <tech.Icon className="text-2xl" style={{ color: tech.color }} />
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
-        </div>
+        </motion.section>
 
-        {/* Features Grid */}
-        <div className="mb-24">
-          <h2 className="text-4xl font-bold text-center mb-16 gradient-text">
-            What Sets Us Apart
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        {/* Learning Path - Streamlined */}
+        <motion.section 
+          className="mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <h2 className="text-3xl font-bold mb-8 text-center gradient-text">Your Learning Journey</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: <FaBookOpen />,
+                title: "Learn",
+                description: "Comprehensive tutorials covering JavaScript from fundamentals to advanced concepts."
+              },
+              {
+                icon: <FaLaptopCode />,
+                title: "Practice",
+                description: "Interactive coding challenges to test and strengthen your understanding."
+              },
+              {
+                icon: <FaGraduationCap />,
+                title: "Master",
+                description: "Progressive path from basics to expert-level JavaScript patterns and techniques."
+              },
+            ].map((step, index) => (
+              <motion.div
+                key={index}
+                className="journey-card p-6 rounded-lg border shadow-sm relative"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1 + index * 0.1 }}
+                whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
+              >
+                <div className="step-number absolute top-4 right-4 w-6 h-6 rounded-full bg-primary-50 flex items-center justify-center text-xs font-semibold text-primary">
+                  {index + 1}
+                </div>
+                <div className="flex items-start">
+                  <div className="icon-container mr-4 p-3 rounded-lg bg-primary-50 text-primary">
+                    {step.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+                    <p className="text-secondary text-sm">{step.description}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+        
+        {/* Features Section - Compact */}
+        <motion.section 
+          className="mb-16"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <h2 className="text-3xl font-bold mb-8 text-center gradient-text">What Sets Us Apart</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
                 icon: <FaCode />,
                 title: "Interactive Learning",
-                description:
-                  "Explore JavaScript with our hands-on platform, blending theory with practical exercises designed for modern web development.",
+                description: "Hands-on exercises and real-time code editing instead of passive tutorials."
               },
               {
                 icon: <FaLightbulb />,
-                title: "Our Vision",
-                description:
-                  "Creating a world where developers at all levels can access top-quality JavaScript resources and contribute to collective learning.",
+                title: "Modern JavaScript",
+                description: "Focus on ES6+ features, async patterns, and advanced concepts for today's development."
               },
               {
                 icon: <FaUsers />,
                 title: "Community Driven",
-                description:
-                  "Join our thriving community of developers, contribute to open source, and shape the future of JavaScript learning.",
-              },
+                description: "Built by developers for developers, with continuous community improvements."
+              }
             ].map((feature, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="feature-card rounded-2xl p-8 border shadow-xl hover:transform hover:-translate-y-1 transition-all duration-300"
+                className="feature-card p-6 rounded-lg border shadow-sm"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1 + index * 0.1 }}
+                whileHover={{ y: -5, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" }}
               >
-                <div className="feature-icon text-4xl mb-6">{feature.icon}</div>
-                <h3 className="text-2xl font-semibold text-primary mb-4">{feature.title}</h3>
-                <p className="text-secondary leading-relaxed">{feature.description}</p>
-              </div>
+                <div className="flex items-start">
+                  <div className="icon-container mr-4 p-3 rounded-lg bg-primary-50 text-primary">
+                    {feature.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                    <p className="text-secondary text-sm">{feature.description}</p>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.section>
 
-        {/* CTA Section */}
-        <div className="cta-section text-center py-20 px-8 rounded-2xl border shadow-xl">
-          <h2 className="text-4xl font-bold mb-6 gradient-text">
-            Ready to Join Our Community?
-          </h2>
-          <p className="text-xl text-secondary mb-10 max-w-2xl mx-auto">
-            Contribute to open source and help shape the future of JavaScript education.
-          </p>
-          <button
-            className="cta-button px-8 py-4 rounded-xl font-semibold flex items-center gap-3 mx-auto text-lg shadow-xl"
-            onClick={() => window.open('https://github.com/harshsrivastva97/javascript-handbook', '_blank')}
-          >
-            Join on GitHub <FaRocket className="text-xl" />
-          </button>
-        </div>
+        {/* Call to Action Section - Cleaner */}
+        <motion.section 
+          className="mb-16"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          <div className="cta-container p-8 rounded-lg border shadow-sm">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="text-center md:text-left">
+                <h2 className="text-2xl md:text-3xl font-bold mb-2 gradient-text">Ready to Master JavaScript?</h2>
+                <p className="text-secondary">Start your journey with interactive exercises and comprehensive guides.</p>
+              </div>
+              
+              <div className="flex flex-wrap gap-4">
+                <motion.a
+                  href="/exercises"
+                  className="cta-button primary-button px-6 py-3 rounded-lg font-medium flex items-center gap-2 shadow-sm"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  Try Exercises <FaLaptopCode />
+                </motion.a>
+                
+                <motion.a
+                  href="/blogs"
+                  className="cta-button secondary-button px-6 py-3 rounded-lg font-medium flex items-center gap-2 shadow-sm"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  Read Articles <FaBookOpen />
+                </motion.a>
+              </div>
+            </div>
+          </div>
+        </motion.section>
 
-        {/* Footer */}
-        <footer className="mt-24 text-center">
-          <p className="flex items-center justify-center gap-2 text-secondary text-lg">
-            Made with <FaHeart className="heart-icon" /> by{" "}
+        {/* GitHub Contribution - More compact and cleaner */}
+        <motion.section
+          className="mb-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <div className="github-cta p-6 rounded-lg border shadow-sm">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <FaGithub className="text-3xl flex-shrink-0" />
+                <div>
+                  <h3 className="text-lg font-semibold">Contribute to Our Project</h3>
+                  <p className="text-secondary text-sm">Help improve JavaScript Handbook by contributing</p>
+                </div>
+              </div>
+              <motion.a
+                href="https://github.com/harshsrivastva97/javascript-handbook"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="github-button px-4 py-2 rounded-lg font-medium flex items-center gap-2 shadow-sm whitespace-nowrap"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Join on GitHub <FaRocket className="text-sm" />
+              </motion.a>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Footer - Simplified */}
+        <motion.footer
+          className="text-center pt-8 border-t"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          <p className="flex items-center justify-center gap-2 text-secondary">
+            Made with <FaHeart className="text-red-500" /> by{" "}
             <a
               href="https://www.linkedin.com/in/harsh-srivastva/"
               target="_blank"
               rel="noopener noreferrer"
-              className="author-link transition-colors"
+              className="author-link font-medium"
             >
               Harsh Srivastva
             </a>
           </p>
-          <div className="flex items-center justify-center gap-6 mt-6">
+          <div className="flex items-center justify-center gap-4 mt-4">
             <a
               href="https://github.com/harshsrivastva97/javascript-handbook"
               target="_blank"
               rel="noopener noreferrer"
-              className="footer-link transition-colors"
+              className="footer-link text-sm"
             >
               GitHub
             </a>
-            <span className="text-gray-600">•</span>
+            <span className="text-gray-400">•</span>
             <a
               href="mailto:harsh.srivastva97@gmail.com"
-              className="footer-link transition-colors"
+              className="footer-link text-sm"
             >
               Report an Issue
             </a>
           </div>
-        </footer>
+        </motion.footer>
       </div>
     </div>
   );
