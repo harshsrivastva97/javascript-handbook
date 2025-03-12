@@ -61,7 +61,7 @@ const RunButton = () => {
 // Console toggle component to be used in multiple places
 const ConsoleToggleBar = ({ isVisible, onToggle }: { isVisible: boolean; onToggle: () => void }) => (
     <div 
-        className={`code-editor__console-toggle ${isVisible ? 'as-header' : 'as-footer'}`}
+        className={`js-editor__console-toggle ${isVisible ? 'as-header' : 'as-footer'}`}
         onClick={onToggle}
     >
         <div className="console-toggle-content">
@@ -93,7 +93,7 @@ const JsEditor: React.FC<JsEditorProps> = ({ code, onClose }) => {
     };
 
     return (
-        <div className={`code-editor ${isConsoleVisible ? 'console-visible' : 'console-hidden'}`}>
+        <div className={`js-editor ${isConsoleVisible ? 'console-visible' : 'console-hidden'}`}>
             <ConsoleVisibilityContext.Provider value={{ isConsoleVisible, setIsConsoleVisible }}>
                 <SandpackProvider
                     files={files}
@@ -110,7 +110,7 @@ const JsEditor: React.FC<JsEditorProps> = ({ code, onClose }) => {
                     }}
                 >
                     {/* Editor Header with Run Button */}
-                    <div className="code-editor__header">
+                    <div className="js-editor__header">
                         <RunButton />
                         {onClose && (
                             <button className="close-button" onClick={onClose} title="Close editor">
@@ -131,7 +131,7 @@ const JsEditor: React.FC<JsEditorProps> = ({ code, onClose }) => {
                             <SandpackPreview style={{display: "none"}} />
                             
                             {isConsoleVisible && (
-                                <div className="code-editor__console">
+                                <div className="js-editor__console">
                                     {/* Console Header is the toggle bar when console is visible */}
                                     <ConsoleToggleBar isVisible={true} onToggle={toggleConsoleVisibility} />
                                     <div className="console-content">

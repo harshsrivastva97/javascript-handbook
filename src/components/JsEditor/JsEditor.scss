@@ -1,4 +1,4 @@
-.code-editor {
+.js-editor {
   border-radius: 12px;
   background-color: var(--card-bg);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -10,13 +10,13 @@
   height: 100%;
   
   &.console-visible {
-    .code-editor__console {
+    .js-editor__console {
       animation: slideUp 0.3s ease forwards;
     }
   }
   
   &.console-hidden {
-    .code-editor__console-toggle.as-footer {
+    .js-editor__console-toggle.as-footer {
       position: sticky;
       bottom: 0;
       left: 0;

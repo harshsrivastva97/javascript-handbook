@@ -146,7 +146,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
   `;
 
   return (
-    <div className="code-editor full-height">
+    <div className="code-editor">
       <VisibilityContext.Provider value={{
         isPreviewVisible,
         setIsPreviewVisible,
@@ -168,6 +168,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
               "lodash": "^4.17.21"
             }
           }}
+          style={{height: "100%"}}
         >
           <div className="code-editor__header">
             <div className="header-left">

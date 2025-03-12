@@ -5,10 +5,10 @@ body {
 
 :root {
 /* Universal Status Colors */
---success: #4CAF50;
---warning: #FFB74D;
---error: #E57373;
---info: #64B5F6;
+--success: rgb(76, 175, 80);
+--warning: rgb(255, 183, 77);
+--error: rgb(229, 115, 115);
+--info: rgb(100, 181, 246);
 /* Universal Shadows & Transitions */
 --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
 --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
@@ -17,30 +17,30 @@ body {
 
 .dark-theme {
 /* Core Colors */
---background: #212224;
---text-primary: #ECEFF4;
---text-secondary: #AEB3BF;
---accent-primary: #81A1C1;
---accent-secondary: #B48EAD;
+--background: rgb(33, 34, 36);
+--text-primary: rgb(236, 239, 244);
+--text-secondary: rgb(174, 179, 191);
+--accent-primary: rgb(129, 161, 193);
+--accent-secondary: rgb(180, 142, 173);
 
 /* Surface Colors */
---card-bg: #282A2E;
---hover: #323539;
+--card-bg: rgb(40, 42, 46);
+--hover: rgb(50, 53, 57);
 --header-bg: rgba(33, 34, 36, 0.9);
---dropdown-bg: #2E3033;
---button-bg: #3A3D42;
---hover-bg: #43464D;
---border-color: #3C3F45;
+--dropdown-bg: rgb(46, 48, 51);
+--button-bg: rgb(58, 61, 66);
+--hover-bg: rgb(67, 70, 77);
+--border-color: rgb(60, 63, 69);
 
 /* Interactive Colors */
---primary-color: #81A1C1;
---secondary-color: #A3BE8C;
+--primary-color: rgb(129, 161, 193);
+--secondary-color: rgb(163, 190, 140);
 
 /* Gradients */
---gradient-button-primary: linear-gradient(135deg, #81A1C1, #5E81AC);
---gradient-button-secondary: linear-gradient(135deg, #B48EAD, #D08770);
---gradient-accent: linear-gradient(135deg, #88C0D0, #81A1C1);
---gradient-card: linear-gradient(145deg, #282A2E, #212224);
+--gradient-button-primary: linear-gradient(135deg, rgb(129, 161, 193), rgb(94, 129, 172));
+--gradient-button-secondary: linear-gradient(135deg, rgb(180, 142, 173), rgb(208, 135, 112));
+--gradient-accent: linear-gradient(135deg, rgb(136, 192, 208), rgb(129, 161, 193));
+--gradient-card: linear-gradient(145deg, rgb(40, 42, 46), rgb(33, 34, 36));
 
 /* Disabled & Overlay */
 --disabled-opacity: 0.5;
@@ -49,30 +49,34 @@ body {
 
 .light-theme {
 /* Core Colors */
---background: #F7F9FB;
---text-primary: #2E3440;
---text-secondary: #607080;
---accent-primary: #4C9AFF;
---accent-secondary: #FF8A65;
+--background: rgb(247, 249, 251);
+--text-primary: rgb(46, 52, 64);
+--text-secondary: rgb(96, 112, 128);
+--accent-primary: rgb(76, 154, 255);
+--accent-secondary: rgb(255, 138, 101);
+/* RGB Values for Shadows */
+--accent-primary-rgb: 76, 154, 255;
+--accent-secondary-rgb: 255, 138, 101;
+--card-bg-rgb: 255, 255, 255;
 
 /* Surface Colors */
---card-bg: #FFFFFF;
---hover: #EDF2F7;
+--card-bg: rgb(255, 255, 255);
+--hover: rgb(237, 242, 247);
 --header-bg: rgba(255, 255, 255, 0.95);
---dropdown-bg: #FFFFFF;
---button-bg: #F1F4F8;
---hover-bg: #E4E9F0;
---border-color: #E0E6ED;
+--dropdown-bg: rgb(255, 255, 255);
+--button-bg: rgb(241, 244, 248);
+--hover-bg: rgb(228, 233, 240);
+--border-color: rgb(224, 230, 237);
 
 /* Interactive Colors */
---primary-color: #4C9AFF;
---secondary-color: #68D391;
+--primary-color: rgb(76, 154, 255);
+--secondary-color: rgb(104, 211, 145);
 
 /* Gradients */
---gradient-button-primary: linear-gradient(135deg, #4C9AFF, #6699CC);
---gradient-button-secondary: linear-gradient(135deg, #68D391, #48BB78);
---gradient-accent: linear-gradient(135deg, #FF8A65, #FF7043);
---gradient-card: linear-gradient(145deg, #FFFFFF, #F7F9FB);
+--gradient-button-primary: linear-gradient(135deg, rgb(76, 154, 255), rgb(102, 153, 204));
+--gradient-button-secondary: linear-gradient(135deg, rgb(104, 211, 145), rgb(72, 187, 120));
+--gradient-accent: linear-gradient(135deg, rgb(255, 138, 101), rgb(255, 112, 67));
+--gradient-card: linear-gradient(145deg, rgb(255, 255, 255), rgb(247, 249, 251));
 
 /* Disabled & Overlay */
 --disabled-opacity: 0.6;

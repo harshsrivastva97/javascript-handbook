@@ -6,37 +6,6 @@
   overflow: hidden;
   background-color: var(--card-bg);
   transition: all 0.3s ease;
-  
-  &.full-height {
-    height: 100vh;
-    max-height: calc(100vh - 100px); // Adjust based on your header/footer heights
-  }
-  
-  &.simplified {
-    height: 100%;
-    
-    .simplified-layout {
-      display: flex;
-      flex-direction: column;
-      height: calc(100% - 40px);
-      
-      .editor-container {
-        height: 60%;
-        min-height: 200px;
-        overflow: hidden;
-      }
-      
-      .console-container {
-        height: 40%;
-        min-height: 150px;
-        overflow: hidden;
-        border-top: 1px solid var(--border-color);
-        background-color: var(--card-bg);
-        display: flex;
-        flex-direction: column;
-      }
-    }
-  }
 
   &__header {
     display: flex;
