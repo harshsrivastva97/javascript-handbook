@@ -101,7 +101,6 @@ const JsEditor: React.FC<JsEditorProps> = ({ code, onClose }) => {
                     template="vanilla"
                     options={{
                         autorun: false,
-                        // recompileMode: "immediate",
                         recompileDelay: 0
                     }}
                     customSetup={{

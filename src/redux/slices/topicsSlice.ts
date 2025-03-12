@@ -43,12 +43,12 @@ const topicsSlice = createSlice({
   initialState,
   reducers: {
     updateStatusInTopicList: (state, action) => {
-      const { topicId, status } = action.payload;
-      const index = state.topics.findIndex(topic => topic.topic_id === topicId);
+      const { topic_id, status } = action.payload;
+      const index = state.topics.findIndex(topic => topic.topic_id === topic_id);
       if (index !== -1) {
         state.topics[index].status = status;
       }
-    },
+    }
   },
   extraReducers: (builder) => {
     builder

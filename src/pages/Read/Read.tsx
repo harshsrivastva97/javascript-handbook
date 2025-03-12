@@ -52,15 +52,12 @@ const Topics: React.FC = () => {
     if (!user?.user_id) return;
 
     const topic = topics.find((t: TopicSchema) => t.topic_id === topicId);
-    const newStatus: ProgressStatus = topic?.status === ProgressStatus.COMPLETED
-      ? ProgressStatus.PENDING
-      : ProgressStatus.COMPLETED;
+    const newStatus: ProgressStatus = topic?.status === ProgressStatus.COMPLETED ? ProgressStatus.PENDING : ProgressStatus.COMPLETED;
 
     dispatch(updateTopicStatus({
       user_id: user.user_id,
       topic_id: topicId,
-      status: newStatus,
-      dispatch
+      status: newStatus
     }));
   };
 
@@ -115,8 +112,7 @@ const Topics: React.FC = () => {
         dispatch(updateTopicStatus({
           user_id: user.user_id,
           topic_id: topic.topic_id,
-          status: ProgressStatus.PENDING,
-          dispatch
+          status: ProgressStatus.PENDING
         }));
       }
     });

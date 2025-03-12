@@ -14,22 +14,15 @@ const initialState: ProgressState = {
   error: null,
 };
 
-export const updateTopicStatus = createAsyncThunk<ProgressSchema, {user_id: string, topic_id: number, status: ProgressStatus, dispatch: any}>(
+export const updateTopicStatus = createAsyncThunk<ProgressSchema, ProgressSchema>(
   "progress/update",
-  async (params, { rejectWithValue }) => {
+  async (progressData, { dispatch, rejectWithValue }) => {
     try {
-      const { user_id, topic_id, status } = params;
-      const progressData: ProgressSchema = {
-        user_id,
-        topic_id,
-        status,
-      };
-
+      const { topic_id, status } = progressData;
       const response = await updateProgress(progressData);
       if (response.status === "success" && response.data) {
-        const result = { user_id, topic_id, status };
-        params.dispatch(updateStatusInTopicList({ topic_id, status }));
-        return result;
+        dispatch(updateStatusInTopicList({ topic_id, status }));
+        return progressData;
       }
       throw new Error(response.error || "Failed to update topic status");
     } catch (error) {
@@ -42,7 +35,7 @@ export const updateTopicStatus = createAsyncThunk<ProgressSchema, {user_id: stri
 
 export const resetProgress = createAsyncThunk<null, string>(
   "progress/reset",
-  async (userId: string, { rejectWithValue }) => {
+  async (userId, { rejectWithValue }) => {
     try {
       await resetProgressById(userId);
       return null;
@@ -64,12 +57,12 @@ const progressSlice = createSlice({
         state.error = null;
         state.loading = true;
       })
-      .addCase(updateTopicStatus.fulfilled, (state, action) => {
+      .addCase(updateTopicStatus.fulfilled, (state) => {
         state.loading = false;
       })
       .addCase(updateTopicStatus.rejected, (state, action) => {
-        state.error = action.payload as string || "Unable to update topic status";
         state.loading = false;
+        state.error = action.payload as string || "Unable to update topic status";
       })
       .addCase(resetProgress.pending, (state) => {
         state.loading = true;
@@ -79,8 +72,8 @@ const progressSlice = createSlice({
         state.loading = false;
       })
       .addCase(resetProgress.rejected, (state, action) => {
-        state.error = action.payload as string || "Failed to reset progress";
         state.loading = false;
+        state.error = action.payload as string || "Failed to reset progress";
       });
   },
 });
