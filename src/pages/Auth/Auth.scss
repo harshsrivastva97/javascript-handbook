@@ -38,7 +38,7 @@
             margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(var(--primary-color-rgb), 0.25);
+            box-shadow: 0 4px 12px var(--primary-color);
 
             .logo-symbol {
                 font-size: 1.25rem;
@@ -107,7 +107,7 @@
                     &:focus {
                         outline: none;
                         border-color: var(--primary-color);
-                        box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
+                        box-shadow: 0 0 0 2px var(--primary-color);
 
                         &+.field-icon {
                             color: var(--primary-color);
@@ -166,7 +166,7 @@
             font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(var(--primary-color-rgb), 0.25);
+            box-shadow: 0 4px 12px var(--primary-color);
 
             .button-icon {
                 font-size: 0.85rem;
@@ -175,7 +175,7 @@
 
             &:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 6px 16px rgba(var(--primary-color-rgb), 0.35);
+                box-shadow: 0 6px 16px var(--primary-color);
 
                 .button-icon {
                     transform: translateX(3px);

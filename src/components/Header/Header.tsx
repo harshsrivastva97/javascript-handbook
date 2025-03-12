@@ -108,7 +108,7 @@ const Header: React.FC = () => {
 
   return (
     <header className={`header ${theme}`}>
-      <div className="header-container">
+      <div className="flex align-center justify-between px-4 py-1">
         <NavLink to="/" className="logo">
           <div className="logo-icon">
             <span className="logo-symbol">&lt;/&gt;</span>

@@ -13,5 +13,6 @@ export const ENDPOINTS = {
     GET_TOPICS_LIST: `${TOPICS_URL}/list/:userId`,
     GET_TOPIC_CONTENT: `${TOPICS_URL}/content/:topicId`,
     // User Progress
-    UPDATE_USER_PROGRESS: `${PROGRESS_URL}/update`
+    UPDATE_USER_PROGRESS: `${PROGRESS_URL}/update`,
+    RESET_USER_PROGRESS: `${PROGRESS_URL}/reset/:user_id`
 };

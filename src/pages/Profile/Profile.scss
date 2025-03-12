@@ -250,7 +250,7 @@
     transition: background-color 0.2s;
 
     &:hover {
-        background-color: rgba(var(--accent-rgb), 0.05);
+        background-color: var(--accent-rgb);
     }
 
     .placeholder-text {
@@ -269,11 +269,11 @@
     font-size: 1rem;
     transition: all 0.2s;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.1);
+    box-shadow: 0 0 0 2px var(--accent-rgb);
 
     &:focus {
         border-color: var(--accent-color);
-        box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.15);
+        box-shadow: 0 0 0 4px var(--accent-rgb);
     }
 }
 
@@ -302,10 +302,10 @@
 
     &.edit {
         color: var(--accent-color);
-        background-color: rgba(var(--accent-rgb), 0.1);
+        background-color: var(--accent-rgb);
 
         &:hover {
-            background-color: rgba(var(--accent-rgb), 0.2);
+            background-color: var(--accent-rgb);
         }
     }
 
@@ -335,7 +335,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
+    z-index: 1;
     flex-direction: column;
     gap: 8px;
 }
@@ -368,12 +368,12 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.4);
+    box-shadow: 0 4px 12px var(--accent-rgb);
     min-width: 180px;
 
     &:hover:not(:disabled) {
         transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(var(--accent-rgb), 0.5);
+        box-shadow: 0 6px 15px var(--accent-rgb);
     }
 
     &:active:not(:disabled) {
@@ -383,7 +383,7 @@
     &.saving {
         opacity: 0.8;
         cursor: not-allowed;
-        background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.7), rgba(var(--accent-rgb), 0.8));
+        background: linear-gradient(90deg, var(--accent-rgb), var(--accent-rgb));
     }
 
     &:disabled {

@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { TopicSchema } from "../../api/types/topicTypes";
 import { fetchTopicsList, fetchTopicContent } from "../../api/services/topicApis";
-import { updateUserProgress } from "../../api/services/userProgressApi";
-import { UserProgressSchema } from "../../api/types/userProgress";
 
 interface TopicsState {
   topics: TopicSchema[];
@@ -40,25 +38,18 @@ export const getTopicDetails = createAsyncThunk<TopicSchema, string>(
   }
 );
 
-export const updateTopicStatus = createAsyncThunk<UserProgressSchema, UserProgressSchema>(
-  'userProgress/update',
-  async (userProgress: UserProgressSchema, { rejectWithValue }) => {
-    try {
-      const response = await updateUserProgress(userProgress);
-      if (response.status === 'success' && response.data) {
-        return response.data;
-      }
-      throw new Error(response.error || 'Failed to update topic status');
-    } catch (error) {
-      return rejectWithValue(error instanceof Error ? error.message : 'Failed to update topic status');
-    }
-  }
-);
-
 const topicsSlice = createSlice({
   name: 'topics',
   initialState,
-  reducers: {},
+  reducers: {
+    updateStatusInTopicList: (state, action) => {
+      const { topicId, status } = action.payload;
+      const index = state.topics.findIndex(topic => topic.topic_id === topicId);
+      if (index !== -1) {
+        state.topics[index].status = status;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllTopics.pending, (state) => {
@@ -95,25 +86,8 @@ const topicsSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string || 'Unable to fetch topic details';
       })
-      .addCase(updateTopicStatus.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(updateTopicStatus.fulfilled, (state, action) => {
-        state.loading = false;
-        const index = state.topics.findIndex(topic => topic.topic_id === action.payload.topic_id);
-        if (index !== -1) {
-          state.topics[index] = {
-            ...state.topics[index],
-            status: action.payload.status,
-          };
-        }
-      })
-      .addCase(updateTopicStatus.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string || 'Unable to update topic status';
-      });
   },
 });
 
+export const { updateStatusInTopicList } = topicsSlice.actions;
 export default topicsSlice.reducer;

@@ -2,9 +2,10 @@ import React, { useState, useCallback, useEffect } from "react";
 import ReactConfetti from "react-confetti";
 import CodeEditor from "../../components/CodeEditor/CodeEditor";
 import { SNIPPETS_TABS } from "../../constants/consts/tabs";
+import { FiChevronLeft, FiBookOpen, FiCheckCircle } from "react-icons/fi";
+import { RiLightbulbFlashLine, RiJavascriptLine } from "react-icons/ri";
 import "./Practice.scss";
 
-// Add interfaces
 interface TabItem {
   filename: string;
   label: string;
@@ -23,14 +24,13 @@ const CodeVault: React.FC = () => {
   const [showCelebration, setShowCelebration] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState("");
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  // Add state for selected tab
   const [selectedTab, setSelectedTab] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     return params.get("tab") || "";
   });
 
-  // Add state for completed items
   const [completedItems, setCompletedItems] = useState<string[]>(() => {
     const saved = localStorage.getItem("completedItems");
     return saved ? JSON.parse(saved) : [];
@@ -40,7 +40,6 @@ const CodeVault: React.FC = () => {
   const totalItems = allTabs.length;
   const progress = (completedItems.length / totalItems) * 100;
 
-  // Check if progress is complete
   useEffect(() => {
     if (progress === 100 && !showCelebration) {
       setShowCelebration(true);
@@ -81,7 +80,6 @@ const CodeVault: React.FC = () => {
     }
   }, []);
 
-  // Handle checkbox toggle
   const handleCheckboxToggle = (tabName: string) => {
     setCompletedItems((prev) => {
       const newCompleted = prev.includes(tabName)
@@ -93,7 +91,6 @@ const CodeVault: React.FC = () => {
     });
   };
 
-  // Handle reset progress
   const handleResetProgress = () => {
     setCompletedItems([]);
     localStorage.removeItem("completedItems");
@@ -110,26 +107,43 @@ const CodeVault: React.FC = () => {
           numberOfPieces={1000}
         />
       )}
-      <aside className="sidebar flex flex-col pb-16">
+      <aside className={`sidebar flex flex-col pb-16 ${isSidebarCollapsed ? 'collapsed' : ''}`}>
+        <button 
+          className="sidebar-toggle"
+          onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+          aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          <FiChevronLeft className="toggle-icon" />
+        </button>
+
         <div className="sidebar__header" onClick={() => handleTabSelect("")}>
-          <div className="progress-indicator">
-            <div className="progress-text">
-              Progress: {completedItems.length}/{totalItems} completed
-              <button
-                className="reset-button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowResetConfirm(true);
-                }}
-              >
-                ↺
-              </button>
-            </div>
-            <div className="progress-bar">
-              <div
-                className="progress-fill"
-                style={{ width: `${progress}%` }}
-              ></div>
+          <div className="header-content">
+            <RiJavascriptLine className="header-icon" />
+            <div className="header-text">
+              <h3>JAVASCRIPT PLAYGROUND</h3>
+              <div className="progress-indicator">
+                <div className="progress-text">
+                  <span className="progress-label">
+                    <FiBookOpen className="progress-icon" />
+                    <span>{completedItems.length}/{totalItems}</span>
+                  </span>
+                  <button
+                    className="reset-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowResetConfirm(true);
+                    }}
+                  >
+                    ↺
+                  </button>
+                </div>
+                <div className="progress-bar">
+                  <div
+                    className="progress-fill"
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -164,34 +178,31 @@ const CodeVault: React.FC = () => {
         )}
 
         <nav className="sidebar__nav">
-          {allTabs.map((tab) => (
-            <div
-              key={tab.filename}
-              className={`sidebar__nav-item ${selectedTab === tab.filename ? "active" : ""}`}
-              onClick={() => handleTabSelect(tab.filename)}
-            >
-              <div className="nav-item-label">
-                <span>{tab.label}</span>
-                <div className="nav-item-actions">
-                  <button
-                    className={`status-icon ${completedItems.includes(tab.filename) ? 'completed' : ''}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCheckboxToggle(tab.filename);
-                    }}
-                  >
-                    {completedItems.includes(tab.filename) ? "✓" : "○"}
-                  </button>
+          <div className="nav-section">
+            {allTabs.map((tab) => (
+              <div
+                key={tab.filename}
+                className={`sidebar__nav-item ${selectedTab === tab.filename ? "active" : ""}`}
+                onClick={() => handleTabSelect(tab.filename)}
+              >
+                <div className="nav-item-label">
+                  <span className="nav-item-text">{tab.label}</span>
+                  <div className="nav-item-actions">
+                    <button
+                      className={`status-icon ${completedItems.includes(tab.filename) ? 'completed' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCheckboxToggle(tab.filename);
+                      }}
+                    >
+                      {completedItems.includes(tab.filename) ? <FiCheckCircle className="check-icon" /> : "○"}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </nav>
-
-        <div className="sidebar__footer">
-          <span className="footer-icon">💡</span>
-          <span className="footer-text">Select a topic to begin learning</span>
-        </div>
       </aside>
 
       <main className="code-vault__main">

@@ -4,7 +4,8 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { FaBook, FaCode, FaRocket } from "react-icons/fa";
 import 'react-circular-progressbar/dist/styles.css';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { getAllTopics, updateTopicStatus } from "../../redux/slices/topicsSlice";
+import { getAllTopics } from "../../redux/slices/topicsSlice";
+import { updateTopicStatus } from "../../redux/slices/progressSlice";
 import { TopicSchema } from "../../api/types/topicTypes";
 import { FEATURES, EXPLORER_SECTIONS, STATUS_ICONS, STATUS_LABELS } from './homePageConstants';
 import { ProgressStatus } from "../../constants/enums/progressStatus";
@@ -35,7 +36,8 @@ const Home: React.FC = () => {
       await dispatch(updateTopicStatus({
         user_id: user.user_id,
         topic_id: topicId,
-        status: newStatus
+        status: newStatus,
+        dispatch
       })).unwrap();
     } catch (error) {
       console.error('Error updating topic status:', error);

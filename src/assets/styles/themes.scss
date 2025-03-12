@@ -1,5 +1,88 @@
 body {
-    background-color: var(--background);
-    color: var(--text-primary);
-    transition: all 0.3s ease;
+  background-color: var(--background);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
 }
+
+:root {
+/* Universal Status Colors */
+--success: #4CAF50;
+--warning: #FFB74D;
+--error: #E57373;
+--info: #64B5F6;
+/* Universal Shadows & Transitions */
+--shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+--shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
+--shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.1);
+--transition: all 0.25s ease;
+}
+
+.dark-theme {
+/* Core Colors */
+--background: #212224;
+--text-primary: #ECEFF4;
+--text-secondary: #AEB3BF;
+--accent-primary: #81A1C1;
+--accent-secondary: #B48EAD;
+
+/* Surface Colors */
+--card-bg: #282A2E;
+--hover: #323539;
+--header-bg: rgba(33, 34, 36, 0.9);
+--dropdown-bg: #2E3033;
+--button-bg: #3A3D42;
+--hover-bg: #43464D;
+--border-color: #3C3F45;
+
+/* Interactive Colors */
+--primary-color: #81A1C1;
+--secondary-color: #A3BE8C;
+
+/* Gradients */
+--gradient-button-primary: linear-gradient(135deg, #81A1C1, #5E81AC);
+--gradient-button-secondary: linear-gradient(135deg, #B48EAD, #D08770);
+--gradient-accent: linear-gradient(135deg, #88C0D0, #81A1C1);
+--gradient-card: linear-gradient(145deg, #282A2E, #212224);
+
+/* Disabled & Overlay */
+--disabled-opacity: 0.5;
+--overlay-bg: rgba(40, 42, 46, 0.85);
+}
+
+.light-theme {
+/* Core Colors */
+--background: #F7F9FB;
+--text-primary: #2E3440;
+--text-secondary: #607080;
+--accent-primary: #4C9AFF;
+--accent-secondary: #FF8A65;
+
+/* Surface Colors */
+--card-bg: #FFFFFF;
+--hover: #EDF2F7;
+--header-bg: rgba(255, 255, 255, 0.95);
+--dropdown-bg: #FFFFFF;
+--button-bg: #F1F4F8;
+--hover-bg: #E4E9F0;
+--border-color: #E0E6ED;
+
+/* Interactive Colors */
+--primary-color: #4C9AFF;
+--secondary-color: #68D391;
+
+/* Gradients */
+--gradient-button-primary: linear-gradient(135deg, #4C9AFF, #6699CC);
+--gradient-button-secondary: linear-gradient(135deg, #68D391, #48BB78);
+--gradient-accent: linear-gradient(135deg, #FF8A65, #FF7043);
+--gradient-card: linear-gradient(145deg, #FFFFFF, #F7F9FB);
+
+/* Disabled & Overlay */
+--disabled-opacity: 0.6;
+--overlay-bg: rgba(229, 233, 239, 0.8);
+}
+
+/* Status Colors (available in both themes) */
+$success: var(--success);
+$warning: var(--warning);
+$error: var(--error);
+$info: var(--info);

@@ -27,7 +27,7 @@
 
     /* Tag styling */
     .blog-tag {
-        background-color: rgba(var(--primary-color), 0.1);
+        background-color: var(--primary-color);
         color: var(--primary-color);
 
         svg {

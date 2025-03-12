@@ -1,14 +1,169 @@
 .code-editor {
   height: 100%;
-
-  .sp-wrapper {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--card-bg);
+  
+  &.simplified {
     height: 100%;
+    
+    .simplified-layout {
+      display: flex;
+      flex-direction: column;
+      height: calc(100% - 40px);
+      
+      .editor-container {
+        height: 60%;
+        min-height: 200px;
+        overflow: hidden;
+      }
+      
+      .console-container {
+        height: 40%;
+        min-height: 150px;
+        overflow: hidden;
+        border-top: 1px solid var(--border-color);
+        background-color: var(--card-bg);
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
 
-    .sp-layout {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    height: 40px;
+    z-index: 10;
+  }
+
+  .run-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px var(--accent-primary);
+    }
+    
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+    
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    
+    &.running {
+      background: linear-gradient(135deg, 
+        var(--accent-secondary),
+        var(--accent-primary)
+      );
+    }
+    
+    .run-icon {
+      font-size: 0.75rem;
+    }
+  }
+
+  :global {
+    .sp-wrapper {
       height: 100%;
+      border-radius: 0 0 16px 16px;
+      overflow: hidden;
 
-      .sp-stack {
+      .sp-layout {
         height: 100%;
+        border: none;
+        background: var(--card-bg);
+
+        .sp-stack {
+          height: 100%;
+          border: none;
+        }
+
+        .sp-tabs {
+          background: var(--card-bg);
+          border-bottom: 1px solid var(--border-color);
+          
+          button {
+            color: var(--text-primary);
+            
+            &[data-active=true] {
+              border-color: var(--accent-primary);
+            }
+          }
+        }
+
+        .sp-code-editor {
+          .cm-editor {
+            background: var(--card-bg);
+          }
+        }
+
+        .sp-preview-container {
+          background: var(--card-bg);
+          border-left: 1px solid var(--border-color);
+        }
+
+        .sp-console {
+          background: var(--card-bg);
+          border-top: 1px solid var(--border-color);
+          max-height: 40%;
+          overflow: auto;
+          
+          .sp-console-tabs {
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+          }
+          
+          .sp-console-list {
+            overflow: auto;
+            max-height: calc(100% - 30px);
+            padding: 0;
+            margin: 0;
+          }
+          
+          .sp-console-item {
+            padding: 6px 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            
+            &:last-child {
+              border-bottom: none;
+            }
+          }
+          
+          .sp-console-error {
+            color: #ff5555;
+            background-color: rgba(255, 85, 85, 0.1);
+          }
+          
+          .sp-console-warning {
+            color: #ffb86c;
+            background-color: rgba(255, 184, 108, 0.1);
+          }
+          
+          .sp-console-info {
+            color: var(--text-primary);
+          }
+        }
       }
     }
   }

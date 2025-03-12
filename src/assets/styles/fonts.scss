@@ -1,4 +1,4 @@
-@use './variables' as *;
+@use './themes' as *;
 
 .text-success {
     color: $success;
@@ -15,6 +15,6 @@
 .gradient-text {
     background-clip: text;
     -webkit-background-clip: text;
-    color: transparent;
+    color: transparent !important;
     background-image: linear-gradient(to right, var(--accent-primary), var(--secondary-color));
 }

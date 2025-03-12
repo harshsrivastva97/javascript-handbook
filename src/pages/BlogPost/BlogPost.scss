@@ -137,12 +137,6 @@
   backdrop-filter: blur(8px);
 }
 
-@mixin gradient-text {
-  background: linear-gradient(90deg, #fff, #646cff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
 // Main container styles
 .blog-post-page {
   min-height: 100vh;
@@ -168,8 +162,8 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: rgba(var(--primary-color), 0.1);
-      border: 1px solid rgba(var(--primary-color), 0.2);
+      background: var(--primary-color);
+      border: 1px solid var(--primary-color);
       color: var(--primary-color);
       padding: 0.8rem 1.5rem;
       border-radius: 8px;
@@ -178,7 +172,7 @@
       font-size: 0.95rem;
 
       &:hover {
-        background: rgba(var(--primary-color), 0.15);
+        background: var(--primary-color);
         transform: translateY(-2px);
       }
     }
@@ -199,7 +193,6 @@
         font-size: 2.8rem;
         margin-bottom: 1.5rem;
         line-height: 1.2;
-        @include gradient-text;
       }
 
       .blog-meta {
@@ -225,7 +218,7 @@
         flex-wrap: wrap;
 
         .tag {
-          background-color: rgba(var(--primary-color), 0.1);
+          background-color: var(--primary-color);
           color: var(--primary-color);
           padding: 0.4rem 1rem;
           border-radius: 50px;
@@ -256,7 +249,6 @@
       h2 {
         font-size: 1.8rem;
         margin: 2.5rem 0 1rem;
-        @include gradient-text;
         font-weight: 600;
       }
 
@@ -352,12 +344,12 @@
 }
 
 .tag {
-  background-color: rgba(var(--primary-color), 0.1);
+  background-color: var(--primary-color);
   color: var(--primary-color);
   padding: 0.3rem 0.8rem;
   border-radius: 20px;
   font-size: 0.8rem;
-  border: 1px solid rgba(var(--primary-color), 0.2);
+  border: 1px solid var(--primary-color);
   display: flex;
   align-items: center;
   gap: 0.3rem;
@@ -371,7 +363,6 @@
   h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
-    @include gradient-text;
   }
 
   p {
@@ -469,7 +460,7 @@
   }
 
   code {
-    background-color: rgba(var(--primary-color), 0.1);
+    background-color: var(--primary-color);
     padding: 0.2em 0.4em;
     border-radius: 3px;
     font-family: monospace;
@@ -518,15 +509,15 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: rgba(var(--primary-color), 0.1);
-  border: 1px solid rgba(var(--primary-color), 0.2);
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
   color: var(--primary-color);
   padding: 0.5rem 1rem;
   border-radius: 6px;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: rgba(var(--primary-color), 0.2);
+    background-color: var(--primary-color);
     transform: translateY(-2px);
   }
 }
