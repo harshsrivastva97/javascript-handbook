@@ -3,14 +3,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
   }
 
   &-spinner {
     position: relative;
     border-radius: 50%;
     overflow: hidden;
-    transition: all 0.3s ease;
 
     &::before {
       content: '';
@@ -19,7 +17,6 @@
       border-radius: 50%;
       background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
       opacity: 0;
-      transition: opacity 0.3s ease;
     }
 
     &:hover::before {
@@ -31,7 +28,6 @@
     margin-top: 1rem;
     font-size: 0.875rem;
     color: var(--text-secondary);
-    transition: all 0.3s ease;
   }
 }
 

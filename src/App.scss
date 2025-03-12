@@ -8,14 +8,6 @@ body {
   overflow: hidden;
 }
 
-body,
-body *,
-code[class*="language-"],
-pre[class*="language-"],
-.token {
-  transition: all 0.3s ease;
-}
-
 * {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -44,7 +36,6 @@ pre[class*="language-"],
 *::-webkit-scrollbar-thumb {
   background-color: rgba(155, 155, 155, 0.5);
   border-radius: 20px;
-  transition: background-color 0.2s ease;
 }
 
 *::-webkit-scrollbar-thumb:hover {
@@ -64,7 +55,6 @@ pre[class*="language-"],
 a {
   color: var(--accent-primary);
   text-decoration: none;
-  transition: color 0.2s ease;
 
   &:hover {
     color: var(--accent-secondary);

@@ -5,6 +5,12 @@
   border-radius: 8px;
   overflow: hidden;
   background-color: var(--card-bg);
+  transition: all 0.3s ease;
+  
+  &.full-height {
+    height: 100vh;
+    max-height: calc(100vh - 100px); // Adjust based on your header/footer heights
+  }
   
   &.simplified {
     height: 100%;
@@ -41,6 +47,155 @@
     border-bottom: 1px solid var(--border-color);
     height: 40px;
     z-index: 10;
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+  
+  &__content {
+    display: flex;
+    height: calc(100% - 40px); // Subtract header height
+    overflow: hidden;
+  }
+  
+  &__editor-pane {
+    flex: 1;
+    height: 100%;
+    min-width: 300px;
+    overflow: hidden;
+  }
+  
+  &__right-pane {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    border-left: 1px solid var(--border-color);
+    transition: width 0.3s ease;
+    
+    &.preview-hidden {
+      .code-editor__console {
+        height: 100%;
+      }
+    }
+    
+    &.console-hidden {
+      .code-editor__preview {
+        height: 100%;
+      }
+    }
+  }
+  
+  &__preview {
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    transition: height 0.3s ease;
+    
+    .preview-content {
+      flex: 1;
+      overflow: hidden;
+    }
+  }
+  
+  &__console {
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    transition: height 0.3s ease;
+    
+    .console-content {
+      flex: 1;
+      overflow: hidden;
+    }
+  }
+  
+  // Toggle bars styling
+  &__preview-toggle,
+  &__console-toggle {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: var(--hover-bg);
+    }
+    
+    &.as-header {
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    &.as-footer {
+      border-top: 1px solid var(--border-color);
+      border-bottom: none;
+    }
+    
+    .toggle-content {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      
+      .toggle-icon {
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+      }
+      
+      span {
+        flex: 1;
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+      
+      .chevron-icon {
+        font-size: 1rem;
+        color: var(--text-secondary);
+      }
+    }
+  }
+  
+  &__console-toggle {
+    &.as-footer {
+      // When console toggle is at the bottom
+      margin-top: auto;
+    }
+  }
+  
+  .toggle-panel-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background-color: var(--hover-bg);
+    }
+    
+    svg {
+      font-size: 1.25rem;
+      color: var(--text-primary);
+    }
   }
 
   .run-button {
@@ -84,8 +239,46 @@
   :global {
     .sp-wrapper {
       height: 100%;
-      border-radius: 0 0 16px 16px;
+      border-radius: 0;
       overflow: hidden;
+      
+      // Hide the default Sandpack run button
+      .sp-button:has(.sp-icon-run) {
+        display: none !important;
+      }
+      
+      // Alternative selector for browsers that don't support :has()
+      .sp-preview-actions .sp-button[title="Run"] {
+        display: none !important;
+      }
+      
+      // Hide any button that might contain a run icon
+      .sp-icon-run {
+        visibility: hidden;
+      }
+      
+      // Ensure code editor takes full height
+      .sp-code-editor {
+        height: 100%;
+      }
+      
+      // Ensure preview takes full height of its container
+      .sp-preview-container {
+        height: 100%;
+        border-left: none;
+      }
+      
+      // Ensure console takes full height of its container
+      .sp-console {
+        height: 100%;
+        border-top: none;
+        max-height: none;
+        
+        // Remove default console header since we have our own
+        .sp-console-tabs {
+          display: none;
+        }
+      }
 
       .sp-layout {
         height: 100%;

@@ -1,7 +1,6 @@
 body {
   background-color: var(--background);
   color: var(--text-primary);
-  transition: all 0.3s ease;
 }
 
 :root {
@@ -14,7 +13,6 @@ body {
 --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
 --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
 --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.1);
---transition: all 0.25s ease;
 }
 
 .dark-theme {

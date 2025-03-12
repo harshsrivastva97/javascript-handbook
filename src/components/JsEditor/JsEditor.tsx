@@ -101,7 +101,8 @@ const JsEditor: React.FC<JsEditorProps> = ({ code, onClose }) => {
                     template="vanilla"
                     options={{
                         autorun: false,
-                        recompileDelay: 0
+                        recompileMode: "delayed",
+                        recompileDelay: 1000
                     }}
                     customSetup={{
                         entry: "/index.js",

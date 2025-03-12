@@ -6,7 +6,6 @@
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border-color);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
     
     &.dark {
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
@@ -16,7 +15,6 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        transition: transform 0.3s ease;
 
         &:hover {
             transform: translateY(-2px);
@@ -82,7 +80,6 @@
                 opacity: 1;
                 left: 0;
                 transform: rotate(0deg);
-                transition: .25s ease-in-out;
 
                 &:nth-child(1) {
                     top: 0px;
@@ -122,7 +119,6 @@
         display: flex;
         align-items: center;
         gap: 1.5rem;
-        transition: all 0.3s ease;
     }
 
     .main-nav {
@@ -137,7 +133,6 @@
             border-radius: 8px;
             color: var(--text-color);
             text-decoration: none;
-            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
 
@@ -149,7 +144,6 @@
                 width: 0;
                 height: 2px;
                 background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-                transition: all 0.3s ease;
                 transform: translateX(-50%);
                 border-radius: 2px 2px 0 0;
                 opacity: 0;
@@ -161,7 +155,6 @@
                 justify-content: center;
                 font-size: 1rem;
                 color: var(--text-secondary);
-                transition: all 0.3s ease;
             }
 
             .nav-content {
@@ -171,13 +164,11 @@
                 .nav-title {
                     font-weight: 600;
                     font-size: 0.85rem;
-                    transition: all 0.3s ease;
                 }
 
                 .nav-description {
                     font-size: 0.65rem;
                     color: var(--text-secondary);
-                    transition: all 0.3s ease;
                     opacity: 0.8;
                 }
             }
@@ -245,7 +236,6 @@
         border-radius: 50%;
         cursor: pointer;
         color: var(--text-color);
-        transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
 
@@ -259,7 +249,6 @@
             background: var(--hover-bg);
             border-radius: 50%;
             transform: scale(0);
-            transition: transform 0.3s ease;
         }
 
         &:hover {
@@ -290,7 +279,6 @@
             border: 1px solid var(--primary-color);
             border-radius: 30px;
             cursor: pointer;
-            transition: all 0.3s ease;
 
             &:hover {
                 background: linear-gradient(to right, var(--primary-color), var(--primary-color));
@@ -326,7 +314,6 @@
             }
 
             .chevron-icon {
-                transition: transform 0.3s ease;
                 font-size: 0.75rem;
                 opacity: 0.7;
 
@@ -406,7 +393,6 @@
                 padding: 0.6rem 0.75rem;
                 color: var(--text-color);
                 text-decoration: none;
-                transition: all 0.2s ease;
                 border: none;
                 background: none;
                 width: 100%;
@@ -417,7 +403,6 @@
                 svg {
                     font-size: 0.9rem;
                     color: var(--text-secondary);
-                    transition: all 0.2s ease;
                 }
 
                 &:hover {
@@ -453,7 +438,6 @@
         color: white;
         border-radius: 30px;
         text-decoration: none;
-        transition: all 0.3s ease;
         font-weight: 600;
         font-size: 0.85rem;
         box-shadow: 0 4px 12px var(--primary-color);
