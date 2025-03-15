@@ -1,0 +1,101 @@
+.editable-field-container {
+  display: inline-block;
+  min-width: 100px;
+  font-family: inherit;
+  width: 100%;
+}
+
+.editable-field-view-mode {
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: text;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  background-color: transparent;
+  display: inline-block;
+  min-height: 24px;
+  line-height: 1.5;
+  width: 100%;
+
+  .placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+  }
+}
+
+.editable-field-view-mode:hover {
+  border: 1px solid #e2e8f0;
+  background-color: rgba(240, 244, 248, 0.3);
+}
+
+.editable-field-edit-mode {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.editable-field-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: inherit;
+  font-family: inherit;
+  background-color: white;
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding-right: 36px; /* Make room for the save button */
+  width: 100%;
+}
+
+.editable-field-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.editable-field-save-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  color: #3b82f6;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  width: 24px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.editable-field-save-btn:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.editable-field-save-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* For accessibility */
+.editable-field-save-btn:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Add animation effects */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.editable-field-view-mode {
+  animation: fadeIn 0.2s ease-in-out;
+} 

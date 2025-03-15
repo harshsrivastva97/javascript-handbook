@@ -1,6 +1,7 @@
 export interface BackendUserSchema {
     user_id: string,
     display_name?: string,
+    username?: string,
     email?: string,
     email_verified?: boolean,
     photo_url?: string,
@@ -14,6 +15,7 @@ export interface BackendUserSchema {
 export interface UserProfileState {
     email?: string;
     displayName?: string;
+    username?: string;
     photoURL?: string;
     emailVerified?: boolean;
     github?: string;

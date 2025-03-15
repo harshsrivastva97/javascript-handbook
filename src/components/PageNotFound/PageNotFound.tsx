@@ -75,7 +75,7 @@ const PageNotFound: React.FC = () => {
         />
       ))}
 
-      <div className="content-wrapper">
+      <div className="pnf-content-wrapper">
         <motion.div
           className="error-container"
           variants={containerVariants}

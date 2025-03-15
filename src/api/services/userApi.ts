@@ -1,6 +1,6 @@
 import axiosInstance from '../config/axiosInstance';
 import { ENDPOINTS } from '../urls/urls';
-import { BackendUserSchema } from '../../constants/types/userTypes';
+import { BackendUserSchema } from '../../constants/interfaces/user';
 import ApiResponse from '../types/apiResponseType';
 
 export const registerUser = async (data: BackendUserSchema): Promise<ApiResponse<BackendUserSchema>> => {

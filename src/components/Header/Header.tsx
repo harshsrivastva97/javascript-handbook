@@ -12,6 +12,9 @@ import {
   FaMoon,
   FaSun,
   FaBookmark,
+  FaCrown,
+  FaMedal,
+  FaUserFriends,
 } from "react-icons/fa";
 import { getAuth, signOut } from "firebase/auth";
 import './Header.scss';
@@ -78,31 +81,31 @@ const Header: React.FC = () => {
       title: "Read",
       path: "/read",
       icon: <FaNewspaper />,
-      description: "Tutorials & guides"
+      description: "Interactive learning paths"
     },
     {
       title: "Practice",
       path: "/practice",
       icon: <FaCode />,
-      description: "Hands-on coding"
+      description: "Write, test, perfect"
     },
     {
       title: "Blogs",
       path: "/blogs",
       icon: <FaBook />,
-      description: "Latest insights"
+      description: "Pro tips & deep dives"
     },
     {
       title: "Exercises",
       path: "/exercises",
       icon: <FaLaptopCode />,
-      description: "Skill challenges"
+      description: "Level up your skills"
     },
     {
       title: "About",
       path: "/about",
       icon: <FaHeart />,
-      description: "Our mission"
+      description: "The JS journey"
     },
   ];
 
@@ -115,7 +118,7 @@ const Header: React.FC = () => {
           </div>
           <div className="logo-text-container">
             <span className="logo-text">JS Handbook</span>
-            <span className="logo-tagline">Master JavaScript, one step at a time</span>
+            <span className="logo-tagline">Code Smarter, Execute Brilliantly</span>
           </div>
         </NavLink>
 
@@ -190,13 +193,21 @@ const Header: React.FC = () => {
                       </div>
                     </div>
                     <div className="dropdown-divider"></div>
-                    <NavLink to="/profile" className="dropdown-item">
+                    <NavLink to="/profile#myinfo" className="dropdown-item">
                       <FaUser />
                       <span>Profile</span>
                     </NavLink>
-                    <NavLink to="/bookmarks" className="dropdown-item">
-                      <FaBookmark />
-                      <span>Bookmarks</span>
+                    <NavLink to="/profile#friends" className="dropdown-item">
+                      <FaUserFriends />
+                      <span>Friends</span>
+                    </NavLink>
+                    <NavLink to="/profile#badges" className="dropdown-item">
+                      <FaMedal />
+                      <span>Badges</span>
+                    </NavLink>
+                    <NavLink to="/profile#subscriptions" className="dropdown-item">
+                      <FaCrown />
+                      <span>Subscription</span>
                     </NavLink>
                     <div className="dropdown-divider"></div>
                     <button onClick={handleLogout} className="dropdown-item logout-item">

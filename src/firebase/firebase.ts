@@ -15,7 +15,7 @@ import firebaseConfig from "./firebaseConfig";
 import errorMap from "../constants/errors/authErrors";
 import { register } from "../redux/slices/userSlice";
 import { useAppDispatch } from "../redux/hooks";
-import { BackendUserSchema } from "../constants/types/userTypes";
+import { BackendUserSchema } from "../constants/interfaces/user";
 
 const app = initializeApp(firebaseConfig);
 

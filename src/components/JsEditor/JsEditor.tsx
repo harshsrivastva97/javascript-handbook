@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
     SandpackProvider,
     SandpackCodeEditor,
@@ -6,7 +6,8 @@ import {
     SandpackConsole,
     SandpackFiles,
     SandpackLayout,
-    SandpackPreview
+    SandpackPreview,
+    useActiveCode
 } from "@codesandbox/sandpack-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { FaPlay } from "react-icons/fa";
@@ -15,7 +16,6 @@ import { VscTerminal, VscChevronDown, VscChevronUp } from "react-icons/vsc";
 import "./JsEditor.scss";
 
 interface JsEditorProps {
-    code: string;
     onClose?: () => void;
 }
 
@@ -24,6 +24,17 @@ const ConsoleVisibilityContext = React.createContext<{
     isConsoleVisible: boolean;
     setIsConsoleVisible: React.Dispatch<React.SetStateAction<boolean>>;
 } | null>(null);
+
+// Create a component to listen for code changes
+const CodeListener = ({ onCodeChange }: { onCodeChange: (code: string) => void }) => {
+    const { code } = useActiveCode();
+    
+    useEffect(() => {
+        onCodeChange(code);
+    }, [code, onCodeChange]);
+    
+    return null;
+};
 
 const RunButton = () => {
     const { sandpack } = useSandpack();
@@ -72,21 +83,17 @@ const ConsoleToggleBar = ({ isVisible, onToggle }: { isVisible: boolean; onToggl
     </div>
 );
 
-const JsEditor: React.FC<JsEditorProps> = ({ code, onClose }) => {
+const JsEditor: React.FC<JsEditorProps> = ({ onClose }) => {
     const { theme } = useTheme();
-    const [currentCode, setCurrentCode] = useState(code);
+    const [currentCode, setCurrentCode] = useState("// Start coding here");
     const [isConsoleVisible, setIsConsoleVisible] = useState(false);
 
-    useEffect(() => {
-        setCurrentCode(code);
-    }, [code]);
-
-    const files: SandpackFiles = {
+    const files: SandpackFiles = useMemo(() => ({
         "/index.js": {
             code: currentCode,
             active: true,
         }
-    };
+    }), [currentCode]);
 
     const toggleConsoleVisibility = () => {
         setIsConsoleVisible(prev => !prev);
@@ -99,16 +106,18 @@ const JsEditor: React.FC<JsEditorProps> = ({ code, onClose }) => {
                     files={files}
                     theme={theme === "dark" ? "dark" : "light"}
                     template="vanilla"
-                    options={{
-                        autorun: false,
-                        recompileMode: "delayed",
-                        recompileDelay: 1000
+                    options={{ 
+                        autorun: false, 
+                        recompileDelay: 60000 
                     }}
                     customSetup={{
                         entry: "/index.js",
                         dependencies: { lodash: "^4.17.21" },
                     }}
                 >
+                    {/* Listen for code changes */}
+                    <CodeListener onCodeChange={setCurrentCode} />
+                    
                     {/* Editor Header with Run Button */}
                     <div className="js-editor__header">
                         <RunButton />
@@ -128,6 +137,7 @@ const JsEditor: React.FC<JsEditorProps> = ({ code, onClose }) => {
                                 showInlineErrors={true}
                                 wrapContent={true}
                             />
+                            
                             <SandpackPreview style={{display: "none"}} />
                             
                             {isConsoleVisible && (

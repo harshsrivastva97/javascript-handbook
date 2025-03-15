@@ -5,10 +5,6 @@ export interface TopicSchema {
     user_id: string;
     title: string;
     order: number;
-    explanation?: string;
-    code_example?: string;
-    key_points: string[];
-    common_mistakes: string[];
-    pro_tips: string[];
+    content: string;
     status?: ProgressStatus;
 }

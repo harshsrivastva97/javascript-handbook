@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import Prism from "prismjs";
-import "prismjs/components/prism-javascript";
-import "prismjs/components/prism-typescript";
-import { LuCopy } from "react-icons/lu";
 import { RiJavascriptLine } from "react-icons/ri";
-import { FaCode } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
 import { HiChevronLeft } from "react-icons/hi";
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -15,17 +10,15 @@ import { updateTopicStatus } from "../../redux/slices/progressSlice";
 import { ProgressStatus } from "../../constants/enums/progressStatus";
 import { calculateProgress } from "../../utils/progressUtils";
 import AppLoader from "../../components/AppLoader/AppLoader";
-import { useTheme } from "../../contexts/ThemeContext";
-import "../../assets/styles/prism-theme.scss";
 import "./Read.scss";
 import { FiCode } from "react-icons/fi";
-import { IoMdClose } from "react-icons/io";
 import Modal from "../../components/Modal/Modal";
 import JsEditor from "../../components/JsEditor/JsEditor";
+import remarkGfm from "remark-gfm";
+import ReactMarkdown from "react-markdown";
 
 const Topics: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { theme } = useTheme();
   const [searchParams] = useSearchParams();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
@@ -76,12 +69,13 @@ const Topics: React.FC = () => {
     }
   };
 
+
   const handleTopicSelect = async (topic: TopicSchema) => {
     setIsLoadingDetails(true);
     try {
       const result = await dispatch(getTopicDetails(topic.topic_id.toString())).unwrap();
       setSelectedConcept(result);
-      setEditorCode(result.code_example || '// Try your code here');
+      setEditorCode('// Try your code here');
     } catch (error) {
       console.error('Failed to fetch topic details:', error);
     } finally {
@@ -94,10 +88,6 @@ const Topics: React.FC = () => {
     if (window.innerWidth < 1400 && isSidebarOpen) {
       setIsSidebarOpen(false);
     }
-  };
-
-  const handleNewTopic = () => {
-    console.log("Creating new topic...");
   };
 
   const toggleEditor = () => {
@@ -120,17 +110,8 @@ const Topics: React.FC = () => {
   };
 
   useEffect(() => {
-    if (user?.user_id) {
-      dispatch(getAllTopics(user?.user_id));
-    }
+    dispatch(getAllTopics(user?.user_id || ''));
   }, [dispatch]);
-
-  useEffect(() => {
-    if (selectedConcept?.code_example) {
-      Prism.highlightAll();
-    }
-  }, [selectedConcept]);
-
 
   useEffect(() => {
     const conceptId = searchParams.get('conceptId');
@@ -234,7 +215,7 @@ const Topics: React.FC = () => {
                     ${isCompleted ? 'completed' : ''}`}
                   onClick={() => handleTopicSelect(topic)}
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-3">
                       <div className="status-dot" />
                       <span className="text-sm">{topic.title}</span>
@@ -258,10 +239,10 @@ const Topics: React.FC = () => {
             <AppLoader fullScreen text="Loading topic details..." />
           ) : selectedConcept ? (
             <>
-              <div className="content-wrapper">
+              <div className="content-wrapper text-left">
                 <div className="flex flex-col gap-4 mb-8">
                   <div className="flex items-center justify-between gap-6">
-                    <h1 className="gradient-text text-2xl font-semibold">{selectedConcept.title}</h1>
+                    <h1 className="gradient-text text-2xl font-semibold text-left">{selectedConcept.title}</h1>
                     <button
                       onClick={() => toggleTopicComplete(selectedConcept.topic_id)}
                       className={`complete-button gradient-button font-medium text-sm whitespace-nowrap text-center ${isTopicCompleted(selectedConcept.topic_id) ? 'completed' : 'pending'
@@ -280,100 +261,14 @@ const Topics: React.FC = () => {
                   </div>
                 </div>
 
-                <div>
-                  <div
-                    className="prose"
-                    dangerouslySetInnerHTML={{
-                      __html: selectedConcept.explanation || '',
-                    }}
-                  />
-
-                  {selectedConcept.code_example && (
-                    <div className={`code-container mt-7 w-full ${theme}-theme`}>
-                      <div className="code-header">
-                        <h3 className="flex items-center gap-2 text-accent-primary font-semibold text-lg">
-                          <FaCode className="size-5" />
-                          Example Code
-                        </h3>
-                        <div className="flex items-center gap-3">
-                          <button
-                            className="try-code-button gradient-button"
-                            onClick={handleOpenEditor}
-                          >
-                            <FiCode className="size-4" />
-                            Try it
-                          </button>
-                          <div
-                            className={`copy-icon-wrapper ${showCopied ? 'copied' : ''}`}
-                            onClick={() => copyToClipboard(selectedConcept.code_example)}
-                            role="button"
-                            tabIndex={0}
-                            aria-label={showCopied ? "Code copied!" : "Copy code"}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                copyToClipboard(selectedConcept.code_example);
-                              }
-                            }}
-                          >
-                            <LuCopy className={`w-4 h-4 ${showCopied ? 'text-success' : 'text-text-secondary'}`} />
-                          </div>
-                        </div>
-                      </div>
-                      <pre className="py-4 px-6 overflow-x-auto">
-                        <code className="language-javascript">
-                          {selectedConcept.code_example}
-                        </code>
-                      </pre>
-                    </div>
-                  )}
-
-                  {selectedConcept.pro_tips && selectedConcept.pro_tips.length > 0 && (
-                    <div className="pro-tips">
-                      <h3>Pro Tips</h3>
-                      <ul>
-                        {selectedConcept.pro_tips.map((tip, index) => (
-                          <li key={index}>
-                            <span className="tip-bullet">•</span>
-                            <span>{tip}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {selectedConcept.common_mistakes && selectedConcept.common_mistakes.length > 0 && (
-                    <div className="common-mistakes">
-                      <h3>Common Mistakes to Avoid</h3>
-                      <ul>
-                        {selectedConcept.common_mistakes.map((mistake, index) => (
-                          <li key={index}>
-                            <span className="mistake-bullet">•</span>
-                            <span>{mistake}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  <div className="key-points p-6 hover:translate-y-[-1px] hover:shadow-lg transition-all duration-200 mb-8">
-                    <h3 className="text-accent-primary font-semibold text-lg flex items-center gap-3">Key Points</h3>
-                    <ul>
-                      {selectedConcept.key_points?.map((point, index) => (
-                        <li key={index} className="flex items-start gap-2.5 border-b border-border-color last:border-0 last:pb-0 first:pt-0 text-text-secondary">
-                          <span className="text-accent-primary text-xl leading-none opacity-80">•</span>
-                          <span>{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <div className="markdown-container">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{selectedConcept.content}</ReactMarkdown>
                 </div>
               </div>
 
               {isEditorOpen && (
                 <div className="editor-wrapper">
                   <JsEditor
-                    code={editorCode}
                     onClose={toggleEditor}
                   />
                 </div>

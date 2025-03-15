@@ -9,6 +9,8 @@ type UserProfile = User & {
     linkedin?: string;
     twitter?: string;
     website?: string;
+    username?: string;
+    organization?: string;
 }
 
 interface AuthContextType {

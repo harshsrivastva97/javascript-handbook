@@ -1,9 +1,0 @@
-import { ConceptContent } from "../../constants/types/concept";
-
-export const mixinsHOF = {
-    topic_id: 112,
-    title: "Mixins and Higher-Order Functions",
-    explanation: `<p>Mixins and Higher-Order Functions are advanced patterns in JavaScript that enable code reuse and functional programming paradigms.</p>\n\n<h3>Key Concepts:</h3>\n<ul>\n  <li>Mixins: Objects with methods that can be added to other objects</li>\n  <li>Higher-Order Functions: Functions that take or return other functions</li>\n  <li>Function Composition: Building complex functions from simple ones</li>\n  <li>Functional Programming Patterns</li>\n</ul>`,
-    code_example: `// Mixin Example\nconst speakerMixin = {\n  speak(phrase) {\n    console.log(\`\${this.name} says: \${phrase}\`);\n  }\n};\n\nconst walkerMixin = {\n  walk(distance) {\n    console.log(\`\${this.name} walked \${distance}m\`);\n  }\n};\n\nclass Person {\n  constructor(name) {\n    this.name = name;\n  }\n}\n\nObject.assign(Person.prototype, speakerMixin, walkerMixin);\n\n// Higher-Order Functions\nconst withLogging = (fn) => {\n  return (...args) => {\n    console.log(\`Calling with args: \${args}\`);\n    const result = fn(...args);\n    console.log(\`Result: \${result}\`);\n    return result;\n  };\n};\n\nconst add = (a, b) => a + b;\nconst loggedAdd = withLogging(add);\n\n// Function Composition\nconst compose = (...fns) => x => \n  fns.reduceRight((acc, fn) => fn(acc), x);\n\nconst addOne = x => x + 1;\nconst double = x => x * 2;\nconst addOneAndDouble = compose(double, addOne);`,
-    key_points: ["Mixins provide multiple inheritance-like behavior", "Higher-order functions enable function composition", "Useful for cross-cutting concerns like logging", "Enables functional programming patterns", "Promotes code reuse and modularity", "Common in React and other frameworks"]
-}; 

@@ -1,4 +1,4 @@
-import { SnippetTabItem } from '../types/navigationTypes';
+import { SnippetTabItem } from '../interfaces/navigation';
 
 export const SNIPPETS_TABS: SnippetTabItem[] = [
   {

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { BackendUserSchema } from '../../constants/types/userTypes';
+import { BackendUserSchema } from '../../constants/interfaces/user';
 import { getUser, registerUser, updateUser } from '../../api/services/userApi';
 
 interface UserState {
