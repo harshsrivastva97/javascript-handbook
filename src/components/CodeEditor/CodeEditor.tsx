@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   SandpackProvider,
   SandpackCodeEditor,
   SandpackPreview,
   useSandpack,
   SandpackConsole,
-  SandpackFiles
+  SandpackFiles,
+  useActiveCode
 } from "@codesandbox/sandpack-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { FaPlay } from "react-icons/fa";
-import { MdChevronRight, MdChevronLeft } from "react-icons/md";
 import { VscTerminal, VscChevronDown, VscChevronUp, VscWindow } from "react-icons/vsc";
 import "./CodeEditor.scss";
 
@@ -87,7 +87,7 @@ const PreviewToggleBar = ({ isVisible, onToggle }: { isVisible: boolean; onToggl
     <div className="toggle-content">
       <VscWindow className="toggle-icon" />
       <span>{isVisible ? 'Preview' : 'Show Preview'}</span>
-      {isVisible ? <VscChevronDown className="chevron-icon" /> : <VscChevronUp className="chevron-icon" />}
+      {isVisible ? <VscChevronUp className="chevron-icon" /> : <VscChevronDown className="chevron-icon" />}
     </div>
   </div>
 );
@@ -106,10 +106,21 @@ const ConsoleToggleBar = ({ isVisible, onToggle }: { isVisible: boolean; onToggl
   </div>
 );
 
+// Create a component to listen for code changes
+const CodeListener = ({ onCodeChange }: { onCodeChange: (code: string) => void }) => {
+  const { code } = useActiveCode();
+  
+  useEffect(() => {
+    onCodeChange(code);
+  }, [code, onCodeChange]);
+  
+  return null;
+};
+
 const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
   const { theme } = useTheme();
   const [currentCode, setCurrentCode] = useState(code);
-  // Always keep right panel visible
+
   const [isPreviewVisible, setIsPreviewVisible] = useState(false);
   const [isConsoleVisible, setIsConsoleVisible] = useState(true);
 
@@ -117,18 +128,16 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
     setCurrentCode(code);
   }, [code]);
 
-  const processedCode = currentCode;
-
-  const files: SandpackFiles = {
+  const files: SandpackFiles = useMemo(() => ({
     "/index.js": {
-      code: processedCode,
-      active: true,
+      code: currentCode,
+      active: selectedFile === "/index.js",
     },
     "/index.html": {
       code: defaultHtmlTemplate,
       active: selectedFile === "/index.html",
     }
-  };
+  }), [currentCode]);
 
   const togglePreviewVisibility = () => {
     setIsPreviewVisible(prev => !prev);
@@ -159,8 +168,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
           template="vanilla"
           options={{
             autorun: false,
-            recompileMode: "immediate",
-            recompileDelay: 300
+            recompileMode: "delayed",
+            recompileDelay: 60000
           }}
           customSetup={{
             entry: "/index.js",
@@ -170,6 +179,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
           }}
           style={{height: "100%"}}
         >
+          <CodeListener onCodeChange={setCurrentCode} />
+
           <div className="code-editor__header">
             <div className="header-left">
               <RunButton />

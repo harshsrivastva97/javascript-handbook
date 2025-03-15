@@ -241,8 +241,7 @@ const Topics: React.FC = () => {
             <>
               <div className="content-wrapper text-left">
                 <div className="flex flex-col gap-4 mb-8">
-                  <div className="flex items-center justify-between gap-6">
-                    <h1 className="gradient-text text-2xl font-semibold text-left">{selectedConcept.title}</h1>
+                  <div className="flex items-center justify-end gap-6 z-10">
                     <button
                       onClick={() => toggleTopicComplete(selectedConcept.topic_id)}
                       className={`complete-button gradient-button font-medium text-sm whitespace-nowrap text-center ${isTopicCompleted(selectedConcept.topic_id) ? 'completed' : 'pending'

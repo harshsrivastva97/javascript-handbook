@@ -18,11 +18,14 @@
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   padding: 28px;
-  margin-bottom: 16px;
   transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
-  overflow: hidden;
+  padding: 20px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   
   &::before {
     content: '';
@@ -77,6 +80,10 @@
 }
 
 .form-group {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 24px;
   animation: form-group-entrance 0.5s ease forwards;
   opacity: 0;
@@ -126,6 +133,9 @@
   min-height: 48px;
   
   &.modern {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     .profile-editable-field {
       width: 100%;
       
@@ -456,4 +466,11 @@
       transform: rotate(360deg);
     }
   }
+}
+
+.non-editable-field {
+  padding: 8px 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #ccc;
 }

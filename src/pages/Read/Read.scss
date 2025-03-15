@@ -363,6 +363,7 @@
       padding-right: 1.25rem;
       text-align: left;
       .markdown-container {
+        margin-top: -6rem;
         padding: 1rem 0.5rem 3rem;
         line-height: 1.6;
         
@@ -488,7 +489,7 @@
           &::after {
             content: '';
             position: absolute;
-            top: 0.5rem;
+            top: .75rem;
             right: 1rem;
             width: 12px;
             height: 12px;

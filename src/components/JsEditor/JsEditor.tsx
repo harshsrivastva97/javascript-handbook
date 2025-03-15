@@ -9,10 +9,10 @@ import {
     SandpackPreview,
     useActiveCode
 } from "@codesandbox/sandpack-react";
-import { useTheme } from "../../contexts/ThemeContext";
 import { FaPlay } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { VscTerminal, VscChevronDown, VscChevronUp } from "react-icons/vsc";
+import { useTheme } from "../../contexts/ThemeContext";
 import "./JsEditor.scss";
 
 interface JsEditorProps {

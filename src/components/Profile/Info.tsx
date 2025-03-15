@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  FaUser, 
-  FaEnvelope, 
-  FaGithub, 
-  FaLinkedin, 
-  FaTwitter, 
+import {
+  FaUser,
+  FaEnvelope,
+  FaGithub,
+  FaLinkedin,
+  FaTwitter,
   FaGlobe,
-  FaSave, 
+  FaSave,
   FaCog,
   FaCheckCircle
 } from 'react-icons/fa';
@@ -58,20 +58,24 @@ const Info: React.FC<InfoProps> = ({
 
   // Field configuration for easy rendering
   const fieldConfig = [
-    { section: 'Personal Information', fields: [
-      { name: 'displayName' as keyof UserProfileState, label: 'Display Name', icon: <FaUser /> },
-      { name: 'email' as keyof UserProfileState, label: 'Email', icon: <FaEnvelope /> }
-    ]},
-    { section: 'Social Media & Links', fields: [
-      { name: 'github' as keyof UserProfileState, label: 'GitHub', icon: <FaGithub /> },
-      { name: 'linkedin' as keyof UserProfileState, label: 'LinkedIn', icon: <FaLinkedin /> },
-      { name: 'twitter' as keyof UserProfileState, label: 'Twitter', icon: <FaTwitter /> },
-      { name: 'website' as keyof UserProfileState, label: 'Website', icon: <FaGlobe /> }
-    ]}
+    {
+      section: 'Personal Information', fields: [
+        { name: 'displayName' as keyof UserProfileState, label: 'Display Name', icon: <FaUser /> },
+        { name: 'email' as keyof UserProfileState, label: 'Email', icon: <FaEnvelope />, editable: false }
+      ]
+    },
+    {
+      section: 'Social Media & Links', fields: [
+        { name: 'github' as keyof UserProfileState, label: 'GitHub', icon: <FaGithub /> },
+        { name: 'linkedin' as keyof UserProfileState, label: 'LinkedIn', icon: <FaLinkedin /> },
+        { name: 'twitter' as keyof UserProfileState, label: 'Twitter', icon: <FaTwitter /> },
+        { name: 'website' as keyof UserProfileState, label: 'Website', icon: <FaGlobe /> }
+      ]
+    }
   ];
 
   return (
-    <motion.div 
+    <motion.div
       className="profile-section"
       variants={containerVariants}
       initial="hidden"
@@ -81,44 +85,45 @@ const Info: React.FC<InfoProps> = ({
         onSubmit={handleSubmit}
         className="edit-form"
       >
-        {fieldConfig.map((section, index) => (
-          <motion.div 
-            key={`section-${index}`}
-            className={`profile-card ${section.section.toLowerCase().replace(/\s+/g, '-')}`}
-            variants={itemVariants}
-          >
-            <h3 className="card-title">{section.section}</h3>
-            
-            {section.fields.map(field => (
-              <motion.div 
-                key={`field-${field.name}`}
-                className="form-group"
-                variants={itemVariants}
-              >
-                <label className="field-label">
-                  {field.icon && <span className="field-icon">{field.icon}</span>}
-                  {field.label}
-                </label>
-                <div className="input-wrapper modern">
-                  <EditableField 
+        <motion.div
+          className="profile-card combined-section"
+          variants={itemVariants}
+        >
+          <h3 className="card-title">Profile Information</h3>
+          {fieldConfig.flatMap(section => section.fields).map(field => (
+            <motion.div
+              key={`field-${field.name}`}
+              className="form-group"
+              variants={itemVariants}
+              style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', alignItems: 'center' }}
+            >
+              <label className="field-label">
+                {field.icon && <span className="field-icon">{field.icon}</span>}
+                {field.label}
+              </label>
+              <div className="input-wrapper modern">
+                {field.editable === false ? (
+                  <span className="non-editable-field">{(formState[field.name] || '') as string}</span>
+                ) : (
+                  <EditableField
                     value={(formState[field.name] || '') as string}
                     onChange={(newValue) => handleFieldChange(field.name, newValue)}
                     placeholder={`Add your ${field.label.toLowerCase()}`}
                     className="profile-editable-field"
                   />
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        ))}
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
 
-        <motion.div 
+        <motion.div
           className="action-card"
           variants={itemVariants}
         >
           <AnimatePresence>
             {saveSuccess && (
-              <motion.div 
+              <motion.div
                 className="save-success"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
