@@ -768,112 +768,6 @@
     }
   }
 
-  /* Code Example Section */
-  .code-container {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    margin: 1.5rem 0 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    text-align: left;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 
-        0 8px 30px rgba(0, 0, 0, 0.1),
-        0 0 0 1px var(--accent-primary) inset;
-    }
-    
-    pre {
-      text-align: left;
-      
-      code {
-        text-align: left;
-      }
-    }
-  }
-
-  .code-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 1.25rem;
-    background: var(--card-bg);
-    border-bottom: 1px solid var(--border-color);
-    text-align: left;
-    
-    h3 {
-      text-align: left;
-    }
-  }
-
-  .try-code-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: white;
-    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.2) 50%,
-        rgba(255, 255, 255, 0) 100%
-      );
-      transition: all 0.6s ease;
-    }
-    
-    &:hover::before {
-      left: 100%;
-    }
-    
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(124, 77, 255, 0.3);
-    }
-  }
-
-  .copy-icon-wrapper {
-    position: relative;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: rgba(124, 77, 255, 0.1);
-      transform: translateY(-1px);
-    }
-
-    &.copied {
-      background: rgba(46, 204, 113, 0.1);
-    }
-  }
-
   .editor-toggle {
     position: fixed;
     bottom: 2rem;
@@ -1006,16 +900,6 @@
     
     .content-area {
       padding: 1rem;
-      
-      .prose {
-        h1 {
-          font-size: 1.75rem;
-        }
-      }
-      
-      .code-container {
-        margin: 1rem 0;
-      }
       
       &.editor-open {
         grid-template-columns: 1fr;

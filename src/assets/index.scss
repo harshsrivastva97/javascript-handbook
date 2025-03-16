@@ -1,4 +1,9 @@
-@forward './styles/variables';
 @forward './styles/themes';
 @forward './styles/global';
 @forward './styles/fonts';
+
+.sp-code-editor {
+    .sp-icon-standalone {
+        display: none !important;
+    }
+}

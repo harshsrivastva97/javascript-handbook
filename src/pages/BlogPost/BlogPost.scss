@@ -1,135 +1,3 @@
-.blog-post {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 2rem 2rem 4rem 2rem;
-  min-height: 100%;
-  background: #1a1a1a;
-  color: #e0e0e0;
-
-  .back-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #e0e0e0;
-    cursor: pointer;
-    font-size: 0.95rem;
-    padding: 0.5rem 1rem;
-    margin-bottom: 2rem;
-    transition: all 0.3s ease;
-    border-radius: 6px;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-  }
-
-  .blog-header {
-    margin-bottom: 2rem;
-
-    h1 {
-      font-size: 2.5rem;
-      color: #ffffff;
-      margin-bottom: 1.5rem;
-      line-height: 1.3;
-      font-weight: 700;
-    }
-  }
-
-  .featured-image {
-    margin: 2rem 0;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-
-    img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      vertical-align: middle;
-    }
-  }
-
-  .blog-content {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #e0e0e0;
-
-    h2 {
-      font-size: 1.8rem;
-      color: #ffffff;
-      margin: 2.5rem 0 1rem;
-      font-weight: 600;
-    }
-
-    h3 {
-      font-size: 1.4rem;
-      color: #ffffff;
-      margin: 2rem 0 1rem;
-      font-weight: 600;
-    }
-
-    p {
-      margin-bottom: 1.5rem;
-    }
-
-    pre {
-      background: #2a2a2a;
-      padding: 1.5rem;
-      border-radius: 8px;
-      overflow-x: auto;
-      margin: 1.5rem 0;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-
-      code {
-        font-family: 'Fira Code', monospace;
-        font-size: 0.9rem;
-        line-height: 1.6;
-        color: #e0e0e0;
-      }
-    }
-
-    ul {
-      margin: 1rem 0 1.5rem;
-      padding-left: 1.5rem;
-
-      li {
-        margin-bottom: 0.75rem;
-        position: relative;
-
-        &::before {
-          content: "•";
-          color: #b0b0b0;
-          position: absolute;
-          left: -1rem;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .blog-post {
-    padding: 1rem;
-
-    .blog-header {
-      h1 {
-        font-size: 2rem;
-      }
-    }
-
-    .blog-content {
-      font-size: 1rem;
-
-      pre {
-        padding: 1rem;
-      }
-    }
-  }
-}
-
 @mixin glass-panel {
   background: rgba(15, 23, 41, 0.6);
   border-radius: 16px;
@@ -140,7 +8,6 @@
 // Main container styles
 .blog-post-page {
   min-height: 100vh;
-  max-height: 100vh;
   overflow-y: auto;
   position: relative;
   background-color: var(--background);
@@ -157,25 +24,6 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-
-    button {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--primary-color);
-      border: 1px solid var(--primary-color);
-      color: var(--primary-color);
-      padding: 0.8rem 1.5rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 0.95rem;
-
-      &:hover {
-        background: var(--primary-color);
-        transform: translateY(-2px);
-      }
-    }
   }
 
   .blog-article {
@@ -184,51 +32,6 @@
     border: 1px solid var(--border-color);
     padding: 2rem;
     max-height: max-content;
-
-    .blog-hero {
-      text-align: center;
-      margin-bottom: 2rem;
-
-      h1 {
-        font-size: 2.8rem;
-        margin-bottom: 1.5rem;
-        line-height: 1.2;
-      }
-
-      .blog-meta {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 1.5rem;
-        margin-bottom: 1.5rem;
-        color: var(--text-secondary);
-        font-size: 0.95rem;
-
-        .meta-item {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-      }
-
-      .tags {
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-
-        .tag {
-          background-color: var(--primary-color);
-          color: var(--primary-color);
-          padding: 0.4rem 1rem;
-          border-radius: 50px;
-          font-size: 0.85rem;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-      }
-    }
 
     .featured-image {
       margin: 2rem -2rem;
@@ -242,88 +45,10 @@
       }
     }
 
-    .blog-content {
-      font-size: 1.1rem;
-      line-height: 1.8;
-
-      h2 {
-        font-size: 1.8rem;
-        margin: 2.5rem 0 1rem;
-        font-weight: 600;
-      }
-
-      h3 {
-        font-size: 1.4rem;
-        margin: 2rem 0 1rem;
-        font-weight: 600;
-      }
-
-      p {
-        margin-bottom: 1.5rem;
-      }
-
-      pre {
-        background: #1f2937; // Dark background for code blocks regardless of theme
-        padding: 1.5rem;
-        border-radius: 8px;
-        overflow-x: auto;
-        margin: 1.5rem 0;
-        border: 1px solid #374151;
-
-        code {
-          font-family: 'Fira Code', monospace;
-          font-size: 0.9rem;
-          line-height: 1.6;
-          color: #e5e7eb; // Light color for code text
-        }
-      }
-
-      ul,
-      ol {
-        margin: 1rem 0 1.5rem;
-        padding-left: 1.5rem;
-
-        li {
-          margin-bottom: 0.75rem;
-          position: relative;
-
-          &::before {
-            content: "•";
-            color: var(--text-secondary);
-            position: absolute;
-            left: -1rem;
-          }
-        }
-      }
-
-      a {
-        color: var(--primary-color);
-        text-decoration: underline;
-
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-
-      blockquote {
-        border-left: 4px solid var(--border-color);
-        padding-left: 1.5rem;
-        margin: 1.5rem 0;
-        font-style: italic;
-        color: var(--text-secondary);
-      }
-
-      img {
-        max-width: 100%;
-        border-radius: 8px;
-        margin: 1.5rem 0;
-      }
-    }
-
     .blog-footer {
       margin-top: 2rem;
       padding: 1rem 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid var(--border-color);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -335,88 +60,72 @@
         flex-wrap: wrap;
 
         .label {
-          color: #a8b2d1;
-          font-size: 0.9rem;
+          color: var(--text-secondary);
+          margin-right: 0.5rem;
         }
       }
     }
   }
 }
 
+// Common UI elements
 .tag {
-  background-color: var(--primary-color);
+  background-color: rgba(var(--primary-color-rgb), 0.1);
   color: var(--primary-color);
   padding: 0.3rem 0.8rem;
   border-radius: 20px;
   font-size: 0.8rem;
-  border: 1px solid var(--primary-color);
+  border: 1px solid rgba(var(--primary-color-rgb), 0.2);
   display: flex;
   align-items: center;
   gap: 0.3rem;
 }
 
-.not-found {
-  text-align: center;
-  padding: 4rem 2rem;
-  @include glass-panel;
+.navigation-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(var(--primary-color-rgb), 0.1);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  cursor: pointer;
 
-  h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    color: #a8b2d1;
-  }
-}
-
-@media (max-width: 768px) {
-  .blog-post-container {
-    padding: 1rem;
-
-    .blog-article {
-      padding: 1.5rem;
-
-      .blog-hero {
-        h1 {
-          font-size: 2rem;
-        }
-      }
-
-      .featured-image {
-        margin: 1.5rem -1.5rem;
-        height: 250px;
-      }
-
-      .blog-content {
-        font-size: 1rem;
-
-        pre {
-          padding: 1rem;
-        }
-      }
-
-      .blog-footer {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
-      }
-    }
+  &:hover {
+    background-color: rgba(var(--primary-color-rgb), 0.2);
+    transform: translateY(-2px);
   }
 }
 
-// Add Tailwind's prose styles customization with theme variables
+.primary-button {
+  background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+}
+
+// Blog content styles
 .prose {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-primary);
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  h1, h2, h3, h4, h5, h6 {
     margin-top: 2em;
     margin-bottom: 1em;
     font-weight: 600;
+    color: var(--text-primary);
   }
 
   h2 {
@@ -425,6 +134,10 @@
 
   h3 {
     font-size: 1.4rem;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
   }
 
   a {
@@ -436,8 +149,7 @@
     }
   }
 
-  ul,
-  ol {
+  ul, ol {
     margin: 1.5em 0;
     padding-left: 1.5em;
 
@@ -460,7 +172,7 @@
   }
 
   code {
-    background-color: var(--primary-color);
+    background-color: rgba(var(--primary-color-rgb), 0.1);
     padding: 0.2em 0.4em;
     border-radius: 3px;
     font-family: monospace;
@@ -479,6 +191,9 @@
       background-color: transparent;
       padding: 0;
       color: #e5e7eb; // Light color for code text
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
     }
   }
 
@@ -488,59 +203,49 @@
     max-width: 100%;
   }
 
-  strong,
-  b {
+  strong, b {
     font-weight: 600;
   }
 
-  em,
-  i {
+  em, i {
     font-style: italic;
   }
-
-  // Fix specifically for blog content HTML content
-  div,
-  span {
-  }
 }
 
-// Update navigation button styles
-.navigation-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: var(--primary-color);
-  border: 1px solid var(--primary-color);
-  color: var(--primary-color);
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+// Responsive styles
+@media (max-width: 768px) {
+  .blog-post-container {
+    padding: 1rem;
 
-  &:hover {
-    background-color: var(--primary-color);
-    transform: translateY(-2px);
+    .blog-article {
+      padding: 1.5rem;
+
+      .featured-image {
+        margin: 1.5rem -1.5rem;
+        height: 250px;
+      }
+
+      .blog-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+    }
   }
-}
 
-// Update blog footer styles
-.blog-footer {
-  border-color: var(--border-color);
+  .prose {
+    font-size: 1rem;
 
-  .label {
-    color: var(--text-secondary);
-    margin-right: 0.5rem;
-  }
-}
+    h2 {
+      font-size: 1.6rem;
+    }
 
-// Primary button style
-.primary-button {
-  background-image: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  color: white;
-  font-weight: 500;
-  transition: all 0.3s ease;
+    h3 {
+      font-size: 1.3rem;
+    }
 
-  &:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
+    pre {
+      padding: 1rem;
+    }
   }
 }

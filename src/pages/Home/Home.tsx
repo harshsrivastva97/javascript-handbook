@@ -201,10 +201,10 @@ const Home: React.FC = () => {
         </section>
 
         <section className="mb-20 text-center py-16 px-4 rounded-xl cta-section">
-          <h2 className="text-3xl font-bold mb-4 gradient-text">
+          <h2 className="text-3xl font-bold mb-4">
             Ready to Level Up Your JavaScript Skills?
           </h2>
-          <p className="text-secondary mb-8">
+          <p className="mb-8">
             Start your learning journey today and join our community of developers.
           </p>
           <button
