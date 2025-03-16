@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import './EditableField.scss';
+import { AnimatePresence } from 'framer-motion';
 
 interface EditableFieldProps {
   value: string;
@@ -83,22 +83,15 @@ const EditableField: React.FC<EditableFieldProps> = ({
   };
 
   return (
-    <motion.div 
+    <div 
       ref={containerRef}
       className={`editable-field-container ${className}`}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
     >
       <AnimatePresence mode="wait">
         {isEditing ? (
-          <motion.div 
+          <div 
             className="editable-field-edit-mode"
             key="editing"
-            variants={containerVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
           >
             <input
               ref={inputRef}
@@ -109,12 +102,10 @@ const EditableField: React.FC<EditableFieldProps> = ({
               className="editable-field-input"
               placeholder={placeholder}
             />
-            <motion.button 
+            <button 
               className="editable-field-save-btn" 
               onClick={saveChanges}
               aria-label="Save"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
             >
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -129,23 +120,19 @@ const EditableField: React.FC<EditableFieldProps> = ({
               >
                 <path d="M20 6L9 17l-5-5" />
               </svg>
-            </motion.button>
-          </motion.div>
+            </button>
+          </div>
         ) : (
-          <motion.div 
+          <div 
             className="editable-field-view-mode"
             key="viewing"
             onClick={handleClick}
-            variants={containerVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
           >
             {value || <span className="placeholder">{placeholder}</span>}
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 };
 

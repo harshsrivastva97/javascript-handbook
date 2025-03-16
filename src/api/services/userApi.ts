@@ -19,8 +19,8 @@ export const getUser = async (uid: string): Promise<ApiResponse<BackendUserSchem
     throw new Error(response.data.error || 'Failed to get user');
 };
 
-export const updateUser = async (uid: string, data: BackendUserSchema): Promise<ApiResponse<BackendUserSchema>> => {
-    const response = await axiosInstance.put(ENDPOINTS.UPDATE_PROFILE.replace(':uid', uid), data);
+export const updateUser = async (data: BackendUserSchema): Promise<ApiResponse<BackendUserSchema>> => {
+    const response = await axiosInstance.put(ENDPOINTS.UPDATE_PROFILE, data);
     if (response.data.status === 'success' && response.data.data) {
         return response.data.data;
     }

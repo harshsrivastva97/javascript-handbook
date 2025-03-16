@@ -193,23 +193,10 @@ const Header: React.FC = () => {
                       </div>
                     </div>
                     <div className="dropdown-divider"></div>
-                    <NavLink to="/profile#myinfo" className="dropdown-item">
+                    <NavLink to="/profile" className="dropdown-item">
                       <FaUser />
                       <span>Profile</span>
                     </NavLink>
-                    <NavLink to="/profile#friends" className="dropdown-item">
-                      <FaUserFriends />
-                      <span>Friends</span>
-                    </NavLink>
-                    <NavLink to="/profile#badges" className="dropdown-item">
-                      <FaMedal />
-                      <span>Badges</span>
-                    </NavLink>
-                    <NavLink to="/profile#subscriptions" className="dropdown-item">
-                      <FaCrown />
-                      <span>Subscription</span>
-                    </NavLink>
-                    <div className="dropdown-divider"></div>
                     <button onClick={handleLogout} className="dropdown-item logout-item">
                       <FaSignOutAlt />
                       <span>Logout</span>

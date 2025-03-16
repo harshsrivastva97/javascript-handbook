@@ -8,7 +8,7 @@ export const ENDPOINTS = {
     // User
     REGISTER: `${USER_URL}/register`,
     GET_USER: `${USER_URL}/:uid`,
-    UPDATE_PROFILE: `${USER_URL}/:uid`,
+    UPDATE_PROFILE: `${USER_URL}`,
     // Topics
     GET_TOPICS_LIST: `${TOPICS_URL}/list/:userId`,
     GET_TOPIC_CONTENT: `${TOPICS_URL}/content/:topicId`,

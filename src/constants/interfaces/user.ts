@@ -6,10 +6,11 @@ export interface BackendUserSchema {
     email_verified?: boolean,
     photo_url?: string,
     provider_id?: string,
+    organization?: string,
     github?: string,
     linkedin?: string,
     x_link?: string,
-    website_link?: string,
+    website?: string,
 }
 
 export interface UserProfileState {
@@ -18,6 +19,7 @@ export interface UserProfileState {
     username?: string;
     photoURL?: string;
     emailVerified?: boolean;
+    organization?: string;
     github?: string;
     linkedin?: string;
     twitter?: string;
