@@ -11,16 +11,12 @@ import {
   FaChevronDown,
   FaMoon,
   FaSun,
-  FaBookmark,
-  FaCrown,
-  FaMedal,
-  FaUserFriends,
 } from "react-icons/fa";
 import { getAuth, signOut } from "firebase/auth";
 import './Header.scss';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { logout } from '../../redux/slices/userSlice';
 
 const Header: React.FC = () => {
@@ -34,6 +30,7 @@ const Header: React.FC = () => {
   const { currentUser } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const dispatch = useAppDispatch();
+  const userData = useAppSelector(state => state.userData.user);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -109,6 +106,10 @@ const Header: React.FC = () => {
     },
   ];
 
+  const getUserPhotoURL = () => {
+    return currentUser?.photoURL || userData?.photo_url || '';
+  };
+
   return (
     <header className={`header ${theme}`}>
       <div className="flex align-center justify-between px-4 py-1">
@@ -165,8 +166,8 @@ const Header: React.FC = () => {
                   onClick={toggleDropdown}
                 >
                   <div className="user-avatar">
-                    {currentUser?.photoURL ? (
-                      <img src={currentUser.photoURL} alt="User avatar" />
+                    {getUserPhotoURL() ? (
+                      <img src={getUserPhotoURL()} alt="User avatar" />
                     ) : (
                       <FaUser />
                     )}
@@ -180,8 +181,8 @@ const Header: React.FC = () => {
                     <div className="dropdown-header">
                       <div className="dropdown-user-info">
                         <div className="dropdown-avatar">
-                          {currentUser?.photoURL ? (
-                            <img src={currentUser.photoURL} alt="User avatar" />
+                          {getUserPhotoURL() ? (
+                            <img src={getUserPhotoURL()} alt="User avatar" />
                           ) : (
                             <FaUser />
                           )}

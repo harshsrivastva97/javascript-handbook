@@ -13,7 +13,7 @@ import {
 } from "firebase/auth";
 import firebaseConfig from "./firebaseConfig";
 import errorMap from "../constants/errors/authErrors";
-import { register } from "../redux/slices/userSlice";
+import { register, getUserProfile } from "../redux/slices/userSlice";
 import { useAppDispatch } from "../redux/hooks";
 import { BackendUserSchema } from "../constants/interfaces/user";
 
@@ -80,7 +80,11 @@ export const signInWithProvider = async (
             };
             dispatch(register(payload));
         } else {
-            console.warn("No email found for user:", userCredential.user.email);
+            try {
+                await dispatch(getUserProfile(userCredential.user.uid));
+            } catch (error) {
+                console.error('Error fetching user profile:', error);
+            }
         }
         return userCredential;
     } catch (error) {

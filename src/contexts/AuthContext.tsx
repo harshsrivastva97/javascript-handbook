@@ -11,6 +11,7 @@ type UserProfile = User & {
     website?: string;
     username?: string;
     organization?: string;
+    photo_url?: string;
 }
 
 interface AuthContextType {

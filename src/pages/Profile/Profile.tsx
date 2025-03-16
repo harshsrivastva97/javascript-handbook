@@ -151,7 +151,7 @@ const Profile: React.FC = () => {
             ...prev,
             displayName: currentUser.displayName || prev.displayName || '',
             email: currentUser.email || prev.email || '',
-            photoURL: currentUser.photoURL || prev.photoURL || '',
+            photoURL: currentUser.photoURL || user?.photo_url || prev.photoURL || '',
             organization: user?.organization || prev.organization || '',
             github: user?.github || prev.github || '',
             linkedin: user?.linkedin || prev.linkedin || '',
@@ -240,8 +240,8 @@ const Profile: React.FC = () => {
         <div className="profile-container">
             <div className="profile-header">
                 <div className="avatar-section">
-                    {currentUser?.photoURL ? (
-                        <img src={currentUser.photoURL} alt="Profile" className="avatar" />
+                    {(currentUser?.photoURL || user?.photo_url) ? (
+                        <img src={currentUser?.photoURL || user?.photo_url} alt="Profile" className="avatar" />
                     ) : (
                         <div className="avatar-placeholder">
                             <FaUser />
