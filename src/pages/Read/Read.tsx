@@ -6,7 +6,7 @@ import { HiChevronLeft } from "react-icons/hi";
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { TopicSchema } from "../../api/types/topicTypes";
 import { getAllTopics, getTopicDetails } from "../../redux/slices/topicsSlice";
-import { updateTopicStatus } from "../../redux/slices/progressSlice";
+import { resetUserProgress, updateTopicStatus } from "../../redux/slices/progressSlice";
 import { ProgressStatus } from "../../constants/enums/progressStatus";
 import { calculateProgress } from "../../utils/progressUtils";
 import AppLoader from "../../components/AppLoader/AppLoader";
@@ -16,6 +16,8 @@ import Modal from "../../components/Modal/Modal";
 import JsEditor from "../../components/JsEditor/JsEditor";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
+import { FiCheckCircle, FiCircle } from "react-icons/fi";
+import Confetti from 'react-confetti';
 
 const Topics: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,6 +26,9 @@ const Topics: React.FC = () => {
 
   const topics = useAppSelector(state => state.topicsData.topics);
   const progress = useMemo(() => calculateProgress(topics), [topics]);
+  const [motivationalMessage, setMotivationalMessage] = useState('');
+  const [lastProgress, setLastProgress] = useState(0);
+  const [showProgressTooltip, setShowProgressTooltip] = useState(false);
 
   const [selectedConcept, setSelectedConcept] = useState<TopicSchema | null>(null);
   const [showCopied, setShowCopied] = useState(false);
@@ -31,6 +36,7 @@ const Topics: React.FC = () => {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [editorCode, setEditorCode] = useState('');
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const user = useAppSelector(state => state.userData.user);
 
@@ -41,11 +47,48 @@ const Topics: React.FC = () => {
 
   const completedCount = topics.filter((t: TopicSchema) => t.status === ProgressStatus.COMPLETED).length;
 
-  const toggleTopicComplete = (topicId: number) => {
+  const getMotivationalMessage = (progressValue: number) => {
+    if (progressValue === 0) return "Ready to start your JavaScript journey?";
+    if (progressValue < 25) return "Great start! Keep going!";
+    if (progressValue < 50) return "You're making good progress!";
+    if (progressValue < 75) return "More than halfway there! You're doing great!";
+    if (progressValue < 100) return "Almost there! Just a few more to go!";
+    return "Congratulations! You've completed all topics! 🎉";
+  };
+
+  useEffect(() => {
+    // Update motivational message when progress changes
+    const newMessage = getMotivationalMessage(progress);
+    setMotivationalMessage(newMessage);
+
+    // Check if we've reached a milestone
+    const milestones = [25, 50, 75, 100];
+    const prevMilestone = milestones.find(m => lastProgress < m);
+    const currMilestone = milestones.find(m => progress >= m && lastProgress < m);
+    
+    if (currMilestone && prevMilestone && currMilestone === prevMilestone) {
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 3000);
+    }
+    
+    setLastProgress(progress);
+  }, [progress, lastProgress]);
+
+  const toggleTopicComplete = (topicId: number, e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+    }
+    
     if (!user?.user_id) return;
 
     const topic = topics.find((t: TopicSchema) => t.topic_id === topicId);
     const newStatus: ProgressStatus = topic?.status === ProgressStatus.COMPLETED ? ProgressStatus.PENDING : ProgressStatus.COMPLETED;
+
+    // Show confetti when marking as completed
+    if (newStatus === ProgressStatus.COMPLETED) {
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 3000);
+    }
 
     dispatch(updateTopicStatus({
       user_id: user.user_id,
@@ -94,18 +137,10 @@ const Topics: React.FC = () => {
     setIsEditorOpen(prev => !prev);
   };
 
-  const resetProgress = () => {
+  const resetProgress = async () => {
     if (!user?.user_id) return;
-    // Reset all topic statuses to PENDING
-    topics.forEach((topic: TopicSchema) => {
-      if (topic.status === ProgressStatus.COMPLETED) {
-        dispatch(updateTopicStatus({
-          user_id: user.user_id,
-          topic_id: topic.topic_id,
-          status: ProgressStatus.PENDING
-        }));
-      }
-    });
+    await dispatch(resetUserProgress(user.user_id));
+    await dispatch(getAllTopics(user.user_id));
     setShowResetConfirm(false);
   };
 
@@ -127,6 +162,17 @@ const Topics: React.FC = () => {
 
   return (
     <div className="read-page">
+      {showConfetti && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          recycle={false}
+          numberOfPieces={200}
+          gravity={0.15}
+          colors={['#7c4dff', '#2ecc71', '#3498db', '#f39c12', '#e74c3c']}
+        />
+      )}
+      
       {/* Sidebar Toggle Button */}
       <button
         onClick={() => setIsSidebarOpen(prev => !prev)}
@@ -168,7 +214,7 @@ const Topics: React.FC = () => {
           <div className="progress">
             <div className="flex items-center justify-between mb-2">
               <div className="progress__title flex items-center gap-2 font-bold">
-                <RiJavascriptLine className="size-4 gradient-text" />
+                <RiJavascriptLine className="size-4 text-[var(--accent-primary)]" />
                 <h3 className="text-xs tracking-widest gradient-text">MUST KNOW</h3>
               </div>
               <button
@@ -182,12 +228,28 @@ const Topics: React.FC = () => {
                 ↺
               </button>
             </div>
+            
+            {motivationalMessage && (
+              <div className="motivational-message">
+                {motivationalMessage}
+              </div>
+            )}
+            
             <div className="progress__details">
               <span>
                 {completedCount} of {topics?.length} completed
               </span>
-              <span className="progress__details-percent">
+              <span 
+                className={`progress__details-percent ${progress >= 25 && lastProgress < 25 ? 'milestone-reached' : ''}`}
+                onMouseEnter={() => setShowProgressTooltip(true)}
+                onMouseLeave={() => setShowProgressTooltip(false)}
+              >
                 {Math.round(progress)}%
+                {showProgressTooltip && (
+                  <div className="progress-tooltip">
+                    {progress < 100 ? `${Math.ceil(100 - progress)}% to go!` : 'All complete!'}
+                  </div>
+                )}
               </span>
             </div>
             <div className="progress-bar">
@@ -213,19 +275,26 @@ const Topics: React.FC = () => {
                   key={topic.topic_id}
                   className={`sidebar-item ${isActive ? 'active' : ''} 
                     ${isCompleted ? 'completed' : ''}`}
-                  onClick={() => handleTopicSelect(topic)}
                 >
-                  <div className="flex items-center justify-between w-full">
+                  <div 
+                    className="flex items-center justify-between w-full cursor-pointer"
+                    onClick={() => handleTopicSelect(topic)}
+                  >
                     <div className="flex items-center gap-3">
                       <div className="status-dot" />
-                      <span className="text-sm">{topic.title}</span>
+                      <span className="sidebar-text">{topic.title}</span>
                     </div>
-                    {isCompleted && (
-                      <TiTick className="size-5" style={{
-                        color: 'var(--success)',
-                        filter: 'drop-shadow(0 2px 4px rgba(46, 213, 115, 0.3))'
-                      }} />
-                    )}
+                    <button 
+                      className="completion-toggle"
+                      onClick={(e) => toggleTopicComplete(topic.topic_id, e)}
+                      aria-label={isCompleted ? "Mark as incomplete" : "Mark as complete"}
+                    >
+                      {isCompleted ? (
+                        <FiCheckCircle className="check-icon completed" />
+                      ) : (
+                        <FiCircle className="check-icon" />
+                      )}
+                    </button>
                   </div>
                 </div>
               );
@@ -240,26 +309,6 @@ const Topics: React.FC = () => {
           ) : selectedConcept ? (
             <>
               <div className="content-wrapper text-left">
-                <div className="flex flex-col gap-4 mb-8">
-                  <div className="flex items-center justify-end gap-6 z-10">
-                    <button
-                      onClick={() => toggleTopicComplete(selectedConcept.topic_id)}
-                      className={`complete-button gradient-button font-medium text-sm whitespace-nowrap text-center ${isTopicCompleted(selectedConcept.topic_id) ? 'completed' : 'pending'
-                        }`}
-                      style={{
-                        padding: '0.75rem 1.5rem',
-                        borderRadius: '12px',
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                      }}
-                    >
-                      <span className="flex items-center gap-2">
-                        <TiTick className="size-5" />
-                        {isTopicCompleted(selectedConcept.topic_id) ? 'Completed' : 'Mark as Complete'}
-                      </span>
-                    </button>
-                  </div>
-                </div>
-
                 <div className="markdown-container">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>{selectedConcept.content}</ReactMarkdown>
                 </div>

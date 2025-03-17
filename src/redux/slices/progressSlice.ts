@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { resetProgressById, updateProgress } from "../../api/services/progressApi";
 import { ProgressSchema } from "../../api/types/progress";
-import { ProgressStatus } from "../../constants/enums/progressStatus";
 import { updateStatusInTopicList } from "./topicsSlice";
 
 interface ProgressState {
@@ -33,7 +32,7 @@ export const updateTopicStatus = createAsyncThunk<ProgressSchema, ProgressSchema
   }
 );
 
-export const resetProgress = createAsyncThunk<null, string>(
+export const resetUserProgress = createAsyncThunk<null, string>(
   "progress/reset",
   async (userId, { rejectWithValue }) => {
     try {
@@ -64,14 +63,14 @@ const progressSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string || "Unable to update topic status";
       })
-      .addCase(resetProgress.pending, (state) => {
+      .addCase(resetUserProgress.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(resetProgress.fulfilled, (state) => {
+      .addCase(resetUserProgress.fulfilled, (state) => {
         state.loading = false;
       })
-      .addCase(resetProgress.rejected, (state, action) => {
+      .addCase(resetUserProgress.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string || "Failed to reset progress";
       });
