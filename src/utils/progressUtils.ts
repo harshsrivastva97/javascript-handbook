@@ -1,4 +1,4 @@
-import { TopicSchema } from "../api/types/topicTypes";
+import { TopicSchema } from "../api/types/libraryTypes";
 import { ProgressStatus } from "../constants/enums/progressStatus";
 
 export const calculateProgress = (topics: TopicSchema[] | undefined): number => {

@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { RiJavascriptLine } from "react-icons/ri";
-import { TiTick } from "react-icons/ti";
 import { HiChevronLeft } from "react-icons/hi";
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { TopicSchema } from "../../api/types/topicTypes";
-import { getAllTopics, getTopicDetails } from "../../redux/slices/topicsSlice";
+import { LibrarySchema } from "../../api/types/libraryTypes";
+import { getAllTopics, getTopicDetails } from "../../redux/slices/librarySlice";
 import { resetUserProgress, updateTopicStatus } from "../../redux/slices/progressSlice";
 import { ProgressStatus } from "../../constants/enums/progressStatus";
 import { calculateProgress } from "../../utils/progressUtils";
 import AppLoader from "../../components/AppLoader/AppLoader";
-import "./Read.scss";
 import { FiCode } from "react-icons/fi";
 import Modal from "../../components/Modal/Modal";
 import JsEditor from "../../components/JsEditor/JsEditor";
@@ -18,8 +16,9 @@ import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
 import { FiCheckCircle, FiCircle } from "react-icons/fi";
 import Confetti from 'react-confetti';
+import "./Library.scss";
 
-const Topics: React.FC = () => {
+const Library: React.FC = () => {
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -30,7 +29,7 @@ const Topics: React.FC = () => {
   const [lastProgress, setLastProgress] = useState(0);
   const [showProgressTooltip, setShowProgressTooltip] = useState(false);
 
-  const [selectedConcept, setSelectedConcept] = useState<TopicSchema | null>(null);
+  const [selectedTopic, setselectedTopic] = useState<LibrarySchema | null>(null);
   const [showCopied, setShowCopied] = useState(false);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -41,11 +40,11 @@ const Topics: React.FC = () => {
   const user = useAppSelector(state => state.userData.user);
 
   const isTopicCompleted = (topicId: number) => {
-    const topic = topics.find((t: TopicSchema) => t.topic_id === topicId);
+    const topic = topics.find((t: LibrarySchema) => t.topic_id === topicId);
     return topic?.status === ProgressStatus.COMPLETED;
   };
 
-  const completedCount = topics.filter((t: TopicSchema) => t.status === ProgressStatus.COMPLETED).length;
+  const completedCount = topics.filter((t: LibrarySchema) => t.status === ProgressStatus.COMPLETED).length;
 
   const getMotivationalMessage = (progressValue: number) => {
     if (progressValue === 0) return "Ready to start your JavaScript journey?";
@@ -74,14 +73,10 @@ const Topics: React.FC = () => {
     setLastProgress(progress);
   }, [progress, lastProgress]);
 
-  const toggleTopicComplete = (topicId: number, e?: React.MouseEvent) => {
-    if (e) {
-      e.stopPropagation();
-    }
-    
+  const toggleTopicComplete = (topicId: number) => {
     if (!user?.user_id) return;
 
-    const topic = topics.find((t: TopicSchema) => t.topic_id === topicId);
+    const topic = topics.find((t: LibrarySchema) => t.topic_id === topicId);
     const newStatus: ProgressStatus = topic?.status === ProgressStatus.COMPLETED ? ProgressStatus.PENDING : ProgressStatus.COMPLETED;
 
     // Show confetti when marking as completed
@@ -93,31 +88,16 @@ const Topics: React.FC = () => {
     dispatch(updateTopicStatus({
       user_id: user.user_id,
       topic_id: topicId,
-      status: newStatus
+      status: newStatus,
+      dispatch: dispatch
     }));
   };
 
-  const copyToClipboard = async (text: string | undefined) => {
-    if (!text) return;
-
-    try {
-      await navigator.clipboard.writeText(text);
-      setShowCopied(true);
-
-      setTimeout(() => {
-        setShowCopied(false);
-      }, 2000);
-    } catch (err) {
-      console.error("Failed to copy code:", err);
-    }
-  };
-
-
-  const handleTopicSelect = async (topic: TopicSchema) => {
+  const handleTopicSelect = async (topic: LibrarySchema) => {
     setIsLoadingDetails(true);
     try {
       const result = await dispatch(getTopicDetails(topic.topic_id.toString())).unwrap();
-      setSelectedConcept(result);
+      setselectedTopic(result);
       setEditorCode('// Try your code here');
     } catch (error) {
       console.error('Failed to fetch topic details:', error);
@@ -152,13 +132,13 @@ const Topics: React.FC = () => {
     const conceptId = searchParams.get('conceptId');
     if (conceptId && topics.length > 0) {
       const topic = topics.find(t => t.topic_id.toString() === conceptId);
-      if (topic && (!selectedConcept || selectedConcept.topic_id !== topic.topic_id)) {
+      if (topic && (!selectedTopic || selectedTopic.topic_id !== topic.topic_id)) {
         handleTopicSelect(topic);
       }
-    } else if (topics.length > 0 && !selectedConcept) {
+    } else if (topics.length > 0 && !selectedTopic) {
       handleTopicSelect(topics[0]);
     }
-  }, [searchParams, topics, selectedConcept]);
+  }, [searchParams, topics, selectedTopic]);
 
   return (
     <div className="read-page">
@@ -266,9 +246,9 @@ const Topics: React.FC = () => {
           </div>
 
           <div className="text-sm">
-            {topics.map((topic: TopicSchema) => {
+            {topics.map((topic: LibrarySchema) => {
               const isCompleted = isTopicCompleted(topic.topic_id);
-              const isActive = selectedConcept?.topic_id === topic.topic_id;
+              const isActive = selectedTopic?.topic_id === topic.topic_id;
 
               return (
                 <div
@@ -286,7 +266,7 @@ const Topics: React.FC = () => {
                     </div>
                     <button 
                       className="completion-toggle"
-                      onClick={(e) => toggleTopicComplete(topic.topic_id, e)}
+                      onClick={(e) => toggleTopicComplete(topic.topic_id)}
                       aria-label={isCompleted ? "Mark as incomplete" : "Mark as complete"}
                     >
                       {isCompleted ? (
@@ -306,11 +286,11 @@ const Topics: React.FC = () => {
         <div className={`content-area ${!isSidebarOpen ? 'sidebar-collapsed' : ''} ${isEditorOpen ? 'editor-open' : ''}`}>
           {isLoadingDetails ? (
             <AppLoader fullScreen text="Loading topic details..." />
-          ) : selectedConcept ? (
+          ) : selectedTopic ? (
             <>
               <div className="content-wrapper text-left">
                 <div className="markdown-container">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{selectedConcept.content}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{selectedTopic.content}</ReactMarkdown>
                 </div>
               </div>
 
@@ -339,4 +319,4 @@ const Topics: React.FC = () => {
   );
 };
 
-export default Topics;
+export default Library;

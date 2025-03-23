@@ -1,24 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { TopicSchema } from "../../api/types/topicTypes";
-import { fetchTopicsList, fetchTopicContent } from "../../api/services/topicApis";
+import { LibrarySchema } from "../../api/types/libraryTypes";
+import { fetchLibrary, fetchTopicContent } from "../../api/services/libraryApis.js";
 
-interface TopicsState {
-  topics: TopicSchema[];
+interface LibraryState {
+  topics: LibrarySchema[];
   loading: boolean;
   error: string | null;
 }
 
-const initialState: TopicsState = {
+const initialState: LibraryState = {
   topics: [],
   loading: false,
   error: null,
 };
 
-export const getAllTopics = createAsyncThunk<TopicSchema[], string>(
+export const getAllTopics = createAsyncThunk<LibrarySchema[], string>(
   'topics/list',
   async (userId: string, { rejectWithValue }) => {
     try {
-      const response = await fetchTopicsList(userId);
+      const response = await fetchLibrary(userId);
       return response;
     } catch (error) {
       return rejectWithValue(error instanceof Error ? error.message : 'Failed to fetch topics');
@@ -26,7 +26,7 @@ export const getAllTopics = createAsyncThunk<TopicSchema[], string>(
   }
 );
 
-export const getTopicDetails = createAsyncThunk<TopicSchema, string>(
+export const getTopicDetails = createAsyncThunk<LibrarySchema, string>(
   'topics/details',
   async (topicId: string, { rejectWithValue }) => {
     try {
@@ -38,13 +38,13 @@ export const getTopicDetails = createAsyncThunk<TopicSchema, string>(
   }
 );
 
-const topicsSlice = createSlice({
+const librarySlice = createSlice({
   name: 'topics',
   initialState,
   reducers: {
     updateStatusInTopicList: (state, action) => {
       const { topic_id, status } = action.payload;
-      const index = state.topics.findIndex(topic => topic.topic_id === topic_id);
+      const index = state.topics.findIndex((topic: LibrarySchema) => topic.topic_id === topic_id);
       if (index !== -1) {
         state.topics[index].status = status;
       }
@@ -70,7 +70,7 @@ const topicsSlice = createSlice({
       })
       .addCase(getTopicDetails.fulfilled, (state, action) => {
         const id = action.payload.topic_id;
-        const index = state.topics.findIndex((topic) => topic.topic_id === id);
+        const index = state.topics.findIndex((topic: LibrarySchema) => topic.topic_id === id);
         if (index !== -1) {
           const existingTopic = state.topics[index];
           state.topics[index] = {
@@ -89,5 +89,5 @@ const topicsSlice = createSlice({
   },
 });
 
-export const { updateStatusInTopicList } = topicsSlice.actions;
-export default topicsSlice.reducer;
+export const { updateStatusInTopicList } = librarySlice.actions;
+export default librarySlice.reducer;

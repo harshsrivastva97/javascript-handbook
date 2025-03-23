@@ -4,7 +4,7 @@ import {
     FaCheckCircle, FaPencilAlt, FaTimes, FaBuilding
 } from 'react-icons/fa';
 import { FaSquareXTwitter } from "react-icons/fa6";
-import { UserProfileState, BackendUserSchema } from '../../constants/interfaces/user';
+import { UserProfileState, UserSchema } from '../../constants/interfaces/user';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getUserProfile, updateUserProfile } from '../../redux/slices/userSlice';
@@ -50,7 +50,7 @@ const Profile: React.FC = () => {
             
             try {
                 // Create the payload with just the field being updated
-                const payload: BackendUserSchema = {
+                const payload: UserSchema = {
                     user_id: currentUser.uid,
                 };
                 

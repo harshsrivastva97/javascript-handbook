@@ -29,7 +29,7 @@ export const EXPLORER_SECTIONS = [
         icon: <FaNewspaper />,
         title: "Latest Articles",
         description: "Stay updated with the latest trends in JavaScript and web development.",
-        link: "/blogs"
+        link: "/dev-insights"
     },
     {
         icon: <FaLaptopCode />,
@@ -41,7 +41,7 @@ export const EXPLORER_SECTIONS = [
         icon: <FaBook />,
         title: "Deep Dives",
         description: "Explore in-depth articles on complex JavaScript topics.",
-        link: "/read"
+        link: "/library"
     }
 ];
 

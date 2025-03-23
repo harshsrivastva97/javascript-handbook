@@ -5,14 +5,14 @@ import { ENDPOINTS } from '../urls/urls';
 
 export const updateProgress = async (userProgress: ProgressSchema): Promise<ApiResponse<ProgressSchema>> => {
     const response = await axiosInstance.put(ENDPOINTS.UPDATE_USER_PROGRESS, userProgress);
-    if (response.data.status === 'success' && response.data.data) {
-        return response.data;
+    if (response.data.status === 'error') {
+        throw new Error(response.data.error || 'Failed to update user progress');
     }
-    throw new Error(response.data.error || 'Failed to update user progress');
+    return response.data;
 };
 
 export const resetProgressById = async (userId: string): Promise<ApiResponse<ProgressSchema>> => {
-    const response = await axiosInstance.delete(ENDPOINTS.RESET_USER_PROGRESS.replace(':user_id', userId));
+    const response = await axiosInstance.delete(ENDPOINTS.RESET_USER_PROGRESS.replace(':userId', userId));
     if (response.data.status === 'success' && response.data.data) {
         return response.data;
     }

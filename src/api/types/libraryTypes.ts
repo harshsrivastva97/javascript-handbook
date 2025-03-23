@@ -1,6 +1,6 @@
 import { ProgressStatus } from "../../constants/enums/progressStatus";
 
-export interface TopicSchema {
+export interface LibrarySchema {
     topic_id: number;
     user_id: string;
     title: string;

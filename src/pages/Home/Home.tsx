@@ -4,9 +4,9 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import { FaBook, FaCode, FaRocket } from "react-icons/fa";
 import 'react-circular-progressbar/dist/styles.css';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { getAllTopics } from "../../redux/slices/topicsSlice";
+import { getAllTopics } from "../../redux/slices/librarySlice";
 import { updateTopicStatus } from "../../redux/slices/progressSlice";
-import { TopicSchema } from "../../api/types/topicTypes";
+import { LibrarySchema } from "../../api/types/libraryTypes";
 import { FEATURES, EXPLORER_SECTIONS, STATUS_ICONS, STATUS_LABELS } from './homePageConstants';
 import { ProgressStatus } from "../../constants/enums/progressStatus";
 import { calculateProgress } from '../../utils/progressUtils';
@@ -44,8 +44,8 @@ const Home: React.FC = () => {
     }
   }
 
-  const navigateToConcept = useCallback((topicId: number) => {
-    navigate(`/read?conceptId=${topicId}`);
+  const navigateToLibrary = useCallback((topicId: number) => {
+    navigate(`/library?topic=${topicId}`);
   }, [navigate]);
 
   const navigateToCodeVault = useCallback((topicId: number) => {
@@ -58,7 +58,7 @@ const Home: React.FC = () => {
     }
   }, [dispatch, user?.user_id]);
 
-  const renderTopicRow = useCallback((topic: TopicSchema) => {
+  const renderTopicRow = useCallback((topic: LibrarySchema) => {
     const topicStatus: ProgressStatus = topic.status || ProgressStatus.PENDING;
     const statusClass = `status-${topicStatus.toLowerCase().replace('_', '-')}`;
 
@@ -82,7 +82,7 @@ const Home: React.FC = () => {
           <div className="flex gap-3">
             <button
               className="p-2 read-button hover-button rounded-lg transition-colors"
-              onClick={() => navigateToConcept(topic.topic_id)}
+              onClick={() => navigateToLibrary(topic.topic_id)}
               aria-label={`Read about ${topic.title}`}
             >
               <FaBook />
@@ -98,7 +98,7 @@ const Home: React.FC = () => {
         </td>
       </tr>
     );
-  }, [handleStatusChange, navigateToConcept, navigateToCodeVault]);
+  }, [handleStatusChange, navigateToLibrary, navigateToCodeVault]);
 
   return (
     <div className="home scrollable min-h-screen pt-10 pb-20">
@@ -114,14 +114,14 @@ const Home: React.FC = () => {
           <div className="flex gap-4">
             <button
               className="primary-button px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition-all"
-              onClick={() => navigate('/read')}
+              onClick={() => navigate('/library')}
               aria-label="Start Learning"
             >
               Start Learning <FaRocket />
             </button>
             <button
               className="secondary-button px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition-all"
-              onClick={() => navigate('/practice')}
+              onClick={() => navigate('/lab')}
               aria-label="Explore Code Vault"
             >
               Explore Code Vault <FaCode />

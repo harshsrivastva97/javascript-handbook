@@ -1,4 +1,4 @@
-export interface BackendUserSchema {
+export interface UserSchema {
     user_id: string,
     display_name?: string,
     username?: string,

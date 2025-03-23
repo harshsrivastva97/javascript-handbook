@@ -2,8 +2,8 @@ import React, { StrictMode } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { motion } from "framer-motion";
 import Home from "./pages/Home/Home";
-import Practice from "./pages/Practice/Practice";
-import Read from "./pages/Read/Read";
+import Lab from "./pages/Lab/Lab";
+import Library from "./pages/Library/Library";
 import Blogs from "./pages/Blogs/Blogs";
 import Exercises from "./pages/Exercises/Exercises";
 import About from "./pages/About/About";
@@ -39,10 +39,10 @@ const App: React.FC = () => {
                 <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/practice" element={<Practice />} />
-                <Route path="/read" element={<Read />} />
-                <Route path="/blogs" element={<Blogs />} />
-                <Route path="/blogs/:slug" element={<BlogPost />} />
+                <Route path="/library" element={<Library />} />
+                <Route path="/lab" element={<Lab />} />
+                <Route path="/dev-insights" element={<Blogs />} />
+                <Route path="/dev-insights/:slug" element={<BlogPost />} />
                 <Route path="/exercises" element={<Exercises />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/auth" element={<Auth />} />

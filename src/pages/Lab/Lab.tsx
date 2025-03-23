@@ -1,21 +1,23 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import ReactConfetti from "react-confetti";
 import CodeEditor from "../../components/CodeEditor/CodeEditor";
-import { SNIPPETS_TABS } from "../../constants/consts/tabs";
 import { FiChevronLeft, FiBookOpen, FiCheckCircle, FiStar, FiAward, FiTarget } from "react-icons/fi";
 import { RiLightbulbFlashLine, RiJavascriptLine, RiFireLine } from "react-icons/ri";
 import { TbStarsFilled } from "react-icons/tb";
 import { FaLock } from "react-icons/fa";
 import Modal from "../../components/Modal/Modal";
-import { motion, AnimatePresence } from "framer-motion";
-import "./Practice.scss";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { fetchSnippetsList, fetchSnippetById } from "../../redux/slices/snippetsSlice";
+import { SnippetSchema } from "../../api/types/snippetTypes";
+import "./Lab.scss";
 
-interface TabItem {
+interface TabItem extends SnippetSchema {
+  snippet_id: number;
   filename: string;
   label: string;
-  difficulty?: 'beginner' | 'intermediate' | 'advanced';
-  isLocked?: boolean;
-  description?: string;
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  isLocked: boolean;
+  order: number;
 }
 
 const defaultJsTemplate = `// Welcome to JavaScript Essentials!
@@ -26,7 +28,10 @@ const message = "Start coding!";
 console.log(message);
 `;
 
-const Practice: React.FC = () => {
+const Lab: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.userData.user?.user_id);
+  const snippetsData = useAppSelector((state) => state.snippets.snippets) as TabItem[];
   const [currentCode, setCurrentCode] = useState(defaultJsTemplate);
   const [showCelebration, setShowCelebration] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState("");
@@ -37,8 +42,7 @@ const Practice: React.FC = () => {
 
   const [selectedTab, setSelectedTab] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    // Return the tab from URL params, or the first tab if none specified
-    return params.get("tab") || (SNIPPETS_TABS.length > 0 ? SNIPPETS_TABS[0].filename : "");
+    return params.get("tab") || (snippetsData.length > 0 ? snippetsData[0].filename : "");
   });
 
   const [completedItems, setCompletedItems] = useState<string[]>(() => {
@@ -46,32 +50,21 @@ const Practice: React.FC = () => {
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Adding difficulty levels and descriptions to each tab for better UI
-  const enhancedTabs: TabItem[] = SNIPPETS_TABS.map((tab, index) => ({
-    ...tab,
-    difficulty: ['beginner', 'intermediate', 'advanced'][Math.floor(index / (SNIPPETS_TABS.length / 3))] as 'beginner' | 'intermediate' | 'advanced',
-    isLocked: index > SNIPPETS_TABS.length * 0.7 && completedItems.length < SNIPPETS_TABS.length * 0.5
-  }));
-
-  const totalItems = enhancedTabs.length;
+  const totalItems = snippetsData.length;
   const progress = (completedItems.length / totalItems) * 100;
   
-  // Get current active tab data
   const activeTabData = selectedTab 
-    ? enhancedTabs.find(tab => tab.filename === selectedTab) 
+    ? snippetsData.find((tab: TabItem) => tab.filename === selectedTab) 
     : null;
 
-  // Filter tabs based on selected difficulty
   const filteredTabs = activeTab === 'all' 
-    ? enhancedTabs 
-    : enhancedTabs.filter(tab => tab.difficulty === activeTab);
+    ? snippetsData 
+    : snippetsData.filter((tab: TabItem) => tab.difficulty === activeTab);
 
   useEffect(() => {
     if (progress === 100 && !showCelebration) {
       setShowCelebration(true);
-      // Scroll to top for best confetti effect
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      // Hide celebration after 8 seconds
       setTimeout(() => setShowCelebration(false), 8000);
     }
   }, [progress, showCelebration]);
@@ -80,8 +73,8 @@ const Practice: React.FC = () => {
     `// Error loading the script: ${fileName}.js
 // Please try again or refresh the page.`;
 
-  const handleTabSelect = useCallback(async (fileName: string) => {
-    if (!fileName) {
+  const handleTabSelect = useCallback(async (filename: string) => {
+    if (!filename) {
       setCurrentCode(defaultJsTemplate);
       setSelectedFileName("");
       setSelectedTab("");
@@ -90,42 +83,62 @@ const Practice: React.FC = () => {
     }
     
     // Don't load locked content
-    const isLocked = enhancedTabs.find(tab => tab.filename === fileName)?.isLocked;
+    const isLocked = snippetsData.find(tab => tab.filename === filename)?.isLocked;
     if (isLocked) return;
 
-    setSelectedFileName(fileName);
-    setSelectedTab(fileName);
+    setSelectedFileName(filename);
+    setSelectedTab(filename);
 
     const params = new URLSearchParams(window.location.search);
-    params.set("tab", fileName);
+    params.set("tab", filename);
     window.history.replaceState({}, "", `?${params.toString()}`);
 
     try {
-      const response = await fetch(`/scripts/${fileName}.js`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      let code: string;
+      
+      if (userId) {
+        // User is logged in - fetch from API
+        const snippet = snippetsData.find(tab => tab.filename === filename);
+        if (snippet) {
+          const response = await dispatch(fetchSnippetById(snippet.snippet_id.toString())).unwrap();
+          code = response.content || '';
+        } else {
+          throw new Error('Snippet not found');
+        }
+      } else {
+        // User is not logged in - try to get from localStorage
+        const storedContent = localStorage.getItem(`snippet_${filename}`);
+        if (storedContent) {
+          code = storedContent;
+        } else {
+          // If not in localStorage, fetch from server and store
+          const response = await fetch(`/scripts/${filename}.js`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          code = await response.text();
+          localStorage.setItem(`snippet_${filename}`, code);
+        }
       }
-      const code = await response.text();
+      
       setCurrentCode(code);
     } catch (error) {
       console.error("Error loading the script:", error);
-      setCurrentCode(errorScript(fileName));
+      setCurrentCode(errorScript(filename));
     }
-  }, [enhancedTabs]);
+  }, [snippetsData, userId, dispatch]);
   
-  // Load the first tab content by default - moved here after handleTabSelect is defined
   useEffect(() => {
-    // If a tab is selected but no content loaded yet, load it
-    if (selectedTab && currentCode === defaultJsTemplate && SNIPPETS_TABS.length > 0) {
+    if (selectedTab && currentCode === defaultJsTemplate && snippetsData.length > 0) {
       handleTabSelect(selectedTab);
     }
-  }, [selectedTab, currentCode, handleTabSelect, SNIPPETS_TABS.length]);
+  }, [selectedTab, currentCode, handleTabSelect, snippetsData.length]);
 
-  const handleCheckboxToggle = (tabName: string) => {
+  const handleCheckboxToggle = (filename: string) => {
     setCompletedItems((prev) => {
-      const newCompleted = prev.includes(tabName)
-        ? prev.filter((item) => item !== tabName)
-        : [...prev, tabName];
+      const newCompleted = prev.includes(filename)
+        ? prev.filter((item) => item !== filename)
+        : [...prev, filename];
 
       localStorage.setItem("completedItems", JSON.stringify(newCompleted));
       return newCompleted;
@@ -138,8 +151,7 @@ const Practice: React.FC = () => {
     setShowResetConfirm(false);
   };
   
-  // Get difficulty text and color
-  const getDifficultyInfo = (difficulty: string | undefined) => {
+  const getDifficultyInfo = (difficulty: string) => {
     const difficultyMap = {
       'beginner': { text: 'Beginner', color: 'var(--success)', icon: <FiStar /> },
       'intermediate': { text: 'Intermediate', color: 'var(--warning)', icon: <FiTarget /> },
@@ -148,6 +160,10 @@ const Practice: React.FC = () => {
     };
     return difficultyMap[difficulty as keyof typeof difficultyMap] || difficultyMap.default;
   };
+
+  useEffect(() => {
+    dispatch(fetchSnippetsList(userId || ''));
+  }, [dispatch, userId]);
 
   return (
     <div className="practice-page">
@@ -208,51 +224,22 @@ const Practice: React.FC = () => {
                       </div>
                     </div>
                     <div className="progress-bar">
-                      <motion.div
+                      <div
                         className="progress-fill"
-                        initial={{ width: 0 }}
-                        animate={{ width: `${progress}%` }}
-                        transition={{ duration: 1, ease: "easeOut" }}
+                        style={{ width: `${progress}%` }}
                       />
                       <div className="progress-milestones">
-                        <motion.div 
+                        <div 
                           className="milestone" 
                           data-reached={progress >= 33}
-                          initial={{ scale: 0.6, opacity: 0.5 }}
-                          animate={{ 
-                            scale: progress >= 33 ? [0.6, 1.2, 1] : 0.6,
-                            opacity: progress >= 33 ? 1 : 0.5 
-                          }}
-                          transition={{ 
-                            duration: 0.5, 
-                            delay: 0.8,
-                          }}
                         />
-                        <motion.div 
+                        <div 
                           className="milestone" 
                           data-reached={progress >= 66}
-                          initial={{ scale: 0.6, opacity: 0.5 }}
-                          animate={{ 
-                            scale: progress >= 66 ? [0.6, 1.2, 1] : 0.6,
-                            opacity: progress >= 66 ? 1 : 0.5 
-                          }}
-                          transition={{ 
-                            duration: 0.5, 
-                            delay: 1,
-                          }}
                         />
-                        <motion.div 
+                        <div 
                           className="milestone" 
                           data-reached={progress >= 100}
-                          initial={{ scale: 0.6, opacity: 0.5 }}
-                          animate={{ 
-                            scale: progress >= 100 ? [0.6, 1.2, 1] : 0.6,
-                            opacity: progress >= 100 ? 1 : 0.5 
-                          }}
-                          transition={{ 
-                            duration: 0.5, 
-                            delay: 1.2,
-                          }}
                         />
                       </div>
                     </div>
@@ -317,47 +304,41 @@ const Practice: React.FC = () => {
             {/* Navigation Items */}
             <nav className="sidebar__nav">
               <div className="nav-section">
-                <AnimatePresence>
-                  {filteredTabs.map((tab, index) => {
-                    const isCompleted = completedItems.includes(tab.filename);
-                    const isActive = selectedTab === tab.filename;
-                    
-                    return (
-                      <motion.div
-                        key={tab.filename}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.2, delay: index * 0.03 }}
-                        className={`sidebar__nav-item ${isActive ? "active" : ""} ${tab.isLocked ? 'locked' : ''}`}
-                        onClick={() => !tab.isLocked && handleTabSelect(tab.filename)}
-                      >
-                        <div className="nav-item-label">
-                          <div className="nav-item-info">
-                            <span className={`difficulty-indicator ${tab.difficulty}`}>
-                              {getDifficultyInfo(tab.difficulty).icon}
-                            </span>
-                            <span className="nav-item-text">{tab.label}</span>
-                            {tab.isLocked && <FaLock className="lock-icon" />}
-                          </div>
-                          <div className="nav-item-actions">
-                            <button
-                              className={`status-icon ${isCompleted ? 'completed' : ''} ${tab.isLocked ? 'disabled' : ''}`}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                if (!tab.isLocked) handleCheckboxToggle(tab.filename);
-                              }}
-                              aria-label={isCompleted ? "Mark as incomplete" : "Mark as complete"}
-                              disabled={tab.isLocked}
-                            >
-                              {isCompleted ? <FiCheckCircle className="check-icon" /> : "○"}
-                            </button>
-                          </div>
+                {filteredTabs.map((tab, index) => {
+                  const isCompleted = completedItems.includes(tab.filename);
+                  const isActive = selectedTab === tab.filename;
+                  
+                  return (
+                    <div
+                      key={tab.filename}
+                      className={`sidebar__nav-item ${isActive ? "active" : ""} ${tab.isLocked ? 'locked' : ''}`}
+                      onClick={() => !tab.isLocked && handleTabSelect(tab.filename)}
+                    >
+                      <div className="nav-item-label">
+                        <div className="nav-item-info">
+                          <span className={`difficulty-indicator ${tab.difficulty}`}>
+                            {getDifficultyInfo(tab.difficulty).icon}
+                          </span>
+                          <span className="nav-item-text">{tab.label}</span>
+                          {tab.isLocked && <FaLock className="lock-icon" />}
                         </div>
-                      </motion.div>
-                    );
-                  })}
-                </AnimatePresence>
+                        <div className="nav-item-actions">
+                          <button
+                            className={`status-icon ${isCompleted ? 'completed' : ''} ${tab.isLocked ? 'disabled' : ''}`}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (!tab.isLocked) handleCheckboxToggle(tab.filename);
+                            }}
+                            aria-label={isCompleted ? "Mark as incomplete" : "Mark as complete"}
+                            disabled={tab.isLocked}
+                          >
+                            {isCompleted ? <FiCheckCircle className="check-icon" /> : "○"}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </nav>
           </aside>
@@ -401,34 +382,17 @@ const Practice: React.FC = () => {
           
           {/* Welcome Message when no tab is selected */}
           {!selectedTab && (
-            <motion.div 
-              className="welcome-message"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
+            <div className="welcome-message">
               <div className="welcome-content">
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.2, duration: 0.5, type: "spring" }}
-                >
+                <div>
                   <RiJavascriptLine className="welcome-icon" />
-                </motion.div>
-                <motion.h2
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.3, duration: 0.5 }}
-                >
+                </div>
+                <h2>
                   Welcome to JavaScript Practice
-                </motion.h2>
-                <motion.p
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.4, duration: 0.5 }}
-                >
+                </h2>
+                <p>
                   Select a challenge from the sidebar to get started with interactive coding.
-                </motion.p>
+                </p>
                 <div className="features-grid">
                   {[
                     {
@@ -447,26 +411,18 @@ const Practice: React.FC = () => {
                       description: "Apply concepts immediately in the code editor"
                     }
                   ].map((feature, index) => (
-                    <motion.div 
+                    <div 
                       key={index}
                       className="feature-card"
-                      initial={{ y: 50, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ 
-                        delay: 0.5 + (index * 0.1),
-                        duration: 0.5,
-                        type: "spring",
-                        stiffness: 100
-                      }}
                     >
                       {feature.icon}
                       <h3>{feature.title}</h3>
                       <p>{feature.description}</p>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
         </main>
       </div>
@@ -474,4 +430,4 @@ const Practice: React.FC = () => {
   );
 };
 
-export default Practice;
+export default Lab;

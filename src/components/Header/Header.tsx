@@ -75,20 +75,20 @@ const Header: React.FC = () => {
 
   const navLinks = [
     {
-      title: "Read",
-      path: "/read",
+      title: "Library",
+      path: "/library",
       icon: <FaNewspaper />,
-      description: "Interactive learning paths"
+      description: "Curated JS Guide"
     },
     {
-      title: "Practice",
-      path: "/practice",
+      title: "Lab",
+      path: "/lab",
       icon: <FaCode />,
-      description: "Write, test, perfect"
+      description: "Interactive Coding Space"
     },
     {
-      title: "Blogs",
-      path: "/blogs",
+      title: "DevInsights",
+      path: "/dev-insights",
       icon: <FaBook />,
       description: "Pro tips & deep dives"
     },

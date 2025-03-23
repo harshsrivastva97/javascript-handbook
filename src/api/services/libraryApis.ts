@@ -1,10 +1,10 @@
 import axiosInstance from '../config/axiosInstance';
 import ApiResponse from '../types/apiResponseType';
-import { TopicSchema } from '../types/topicTypes';
+import { TopicSchema } from '../types/libraryTypes';
 import { ENDPOINTS } from '../urls/urls';
 
-export const fetchTopicsList = async (userId: string): Promise<TopicSchema[]> => {
-  const response = await axiosInstance.get<ApiResponse<TopicSchema[]>>(ENDPOINTS.GET_TOPICS_LIST.replace(':userId', userId));
+export const fetchLibrary = async (userId: string): Promise<TopicSchema[]> => {
+  const response = await axiosInstance.get<ApiResponse<TopicSchema[]>>(ENDPOINTS.GET_LIBRARY.replace(':userId', userId));
   if (response.data.status === 'success' && response.data.data) {
     return response.data.data;
   }

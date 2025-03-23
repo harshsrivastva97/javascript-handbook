@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { resetProgressById, updateProgress } from "../../api/services/progressApi";
-import { ProgressSchema } from "../../api/types/progress";
-import { updateStatusInTopicList } from "./topicsSlice";
+import { ProgressPayload, ProgressSchema } from "../../api/types/progress";
+import { updateStatusInTopicList } from "./librarySlice";
 
 interface ProgressState {
   loading: boolean;
@@ -13,13 +13,13 @@ const initialState: ProgressState = {
   error: null,
 };
 
-export const updateTopicStatus = createAsyncThunk<ProgressSchema, ProgressSchema>(
+export const updateTopicStatus = createAsyncThunk<ProgressSchema, ProgressPayload>(
   "progress/update",
-  async (progressData, { dispatch, rejectWithValue }) => {
+  async (progressData, { rejectWithValue }) => {
     try {
-      const { topic_id, status } = progressData;
+      const { topic_id, status, dispatch } = progressData;
       const response = await updateProgress(progressData);
-      if (response.status === "success" && response.data) {
+      if (response.status === "success") {
         dispatch(updateStatusInTopicList({ topic_id, status }));
         return progressData;
       }
