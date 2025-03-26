@@ -250,12 +250,12 @@ const About: React.FC = () => {
               
               <div className="flex flex-wrap gap-4">
                 <motion.a
-                  href="/exercises"
+                  href="/arena"
                   className="cta-button primary-button px-6 py-3 rounded-lg font-medium flex items-center gap-2 shadow-sm"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  Try Exercises <FaLaptopCode />
+                  Try Arena <FaLaptopCode />
                 </motion.a>
                 
                 <motion.a

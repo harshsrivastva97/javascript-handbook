@@ -5,7 +5,7 @@ import Home from "./pages/Home/Home";
 import Lab from "./pages/Lab/Lab";
 import Library from "./pages/Library/Library";
 import Blogs from "./pages/Blogs/Blogs";
-import Exercises from "./pages/Exercises/Exercises";
+import Arena from "./pages/Arena/Arena";
 import About from "./pages/About/About";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
 import BlogPost from './pages/BlogPost/BlogPost';
@@ -43,7 +43,7 @@ const App: React.FC = () => {
                 <Route path="/lab" element={<Lab />} />
                 <Route path="/dev-insights" element={<Blogs />} />
                 <Route path="/dev-insights/:slug" element={<BlogPost />} />
-                <Route path="/exercises" element={<Exercises />} />
+                <Route path="/arena" element={<Arena />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="*" element={<PageNotFound />} />

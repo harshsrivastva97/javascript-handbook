@@ -1,0 +1,854 @@
+[
+  {
+    "id": 1,
+    "type": "multiple-choice",
+    "topic": "Variables & Scope",
+    "difficulty": "Intermediate",
+    "question": "What’s logged by `console.log(a); var a = 10;`?",
+    "options": [
+      "10",
+      "undefined",
+      "null",
+      "ReferenceError"
+    ],
+    "answer": "undefined",
+    "explanation": "`var` hoists the declaration, but not the assignment, so `a` is `undefined` initially."
+  },
+  {
+    "id": 2,
+    "type": "true-false",
+    "topic": "Functions",
+    "difficulty": "Advanced",
+    "question": "`this` in an arrow function is the same as in a regular function.",
+    "answer": false,
+    "explanation": "Arrow functions lexically bind `this` to the enclosing scope, unlike regular functions."
+  },
+  {
+    "id": 3,
+    "type": "fill-in-the-blank",
+    "topic": "Arrays",
+    "difficulty": "Intermediate",
+    "question": "What method returns a new array with doubled values for `[1, 2, 3]`? (e.g., `[2, 4, 6]`)",
+    "answer": "map",
+    "explanation": "`map` transforms each element and returns a new array."
+  },
+  {
+    "id": 4,
+    "type": "code-output",
+    "topic": "Loops",
+    "difficulty": "Intermediate",
+    "question": "What’s logged? `for (var i = 0; i < 3; i++) { setTimeout(() => console.log(i), 0); }`",
+    "options": [
+      "0, 1, 2",
+      "3, 3, 3",
+      "0, 0, 0",
+      "undefined"
+    ],
+    "answer": "3, 3, 3",
+    "explanation": "`var` shares `i` across iterations; by the time `setTimeout` runs, `i` is 3."
+  },
+  {
+    "id": 5,
+    "type": "match-pairs",
+    "topic": "ES6+",
+    "difficulty": "Beginner",
+    "question": "Match the syntax to its feature:",
+    "pairs": [
+      {
+        "left": "`let x = 5;`",
+        "right": "Block-scoped variable"
+      },
+      {
+        "left": "`(x) => x * 2`",
+        "right": "Arrow function"
+      },
+      {
+        "left": "`[a, b] = [1, 2];`",
+        "right": "Destructuring"
+      }
+    ],
+    "answer": {
+      "`let x = 5;`": "Block-scoped variable",
+      "`(x) => x * 2`": "Arrow function",
+      "`[a, b] = [1, 2];`": "Destructuring"
+    },
+    "explanation": "ES6 introduced these concise, powerful features."
+  },
+  {
+    "id": 6,
+    "type": "multiple-choice",
+    "topic": "Promises",
+    "difficulty": "Advanced",
+    "question": "What’s the state of a Promise after `throw` in its executor?",
+    "options": [
+      "Pending",
+      "Fulfilled",
+      "Rejected",
+      "Settled"
+    ],
+    "answer": "Rejected",
+    "explanation": "Throwing inside a Promise executor rejects it with the thrown value."
+  },
+  {
+    "id": 7,
+    "type": "true-false",
+    "topic": "Closures",
+    "difficulty": "Intermediate",
+    "question": "A closure can access variables from its outer scope even after the outer function finishes.",
+    "answer": true,
+    "explanation": "Closures retain references to their lexical environment."
+  },
+  {
+    "id": 8,
+    "type": "fill-in-the-blank",
+    "topic": "Objects",
+    "difficulty": "Beginner",
+    "question": "What property of `Object` freezes an object to prevent changes?",
+    "answer": "freeze",
+    "explanation": "`Object.freeze()` makes an object immutable."
+  },
+  {
+    "id": 9,
+    "type": "code-output",
+    "topic": "Prototypes",
+    "difficulty": "Advanced",
+    "question": "What’s logged? `let obj = Object.create({ x: 1 }); console.log(obj.x);`",
+    "options": [
+      "1",
+      "undefined",
+      "null",
+      "Error"
+    ],
+    "answer": "1",
+    "explanation": "`Object.create` sets the prototype, so `x` is inherited."
+  },
+  {
+    "id": 10,
+    "type": "multiple-choice",
+    "topic": "DOM",
+    "difficulty": "Intermediate",
+    "question": "Which method adds an event listener to an element?",
+    "options": [
+      "addEvent",
+      "onEvent",
+      "addEventListener",
+      "attachEvent"
+    ],
+    "answer": "addEventListener",
+    "explanation": "`addEventListener` is the standard way to handle events."
+  },
+  {
+    "id": 11,
+    "type": "true-false",
+    "topic": "Data Types",
+    "difficulty": "Beginner",
+    "question": "`null` and `undefined` are the same in JavaScript.",
+    "answer": false,
+    "explanation": "`null` is an intentional absence; `undefined` is uninitialized or missing."
+  },
+  {
+    "id": 12,
+    "type": "fill-in-the-blank",
+    "topic": "Error Handling",
+    "difficulty": "Intermediate",
+    "question": "What keyword starts a block to catch exceptions?",
+    "answer": "try",
+    "explanation": "`try` begins a block where errors can be caught with `catch`."
+  },
+  {
+    "id": 13,
+    "type": "code-output",
+    "topic": "Async",
+    "difficulty": "Advanced",
+    "question": "What’s logged first? `console.log('A'); setTimeout(() => console.log('B'), 0); console.log('C');`",
+    "options": [
+      "A, B, C",
+      "A, C, B",
+      "B, A, C",
+      "C, A, B"
+    ],
+    "answer": "A, C, B",
+    "explanation": "`setTimeout` queues 'B' for later, even with 0ms, due to the event loop."
+  },
+  {
+    "id": 14,
+    "type": "match-pairs",
+    "topic": "Methods",
+    "difficulty": "Intermediate",
+    "question": "Match the array method to its purpose:",
+    "pairs": [
+      {
+        "left": "filter",
+        "right": "Creates a new array with elements that pass a test"
+      },
+      {
+        "left": "reduce",
+        "right": "Reduces array to a single value"
+      },
+      {
+        "left": "forEach",
+        "right": "Executes a function for each element"
+      }
+    ],
+    "answer": {
+      "filter": "Creates a new array with elements that pass a test",
+      "reduce": "Reduces array to a single value",
+      "forEach": "Executes a function for each element"
+    },
+    "explanation": "These methods are key to array manipulation."
+  },
+  {
+    "id": 15,
+    "type": "multiple-choice",
+    "topic": "Regular Expressions",
+    "difficulty": "Advanced",
+    "question": "What flag makes `/a/` match 'A' too?",
+    "options": [
+      "g",
+      "m",
+      "i",
+      "s"
+    ],
+    "answer": "i",
+    "explanation": "The `i` flag makes regex case-insensitive."
+  },
+  {
+    "id": 16,
+    "type": "multiple-choice",
+    "topic": "Variables & Scope",
+    "difficulty": "Advanced",
+    "question": "What’s the value of `x` after `let x = 1; { let x = 2; } console.log(x);`?",
+    "options": [
+      "1",
+      "2",
+      "undefined",
+      "ReferenceError"
+    ],
+    "answer": "1",
+    "explanation": "`let` is block-scoped, so the inner `x` doesn’t affect the outer `x`."
+  },
+  {
+    "id": 17,
+    "type": "true-false",
+    "topic": "Functions",
+    "difficulty": "Intermediate",
+    "question": "A function declared with `function fn() {}` is hoisted with its definition.",
+    "answer": true,
+    "explanation": "Function declarations are fully hoisted, unlike `var` or `let` variables."
+  },
+  {
+    "id": 18,
+    "type": "fill-in-the-blank",
+    "topic": "Arrays",
+    "difficulty": "Intermediate",
+    "question": "What method flattens a nested array like `[[1, 2], [3, 4]]` into `[1, 2, 3, 4]`?",
+    "answer": "flat",
+    "explanation": "`flat()` removes one level of nesting by default; use `flat(Infinity)` for deeper arrays."
+  },
+  {
+    "id": 19,
+    "type": "code-output",
+    "topic": "Loops",
+    "difficulty": "Advanced",
+    "question": "What’s logged? `let arr = [1, 2, 3]; for (let i in arr) { console.log(arr[i]); }`",
+    "options": [
+      "1, 2, 3",
+      "0, 1, 2",
+      "undefined, undefined, undefined",
+      "1, undefined, 3"
+    ],
+    "answer": "1, 2, 3",
+    "explanation": "`for...in` iterates over indices, but `arr[i]` accesses values correctly here."
+  },
+  {
+    "id": 20,
+    "type": "match-pairs",
+    "topic": "ES6+",
+    "difficulty": "Intermediate",
+    "question": "Match the feature to its syntax:",
+    "pairs": [
+      {
+        "left": "Template literals",
+        "right": "`Hello ${name}`"
+      },
+      {
+        "left": "Spread operator",
+        "right": "[...arr]"
+      },
+      {
+        "left": "Default parameters",
+        "right": "function fn(x = 5)"
+      }
+    ],
+    "answer": {
+      "Template literals": "`Hello ${name}`",
+      "Spread operator": "[...arr]",
+      "Default parameters": "function fn(x = 5)"
+    },
+    "explanation": "These ES6 features simplify string interpolation, array copying, and function defaults."
+  },
+  {
+    "id": 21,
+    "type": "multiple-choice",
+    "topic": "Promises",
+    "difficulty": "Intermediate",
+    "question": "What happens to a Promise that’s neither resolved nor rejected?",
+    "options": [
+      "Stays pending",
+      "Auto-resolves",
+      "Throws an error",
+      "Times out"
+    ],
+    "answer": "Stays pending",
+    "explanation": "Promises remain pending until explicitly settled; there’s no default timeout."
+  },
+  {
+    "id": 22,
+    "type": "true-false",
+    "topic": "Closures",
+    "difficulty": "Advanced",
+    "question": "A closure can modify variables in its outer scope.",
+    "answer": true,
+    "explanation": "Closures maintain a live reference to outer variables, allowing modification."
+  },
+  {
+    "id": 23,
+    "type": "fill-in-the-blank",
+    "topic": "Objects",
+    "difficulty": "Intermediate",
+    "question": "What method returns an array of an object’s enumerable property names?",
+    "answer": "keys",
+    "explanation": "`Object.keys()` lists an object’s own enumerable properties."
+  },
+  {
+    "id": 24,
+    "type": "code-output",
+    "topic": "Prototypes",
+    "difficulty": "Intermediate",
+    "question": "What’s logged? `function F() {}; F.prototype.x = 5; let obj = new F(); console.log(obj.x);`",
+    "options": [
+      "5",
+      "undefined",
+      "null",
+      "Error"
+    ],
+    "answer": "5",
+    "explanation": "Instances inherit properties from their constructor’s prototype."
+  },
+  {
+    "id": 25,
+    "type": "multiple-choice",
+    "topic": "DOM",
+    "difficulty": "Beginner",
+    "question": "Which property gets an element’s visible text?",
+    "options": [
+      "innerHTML",
+      "textContent",
+      "value",
+      "outerHTML"
+    ],
+    "answer": "textContent",
+    "explanation": "`textContent` retrieves all text, including hidden elements, without HTML tags."
+  },
+  {
+    "id": 26,
+    "type": "true-false",
+    "topic": "Data Types",
+    "difficulty": "Intermediate",
+    "question": "`0 == '0'` returns false.",
+    "answer": false,
+    "explanation": "`==` coerces types, so the number 0 equals the string '0'."
+  },
+  {
+    "id": 27,
+    "type": "fill-in-the-blank",
+    "topic": "Error Handling",
+    "difficulty": "Advanced",
+    "question": "What method ensures code runs regardless of a Promise’s outcome?",
+    "answer": "finally",
+    "explanation": "`finally()` executes after a Promise settles, whether fulfilled or rejected."
+  },
+  {
+    "id": 28,
+    "type": "code-output",
+    "topic": "Async",
+    "difficulty": "Intermediate",
+    "question": "What’s logged? `async function fn() { console.log('Start'); await Promise.resolve(); console.log('End'); } fn(); console.log('Outside');`",
+    "options": [
+      "Start, End, Outside",
+      "Start, Outside, End",
+      "Outside, Start, End",
+      "End, Start, Outside"
+    ],
+    "answer": "Start, Outside, End",
+    "explanation": "`await` pauses the async function, letting 'Outside' log before 'End'."
+  },
+  {
+    "id": 29,
+    "type": "match-pairs",
+    "topic": "Methods",
+    "difficulty": "Advanced",
+    "question": "Match the string method to its purpose:",
+    "pairs": [
+      {
+        "left": "startsWith",
+        "right": "Checks if string begins with a substring"
+      },
+      {
+        "left": "padEnd",
+        "right": "Adds characters to the end until a length is met"
+      },
+      {
+        "left": "match",
+        "right": "Returns matches for a regex"
+      }
+    ],
+    "answer": {
+      "startsWith": "Checks if string begins with a substring",
+      "padEnd": "Adds characters to the end until a length is met",
+      "match": "Returns matches for a regex"
+    },
+    "explanation": "These methods enhance string manipulation precision."
+  },
+  {
+    "id": 30,
+    "type": "multiple-choice",
+    "topic": "Events",
+    "difficulty": "Intermediate",
+    "question": "What property of an event object gives the clicked element?",
+    "options": [
+      "target",
+      "srcElement",
+      "currentTarget",
+      "element"
+    ],
+    "answer": "target",
+    "explanation": "`target` identifies the element that triggered the event."
+  },
+  {
+    "id": 31,
+    "type": "multiple-choice",
+    "topic": "Variables & Scope",
+    "difficulty": "Advanced",
+    "question": "What’s the value of `x` after `var x = 1; (function() { x = 2; var x = 3; })(); console.log(x);`?",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "undefined"
+    ],
+    "answer": "1",
+    "explanation": "The `var x = 3` inside the function creates a local `x`, so the assignment `x = 2` affects the local scope, not the outer `x`."
+  },
+  {
+    "id": 32,
+    "type": "true-false",
+    "topic": "Functions",
+    "difficulty": "Intermediate",
+    "question": "Calling a function before its declaration works only with arrow functions.",
+    "answer": false,
+    "explanation": "Function declarations (e.g., `function fn() {}`) are hoisted, but arrow functions (e.g., `const fn = () => {}`) are not."
+  },
+  {
+    "id": 33,
+    "type": "fill-in-the-blank",
+    "topic": "Arrays",
+    "difficulty": "Advanced",
+    "question": "What method removes and returns the last element of an array?",
+    "answer": "pop",
+    "explanation": "`pop()` mutates the array by removing its last element and returns it."
+  },
+  {
+    "id": 34,
+    "type": "code-output",
+    "topic": "Loops",
+    "difficulty": "Intermediate",
+    "question": "What’s logged? `let x = 0; while (x < 3) { console.log(x++); }`",
+    "options": [
+      "0, 1, 2",
+      "1, 2, 3",
+      "0, 1, 2, 3",
+      "0, 0, 0"
+    ],
+    "answer": "0, 1, 2",
+    "explanation": "`x++` logs `x` first, then increments it, stopping when `x` reaches 3."
+  },
+  {
+    "id": 35,
+    "type": "match-pairs",
+    "topic": "ES6+",
+    "difficulty": "Advanced",
+    "question": "Match the feature to its use case:",
+    "pairs": [
+      {
+        "left": "Optional chaining",
+        "right": "Safely access nested properties"
+      },
+      {
+        "left": "Nullish coalescing",
+        "right": "Default to a value if null or undefined"
+      },
+      {
+        "left": "Rest parameters",
+        "right": "Collect arguments into an array"
+      }
+    ],
+    "answer": {
+      "Optional chaining": "Safely access nested properties",
+      "Nullish coalescing": "Default to a value if null or undefined",
+      "Rest parameters": "Collect arguments into an array"
+    },
+    "explanation": "These ES6+ features handle edge cases elegantly."
+  },
+  {
+    "id": 36,
+    "type": "multiple-choice",
+    "topic": "Promises",
+    "difficulty": "Advanced",
+    "question": "What’s the result of `Promise.resolve(1).then(() => { throw 2; }).catch(err => err);`?",
+    "options": [
+      "1",
+      "2",
+      "undefined",
+      "Error"
+    ],
+    "answer": "2",
+    "explanation": "The `catch` block captures the thrown value (2) and returns it."
+  },
+  {
+    "id": 37,
+    "type": "true-false",
+    "topic": "Closures",
+    "difficulty": "Intermediate",
+    "question": "A closure is created every time a function is defined.",
+    "answer": false,
+    "explanation": "A closure forms only when a function references variables from its outer scope, not automatically."
+  },
+  {
+    "id": 38,
+    "type": "fill-in-the-blank",
+    "topic": "Objects",
+    "difficulty": "Intermediate",
+    "question": "What method merges two objects into a new one?",
+    "answer": "assign",
+    "explanation": "`Object.assign(target, source)` copies properties; use `{}` as target for a new object."
+  },
+  {
+    "id": 39,
+    "type": "code-output",
+    "topic": "Prototypes",
+    "difficulty": "Advanced",
+    "question": "What’s logged? `let obj = { x: 1 }; Object.setPrototypeOf(obj, { y: 2 }); console.log(obj.y);`",
+    "options": [
+      "1",
+      "2",
+      "undefined",
+      "Error"
+    ],
+    "answer": "2",
+    "explanation": "`setPrototypeOf` changes the prototype, so `y` is inherited."
+  },
+  {
+    "id": 40,
+    "type": "multiple-choice",
+    "topic": "DOM",
+    "difficulty": "Intermediate",
+    "question": "Which method selects all elements matching a CSS selector?",
+    "options": [
+      "querySelector",
+      "getElementById",
+      "querySelectorAll",
+      "getElementsByClassName"
+    ],
+    "answer": "querySelectorAll",
+    "explanation": "`querySelectorAll` returns a NodeList of all matches, unlike `querySelector` (first match only)."
+  },
+  {
+    "id": 41,
+    "type": "true-false",
+    "topic": "Data Types",
+    "difficulty": "Advanced",
+    "question": "`Symbol('id') === Symbol('id')` returns true.",
+    "answer": false,
+    "explanation": "Each `Symbol` is unique, even with the same description."
+  },
+  {
+    "id": 42,
+    "type": "fill-in-the-blank",
+    "topic": "Error Handling",
+    "difficulty": "Intermediate",
+    "question": "What keyword creates a custom error?",
+    "answer": "throw",
+    "explanation": "`throw` lets you raise errors with any value, like `throw new Error('Oops')`."
+  },
+  {
+    "id": 43,
+    "type": "code-output",
+    "topic": "Async",
+    "difficulty": "Advanced",
+    "question": "What’s logged? `setTimeout(() => console.log('A'), 0); Promise.resolve().then(() => console.log('B')); console.log('C');`",
+    "options": [
+      "C, B, A",
+      "C, A, B",
+      "A, B, C",
+      "B, C, A"
+    ],
+    "answer": "C, B, A",
+    "explanation": "Sync code (`C`) runs first, then microtasks (`B` from Promise), then macrotasks (`A` from timeout)."
+  },
+  {
+    "id": 44,
+    "type": "match-pairs",
+    "topic": "Methods",
+    "difficulty": "Intermediate",
+    "question": "Match the array method to its behavior:",
+    "pairs": [
+      {
+        "left": "splice",
+        "right": "Removes or replaces elements"
+      },
+      {
+        "left": "slice",
+        "right": "Extracts a portion without modifying"
+      },
+      {
+        "left": "concat",
+        "right": "Joins arrays into a new one"
+      }
+    ],
+    "answer": {
+      "splice": "Removes or replaces elements",
+      "slice": "Extracts a portion without modifying",
+      "concat": "Joins arrays into a new one"
+    },
+    "explanation": "These methods differ in mutation vs. creation."
+  },
+  {
+    "id": 45,
+    "type": "multiple-choice",
+    "topic": "Events",
+    "difficulty": "Advanced",
+    "question": "What stops an event from bubbling up the DOM?",
+    "options": [
+      "stopPropagation",
+      "preventDefault",
+      "stopImmediatePropagation",
+      "cancelBubble"
+    ],
+    "answer": "stopPropagation",
+    "explanation": "`stopPropagation` prevents further bubbling; `stopImmediatePropagation` also stops other handlers on the same element."
+  },
+  {
+    "id": 46,
+    "type": "multiple-choice",
+    "topic": "Modules",
+    "difficulty": "Intermediate",
+    "question": "What keyword exports a variable from a module?",
+    "options": [
+      "export",
+      "module",
+      "import",
+      "require"
+    ],
+    "answer": "export",
+    "explanation": "`export` makes variables, functions, or classes available to other modules."
+  },
+  {
+    "id": 47,
+    "type": "true-false",
+    "topic": "Iterators",
+    "difficulty": "Advanced",
+    "question": "The `for...of` loop works with any object by default.",
+    "answer": false,
+    "explanation": "`for...of` requires an iterable (e.g., arrays, strings) with a `[Symbol.iterator]` method."
+  },
+  {
+    "id": 48,
+    "type": "fill-in-the-blank",
+    "topic": "Bitwise Operators",
+    "difficulty": "Intermediate",
+    "question": "What operator performs a bitwise AND on two numbers?",
+    "answer": "&",
+    "explanation": "The `&` operator compares bits, returning 1 only if both bits are 1 (e.g., `5 & 3 = 1`)."
+  },
+  {
+    "id": 49,
+    "type": "code-output",
+    "topic": "JSON",
+    "difficulty": "Intermediate",
+    "question": "What’s logged? `let obj = { x: undefined }; console.log(JSON.stringify(obj));`",
+    "options": [
+      "{\"x\": \"undefined\"}",
+      "{\"x\": null}",
+      "{}",
+      "undefined"
+    ],
+    "answer": "{}",
+    "explanation": "`JSON.stringify` omits properties with `undefined` values."
+  },
+  {
+    "id": 50,
+    "type": "match-pairs",
+    "topic": "String Methods",
+    "difficulty": "Intermediate",
+    "question": "Match the string method to its output for 'hello':",
+    "pairs": [
+      {
+        "left": "toUpperCase",
+        "right": "HELLO"
+      },
+      {
+        "left": "charAt(1)",
+        "right": "e"
+      },
+      {
+        "left": "slice(1, 4)",
+        "right": "ell"
+      }
+    ],
+    "answer": {
+      "toUpperCase": "HELLO",
+      "charAt(1)": "e",
+      "slice(1, 4)": "ell"
+    },
+    "explanation": "These methods manipulate or extract parts of strings."
+  },
+  {
+    "id": 51,
+    "type": "multiple-choice",
+    "topic": "Set",
+    "difficulty": "Intermediate",
+    "question": "What does `new Set([1, 1, 2]).size` return?",
+    "options": [
+      "3",
+      "2",
+      "1",
+      "Error"
+    ],
+    "answer": "2",
+    "explanation": "`Set` removes duplicates, so `[1, 1, 2]` becomes `{1, 2}` with size 2."
+  },
+  {
+    "id": 52,
+    "type": "true-false",
+    "topic": "WeakMap",
+    "difficulty": "Advanced",
+    "question": "A `WeakMap` allows garbage collection of its keys.",
+    "answer": true,
+    "explanation": "Unlike `Map`, `WeakMap` holds weak references to keys, enabling cleanup if no other references exist."
+  },
+  {
+    "id": 53,
+    "type": "fill-in-the-blank",
+    "topic": "Math",
+    "difficulty": "Beginner",
+    "question": "What `Math` method returns the largest integer less than or equal to a number?",
+    "answer": "floor",
+    "explanation": "`Math.floor(3.7)` returns 3 by rounding down."
+  },
+  {
+    "id": 54,
+    "type": "code-output",
+    "topic": "Operators",
+    "difficulty": "Advanced",
+    "question": "What’s logged? `console.log(2 ** 3);`",
+    "options": [
+      "6",
+      "8",
+      "9",
+      "Error"
+    ],
+    "answer": "8",
+    "explanation": "`**` is the exponentiation operator; 2³ = 8."
+  },
+  {
+    "id": 55,
+    "type": "multiple-choice",
+    "topic": "Event Loop",
+    "difficulty": "Advanced",
+    "question": "Which runs first in the event loop: a `setTimeout` callback or a `process.nextTick` callback (Node.js)?",
+    "options": [
+      "setTimeout",
+      "process.nextTick",
+      "Same time",
+      "Depends"
+    ],
+    "answer": "process.nextTick",
+    "explanation": "In Node.js, `process.nextTick` has higher priority than timers like `setTimeout`."
+  },
+  {
+    "id": 56,
+    "type": "true-false",
+    "topic": "Type Coercion",
+    "difficulty": "Intermediate",
+    "question": "`[] == ''` returns true.",
+    "answer": true,
+    "explanation": "`==` coerces `[]` to an empty string, making it equal to `''`."
+  },
+  {
+    "id": 57,
+    "type": "fill-in-the-blank",
+    "topic": "Date",
+    "difficulty": "Intermediate",
+    "question": "What method of a `Date` object returns the year?",
+    "answer": "getFullYear",
+    "explanation": "`getFullYear()` returns the full year (e.g., 2025), unlike `getYear()` (deprecated)."
+  },
+  {
+    "id": 58,
+    "type": "code-output",
+    "topic": "Destructuring",
+    "difficulty": "Intermediate",
+    "question": "What’s logged? `let { x = 5 } = { x: undefined }; console.log(x);`",
+    "options": [
+      "5",
+      "undefined",
+      "null",
+      "Error"
+    ],
+    "answer": "5",
+    "explanation": "Default values in destructuring apply when the property is `undefined`."
+  },
+  {
+    "id": 59,
+    "type": "match-pairs",
+    "topic": "Array Methods",
+    "difficulty": "Advanced",
+    "question": "Match the method to its return value for `[1, 2, 3]`:",
+    "pairs": [
+      {
+        "left": "every(x => x > 0)",
+        "right": "true"
+      },
+      {
+        "left": "find(x => x > 1)",
+        "right": "2"
+      },
+      {
+        "left": "indexOf(2)",
+        "right": "1"
+      }
+    ],
+    "answer": {
+      "every(x => x > 0)": "true",
+      "find(x => x > 1)": "2",
+      "indexOf(2)": "1"
+    },
+    "explanation": "`every` checks all, `find` returns the first match, `indexOf` gives position."
+  },
+  {
+    "id": 60,
+    "type": "multiple-choice",
+    "topic": "Storage",
+    "difficulty": "Intermediate",
+    "question": "Which Web API stores data that persists across sessions?",
+    "options": [
+      "sessionStorage",
+      "localStorage",
+      "cookies",
+      "cache"
+    ],
+    "answer": "localStorage",
+    "explanation": "`localStorage` persists until cleared, unlike `sessionStorage` (session-only)."
+  }
+]
