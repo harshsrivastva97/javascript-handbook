@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { fetchBlogs } from "../../redux/slices/blogsSlice";
 import { BlogSchema } from "../../api/types/blogTypes";
@@ -9,23 +9,39 @@ import "./Blogs.scss";
 const Blogs: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const { blogs = [], loading, error } = useAppSelector((state) => state.blogs);
   const [searchTerm, setSearchTerm] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [animationReady, setAnimationReady] = useState(false);
   
   useEffect(() => {
     const fetchData = async () => {
       try {
         await dispatch(fetchBlogs()).unwrap();
         // Add a slight delay before showing the content for a smoother transition
-        setTimeout(() => setIsVisible(true), 100);
+        setTimeout(() => {
+          setIsVisible(true);
+          setTimeout(() => setAnimationReady(true), 300);
+        }, 100);
       } catch (error) {
         console.error('Error fetching blogs:', error);
         setIsVisible(true);
       }
     };
     fetchData();
+    
+    // Focus search on shortcut
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [dispatch]);
 
   const handleBlogSelect = useCallback((blog: BlogSchema) => {
@@ -39,6 +55,11 @@ const Blogs: React.FC = () => {
       handleBlogSelect(blog);
     }
   }, [handleBlogSelect]);
+  
+  const clearSearch = useCallback(() => {
+    setSearchTerm("");
+    searchInputRef.current?.focus();
+  }, []);
   
   const filteredBlogs = useMemo(() => {
     return blogs.filter(blog =>
@@ -57,12 +78,22 @@ const Blogs: React.FC = () => {
           <div className="search-bar">
             <i className="fas fa-search search-icon"></i>
             <input
+              ref={searchInputRef}
               type="text"
-              placeholder="Search by title, description, or tags..."
+              placeholder="Search by title, description, or tags... (⌘+K)"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               aria-label="Search blogs"
             />
+            {searchTerm && (
+              <button 
+                onClick={clearSearch}
+                className="clear-button"
+                aria-label="Clear search"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            )}
           </div>
         )}
       </div>
@@ -122,13 +153,13 @@ const Blogs: React.FC = () => {
       {renderHeader()}
 
       <div className="blog-content-grid">
-        {!filteredBlogs.length && (
+        {!filteredBlogs.length && searchTerm && (
           <div className="no-results">
             <h2>No matching posts found</h2>
             <p>Try adjusting your search terms or browse all posts</p>
             <button 
               className="retry-button" 
-              onClick={() => setSearchTerm("")}
+              onClick={clearSearch}
               aria-label="Show all blog posts"
             >
               Show all posts
@@ -140,7 +171,7 @@ const Blogs: React.FC = () => {
           {filteredBlogs.map((blog, index) => (
             <div
               key={blog.blog_id}
-              className={`blog-card fade-in`}
+              className={`blog-card ${animationReady ? 'fade-in' : ''}`}
               style={{ animationDelay: `${index * 0.05}s` }}
               onClick={() => handleBlogSelect(blog)}
               onKeyDown={(e) => handleKeyPress(e, blog)}
@@ -157,6 +188,10 @@ const Blogs: React.FC = () => {
                       <span 
                         key={`blog-${blog.blog_id}-tag-${tag}`} 
                         className="tag"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSearchTerm(tag);
+                        }}
                       >
                         <i className="fas fa-tag"></i>
                         {tag}

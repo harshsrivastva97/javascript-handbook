@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { LibrarySchema } from "../../api/types/libraryTypes";
 import { getAllTopics, getTopicDetails } from "../../redux/slices/librarySlice";
 import { resetUserProgress, updateTopicStatus } from "../../redux/slices/progressSlice";
-import { ProgressStatus } from "../../constants/enums/progressStatus";
+import { ProgressStatus } from "../../constants/enums";
 import { calculateProgress } from "../../utils/progressUtils";
 import AppLoader from "../../components/AppLoader/AppLoader";
 import { FiCode } from "react-icons/fi";
@@ -285,7 +285,7 @@ const Library: React.FC = () => {
         {/* Content Area */}
         <div className={`content-area ${!isSidebarOpen ? 'sidebar-collapsed' : ''} ${isEditorOpen ? 'editor-open' : ''}`}>
           {isLoadingDetails ? (
-            <AppLoader fullScreen text="Loading topic details..." />
+            <AppLoader text="Loading topic details..." excludeHeader={false} />
           ) : selectedTopic ? (
             <>
               <div className="content-wrapper text-left">

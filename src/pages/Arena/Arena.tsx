@@ -1,53 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { getQuestions } from "../../redux/slices/questionsSlice";
+import { GameState, UIState, QuizQuestion, QuizPair } from "../../constants/interfaces/questions";
 import "./Arena.scss";
 
-// Define types for our quiz data
-interface QuizPair {
-  left: string;
-  right: string;
-}
-
-interface QuizQuestion {
-  id: number;
-  type: string;
-  topic: string;
-  difficulty: string;
-  question: string;
-  options?: string[];
-  answer: any; // Using any for flexibility with different answer types
-  explanation: string;
-  pairs?: QuizPair[];
-}
-
-interface GameState {
-  score: number;
-  streak: number;
-  highScore: number;
-  totalPoints: number;
-  pointsAwarded: number;
-}
-
-interface UIState {
-  showExplanation: boolean;
-  showAnimation: boolean;
-  showConfetti: boolean;
-  showIntroduction: boolean;
-  quizStarted: boolean;
-  timeExpired: boolean;
-  isCorrect: boolean | null;
-  feedbackMessage: string;
-  quizCompleted: boolean;
-}
-
 const Arena: React.FC = () => {
-  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const dispatch = useAppDispatch();
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState<string | boolean | Record<string, string> | null>(null);
   const [matchPairs, setMatchPairs] = useState<Record<string, string>>({});
   const [timer, setTimer] = useState(30);
   const [timerActive, setTimerActive] = useState(true);
 
-  // Grouped related state
   const [gameState, setGameState] = useState<GameState>({
     score: 0,
     streak: 0,
@@ -69,46 +34,51 @@ const Arena: React.FC = () => {
   });
 
   useEffect(() => {
-    // Load questions from response.json and shuffle them
-    import("./response.json").then((data) => {
-      setQuestions(shuffleArray([...data.default]));
-    });
+    dispatch(getQuestions());
+  }, [dispatch]);
 
-    // Check for high score in local storage
+  const questionsData: QuizQuestion[] = useAppSelector((state) => state.questions.data);
+
+  useEffect(() => {
     const savedHighScore = localStorage.getItem('arenaHighScore');
     if (savedHighScore) {
       setGameState(prev => ({ ...prev, highScore: parseInt(savedHighScore) }));
     }
   }, []);
 
-  // Shuffle array function using Fisher-Yates algorithm
-  const shuffleArray = (array: any[]) => {
-    return array.sort(() => Math.random() - 0.5);
+  const handleTimeExpired = React.useCallback(() => {
+    setTimerActive(false);
+    setUiState(prev => ({ ...prev, timeExpired: true }));
+    setGameState(prev => {
+      if (prev.score > prev.highScore) {
+        const newHighScore = prev.score;
+        localStorage.setItem('arenaHighScore', newHighScore.toString());
+        return { ...prev, highScore: newHighScore };
+      }
+      return prev;
+    });
+  }, []);
+
+  const shuffleArray = (array: QuizQuestion[]) => {
+    const arrayCopy = [...array];
+    for (let i = arrayCopy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arrayCopy[i], arrayCopy[j]] = [arrayCopy[j], arrayCopy[i]];
+    }
+    return arrayCopy;
   };
 
-  useEffect(() => {
-    // Reset state when moving to a new question
-    if (questions.length > 0 && uiState.quizStarted) {
-      setUserAnswer(null);
-      setUiState(prev => ({
-        ...prev,
-        showExplanation: false,
-        isCorrect: null,
-        feedbackMessage: ""
-      }));
-      setTimer(30);
-      setTimerActive(true);
-      setGameState(prev => ({ ...prev, pointsAwarded: 0 }));
-
-      // Initialize match pairs if needed
-      if (questions[currentQuestionIndex].type === "match-pairs" && questions[currentQuestionIndex].pairs) {
-        const initialPairs = Object.fromEntries(
-          questions[currentQuestionIndex].pairs?.map(pair => [pair.left, ""]) || []
-        );
-        setMatchPairs(initialPairs);
-      }
+  const getCurrentQuestion = (): QuizQuestion | null => {
+    if (!questionsData || !Array.isArray(questionsData) || questionsData.length === 0) {
+      return null;
     }
-  }, [currentQuestionIndex, questions, uiState.quizStarted]);
+    
+    if (currentQuestionIndex < 0 || currentQuestionIndex >= questionsData.length) {
+      return null;
+    }
+    
+    return questionsData[currentQuestionIndex] || null;
+  };
 
   useEffect(() => {
     // Timer countdown
@@ -125,18 +95,7 @@ const Arena: React.FC = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [timer, timerActive, uiState.showExplanation, uiState.quizStarted]);
-
-  const handleTimeExpired = () => {
-    setTimerActive(false);
-    setUiState(prev => ({ ...prev, timeExpired: true }));
-    // Save high score if current score is higher
-    if (gameState.score > gameState.highScore) {
-      const newHighScore = gameState.score;
-      setGameState(prev => ({ ...prev, highScore: newHighScore }));
-      localStorage.setItem('arenaHighScore', newHighScore.toString());
-    }
-  };
+  }, [timer, timerActive, uiState.showExplanation, uiState.quizStarted, handleTimeExpired]);
 
   const handleMatchPairChange = (left: string, right: string) => {
     setMatchPairs(prev => ({
@@ -146,16 +105,24 @@ const Arena: React.FC = () => {
   };
 
   const calculatePoints = (difficulty: string, timeRemaining: number) => {
+    // Ensure difficulty is a valid string
+    const difficultyLevel = difficulty?.toLowerCase() || 'medium';
+    
     // Base points by difficulty
-    const basePoints = {
+    const basePointMap: Record<string, number> = {
       easy: 100,
+      beginner: 100,
       medium: 200,
+      intermediate: 200,
       hard: 300,
+      advanced: 300,
       expert: 500
-    }[difficulty.toLowerCase()] || 100;
+    };
+    
+    const basePoints = basePointMap[difficultyLevel] || 200; // Default to medium if not found
 
     // Time bonus: faster answers get more points
-    const timeBonus = Math.floor(timeRemaining * 3.33); // Up to 100 bonus points (30s * 3.33)
+    const timeBonus = Math.floor((timeRemaining || 0) * 3.33); // Up to 100 bonus points (30s * 3.33)
 
     // Streak bonus: consecutive correct answers get bonus points
     const streakBonus = gameState.streak * 50;
@@ -169,7 +136,9 @@ const Arena: React.FC = () => {
     setTimerActive(false);
     setUiState(prev => ({ ...prev, showExplanation: true }));
 
-    const currentQuestion = questions[currentQuestionIndex];
+    const currentQuestion = getCurrentQuestion();
+    if (!currentQuestion) return;
+    
     let correct = false;
 
     switch (currentQuestion.type) {
@@ -182,10 +151,16 @@ const Arena: React.FC = () => {
         correct = userAnswer === currentQuestion.answer;
         break;
       case "match-pairs":
-        const expectedPairs = currentQuestion.answer as Record<string, string>;
-        correct = Object.entries(matchPairs).every(
-          ([key, value]) => expectedPairs[key] === value && value !== ""
-        );
+        if (currentQuestion.pairs && 
+            Array.isArray(currentQuestion.pairs) && 
+            currentQuestion.pairs.length > 0 &&
+            currentQuestion.answer) {
+          const expectedPairs = currentQuestion.answer as Record<string, string>;
+          const allPairsSelected = Object.values(matchPairs).every(value => value !== "");
+          correct = allPairsSelected && Object.entries(matchPairs).every(
+            ([key, value]) => expectedPairs[key] === value
+          );
+        }
         break;
       default:
         break;
@@ -195,10 +170,20 @@ const Arena: React.FC = () => {
 
     if (correct) {
       const pointsEarned = calculatePoints(currentQuestion.difficulty, timer);
-      setGameState(prev => ({ ...prev, pointsAwarded: pointsEarned, score: prev.score + pointsEarned }));
-      setGameState(prev => ({ ...prev, totalPoints: prev.totalPoints + pointsEarned }));
-      setGameState(prev => ({ ...prev, streak: prev.streak + 1 }));
-      setUiState(prev => ({ ...prev, feedbackMessage: gameState.streak >= 2 ? `Impressive! ${gameState.streak + 1} in a row!` : "Correct!" }));
+      setGameState(prev => ({ 
+        ...prev, 
+        pointsAwarded: pointsEarned, 
+        score: prev.score + pointsEarned,
+        totalPoints: prev.totalPoints + pointsEarned,
+        streak: prev.streak + 1
+      }));
+      
+      // Update streak feedback separately with the incremented streak value
+      const newStreak = gameState.streak + 1;
+      setUiState(prev => ({ 
+        ...prev, 
+        feedbackMessage: newStreak >= 3 ? `Impressive! ${newStreak} in a row!` : "Correct!" 
+      }));
     } else {
       setGameState(prev => ({ ...prev, streak: 0 }));
       setUiState(prev => ({ ...prev, feedbackMessage: "Not quite right." }));
@@ -209,15 +194,29 @@ const Arena: React.FC = () => {
   };
 
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < questions.length - 1) {
+    if (currentQuestionIndex < questionsData.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
+      setUserAnswer(null);
+      setMatchPairs({});
+      setTimer(30);
+      setTimerActive(true);
+      setUiState(prev => ({ 
+        ...prev, 
+        showExplanation: false,
+        isCorrect: null,
+        feedbackMessage: ""
+      }));
     } else {
       setUiState(prev => ({ ...prev, quizCompleted: true }));
-      // Save high score if current score is higher
-      if (gameState.score > gameState.highScore) {
-        setGameState(prev => ({ ...prev, highScore: gameState.score }));
-        localStorage.setItem('arenaHighScore', gameState.score.toString());
-      }
+      
+      // Save high score if current score is higher - using functional update
+      setGameState(prev => {
+        if (prev.score > prev.highScore) {
+          localStorage.setItem('arenaHighScore', prev.score.toString());
+          return { ...prev, highScore: prev.score };
+        }
+        return prev;
+      });
 
       // Show confetti if score is good
       if (gameState.score >= gameState.totalPoints * 0.7) {
@@ -233,8 +232,22 @@ const Arena: React.FC = () => {
   };
 
   const resetQuiz = () => {
-    // Shuffle questions again
-    setQuestions(shuffleArray([...questions]));
+    // First get current questions and shuffle
+    if (questionsData.length > 0) {
+      // Shuffle questions when resetting the quiz
+      try {
+        const shuffled = shuffleArray([...questionsData]);
+        // We'll just reset the index since we can't directly update questions in Redux
+      } catch (error) {
+        // If shuffling fails, fetch new questions
+        dispatch(getQuestions());
+      }
+    } else {
+      // If no questions, fetch them
+      dispatch(getQuestions());
+    }
+    
+    // Reset all state in a specific order to prevent potential race conditions
     setCurrentQuestionIndex(0);
     setUserAnswer(null);
     setMatchPairs({});
@@ -248,6 +261,7 @@ const Arena: React.FC = () => {
       totalPoints: 0,
       streak: 0,
       pointsAwarded: 0
+      // Keep the high score intact
     }));
 
     // Reset UI state
@@ -296,9 +310,13 @@ const Arena: React.FC = () => {
   };
 
   const renderQuestion = () => {
-    if (questions.length === 0) return <div className="loader">Loading questions...</div>;
-
-    const currentQuestion = questions[currentQuestionIndex];
+    if (!questionsData.length) return <div className="loader">Loading questions...</div>;
+    
+    const currentQuestion = getCurrentQuestion();
+    if (!currentQuestion) {
+      // Handle missing question case
+      return <div className="loader">Question not available</div>;
+    }
 
     switch (currentQuestion.type) {
       case "multiple-choice":
@@ -315,7 +333,7 @@ const Arena: React.FC = () => {
             <h2>{formatQuestionText(currentQuestion.question)}</h2>
 
             <div className="options-container">
-              {currentQuestion.options?.map((option, index) => (
+              {Array.isArray(currentQuestion.options) && currentQuestion.options?.map((option: string, index: number) => (
                 <button
                   key={index}
                   className={`option-button ${userAnswer === option ? 'selected' : ''} 
@@ -399,6 +417,9 @@ const Arena: React.FC = () => {
 
       case "match-pairs":
         const pairs = currentQuestion.pairs || [];
+        if (!Array.isArray(pairs) || pairs.length === 0) {
+          return <div className="loader">Match pairs not available</div>;
+        }
         const options = pairs.map(p => p.right);
 
         return (
@@ -413,10 +434,10 @@ const Arena: React.FC = () => {
             <h2>{formatQuestionText(currentQuestion.question)}</h2>
 
             <div className="match-container">
-              {pairs.map((pair, index) => (
+              {pairs.map((pair: QuizPair, index: number) => (
                 <div
                   key={index}
-                  className={`match-pair ${uiState.showExplanation ?
+                  className={`match-pair ${uiState.showExplanation && currentQuestion.answer ?
                     ((currentQuestion.answer as Record<string, string>)[pair.left] === matchPairs[pair.left] ?
                       'correct' : 'incorrect') : ''}`}
                 >
@@ -433,7 +454,7 @@ const Arena: React.FC = () => {
                       disabled={uiState.showExplanation}
                     >
                       <option value="">-- Select --</option>
-                      {options.map((option, i) => (
+                      {options.map((option: string, i: number) => (
                         <option key={i} value={option}>
                           {option}
                         </option>
@@ -454,37 +475,47 @@ const Arena: React.FC = () => {
   // Confetti component
   const Confetti = () => {
     const [particles, setParticles] = useState<React.ReactNode[]>([]);
+    
     useEffect(() => {
       // Create confetti particles
-      const colors = ["#1E88E5", "#43A047", "#E53935", "#FDD835", "#FB8C00", "#8E24AA"];
-      const shapes = ["square", "circle"];
-      const newParticles: React.ReactNode[] = [];
-      for (let i = 0; i < 100; i++) {
-        const left = Math.random() * 100;
-        const top = Math.random() * 100;
-        const size = Math.random() * 10 + 5;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const shape = shapes[Math.floor(Math.random() * shapes.length)];
-        const animationDuration = Math.random() * 3 + 2;
-        const animationDelay = Math.random() * 0.5;
-        newParticles.push(
-          <div
-            key={i}
-            className={`confetti-particle ${shape}`}
-            style={{
-              left: `${left}%`,
-              top: `-${size}px`,
-              width: `${size}px`,
-              height: `${size}px`,
-              backgroundColor: color,
-              animationDuration: `${animationDuration}s`,
-              animationDelay: `${animationDelay}s`
-            }}
-          />
-        );
+      try {
+        const colors = ["#1E88E5", "#43A047", "#E53935", "#FDD835", "#FB8C00", "#8E24AA"];
+        const shapes = ["square", "circle"];
+        const newParticles: React.ReactNode[] = [];
+        
+        for (let i = 0; i < 100; i++) {
+          const left = Math.random() * 100;
+          const top = Math.random() * 100;
+          const size = Math.random() * 10 + 5;
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          const shape = shapes[Math.floor(Math.random() * shapes.length)];
+          const animationDuration = Math.random() * 3 + 2;
+          const animationDelay = Math.random() * 0.5;
+          
+          newParticles.push(
+            <div
+              key={i}
+              className={`confetti-particle ${shape}`}
+              style={{
+                left: `${left}%`,
+                top: `-${size}px`,
+                width: `${size}px`,
+                height: `${size}px`,
+                backgroundColor: color,
+                animationDuration: `${animationDuration}s`,
+                animationDelay: `${animationDelay}s`
+              }}
+            />
+          );
+        }
+        setParticles(newParticles);
+      } catch (error) {
+        console.error("Error creating confetti:", error);
+        // Fallback to no particles to avoid crashing
+        setParticles([]);
       }
-      setParticles(newParticles);
     }, []);
+    
     return <div className="confetti-container">{particles}</div>;
   };
 
@@ -597,7 +628,7 @@ const Arena: React.FC = () => {
           <div className="progress-container">
             <div
               className="progress-bar"
-              style={{ width: `${((currentQuestionIndex) / questions.length) * 100}%` }}
+              style={{ width: `${((currentQuestionIndex + 1) / questionsData.length) * 100}%` }}
             ></div>
           </div>
           <div className="info-bar">
@@ -620,7 +651,7 @@ const Arena: React.FC = () => {
               )}
             </div>
             <h3>Explanation:</h3>
-            <p>{questions[currentQuestionIndex].explanation}</p>
+            <p>{getCurrentQuestion()?.explanation}</p>
           </div>
         )}
 
@@ -629,7 +660,12 @@ const Arena: React.FC = () => {
             <button
               className="primary-button"
               onClick={handleSubmit}
-              disabled={userAnswer === null && questions[currentQuestionIndex]?.type !== "match-pairs"}
+              disabled={
+                (userAnswer === null && 
+                 getCurrentQuestion()?.type !== "match-pairs") || 
+                (getCurrentQuestion()?.type === "match-pairs" && 
+                 (!matchPairs || Object.values(matchPairs).some(value => value === "")))
+              }
             >
               Submit Answer
             </button>
@@ -638,7 +674,7 @@ const Arena: React.FC = () => {
               className="primary-button next"
               onClick={handleNextQuestion}
             >
-              {currentQuestionIndex === questions.length - 1 ? "Complete Challenge" : "Next Challenge"}
+              {currentQuestionIndex === questionsData.length - 1 ? "Complete Challenge" : "Next Challenge"}
             </button>
           )}
         </div>

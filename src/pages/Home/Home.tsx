@@ -8,7 +8,7 @@ import { getAllTopics } from "../../redux/slices/librarySlice";
 import { updateTopicStatus } from "../../redux/slices/progressSlice";
 import { LibrarySchema } from "../../api/types/libraryTypes";
 import { FEATURES, EXPLORER_SECTIONS, STATUS_ICONS, STATUS_LABELS } from './homePageConstants';
-import { ProgressStatus } from "../../constants/enums/progressStatus";
+import { ProgressStatus } from "../../constants/enums";
 import { calculateProgress } from '../../utils/progressUtils';
 import './Home.scss';
 

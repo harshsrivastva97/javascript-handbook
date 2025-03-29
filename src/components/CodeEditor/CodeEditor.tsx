@@ -11,25 +11,13 @@ import {
 import { useTheme } from "../../contexts/ThemeContext";
 import { FaPlay } from "react-icons/fa";
 import { VscTerminal, VscChevronDown, VscChevronUp, VscWindow } from "react-icons/vsc";
+import { defaultHtmlTemplate } from "../../constants/consts";
 import "./CodeEditor.scss";
 
 interface CodeEditorProps {
   code: string;
-  selectedFile: string;
 }
 
-const defaultHtmlTemplate = `<!DOCTYPE html>
-<html>
-  <body>
-    <div id="app">
-      <h2>Welcome to the JS Handbook!</h2>
-      <p>Ready to level up your JavaScript skills? Let's get started!</p>
-    </div>
-    <script src="index.js"></script>
-  </body>
-</html>`;
-
-// Create a context to share console visibility state
 const VisibilityContext = React.createContext<{
   isPreviewVisible: boolean;
   setIsPreviewVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -41,20 +29,16 @@ const RunButton = () => {
   const { sandpack } = useSandpack();
   const [isRunning, setIsRunning] = useState(false);
 
-  // Get visibility context
   const visibilityContext = React.useContext(VisibilityContext);
 
   const handleRun = () => {
     setIsRunning(true);
     try {
       sandpack.runSandpack();
-      // Show preview panel when running code
       if (visibilityContext) {
-        // Always show the preview when running code
         if (!visibilityContext.isPreviewVisible) {
           visibilityContext.setIsPreviewVisible(true);
         }
-        // Ensure console is also visible
         if (!visibilityContext.isConsoleVisible) {
           visibilityContext.setIsConsoleVisible(true);
         }
@@ -78,7 +62,6 @@ const RunButton = () => {
   );
 };
 
-// Toggle bar component for preview section
 const PreviewToggleBar = ({ isVisible, onToggle }: { isVisible: boolean; onToggle: () => void }) => (
   <div
     className={`code-editor__preview-toggle ${isVisible ? 'as-header' : 'as-footer'}`}
@@ -92,7 +75,6 @@ const PreviewToggleBar = ({ isVisible, onToggle }: { isVisible: boolean; onToggl
   </div>
 );
 
-// Toggle bar component for console section
 const ConsoleToggleBar = ({ isVisible, onToggle }: { isVisible: boolean; onToggle: () => void }) => (
   <div
     className={`code-editor__console-toggle ${isVisible ? 'as-header' : 'as-footer'}`}
@@ -106,38 +88,55 @@ const ConsoleToggleBar = ({ isVisible, onToggle }: { isVisible: boolean; onToggl
   </div>
 );
 
-// Create a component to listen for code changes
-const CodeListener = ({ onCodeChange }: { onCodeChange: (code: string) => void }) => {
+const CodeListener = ({ onCodeChange, onHtmlChange }: { 
+  onCodeChange: (code: string) => void,
+  onHtmlChange: (html: string) => void 
+}) => {
   const { code } = useActiveCode();
+  const { sandpack } = useSandpack();
   
   useEffect(() => {
-    onCodeChange(code);
-  }, [code, onCodeChange]);
+    const activeFile = sandpack.activeFile;
+    if (activeFile === "/index.js") {
+      onCodeChange(code);
+    } else if (activeFile === "/index.html") {
+      onHtmlChange(code);
+    }
+  }, [code, sandpack.activeFile, onCodeChange, onHtmlChange]);
   
   return null;
 };
 
-const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
+const CodeEditor: React.FC<CodeEditorProps> = ({ code }) => {
   const { theme } = useTheme();
   const [currentCode, setCurrentCode] = useState(code);
+  const [activeHtmlCode, setActiveHtmlCode] = useState(defaultHtmlTemplate);
 
-  const [isPreviewVisible, setIsPreviewVisible] = useState(false);
+  const [isPreviewVisible, setIsPreviewVisible] = useState(true);
   const [isConsoleVisible, setIsConsoleVisible] = useState(true);
 
   useEffect(() => {
     setCurrentCode(code);
   }, [code]);
 
+  const handleCodeChange = (newCode: string) => {
+    setCurrentCode(newCode);
+  };
+  
+  const handleHtmlChange = (newHtml: string) => {
+    setActiveHtmlCode(newHtml);
+  };
+
   const files: SandpackFiles = useMemo(() => ({
     "/index.js": {
       code: currentCode,
-      active: selectedFile === "/index.js",
+      active: true,
     },
     "/index.html": {
-      code: defaultHtmlTemplate,
-      active: selectedFile === "/index.html",
+      code: activeHtmlCode,
+      active: false,
     }
-  }), [currentCode]);
+  }), [currentCode, activeHtmlCode]);
 
   const togglePreviewVisibility = () => {
     setIsPreviewVisible(prev => !prev);
@@ -147,7 +146,13 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
     setIsConsoleVisible(prev => !prev);
   };
 
-  // Add appropriate classes based on visibility states
+  const visibilityContextValue = useMemo(() => ({
+    isPreviewVisible,
+    setIsPreviewVisible,
+    isConsoleVisible,
+    setIsConsoleVisible
+  }), [isPreviewVisible, isConsoleVisible]);
+
   const rightPanelClasses = `
     code-editor__right-pane 
     ${!isPreviewVisible ? 'preview-hidden' : ''} 
@@ -156,12 +161,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
 
   return (
     <div className="code-editor">
-      <VisibilityContext.Provider value={{
-        isPreviewVisible,
-        setIsPreviewVisible,
-        isConsoleVisible,
-        setIsConsoleVisible
-      }}>
+      <VisibilityContext.Provider value={visibilityContextValue}>
         <SandpackProvider
           files={files}
           theme={theme === "dark" ? "dark" : "light"}
@@ -169,7 +169,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
           options={{
             autorun: false,
             recompileMode: "delayed",
-            recompileDelay: 60000
+            recompileDelay: 500
           }}
           customSetup={{
             entry: "/index.js",
@@ -179,14 +179,16 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
           }}
           style={{height: "100%"}}
         >
-          <CodeListener onCodeChange={setCurrentCode} />
+          <CodeListener 
+            onCodeChange={handleCodeChange} 
+            onHtmlChange={handleHtmlChange} 
+          />
 
           <div className="code-editor__header">
             <div className="header-left">
               <RunButton />
             </div>
             <div className="header-right">
-              {/* Right panel toggle button removed */}
             </div>
           </div>
           <div className="code-editor__content">
@@ -201,7 +203,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
             </div>
 
             <div className={rightPanelClasses}>
-              {/* Preview section with toggle */}
               {isPreviewVisible ? (
                 <div className="code-editor__preview">
                   <PreviewToggleBar isVisible={true} onToggle={togglePreviewVisibility} />
@@ -213,7 +214,6 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ code, selectedFile }) => {
                 <PreviewToggleBar isVisible={false} onToggle={togglePreviewVisibility} />
               )}
 
-              {/* Console section with toggle */}
               {isConsoleVisible ? (
                 <div className="code-editor__console">
                   <ConsoleToggleBar isVisible={true} onToggle={toggleConsoleVisibility} />

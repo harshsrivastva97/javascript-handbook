@@ -3,57 +3,73 @@ import { motion } from 'framer-motion';
 import './AppLoader.scss';
 
 interface AppLoaderProps {
-  size?: 'small' | 'medium' | 'large';
-  color?: string;
-  text?: string;
-  fullScreen?: boolean;
+  text?: string
 }
 
-const AppLoader: React.FC<AppLoaderProps> = ({
-  size = 'medium',
-  color = '#646cff',
-  text = 'Loading...',
-  fullScreen = false,
-}) => {
-  const sizeMap = {
-    small: 'w-4 h-4',
-    medium: 'w-8 h-8',
-    large: 'w-12 h-12',
-  };
-
-  const containerClasses = fullScreen
-    ? 'fixed inset-0 bg-background/80 backdrop-blur-sm z-50'
-    : 'relative';
+const AppLoader: React.FC<AppLoaderProps> = ({ text = 'Loading...' }) => {
+  const containerHeight = 'calc(100vh - 60px)';
 
   return (
-    <div className={`${containerClasses} flex items-center justify-center`}>
-      <div className="flex flex-col items-center gap-4">
-        <motion.div
-          className={`${sizeMap[size]} relative`}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          <motion.div
-            className="absolute inset-0 border-4 rounded-full"
-            style={{ borderColor: `${color} transparent transparent transparent` }}
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: 1,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
-          />
-        </motion.div>
+    <div className="app-loader" style={{ height: containerHeight }}>
+      <div className="app-loader-content">
+        <div className="app-loader-graphics">
+          <motion.div 
+            className="app-loader-circle"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div 
+              className="app-loader-pulse"
+              animate={{ 
+                scale: [1, 1.2, 1],
+                opacity: [0.6, 0.2, 0.6]
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity,
+                ease: "easeInOut" 
+              }}
+            />
+          </motion.div>
+          
+          <div className="app-loader-dots">
+            {[...Array(3)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="app-loader-dot"
+                // style={{ backgroundColor: '#646cff' }}
+                initial={{ y: 0 }}
+                animate={{ y: [0, -10, 0] }}
+                transition={{
+                  duration: 1,
+                  repeat: Infinity,
+                  delay: i * 0.2,
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
+          </div>
+        </div>
+        
         {text && (
-          <motion.p
-            className="text-secondary font-medium"
+          <motion.div 
+            className="app-loader-text"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0.3 }}
           >
-            {text}
-          </motion.p>
+            <motion.span
+              animate={{ opacity: [1, 0.3, 1] }}
+              transition={{ 
+                duration: 1.5, 
+                repeat: Infinity,
+                ease: "easeInOut" 
+              }}
+            >
+              {text}
+            </motion.span>
+          </motion.div>
         )}
       </div>
     </div>

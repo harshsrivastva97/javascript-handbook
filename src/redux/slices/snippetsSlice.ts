@@ -64,7 +64,6 @@ const codebookSlice = createSlice({
                 const id = action.payload.snippet_id;
                 const index = state.snippets.findIndex((snippet) => snippet.snippet_id === id);
                 if (index !== -1) {
-                    const existingSnippet = state.snippets[index];
                     state.snippets[index] = {
                         ...action.payload
                     };

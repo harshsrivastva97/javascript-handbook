@@ -4,6 +4,7 @@ import topicsReducer from './slices/librarySlice';
 import snippetsReducer from './slices/snippetsSlice';
 import blogsReducer from './slices/blogsSlice';
 import progressReducer from './slices/progressSlice';
+import questionsReducer from './slices/questionsSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,7 +13,8 @@ const store = configureStore({
     snippets: snippetsReducer,
     blogs: blogsReducer,
     progress: progressReducer,
-  },
+    questions: questionsReducer
+  }
 });
 
 export type RootState = ReturnType<typeof store.getState>;
