@@ -119,12 +119,10 @@ const Arena: React.FC = () => {
       expert: 500
     };
     
-    const basePoints = basePointMap[difficultyLevel] || 200; // Default to medium if not found
+    const basePoints = basePointMap[difficultyLevel] || 200;
 
-    // Time bonus: faster answers get more points
-    const timeBonus = Math.floor((timeRemaining || 0) * 3.33); // Up to 100 bonus points (30s * 3.33)
+    const timeBonus = Math.floor((timeRemaining || 0) * 3.33);
 
-    // Streak bonus: consecutive correct answers get bonus points
     const streakBonus = gameState.streak * 50;
 
     return basePoints + timeBonus + streakBonus;
