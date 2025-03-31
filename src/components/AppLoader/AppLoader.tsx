@@ -1,79 +1,39 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import './AppLoader.scss';
 
-interface AppLoaderProps {
-  text?: string
-}
-
-const AppLoader: React.FC<AppLoaderProps> = ({ text = 'Loading...' }) => {
-  const containerHeight = 'calc(100vh - 60px)';
-
+const AppLoader: React.FC = () => {
   return (
-    <div className="app-loader" style={{ height: containerHeight }}>
-      <div className="app-loader-content">
-        <div className="app-loader-graphics">
-          <motion.div 
-            className="app-loader-circle"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.div 
-              className="app-loader-pulse"
-              animate={{ 
-                scale: [1, 1.2, 1],
-                opacity: [0.6, 0.2, 0.6]
-              }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity,
-                ease: "easeInOut" 
-              }}
-            />
-          </motion.div>
+    <div className="app-loader fixed inset-0 flex items-center justify-center bg-background z-50">
+      <div className="loader-wrapper">
+        <div className="code-sphere">
+          <div className="sphere-core"></div>
+          <div className="orbit orbit-1">
+            <div className="planet js-planet">
+              <span className="planet-label">JS</span>
+            </div>
+          </div>
+          <div className="orbit orbit-2"></div>
+          <div className="orbit orbit-3"></div>
           
-          <div className="app-loader-dots">
-            {[...Array(3)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="app-loader-dot"
-                // style={{ backgroundColor: '#646cff' }}
-                initial={{ y: 0 }}
-                animate={{ y: [0, -10, 0] }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                  ease: "easeInOut"
-                }}
-              />
+          <div className="code-particles">
+            {[...Array(15)].map((_, i) => (
+              <div key={i} className="code-particle" style={{
+                animationDelay: `${i * 0.3}s`,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`
+              }}></div>
             ))}
           </div>
         </div>
         
-        {text && (
-          <motion.div 
-            className="app-loader-text"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <motion.span
-              animate={{ opacity: [1, 0.3, 1] }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Infinity,
-                ease: "easeInOut" 
-              }}
-            >
-              {text}
-            </motion.span>
-          </motion.div>
-        )}
+        <div className="w-32 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mt-8">
+          <div className="h-full bg-gradient-to-r from-primary to-accent-primary animate-linear-progress"></div>
+        </div>
+        
+        <p className="text-xs text-gray-500 mt-4 animate-pulse">Loading amazing content...</p>
       </div>
     </div>
   );
 };
 
-export default AppLoader; 
+export default AppLoader;

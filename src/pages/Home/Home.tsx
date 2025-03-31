@@ -5,7 +5,6 @@ import { FaBook, FaCode, FaRocket, FaTrophy, FaArrowRight, FaTwitter, FaFacebook
 import { BsArrowRight, BsCheckCircleFill, BsLightningCharge, BsStars } from "react-icons/bs";
 import { AiFillFire } from "react-icons/ai";
 import { FaGithub, FaLinkedinIn, FaHeart, FaRegCopyright } from "react-icons/fa";
-import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import 'react-circular-progressbar/dist/styles.css';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { getAllTopics } from "../../redux/slices/librarySlice";
@@ -30,9 +29,7 @@ const Home: React.FC = () => {
   const [streak, setStreak] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
 
-
-  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const [scrolled, setScrolled] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const user = useAppSelector(state => state.userData.user);
   const topics = useAppSelector(state => state.topicsData.topics);
@@ -42,8 +39,6 @@ const Home: React.FC = () => {
   const questionsLoading = useAppSelector(state => state.questions.loading);
 
   const progress = useMemo(() => calculateProgress(topics), [topics]);
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -126,19 +121,16 @@ const Home: React.FC = () => {
   const handleSubmitAnswer = useCallback(() => {
     setIsAnswerSubmitted(true);
 
-
     const question = getCurrentQuestion();
     if (question) {
       let isCorrect = false;
       if (question.type === "multiple-choice" || question.type === "code-output") {
         if ('options' in question && Array.isArray(question.options)) {
           if (typeof question.options[0] === 'object' && 'correct' in question.options[0]) {
-
             const option = (question.options as any[]).find(o => o.correct === true);
             const correctAnswer = option?.letter || question.answer;
             isCorrect = selectedOption === correctAnswer;
           } else {
-
             const optionIndex = selectedOption ? selectedOption.charCodeAt(0) - 65 : -1;
             if (optionIndex >= 0 && optionIndex < question.options.length) {
               const selectedText = question.options[optionIndex];
@@ -265,14 +257,11 @@ const Home: React.FC = () => {
       if (questionsLoading) return;
       if (e.key === 'Enter') {
         if (isAnswerSubmitted) {
-
           handleNextQuestion();
         } else if (selectedOption) {
-
           handleSubmitAnswer();
         }
       } else if (!isAnswerSubmitted && /^[a-dA-D]$/.test(e.key)) {
-
         if (currentQuestion?.type === 'multiple-choice' ||
           currentQuestion?.type === 'code-output' ||
           currentQuestion?.type === 'true-false') {
@@ -286,25 +275,6 @@ const Home: React.FC = () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isAnswerSubmitted, selectedOption, handleSubmitAnswer, handleNextQuestion, questionsLoading, currentQuestion]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
 
   return (
     <div className="home">
@@ -322,94 +292,6 @@ const Home: React.FC = () => {
         </div>
       ) : (
         <>
-          <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 sticky-navbar ${scrolled ? 'py-2 bg-background/95 shadow-md scrolled' : 'py-4 bg-transparent'}`}>
-            <div className="container mx-auto px-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <div className={`${scrolled ? 'w-10 h-10' : 'w-12 h-12'} rounded-xl bg-gradient-to-br from-primary to-accent-primary font-bold flex items-center justify-center mr-3 transition-all duration-300 shadow-lg shadow-primary/10`}>
-                    <span className={`${scrolled ? 'text-base' : 'text-lg'} transition-all duration-300`}>JS</span>
-                  </div>
-                  <h3 className={`${scrolled ? 'text-lg' : 'text-xl'} font-bold transition-all duration-300 tracking-tight`}>JavaScript Handbook</h3>
-                </div>
-
-                <div className="hidden md:flex items-center">
-                  <div className="flex items-center gap-9 mr-9">
-                    <a href="/about" className="text-sm font-medium hover:text-primary transition-all relative nav-link" aria-label="About Us">About</a>
-                    <a href="/contact" className="text-sm font-medium hover:text-primary transition-all relative nav-link" aria-label="Contact Us">Contact</a>
-                    <a href="/library" className="text-sm font-medium hover:text-primary transition-all relative nav-link" aria-label="JavaScript Library">Library</a>
-                    <a href="/arena" className="text-sm font-medium hover:text-primary transition-all relative nav-link" aria-label="Challenge Arena">Arena</a>
-                    <a href="/lab" className="text-sm font-medium hover:text-primary transition-all relative nav-link" aria-label="Code Vault">Lab</a>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <button
-                      className="px-4 py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium hover:bg-primary/15 transition-all hover:-translate-y-0.5 duration-300 shadow-sm"
-                      onClick={() => navigate('/donate')}
-                      aria-label="Donate"
-                    >
-                      <FaHeart className="inline mr-1.5 text-xs" /> Donate
-                    </button>
-                    <button
-                      className="px-4 py-2.5 rounded-xl border border-gray-300/70 dark:border-gray-700/70 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-all hover:-translate-y-0.5 duration-300 shadow-sm flex-1"
-                      onClick={() => navigate('/login')}
-                    >
-                      Sign In
-                    </button>
-                    <button
-                      className="w-full mt-2 px-4 py-3 rounded-xl bg-gradient-to-r from-primary to-accent-primary text-sm font-medium hover:shadow-md transition-all hover:-translate-y-0.5 duration-300 shadow-sm"
-                      onClick={() => navigate('/register')}
-                    >
-                      Sign Up
-                    </button>
-                  </div>
-                </div>
-
-                <button
-                  className="md:hidden text-gray-600 dark:text-gray-400 hover:text-primary transition-colors p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
-                  onClick={toggleMobileMenu}
-                  aria-label="Toggle Menu"
-                  aria-expanded={mobileMenuOpen}
-                >
-                  {mobileMenuOpen ? <HiOutlineX className="w-6 h-6" /> : <HiOutlineMenu className="w-6 h-6" />}
-                </button>
-              </div>
-
-              <div
-                className={`md:hidden transition-all duration-300 overflow-hidden mobile-menu ${mobileMenuOpen ? 'max-h-screen opacity-100 pt-5' : 'max-h-0 opacity-0'}`}
-                aria-hidden={!mobileMenuOpen}
-              >
-                <div className="flex flex-col gap-4 pb-5">
-                  <a href="/about" className="text-sm font-medium hover:text-primary transition-colors py-2.5 border-b border-gray-100 dark:border-gray-800">About</a>
-                  <a href="/contact" className="text-sm font-medium hover:text-primary transition-colors py-2.5 border-b border-gray-100 dark:border-gray-800">Contact</a>
-                  <a href="/library" className="text-sm font-medium hover:text-primary transition-colors py-2.5 border-b border-gray-100 dark:border-gray-800">Library</a>
-                  <a href="/arena" className="text-sm font-medium hover:text-primary transition-colors py-2.5 border-b border-gray-100 dark:border-gray-800">Arena</a>
-                  <a href="/lab" className="text-sm font-medium hover:text-primary transition-colors py-2.5 border-b border-gray-100 dark:border-gray-800">Lab</a>
-
-                  <div className="flex flex-wrap gap-2.5 pt-4 mt-2">
-                    <button
-                      className="px-4 py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium hover:bg-primary/15 transition-all hover:-translate-y-0.5 duration-300 shadow-sm flex-1"
-                      onClick={() => navigate('/donate')}
-                    >
-                      <FaHeart className="inline mr-1.5 text-xs" /> Donate
-                    </button>
-                    <button
-                      className="px-4 py-2.5 rounded-xl border border-gray-300/70 dark:border-gray-700/70 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-all hover:-translate-y-0.5 duration-300 shadow-sm flex-1"
-                      onClick={() => navigate('/login')}
-                    >
-                      Sign In
-                    </button>
-                    <button
-                      className="w-full mt-2 px-4 py-3 rounded-xl bg-gradient-to-r from-primary to-accent-primary text-sm font-medium hover:shadow-md transition-all hover:-translate-y-0.5 duration-300 shadow-sm"
-                      onClick={() => navigate('/register')}
-                    >
-                      Sign Up
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </nav>
-
           <section className="hero-section relative pt-28 pb-20 overflow-hidden bg-gradient-to-b from-background to-background-secondary animate-[fade-in_0.8s_ease-in-out]">
             <div className="hero-background absolute inset-0">
               <div className="gradient-orb top-10 left-1/3 opacity-40"></div>
@@ -439,7 +321,7 @@ const Home: React.FC = () => {
                       </span>
                     </button>
                     <button
-                      className="secondary-button px-8 py-4 rounded-full font-semibold flex items-center gap-3 border border-gray-300 dark:border-gray-700 hover:bg-opacity-5 transition-all"
+                      className="secondary-button px-8 py-4 rounded-full font-semibold flex items-center gap-3 border border-gray-300 dark:border-gray-700 hover:bg-opacity-5 transition-all hover:-translate-y-0.5 duration-300"
                       onClick={handleNavigation('/lab')}
                     >
                       Explore Code Vault
@@ -530,7 +412,7 @@ const Home: React.FC = () => {
 
           <div className="container mx-auto px-6">
             <div className="learning-sections animate-[fade-in-up_1s_ease-in-out]" style={{ animationDelay: '0.2s' }}>
-              <header className="text-center mb-24">
+              <header className="text-center mb-6">
                 <h2 className="text-3xl md:text-5xl font-bold mb-7 leading-tight mx-auto max-w-3xl">
                   Three Paths to <span className="gradient-text">JavaScript Mastery</span>
                 </h2>
@@ -539,288 +421,201 @@ const Home: React.FC = () => {
                 </p>
               </header>
 
-              <div className="learning-section mb-24">
-                <div className="flex flex-col lg:flex-row gap-14 p-1">
-                  <div className="lg:w-7/12 space-y-8">
-                    <div className="flex items-center gap-5">
-                      <div className="flex-none w-14 h-14 rounded-xl bg-primary bg-opacity-10 flex items-center justify-center shadow-md shadow-primary/10">
-                        <FaBook className="text-primary text-2xl" />
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-20">
+                {/* JavaScript Library Card */}
+                <div className="learning-card bg-gradient-to-br from-background to-background-secondary rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:translate-y-[-8px] border border-gray-200/10 dark:border-gray-800/20 group">
+                  <div className="h-36 relative overflow-hidden bg-primary/5">
+                    <div className="absolute inset-0 opacity-20 bg-pattern-dots"></div>
+                    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                      <div className="w-20 h-20 rounded-full flex items-center justify-center bg-primary/10 backdrop-blur-sm transform group-hover:scale-110 transition-transform duration-300">
+                        <FaBook className="text-primary text-3xl" />
                       </div>
-                      <h3 className="text-2xl md:text-3xl font-bold">JavaScript Library</h3>
                     </div>
-
-                    <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
+                    <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent"></div>
+                  </div>
+                  
+                  <div className="p-6">
+                    <h3 className="text-2xl font-bold mb-3 flex items-center">
+                      JavaScript Library 
+                      <span className="ml-auto inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
+                        {progress}% Complete
+                      </span>
+                    </h3>
+                    
+                    <p className="text-gray-600 dark:text-gray-400 mb-5 text-sm leading-relaxed">
                       Master core JavaScript concepts with our structured curriculum designed by industry experts.
-                      Our comprehensive library breaks down complex topics into manageable chapters with
-                      real-world examples and progressive learning paths.
                     </p>
-
-                    <div className="flex flex-wrap gap-3">
-                      <span className="px-5 py-2.5 rounded-full bg-primary bg-opacity-5 text-primary text-sm font-medium">Interactive Lessons</span>
-                      <span className="px-5 py-2.5 rounded-full bg-primary bg-opacity-5 text-primary text-sm font-medium">ES6+ Coverage</span>
-                      <span className="px-5 py-2.5 rounded-full bg-primary bg-opacity-5 text-primary text-sm font-medium">Guided Exercises</span>
+                    
+                    <div className="flex flex-wrap gap-2 mb-5">
+                      <span className="px-3 py-1.5 rounded-full bg-primary/5 text-primary text-xs font-medium">Interactive Lessons</span>
+                      <span className="px-3 py-1.5 rounded-full bg-primary/5 text-primary text-xs font-medium">ES6+</span>
+                      <span className="px-3 py-1.5 rounded-full bg-primary/5 text-primary text-xs font-medium">Guided</span>
                     </div>
-
-                    <div className="latest-topics space-y-4 mt-10">
-                      <p className="font-medium text-sm uppercase tracking-wider text-gray-500">Popular Topics:</p>
+                    
+                    <div className="space-y-2.5 mb-6">
                       {topics?.slice(0, 2).map((topic) => (
                         <div
                           key={topic.topic_id}
-                          className="p-5 rounded-xl bg-background-secondary hover:bg-background-secondary/80 flex justify-between items-center shadow-sm hover:shadow-md transition-all cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-gray-800"
+                          className="p-3 rounded-lg bg-background-secondary/60 hover:bg-background-secondary/80 flex justify-between items-center shadow-sm hover:shadow-md transition-all cursor-pointer border border-transparent hover:border-gray-200/20 dark:hover:border-gray-800/40"
                           onClick={() => navigate(`/topic/${topic.topic_id}`)}
                         >
-                          <div className="flex items-center gap-4">
-                            <div className={`w-3 h-3 rounded-full ${getStatusClass(topic.status || ProgressStatus.PENDING)}`}></div>
-                            <span className="font-medium">{topic.title}</span>
+                          <div className="flex items-center gap-2.5 text-sm">
+                            <div className={`w-2.5 h-2.5 rounded-full ${getStatusClass(topic.status || ProgressStatus.PENDING)}`}></div>
+                            <span className="font-medium truncate">{topic.title}</span>
                           </div>
-                          <div className="status-badge px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide"
-                            style={{
-                              backgroundColor: topic.status === ProgressStatus.COMPLETED ? 'rgba(var(--success-rgb), 0.1)' :
-                                topic.status === ProgressStatus.IN_PROGRESS ? 'rgba(var(--warning-rgb), 0.1)' :
-                                  'rgba(var(--gray-500-rgb), 0.1)',
-                              color: topic.status === ProgressStatus.COMPLETED ? 'var(--success)' :
-                                topic.status === ProgressStatus.IN_PROGRESS ? 'var(--warning)' :
-                                  'var(--gray-500)'
-                            }}>
-                            {topic.status || ProgressStatus.PENDING}
-                          </div>
+                          <BsArrowRight className="text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>
                       ))}
                     </div>
-
+                    
                     <button
-                      className="mt-6 px-8 py-4 rounded-xl bg-primary font-medium flex items-center gap-3 transition-all shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:translate-y-[-2px]"
-                      onClick={() => navigate('/topics')}
+                      className="w-full py-3 rounded-xl bg-primary font-medium flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/20 hover:translate-y-[-2px] text-sm"
+                      onClick={() => navigate('/library')}
                     >
                       Explore Library <BsArrowRight className="text-lg" />
                     </button>
                   </div>
-
-                  <div className="lg:w-5/12 flex flex-col justify-center py-8 lg:py-0">
-                    <div className="p-10 rounded-2xl bg-gradient-to-br from-background-secondary to-background shadow-xl border border-gray-200/10 dark:border-gray-800/20">
-                      <h4 className="text-xl font-bold mb-8 text-center">Your Learning Progress</h4>
-                      <div className="w-44 h-44 mx-auto my-8">
-                        <CircularProgressbar
-                          value={progress}
-                          text={`${progress}%`}
-                          styles={buildStyles({
-                            textSize: '1.5rem',
-                            pathColor: 'var(--primary-color)',
-                            textColor: 'var(--text-primary)',
-                            trailColor: 'rgba(var(--border-color-rgb), 0.1)',
-                            pathTransitionDuration: 0.5,
-                          })}
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-12 mt-8">
-                        <div className="text-center">
-                          <div className="text-3xl font-bold text-primary">{topics?.length || 0}</div>
-                          <div className="text-sm font-medium text-gray-500 mt-1">Total Topics</div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-3xl font-bold text-primary">{topics?.filter(topic => topic.status === ProgressStatus.COMPLETED).length || 0}</div>
-                          <div className="text-sm font-medium text-gray-500 mt-1">Completed</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              </div>
-
-              <div className="learning-section mb-24">
-                <div className="flex flex-col lg:flex-row gap-14 p-1">
-                  <div className="lg:w-5/12 flex flex-col justify-center order-2 lg:order-1 py-8 lg:py-0">
-                    <div className="p-10 rounded-2xl bg-gradient-to-br from-background-secondary to-background shadow-xl border border-gray-200/10 dark:border-gray-800/20">
-                      <h4 className="text-xl font-bold mb-8 text-center">Your Code Vault Progress</h4>
-                      <div className="w-44 h-44 mx-auto my-8">
-                        <CircularProgressbar
-                          value={labProgress}
-                          text={`${labProgress}%`}
-                          styles={buildStyles({
-                            textSize: '1.5rem',
-                            pathColor: 'var(--secondary-color)',
-                            textColor: 'var(--text-primary)',
-                            trailColor: 'rgba(var(--border-color-rgb), 0.1)',
-                            pathTransitionDuration: 0.5,
-                          })}
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-12 mt-8">
-                        <div className="text-center">
-                          <div className="text-3xl font-bold text-secondary">{snippets?.length || 0}</div>
-                          <div className="text-sm font-medium text-gray-500 mt-1">Total Snippets</div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-3xl font-bold text-secondary">{snippets?.filter(snippet => !snippet.is_locked).length || 0}</div>
-                          <div className="text-sm font-medium text-gray-500 mt-1">Unlocked</div>
-                        </div>
+                
+                {/* Code Vault Card */}
+                <div className="learning-card bg-gradient-to-br from-background to-background-secondary rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:translate-y-[-8px] border border-gray-200/10 dark:border-gray-800/20 group">
+                  <div className="h-36 relative overflow-hidden bg-secondary/5">
+                    <div className="absolute inset-0 opacity-20 bg-pattern-code"></div>
+                    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                      <div className="w-20 h-20 rounded-full flex items-center justify-center bg-secondary/10 backdrop-blur-sm transform group-hover:scale-110 transition-transform duration-300">
+                        <FaCode className="text-secondary text-3xl" />
                       </div>
                     </div>
+                    <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent"></div>
                   </div>
-
-                  <div className="lg:w-7/12 space-y-8 order-1 lg:order-2">
-                    <div className="flex items-center gap-5">
-                      <div className="flex-none w-14 h-14 rounded-xl bg-secondary bg-opacity-10 flex items-center justify-center shadow-md shadow-secondary/10">
-                        <FaCode className="text-secondary text-2xl" />
-                      </div>
-                      <h3 className="text-2xl md:text-3xl font-bold">Code Vault</h3>
-                    </div>
-
-                    <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
-                      Enhance your skills with our collection of practical code snippets and real-world examples.
-                      Each snippet is carefully crafted to demonstrate best practices and common patterns used
-                      in professional JavaScript development.
+                  
+                  <div className="p-6">
+                    <h3 className="text-2xl font-bold mb-3 flex items-center">
+                      Code Vault
+                      <span className="ml-auto inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-secondary/10 text-secondary">
+                        {labProgress}% Unlocked
+                      </span>
+                    </h3>
+                    
+                    <p className="text-gray-600 dark:text-gray-400 mb-5 text-sm leading-relaxed">
+                      Enhance your skills with practical code snippets and real-world examples for professional development.
                     </p>
-
-                    <div className="flex flex-wrap gap-3">
-                      <span className="px-5 py-2.5 rounded-full bg-secondary bg-opacity-5 text-secondary text-sm font-medium">Practical Examples</span>
-                      <span className="px-5 py-2.5 rounded-full bg-secondary bg-opacity-5 text-secondary text-sm font-medium">Best Practices</span>
-                      <span className="px-5 py-2.5 rounded-full bg-secondary bg-opacity-5 text-secondary text-sm font-medium">Multiple Difficulty Levels</span>
+                    
+                    <div className="flex flex-wrap gap-2 mb-5">
+                      <span className="px-3 py-1.5 rounded-full bg-secondary/5 text-secondary text-xs font-medium">Examples</span>
+                      <span className="px-3 py-1.5 rounded-full bg-secondary/5 text-secondary text-xs font-medium">Best Practices</span>
+                      <span className="px-3 py-1.5 rounded-full bg-secondary/5 text-secondary text-xs font-medium">Multi-Level</span>
                     </div>
-
-                    <div className="latest-snippets space-y-4 mt-10">
-                      <p className="font-medium text-sm uppercase tracking-wider text-gray-500">Featured Snippets:</p>
+                    
+                    <div className="space-y-2.5 mb-6">
                       {snippetsLoading ? (
-                        <div className="flex items-center justify-center p-12">
+                        <div className="flex items-center justify-center p-8">
                           <div className="loader"></div>
                         </div>
                       ) : (
                         snippets?.slice(0, 2).map((snippet) => (
                           <div
                             key={snippet.snippet_id}
-                            className="p-5 rounded-xl bg-background-secondary hover:bg-background-secondary/80 flex justify-between items-center shadow-sm hover:shadow-md transition-all cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-gray-800"
+                            className="p-3 rounded-lg bg-background-secondary/60 hover:bg-background-secondary/80 flex justify-between items-center shadow-sm hover:shadow-md transition-all cursor-pointer border border-transparent hover:border-gray-200/20 dark:hover:border-gray-800/40"
                             onClick={() => navigate(`/snippet/${snippet.snippet_id}`)}
                           >
-                            <div className="flex items-center gap-4">
-                              <div className={`w-3 h-3 rounded-full ${getStatusClass(snippet.is_locked ? 'LOCKED' : 'UNLOCKED')}`}></div>
-                              <span className="font-medium">{snippet.label}</span>
+                            <div className="flex items-center gap-2.5 text-sm">
+                              <div className={`w-2.5 h-2.5 rounded-full ${getStatusClass(snippet.is_locked ? 'LOCKED' : 'UNLOCKED')}`}></div>
+                              <span className="font-medium truncate">{snippet.label}</span>
                             </div>
-                            <div className={`difficulty-badge px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide difficulty-${getStatusClass(snippet.difficulty)}`}>
+                            <div className={`px-2 py-0.5 rounded-full text-xs difficulty-${getStatusClass(snippet.difficulty)}`}>
                               {snippet.difficulty}
                             </div>
                           </div>
                         ))
                       )}
                     </div>
-
+                    
                     <button
-                      className="mt-6 px-8 py-4 rounded-xl bg-secondary font-medium flex items-center gap-3 transition-all shadow-lg shadow-secondary/20 hover:shadow-xl hover:shadow-secondary/30 hover:translate-y-[-2px]"
+                      className="w-full py-3 rounded-xl bg-secondary font-medium flex items-center justify-center gap-2 transition-all shadow-lg shadow-secondary/10 hover:shadow-xl hover:shadow-secondary/20 hover:translate-y-[-2px] text-sm"
                       onClick={() => navigate('/snippets')}
                     >
                       Access Code Vault <BsArrowRight className="text-lg" />
                     </button>
                   </div>
                 </div>
-              </div>
-
-              <div className="learning-section">
-                <div className="flex flex-col lg:flex-row gap-14 p-1">
-                  <div className="lg:w-7/12 space-y-8">
-                    <div className="flex items-center gap-5">
-                      <div className="flex-none w-14 h-14 rounded-xl bg-accent-primary bg-opacity-10 flex items-center justify-center shadow-md shadow-accent-primary/10">
-                        <FaTrophy className="text-accent-primary text-2xl" />
+                
+                {/* Challenge Arena Card */}
+                <div className="learning-card bg-gradient-to-br from-background to-background-secondary rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:translate-y-[-8px] border border-gray-200/10 dark:border-gray-800/20 group">
+                  <div className="h-36 relative overflow-hidden bg-accent-primary/5">
+                    <div className="absolute inset-0 opacity-20 bg-pattern-arena"></div>
+                    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                      <div className="w-20 h-20 rounded-full flex items-center justify-center bg-accent-primary/10 backdrop-blur-sm transform group-hover:scale-110 transition-transform duration-300">
+                        <FaTrophy className="text-accent-primary text-3xl" />
                       </div>
-                      <h3 className="text-2xl md:text-3xl font-bold">Challenge Arena</h3>
                     </div>
-
-                    <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
-                      Test your knowledge and reinforce your learning with our interactive challenges.
-                      From multiple-choice questions to code output prediction, our arena offers varied
-                      exercises to solidify your understanding and identify knowledge gaps.
+                    <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent"></div>
+                  </div>
+                  
+                  <div className="p-6">
+                    <h3 className="text-2xl font-bold mb-3 flex items-center">
+                      Challenge Arena
+                      <span className="ml-auto inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-accent-primary/10 text-accent-primary">
+                        <AiFillFire className="mr-1" /> {streak} Streak
+                      </span>
+                    </h3>
+                    
+                    <p className="text-gray-600 dark:text-gray-400 mb-5 text-sm leading-relaxed">
+                      Test your knowledge with interactive challenges, quizzes, and code output predictions.
                     </p>
-
-                    <div className="flex flex-wrap gap-3">
-                      <span className="px-5 py-2.5 rounded-full bg-accent-primary bg-opacity-5 text-accent-primary text-sm font-medium">Interactive Quizzes</span>
-                      <span className="px-5 py-2.5 rounded-full bg-accent-primary bg-opacity-5 text-accent-primary text-sm font-medium">Code Challenges</span>
-                      <span className="px-5 py-2.5 rounded-full bg-accent-primary bg-opacity-5 text-accent-primary text-sm font-medium">Knowledge Assessment</span>
+                    
+                    <div className="flex flex-wrap gap-2 mb-5">
+                      <span className="px-3 py-1.5 rounded-full bg-accent-primary/5 text-accent-primary text-xs font-medium">Quizzes</span>
+                      <span className="px-3 py-1.5 rounded-full bg-accent-primary/5 text-accent-primary text-xs font-medium">Challenges</span>
+                      <span className="px-3 py-1.5 rounded-full bg-accent-primary/5 text-accent-primary text-xs font-medium">Assessment</span>
                     </div>
-
-                    <div className="arena-preview p-8 rounded-xl bg-background-secondary shadow-lg mt-10 border border-gray-200/10 dark:border-gray-800/20 hover:shadow-xl transition-all duration-300">
+                    
+                    <div className="mb-6 bg-background-secondary/60 rounded-lg p-4 relative overflow-hidden min-h-[100px]">
                       {questionsLoading ? (
-                        <div className="flex items-center justify-center p-12">
+                        <div className="flex items-center justify-center py-6">
                           <div className="loader"></div>
                         </div>
                       ) : currentQuestion ? (
-                        <div>
-                          <div className="flex justify-between items-center mb-5">
-                            <div className="flex items-center gap-2">
-                              <div className={`w-3 h-3 rounded-full ${currentQuestion.difficulty === Difficulty.BEGINNER ? 'bg-green-500' :
-                                currentQuestion.difficulty === Difficulty.INTERMEDIATE ? 'bg-yellow-500' : 'bg-red-500'
-                                }`}></div>
-                              <span className="text-sm font-medium">{currentQuestion.difficulty}</span>
+                        <>
+                          <div className="flex justify-between items-center mb-3">
+                            <div className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                              currentQuestion.difficulty === Difficulty.BEGINNER ? 'bg-green-500/10 text-green-500' :
+                              currentQuestion.difficulty === Difficulty.INTERMEDIATE ? 'bg-yellow-500/10 text-yellow-500' : 
+                              'bg-red-500/10 text-red-500'
+                            }`}>
+                              {currentQuestion.difficulty}
                             </div>
-                            <div className="text-sm text-gray-500">
-                              Sample Question
+                            <div className="text-xs text-gray-500">
+                              Question {currentQuestionIndex + 1}/{questions?.length || 0}
                             </div>
                           </div>
-
-                          <div className="font-medium text-lg mb-5"
+                          <div className="text-sm font-medium line-clamp-2 mb-2"
                             dangerouslySetInnerHTML={{
-                              __html: formatQuestionText(currentQuestion.question.length > 100 ?
-                                currentQuestion.question.substring(0, 100) + '...' :
+                              __html: formatQuestionText(currentQuestion.question.length > 80 ?
+                                currentQuestion.question.substring(0, 80) + '...' :
                                 currentQuestion.question)
                             }} />
-
-                          <div className="text-right">
-                            <span className="text-sm text-accent-primary font-medium inline-flex items-center gap-1.5 hover:gap-2.5 transition-all cursor-pointer">
-                              See full question in the Arena <BsArrowRight />
-                            </span>
+                          <div className="absolute bottom-2 right-2">
+                            <BsLightningCharge className="text-accent-primary text-lg" />
                           </div>
-                        </div>
+                        </>
                       ) : (
-                        <p className="text-center text-gray-500 py-10">No questions available</p>
+                        <p className="text-center text-gray-500 py-4 text-sm">No questions available</p>
                       )}
                     </div>
-
+                    
                     <button
-                      className="mt-6 px-8 py-4 rounded-xl bg-accent-primary font-medium flex items-center gap-3 transition-all shadow-lg shadow-accent-primary/20 hover:shadow-xl hover:shadow-accent-primary/30 hover:translate-y-[-2px]"
+                      className="w-full py-3 rounded-xl bg-accent-primary font-medium flex items-center justify-center gap-2 transition-all shadow-lg shadow-accent-primary/10 hover:shadow-xl hover:shadow-accent-primary/20 hover:translate-y-[-2px] text-sm"
                       onClick={() => navigate('/arena')}
                     >
                       Enter the Arena <BsArrowRight className="text-lg" />
                     </button>
                   </div>
-
-                  <div className="lg:w-5/12 flex flex-col justify-center py-8 lg:py-0">
-                    <div className="p-10 rounded-2xl bg-gradient-to-br from-background-secondary to-background shadow-xl border border-gray-200/10 dark:border-gray-800/20">
-                      <h4 className="text-xl font-bold mb-8 text-center">Your Challenge Stats</h4>
-
-                      <div className="w-52 h-52 mx-auto my-8 flex flex-col items-center justify-center bg-accent-primary bg-opacity-5 rounded-full shadow-[0_0_40px_rgba(var(--accent-primary-rgb),0.15)] relative">
-                        {showConfetti && (
-                          <div className="confetti-container absolute inset-0 z-10 pointer-events-none">
-                            <div className="confetti"></div>
-                            <div className="confetti"></div>
-                            <div className="confetti"></div>
-                          </div>
-                        )}
-                        <span className="text-sm text-accent-primary uppercase font-medium tracking-wider">Your Score</span>
-                        <div className={`text-5xl font-bold text-accent-primary mt-3 ${scoreUpdated ? 'score-updated' : ''}`}>
-                          {miniScore}
-                        </div>
-                        <div className="flex items-center gap-1.5 mt-3">
-                          <AiFillFire className="text-accent-primary text-xl" />
-                          <span className="text-sm font-medium">{streak} streak</span>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-12 mt-8">
-                        <div className="text-center">
-                          <div className="text-3xl font-bold text-accent-primary">{questions?.length || 0}</div>
-                          <div className="text-sm font-medium text-gray-500 mt-1">Questions</div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-3xl font-bold text-accent-primary">3</div>
-                          <div className="text-sm font-medium text-gray-500 mt-1">Difficulty Levels</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
 
-            <section className="features-section my-32 animate-[fade-in-up_1s_ease-in-out]" style={{ animationDelay: '0.4s' }}>
+            <section className="features-section mt-20 animate-[fade-in-up_1s_ease-in-out]" style={{ animationDelay: '0.4s' }}>
               <div className="text-center mb-6">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight mx-auto max-w-2xl">
                   Powerful Learning <span className="gradient-text">Experience</span>
@@ -886,12 +681,10 @@ const Home: React.FC = () => {
                 </div>
 
                 <div className="flex flex-wrap justify-center gap-6 mb-6 md:mb-0">
-                  <a href="/about" className="text-sm hover:text-primary transition-all hover:-translate-y-1 duration-300">About Us</a>
-                  <a href="/contact" className="text-sm hover:text-primary transition-all hover:-translate-y-1 duration-300">Contact</a>
                   <a href="/library" className="text-sm hover:text-primary transition-all hover:-translate-y-1 duration-300">Library</a>
-                  <a href="/arena" className="text-sm hover:text-primary transition-all hover:-translate-y-1 duration-300">Arena</a>
                   <a href="/lab" className="text-sm hover:text-primary transition-all hover:-translate-y-1 duration-300">Code Vault</a>
-                  <a href="/blogs" className="text-sm hover:text-primary transition-all hover:-translate-y-1 duration-300">Blog</a>
+                  <a href="/blogs" className="text-sm hover:text-primary transition-all hover:-translate-y-1 duration-300">Blogs</a>
+                  <a href="/arena" className="text-sm hover:text-primary transition-all hover:-translate-y-1 duration-300">Arena</a>
                 </div>
 
                 <div className="flex items-center gap-3.5">

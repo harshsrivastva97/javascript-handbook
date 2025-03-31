@@ -1,50 +1,45 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { RiJavascriptLine } from "react-icons/ri";
-import { HiChevronLeft } from "react-icons/hi";
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { LibrarySchema } from "../../api/types/libraryTypes";
 import { getAllTopics, getTopicDetails } from "../../redux/slices/librarySlice";
 import { resetUserProgress, updateTopicStatus } from "../../redux/slices/progressSlice";
 import { ProgressStatus } from "../../constants/enums";
 import { calculateProgress } from "../../utils/progressUtils";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import Confetti from 'react-confetti';
+import { RiJavascriptLine } from "react-icons/ri";
+import { HiChevronLeft } from "react-icons/hi";
+import { FiCode, FiCheckCircle, FiCircle } from "react-icons/fi";
 import AppLoader from "../../components/AppLoader/AppLoader";
-import { FiCode } from "react-icons/fi";
 import Modal from "../../components/Modal/Modal";
 import JsEditor from "../../components/JsEditor/JsEditor";
-import remarkGfm from "remark-gfm";
-import ReactMarkdown from "react-markdown";
-import { FiCheckCircle, FiCircle } from "react-icons/fi";
-import Confetti from 'react-confetti';
+
 import "./Library.scss";
 
 const Library: React.FC = () => {
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
+  const user = useAppSelector(state => state.userData.user);
   const topics = useAppSelector(state => state.topicsData.topics);
-  const progress = useMemo(() => calculateProgress(topics), [topics]);
-  const [motivationalMessage, setMotivationalMessage] = useState('');
-  const [lastProgress, setLastProgress] = useState(0);
-  const [showProgressTooltip, setShowProgressTooltip] = useState(false);
-
-  const [selectedTopic, setselectedTopic] = useState<LibrarySchema | null>(null);
-  const [showCopied, setShowCopied] = useState(false);
+  
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [isLoadingDetails, setIsLoadingDetails] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [isEditorOpen, setIsEditorOpen] = useState(false);
-  const [editorCode, setEditorCode] = useState('');
+  const [showProgressTooltip, setShowProgressTooltip] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-
-  const user = useAppSelector(state => state.userData.user);
-
-  const isTopicCompleted = (topicId: number) => {
-    const topic = topics.find((t: LibrarySchema) => t.topic_id === topicId);
-    return topic?.status === ProgressStatus.COMPLETED;
-  };
-
+  
+  const [selectedTopic, setSelectedTopic] = useState<LibrarySchema | null>(null);
+  const [motivationalMessage, setMotivationalMessage] = useState('');
+  const [lastProgress, setLastProgress] = useState(0);
+  
+  const progress = useMemo(() => calculateProgress(topics), [topics]);
   const completedCount = topics.filter((t: LibrarySchema) => t.status === ProgressStatus.COMPLETED).length;
+
+  const isTopicCompleted = (topicId: number) => 
+    topics.find((t: LibrarySchema) => t.topic_id === topicId)?.status === ProgressStatus.COMPLETED;
 
   const getMotivationalMessage = (progressValue: number) => {
     if (progressValue === 0) return "Ready to start your JavaScript journey?";
@@ -55,41 +50,27 @@ const Library: React.FC = () => {
     return "Congratulations! You've completed all topics! 🎉";
   };
 
-  useEffect(() => {
-    // Update motivational message when progress changes
-    const newMessage = getMotivationalMessage(progress);
-    setMotivationalMessage(newMessage);
+  const showConfettiEffect = () => {
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 3000);
+  };
 
-    // Check if we've reached a milestone
-    const milestones = [25, 50, 75, 100];
-    const prevMilestone = milestones.find(m => lastProgress < m);
-    const currMilestone = milestones.find(m => progress >= m && lastProgress < m);
-    
-    if (currMilestone && prevMilestone && currMilestone === prevMilestone) {
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 3000);
-    }
-    
-    setLastProgress(progress);
-  }, [progress, lastProgress]);
-
-  const toggleTopicComplete = (topicId: number) => {
+  const toggleTopicComplete = (topicId: number, e?: React.MouseEvent) => {
+    e?.stopPropagation();
     if (!user?.user_id) return;
 
     const topic = topics.find((t: LibrarySchema) => t.topic_id === topicId);
-    const newStatus: ProgressStatus = topic?.status === ProgressStatus.COMPLETED ? ProgressStatus.PENDING : ProgressStatus.COMPLETED;
+    const newStatus = topic?.status === ProgressStatus.COMPLETED ? ProgressStatus.PENDING : ProgressStatus.COMPLETED;
 
-    // Show confetti when marking as completed
     if (newStatus === ProgressStatus.COMPLETED) {
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 3000);
+      showConfettiEffect();
     }
 
     dispatch(updateTopicStatus({
       user_id: user.user_id,
       topic_id: topicId,
       status: newStatus,
-      dispatch: dispatch
+      dispatch
     }));
   };
 
@@ -97,8 +78,7 @@ const Library: React.FC = () => {
     setIsLoadingDetails(true);
     try {
       const result = await dispatch(getTopicDetails(topic.topic_id.toString())).unwrap();
-      setselectedTopic(result);
-      setEditorCode('// Try your code here');
+      setSelectedTopic(result);
     } catch (error) {
       console.error('Failed to fetch topic details:', error);
     } finally {
@@ -106,27 +86,34 @@ const Library: React.FC = () => {
     }
   };
 
-  const handleOpenEditor = () => {
-    setIsEditorOpen(true);
-    if (window.innerWidth < 1400 && isSidebarOpen) {
-      setIsSidebarOpen(false);
-    }
-  };
+  const toggleEditor = () => setIsEditorOpen(prev => !prev);
 
-  const toggleEditor = () => {
-    setIsEditorOpen(prev => !prev);
-  };
-
-  const resetProgress = async () => {
+  const handleResetProgress = async () => {
     if (!user?.user_id) return;
     await dispatch(resetUserProgress(user.user_id));
     await dispatch(getAllTopics(user.user_id));
     setShowResetConfirm(false);
   };
 
+  const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
+
   useEffect(() => {
     dispatch(getAllTopics(user?.user_id || ''));
-  }, [dispatch]);
+  }, [dispatch, user?.user_id]);
+
+  useEffect(() => {
+    setMotivationalMessage(getMotivationalMessage(progress));
+
+    const milestones = [25, 50, 75, 100];
+    const prevMilestone = milestones.find(m => lastProgress < m);
+    const currMilestone = milestones.find(m => progress >= m && lastProgress < m);
+    
+    if (currMilestone && prevMilestone && currMilestone === prevMilestone) {
+      showConfettiEffect();
+    }
+    
+    setLastProgress(progress);
+  }, [progress, lastProgress]);
 
   useEffect(() => {
     const conceptId = searchParams.get('conceptId');
@@ -153,9 +140,8 @@ const Library: React.FC = () => {
         />
       )}
       
-      {/* Sidebar Toggle Button */}
       <button
-        onClick={() => setIsSidebarOpen(prev => !prev)}
+        onClick={toggleSidebar}
         className={`sidebar-toggle flex-center ${!isSidebarOpen ? 'collapsed' : ''}`}
         aria-label={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
       >
@@ -168,18 +154,10 @@ const Library: React.FC = () => {
         title="Reset Progress"
         actions={
           <>
-            <button
-              className="modal-button cancel"
-              onClick={() => setShowResetConfirm(false)}
-            >
+            <button className="modal-button cancel" onClick={() => setShowResetConfirm(false)}>
               Cancel
             </button>
-            <button
-              className="modal-button confirm"
-              onClick={() => {
-                resetProgress();
-              }}
-            >
+            <button className="modal-button confirm" onClick={handleResetProgress}>
               Reset
             </button>
           </>
@@ -199,10 +177,7 @@ const Library: React.FC = () => {
               </div>
               <button
                 className="svg-action"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowResetConfirm(true);
-                }}
+                onClick={() => setShowResetConfirm(true)}
                 aria-label="Reset progress"
               >
                 ↺
@@ -266,7 +241,7 @@ const Library: React.FC = () => {
                     </div>
                     <button 
                       className="completion-toggle"
-                      onClick={(e) => toggleTopicComplete(topic.topic_id)}
+                      onClick={(e) => toggleTopicComplete(topic.topic_id, e)}
                       aria-label={isCompleted ? "Mark as incomplete" : "Mark as complete"}
                     >
                       {isCompleted ? (
@@ -285,7 +260,7 @@ const Library: React.FC = () => {
         {/* Content Area */}
         <div className={`content-area ${!isSidebarOpen ? 'sidebar-collapsed' : ''} ${isEditorOpen ? 'editor-open' : ''}`}>
           {isLoadingDetails ? (
-            <AppLoader text="Loading topic details..." excludeHeader={false} />
+            <AppLoader />
           ) : selectedTopic ? (
             <>
               <div className="content-wrapper text-left">
@@ -296,9 +271,7 @@ const Library: React.FC = () => {
 
               {isEditorOpen && (
                 <div className="editor-wrapper">
-                  <JsEditor
-                    onClose={toggleEditor}
-                  />
+                  <JsEditor onClose={toggleEditor} />
                 </div>
               )}
             </>

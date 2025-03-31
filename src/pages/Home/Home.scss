@@ -180,81 +180,6 @@ $gray-500: #6b7280;
 }
 
 // =======================================================================
-// Navbar styles
-// =======================================================================
-nav {
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(var(--border-color-rgb), 0.08);
-  
-  &.bg-background {
-    background-color: rgba(var(--background-rgb), 0.9);
-  }
-  
-  .nav-link {
-    position: relative;
-    
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--primary-color), var(--accent-primary));
-      transition: all 0.3s ease;
-      transform: translateX(-50%);
-      opacity: 0;
-      border-radius: 1px;
-    }
-    
-    &:hover::after {
-      width: 100%;
-      opacity: 1;
-    }
-    
-    &:hover {
-      transform: translateY(-1px);
-    }
-  }
-  
-  button {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: hidden;
-    
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transform: translateX(-100%);
-    }
-    
-    &:hover::after {
-      transform: translateX(100%);
-      transition: transform 0.6s ease;
-    }
-  }
-}
-
-// Makes the gradient animation smoother in modern browsers
-@media (prefers-reduced-motion: no-preference) {
-  .bg-gradient-to-r,
-  .bg-gradient-to-br {
-    background-size: 200% 200%;
-    transition: background-position 0.5s ease;
-    
-    &:hover {
-      background-position: right center;
-    }
-  }
-}
-
-// =======================================================================
 // Base styles
 // =======================================================================
 .home {
@@ -1544,5 +1469,14 @@ footer {
         transform: translateY(-2px) scale(1.1);
       }
     }
+  }
+}
+
+// Makes the gradient animation smoother in modern browsers
+@media (prefers-reduced-motion: no-preference) {
+  .bg-gradient-to-r,
+  .bg-gradient-to-br {
+    background-size: 200% 200%;
+    transition: background-position 0.5s ease;
   }
 }
