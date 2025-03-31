@@ -1,10 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
-import topicsDataMapReducer from './slices/topicsDataMapSlice.ts';
+import userReducer from './slices/userSlice';
+import topicsReducer from './slices/librarySlice';
+import snippetsReducer from './slices/snippetsSlice';
+import blogsReducer from './slices/blogsSlice';
+import progressReducer from './slices/progressSlice';
+import questionsReducer from './slices/questionsSlice';
 
 const store = configureStore({
   reducer: {
-    topicsData: topicsDataMapReducer
-  },
+    userData: userReducer,
+    topicsData: topicsReducer,
+    snippets: snippetsReducer,
+    blogs: blogsReducer,
+    progress: progressReducer,
+    questions: questionsReducer
+  }
 });
 
 export type RootState = ReturnType<typeof store.getState>;

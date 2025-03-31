@@ -1,0 +1,16 @@
+export default {
+    INVALID_LOGIN_CREDENTIALS: "Invalid login credentials",
+    INVALID_SIGNUP_EMAIL_EXISTS: "Email already in use. Please log in instead.",
+    "auth/email-already-in-use": "Email already in use. Please log in instead.",
+    "auth/invalid-email": "Invalid email address format",
+    "auth/operation-not-allowed": "Operation not allowed. Please contact support.",
+    "auth/weak-password": "Password is too weak. It should be at least 6 characters long.",
+    "auth/user-disabled": "This account has been disabled. Please contact support.",
+    "auth/user-not-found": "No account found with this email. Please sign up.",
+    "auth/wrong-password": "Incorrect password. Please try again.",
+    "auth/invalid-credential": "Invalid login credentials. Please try again.",
+    "auth/popup-closed-by-user": "Sign in was cancelled. Please try again.",
+    "auth/popup-blocked": "Pop-up was blocked by your browser. Please allow pop-ups and try again.",
+    "auth/network-request-failed": "Network error. Please check your connection and try again.",
+    "auth/too-many-requests": "Too many unsuccessful attempts. Please try again later.",
+} 

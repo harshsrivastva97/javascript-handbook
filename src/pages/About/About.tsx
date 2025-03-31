@@ -1,244 +1,265 @@
-"use client";
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import {
-  FaCode,
-  FaLightbulb,
-  FaUsers,
-  FaHeart,
-  FaJsSquare,
-  FaReact,
-  FaNodeJs,
-  FaNpm,
-  FaVuejs,
-  FaGithub,
-  FaCode as FaCodeAlt
+import { useNavigate } from "react-router-dom";
+import { 
+  FaRocket, 
+  FaLightbulb, 
+  FaCode, 
+  FaBook,
+  FaLaptopCode,
+  FaUserGraduate
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { SiTypescript } from "react-icons/si";
-import "./About.scss";
+import './About.scss';
+import { useTheme } from "../../contexts/ThemeContext";
 
 const About: React.FC = () => {
+  const { theme } = useTheme();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+    
+    document.documentElement.style.scrollBehavior = 'smooth';
+    
+    return () => {
+      clearTimeout(timer);
+      document.documentElement.style.scrollBehavior = '';
+    };
+  }, []);
+
+  const handleStartLearning = () => {
+    navigate('/library');
+  };
+
+  const features = [
+    {
+      title: "Comprehensive Library",
+      icon: <FaBook />,
+      description: "Dive into our extensive JavaScript library covering everything from fundamentals to advanced concepts."
+    },
+    {
+      title: "Interactive Lab",
+      icon: <FaLaptopCode />,
+      description: "Practice what you learn in our interactive coding environment with real-time feedback."
+    },
+    {
+      title: "Dev Insights",
+      icon: <FaLightbulb />,
+      description: "Stay updated with the latest JavaScript trends, best practices, and expert tips."
+    },
+    {
+      title: "Skill Arena",
+      icon: <FaUserGraduate />,
+      description: "Test your knowledge with challenging quizzes and coding exercises to reinforce learning."
+    }
+  ];
+
+  const values = [
+    {
+      title: "Accessibility",
+      description: "We believe quality education should be accessible to everyone, regardless of background or resources."
+    },
+    {
+      title: "Excellence",
+      description: "We strive for technical excellence in our content, ensuring accuracy and relevance in a rapidly evolving field."
+    },
+    {
+      title: "Community",
+      description: "We foster a supportive community where learners help each other grow and succeed together."
+    },
+    {
+      title: "Innovation",
+      description: "We continuously innovate our learning approaches to make complex concepts more intuitive and engaging."
+    }
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.2,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 15, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="loading-container">
+        <div className="loader"></div>
+      </div>
+    );
+  }
+
   return (
-    <motion.div
-      className="about-container"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
-      <div className="about-content">
-        <section className="content-section">
-          <motion.div
-            className="main-intro"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.3 }}
+    <div className={`about-page ${theme}`}>
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="container">
+          <motion.div 
+            className="hero-content"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            <motion.h1
-              className="page-title"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              About
-            </motion.h1>
+            <h1>
+              About <span className="gradient-text">JS Handbook</span>
+            </h1>
+            <p className="subtitle">
+              Our mission is to make JavaScript learning accessible, engaging, and effective for everyone.
+            </p>
+          </motion.div>
+        </div>
+        <div className="hero-pattern"></div>
+      </section>
 
-            <div className="intro-content">
-              <div className="text-content">
-                <p>
-                  As a front-end developer, mastering JavaScript is essential, whether you're gearing up for job interviews or enhancing your personal skill set. Recognizing the scarcity of comprehensive and freely accessible resources on this pivotal topic, we have JavaScript Handbook, an open-source, community-driven platform dedicated to high-quality JavaScript education. Here, developers can engage with interactive learning modules, practice through real-life coding challenges, and achieve a profound understanding of JavaScript.
-                </p>
-                <p>
-                  Join us and contribute to a thriving open-source community that values knowledge sharing and collective improvement. Together, we'll navigate the complexities of JavaScript, transforming challenges into opportunities for growth.
-                </p>
-              </div>
+      {/* Our Story Section */}
+      <section className="story-section">
+        <div className="container">
+          <motion.div 
+            className="section-title compact"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <FaRocket className="section-icon" />
+            <h2>Our Story</h2>
+          </motion.div>
 
-              <div className="animated-illustration">
-                <motion.div
-                  className="floating-icons"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  {/* Core Layer */}
-                  <motion.div
-                    className="icon-wrapper js core"
-                    animate={{
-                      scale: [1, 1.05, 1],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  >
-                    <FaJsSquare />
-                  </motion.div>
-
-                  {/* Framework Layer */}
-                  <div className="framework-layer">
-                    <motion.div
-                      className="icon-wrapper react"
-                      animate={{ y: [-3, 3] }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <FaReact />
-                    </motion.div>
-
-                    <motion.div
-                      className="icon-wrapper vue"
-                      animate={{ y: [3, -3] }}
-                      transition={{
-                        duration: 2.5,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <FaVuejs />
-                    </motion.div>
-
-                    <motion.div
-                      className="icon-wrapper typescript"
-                      animate={{ y: [-3, 3] }}
-                      transition={{
-                        duration: 2.2,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <SiTypescript />
-                    </motion.div>
-                  </div>
-
-                  {/* Tools Layer */}
-                  <div className="tools-layer">
-                    <motion.div
-                      className="icon-wrapper node"
-                      animate={{ y: [2, -2] }}
-                      transition={{
-                        duration: 2.3,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <FaNodeJs />
-                    </motion.div>
-
-                    <motion.div
-                      className="icon-wrapper npm"
-                      animate={{ y: [-2, 2] }}
-                      transition={{
-                        duration: 2.1,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <FaNpm />
-                    </motion.div>
-
-                    <motion.div
-                      className="icon-wrapper github"
-                      animate={{ y: [2, -2] }}
-                      transition={{
-                        duration: 2.4,
-                        repeat: Infinity,
-                        repeatType: "reverse",
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <FaGithub />
-                    </motion.div>
-                  </div>
-                </motion.div>
+          <motion.div 
+            className="story-content"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="story-text">
+              <p>
+                JS Handbook began with a simple idea: to create the resource we wished we had when we were learning JavaScript. 
+                In a world of fragmented tutorials and outdated documentation, we saw the need for a comprehensive, interactive, 
+                and constantly updated platform for JavaScript learners at all levels.
+              </p>
+              <p>
+                We believe that understanding JavaScript deeply is not just about remembering syntax, 
+                but about grasping concepts and applying them to solve real problems.
+              </p>
+              <p>
+                Today, JS Handbook continues to evolve with the JavaScript ecosystem, offering curated learning paths, 
+                interactive coding challenges, and a supportive community. Our goal remains the same: to help you 
+                <span className="gradient-text-accent"> code smarter and execute brilliantly</span>.
+              </p>
+            </div>
+            <div className="story-image">
+              <div className="code-sphere">
+                <div className="orbit">
+                  <div className="planet"></div>
+                </div>
+                <div className="orbit">
+                  <div className="planet"></div>
+                </div>
+                <div className="orbit">
+                  <div className="planet"></div>
+                </div>
               </div>
             </div>
           </motion.div>
-        </section>
+        </div>
+      </section>
 
-        <section className="features-section">
-          <div className="features-grid">
-            <motion.div
-              className="feature-card"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              <div className="card-content">
-                <FaCode className="icon" />
-                <h2>Interactive Learning</h2>
-                <p>
-                  Explore JavaScript with our hands-on platform, blending theory with practical exercises. Master advanced techniques and best practices while engaging with real-world scenarios designed for modern web development.
-                </p>
-              </div>
-            </motion.div>
+      {/* Features Section */}
+      <section className="features-section">
+        <div className="container">
+          <motion.div 
+            className="section-title compact"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <FaCode className="section-icon" />
+            <h2>What We Offer</h2>
+          </motion.div>
 
-            <motion.div
-              className="feature-card"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              <div className="card-content">
-                <FaLightbulb className="icon" />
-                <h2>Our Vision</h2>
-                <p>
-                  Envisioning a world where developers at all levels access top JavaScript resources, our platform thrives on community contributions and collaborative learning, actively shaping the future of JavaScript in web development.
-                </p>
-              </div>
-            </motion.div>
+          <motion.div 
+            className="features-grid"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {features.map((feature, index) => (
+              <motion.div 
+                key={index} 
+                className="feature-card"
+                variants={itemVariants}
+              >
+                <div className="feature-icon">{feature.icon}</div>
+                <h3>{feature.title}</h3>
+                <p>{feature.description}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
 
-            <motion.div
-              className="feature-card"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              <div className="card-content">
-                <FaUsers className="icon" />
-                <h2>Join Our Community</h2>
-                <p>
-                  At JavaScript Handbook, we turn challenges into opportunities and ideas into reality. Dive into JavaScript, raise your first PR, and collaborate with peers to create innovative solutions. Your contributions drive our collective creativity and success.                </p>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+      {/* Values Section */}
+      <section className="values-section">
+        <div className="container">
+          <motion.div 
+            className="section-title compact"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <FaLightbulb className="section-icon" />
+            <h2>Our Core Values</h2>
+          </motion.div>
 
-        <motion.footer
-          className="about-footer"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-        >
-          <div className="footer-content">
-            <p className="made-with">
-              Made with <FaHeart className="heart-icon" /> by{" "}
-              <a href="https://www.linkedin.com/in/harsh-srivastva/" target="_blank" rel="noopener noreferrer">
-                Harsh Srivastva
-              </a>
-            </p>
-            <div className="footer-links">
-              <a href="https://github.com/harshsrivastva97/javascript-handbook" target="_blank" rel="noopener noreferrer">
-                GitHub
-              </a>
-              <span className="separator">•</span>
-              <Link to="/leaderboard">Leaderboard</Link>
-              <span className="separator">•</span>
-              <a href="mailto:harsh.srivastva97@gmail.com">Report an Issue</a>
-            </div>
-          </div>
-        </motion.footer>
-      </div>
-    </motion.div>
+          <motion.div 
+            className="values-grid"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {values.map((value, index) => (
+              <motion.div 
+                key={index} 
+                className="value-card"
+                variants={itemVariants}
+              >
+                <h3>{value.title}</h3>
+                <p>{value.description}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="cta-section">
+        <div className="container">
+          <motion.div 
+            className="cta-content"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2>Ready to elevate your JavaScript skills?</h2>
+            <p>Join thousands of developers who are mastering JavaScript with JS Handbook.</p>
+            <button className="cta-button" onClick={handleStartLearning}>Start Learning</button>
+          </motion.div>
+        </div>
+      </section>
+    </div>
   );
 };
 

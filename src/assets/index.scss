@@ -1,69 +1,9 @@
-@import './scss/theme';
+@forward './styles/themes';
+@forward './styles/global';
+@forward './styles/fonts';
 
-body {
-  margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0f1729 0%, #1a1b4b 100%);
-  position: relative;
-
-  // Stars
-  &::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image:
-      radial-gradient(white, rgba(255, 255, 255, .2) 2px, transparent 3px);
-    background-size: 50px 50px;
-    opacity: 0.1;
-    z-index: -1;
-  }
-
-  color: $text-primary;
-}
-
-// Clean up and standardize scrollbar styling
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba($accent, 0.3);
-  border-radius: 4px;
-
-  &:hover {
-    background: rgba($accent, 0.5);
-  }
-}
-
-a {
-  color: $accent;
-  text-decoration: none;
-  transition: color $transition-normal;
-
-  &:hover {
-    color: $accent-light;
-  }
-}
-
-button {
-  font-family: inherit;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-  background: rgba($accent, 0.1);
-  color: $accent;
-  padding: 0.2em 0.4em;
-  border-radius: 4px;
+.sp-code-editor {
+    .sp-icon-standalone {
+        display: none !important;
+    }
 }

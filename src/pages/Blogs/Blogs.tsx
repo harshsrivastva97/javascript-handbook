@@ -1,102 +1,217 @@
-import React from "react";
+import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { fetchBlogs } from "../../redux/slices/blogsSlice";
+import { BlogSchema } from "../../api/types/blogTypes";
+import { useNavigate } from "react-router-dom";
+import AppLoader from "../../components/AppLoader/AppLoader";
 import "./Blogs.scss";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { FiClock, FiCalendar } from "react-icons/fi";
-import { blogs } from "../../data/blogs";
 
 const Blogs: React.FC = () => {
-  const featuredBlog = blogs[0];
-  const remainingBlogs = blogs.slice(1);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const { blogs = [], loading, error } = useAppSelector((state) => state.blogs);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+  const [animationReady, setAnimationReady] = useState(false);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchBlogs()).unwrap();
+        // Add a slight delay before showing the content for a smoother transition
+        setTimeout(() => {
+          setIsVisible(true);
+          setTimeout(() => setAnimationReady(true), 300);
+        }, 100);
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+        setIsVisible(true);
+      }
+    };
+    fetchData();
+    
+    // Focus search on shortcut
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [dispatch]);
+
+  const handleBlogSelect = useCallback((blog: BlogSchema) => {
+    if (!blog?.blog_id) return;
+    navigate(`/dev-insights/${blog.blog_id}`);
+  }, [navigate]);
+
+  const handleKeyPress = useCallback((event: React.KeyboardEvent, blog: BlogSchema) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      handleBlogSelect(blog);
+    }
+  }, [handleBlogSelect]);
+  
+  const clearSearch = useCallback(() => {
+    setSearchTerm("");
+    searchInputRef.current?.focus();
+  }, []);
+  
+  const filteredBlogs = useMemo(() => {
+    return blogs.filter(blog =>
+      blog.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      blog.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      blog.tags?.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+  }, [blogs, searchTerm]);
+
+  const renderHeader = () => (
+    <header className="blog-header">
+      <div className="header-content">
+        <h1>JavaScript Handbook Blog</h1>
+        <p>Deep dive into JavaScript concepts, best practices, and expert insights</p>
+        {!loading && (
+          <div className="search-bar">
+            <i className="fas fa-search search-icon"></i>
+            <input
+              ref={searchInputRef}
+              type="text"
+              placeholder="Search by title, description, or tags... (⌘+K)"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              aria-label="Search blogs"
+            />
+            {searchTerm && (
+              <button 
+                onClick={clearSearch}
+                className="clear-button"
+                aria-label="Clear search"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </header>
+  );
+
+  if (loading) {
+    return (
+      <div className="blogs-container">
+        {renderHeader()}
+        <div className="blog-content-grid">
+          <div className="posts-grid">
+            {[...Array(6)].map((_, index) => (
+              <div key={`skeleton-${index}`} className="blog-card skeleton-card">
+                <div className="card-content">
+                  <div className="skeleton-title"></div>
+                  <div className="skeleton-description"></div>
+                  <div className="skeleton-description"></div>
+                  <div className="skeleton-description last"></div>
+                  <div className="card-footer">
+                    <div className="tags">
+                      <div className="skeleton-tag"></div>
+                      <div className="skeleton-tag"></div>
+                    </div>
+                    <div className="skeleton-read-more"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="blogs-container">
+        {renderHeader()}
+        <div className="error-container">
+          <h2>Error loading blogs</h2>
+          <p>{error}</p>
+          <button 
+            className="retry-button" 
+            onClick={() => dispatch(fetchBlogs())}
+            aria-label="Try loading blogs again"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="blogs">
-      <motion.div
-        className="hero-section"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="hero-content">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            JavaScript Learning Hub
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Explore in-depth articles about JavaScript concepts, best practices, and modern development techniques.
-          </motion.p>
-        </div>
-      </motion.div>
+    <div className="blogs-container">
+      {renderHeader()}
 
-      <div className="blogs-content">
-        {/* Featured Blog */}
-        <motion.div
-          className="featured-blog"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          <div className="featured-content">
-            <div className="meta flex items-center mb-1">
-              <FiCalendar className="mr-2" />
-              Featured Post
-            </div>
-            <h2>{featuredBlog.title}</h2>
-            <p>{featuredBlog.excerpt}</p>
-            <div className="tags">
-              {featuredBlog.tags.map((tag) => (
-                <span key={tag} className="tag">{tag}</span>
-              ))}
-            </div>
-            <Link to={`/blogs${featuredBlog.link}`} className="read-more">
-              Read Article
-            </Link>
-          </div>
-          <div className="featured-image">
-            <img src={featuredBlog.image} alt={featuredBlog.title} />
-          </div>
-        </motion.div>
-
-        {/* Blog Grid */}
-        <motion.div
-          className="blogs-grid"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-        >
-          {remainingBlogs.map((blog, index) => (
-            <motion.article
-              key={blog.id}
-              className="blog-card"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 + 0.7 }}
+      <div className="blog-content-grid">
+        {!filteredBlogs.length && searchTerm && (
+          <div className="no-results">
+            <h2>No matching posts found</h2>
+            <p>Try adjusting your search terms or browse all posts</p>
+            <button 
+              className="retry-button" 
+              onClick={clearSearch}
+              aria-label="Show all blog posts"
             >
-              <div className="card-image">
-                <img src={blog.image} alt={blog.title} loading="lazy" />
-              </div>
+              Show all posts
+            </button>
+          </div>
+        )}
+
+        <div className={`posts-grid ${isVisible ? 'visible' : ''}`}>
+          {filteredBlogs.map((blog, index) => (
+            <div
+              key={blog.blog_id}
+              className={`blog-card ${animationReady ? 'fade-in' : ''}`}
+              style={{ animationDelay: `${index * 0.05}s` }}
+              onClick={() => handleBlogSelect(blog)}
+              onKeyDown={(e) => handleKeyPress(e, blog)}
+              role="button"
+              tabIndex={0}
+              aria-label={`Read ${blog.title}`}
+            >
               <div className="card-content">
                 <h3>{blog.title}</h3>
-                <p>{blog.excerpt}</p>
-                <div className="tags">
-                  {blog.tags.map((tag) => (
-                    <span key={tag} className="tag">{tag}</span>
-                  ))}
+                <p>{blog.description}</p>
+                <div className="card-footer">
+                  <div className="tags">
+                    {blog.tags?.slice(0, 2).map((tag) => (
+                      <span 
+                        key={`blog-${blog.blog_id}-tag-${tag}`} 
+                        className="tag"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSearchTerm(tag);
+                        }}
+                      >
+                        <i className="fas fa-tag"></i>
+                        {tag}
+                      </span>
+                    ))}
+                    {blog.tags && blog.tags.length > 2 && (
+                      <span className="tag tag-more">
+                        +{blog.tags.length - 2} more
+                      </span>
+                    )}
+                  </div>
+                  <div className="read-more" aria-hidden="true">
+                    <span>Read More</span>
+                    <i className="fas fa-arrow-right"></i>
+                  </div>
                 </div>
-                <Link to={`/blogs${blog.link}`} className="read-more">
-                  Read Article
-                </Link>
               </div>
-            </motion.article>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </div>
   );

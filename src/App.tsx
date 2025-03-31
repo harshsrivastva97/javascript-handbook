@@ -1,47 +1,58 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { motion } from "framer-motion";
-import Home from "./pages/Home/Home.tsx";
-import CodeVault from "./pages/CodeVault/CodeVault.tsx";
-import Concepts from "./pages/Concepts/Concepts.tsx";
-import Blogs from "./pages/Blogs/Blogs.tsx";
-import Exercises from "./pages/Exercises/Exercises.tsx";
-import About from "./pages/About/About.tsx";
-import PageNotFound from "./components/PageNotFound/PageNotFound.tsx";
-import Leaderboard from "./pages/Leaderboard/Leaderboard.tsx";
-import BlogPost from './pages/BlogPost/BlogPost.tsx';
+import Home from "./pages/Home/Home";
+import Lab from "./pages/Lab/Lab";
+import Library from "./pages/Library/Library";
+import Blogs from "./pages/Blogs/Blogs";
+import Arena from "./pages/Arena/Arena";
+import About from "./pages/About/About";
+import PageNotFound from "./components/PageNotFound/PageNotFound";
+import BlogPost from './pages/BlogPost/BlogPost';
 import { Provider } from 'react-redux';
-import store from './redux/index.ts';
-import Header from "./components/Header/Header.tsx";
+import store from './redux/index';
+import Header from "./components/Header/Header";
+import Auth from "./pages/Auth/Auth";
+import Profile from "./pages/Profile/Profile";
+import './App.scss';
+import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.1,
-          ease: "easeOut",
-          type: "spring",
-          stiffness: 200,
-        }}
-      >
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/vault" element={<CodeVault />} />
-            <Route path="/concepts" element={<Concepts />} />
-            <Route path="/blogs" element={<Blogs />} />
-            <Route path="/blogs/:slug" element={<BlogPost />} />
-            <Route path="/exercises" element={<Exercises />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </Router>
-      </motion.div>
+      <ThemeProvider>
+        <AuthProvider>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.1,
+              ease: "easeOut",
+              type: "spring",
+              stiffness: 200,
+            }}
+          >
+            <StrictMode>
+              <Router>
+                <Header />
+                <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/library" element={<Library />} />
+                <Route path="/lab" element={<Lab />} />
+                <Route path="/dev-insights" element={<Blogs />} />
+                <Route path="/dev-insights/:slug" element={<BlogPost />} />
+                <Route path="/arena" element={<Arena />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="*" element={<PageNotFound />} />
+              </Routes>
+              </Router>
+            </StrictMode>
+          </motion.div>
+        </AuthProvider>
+      </ThemeProvider>
     </Provider>
   );
 };
