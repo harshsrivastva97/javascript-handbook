@@ -2,12 +2,14 @@
   "name": "javascript-handbook",
   "version": "3.0.0",
   "scripts": {
-    "start": "vite",
-    "build": "vite build",
+    "dev": "vite",
+    "build": "tsc && vite build",
     "view": "vite preview",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src --ext ts,tsx --fix",
-    "format": "prettier --write \"src/**/*.{ts,tsx,scss}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,scss}\"",
+    "preview": "vite preview",
+    "secure-deploy": "VITE_FORCE_HTTPS=true npm run build"
   },
   "author": "harsh.srivastva97",
   "license": "ISC",
