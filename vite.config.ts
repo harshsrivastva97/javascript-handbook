@@ -19,14 +19,36 @@ export default defineConfig({
         },
     },
     server: {
-        host: true, // Needed for the Docker Container port mapping to work
+        host: '0.0.0.0',
         strictPort: true,
-        port: parseInt(process.env.PORT) || 3000, // This is the port Render will use
+        port: parseInt(process.env.PORT) || 10000,
+        hmr: false,
+        watch: {
+            usePolling: true
+        }
     },
     preview: {
-        host: true,
+        host: '0.0.0.0',
         strictPort: true,
-        port: parseInt(process.env.PORT) || 3000,
-        allowedHosts: ['javascript-handbook.onrender.com', 'localhost']
+        port: parseInt(process.env.PORT) || 10000,
+        allowedHosts: ['javascript-handbook.onrender.com', 'localhost'],
+        headers: {
+            'Cache-Control': 'public, max-age=31536000, immutable',
+            'Connection': 'keep-alive',
+            'Keep-Alive': 'timeout=120'
+        }
+    },
+    build: {
+        outDir: 'dist',
+        assetsDir: 'assets',
+        sourcemap: false,
+        minify: 'terser',
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ['react', 'react-dom', 'react-router-dom'],
+                }
+            }
+        }
     }
 });
