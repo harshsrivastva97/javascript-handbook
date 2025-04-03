@@ -58,7 +58,7 @@ export default defineConfig({
         host: '0.0.0.0',
         strictPort: true,
         port: parseInt(process.env.PORT) || 10000,
-        allowedHosts: ['https://javascript-handbook.onrender.com', 'localhost', 'www.javascript-handbook.com', 'javascript-handbook.com'],
+        allowedHosts: ['https://javascript-handbook.onrender.com', 'localhost', 'www.javascript-handbook.com', 'javascript-handbook.com', 'javascript-handbook.onrender.com'],
         headers: {
             'Cache-Control': 'public, max-age=31536000, immutable',
             'Connection': 'keep-alive',
