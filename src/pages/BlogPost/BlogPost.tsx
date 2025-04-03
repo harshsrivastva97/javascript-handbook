@@ -129,7 +129,7 @@ const BlogPost: React.FC = () => {
   if (isLoading) {
     return (
       <div className="blog-post-loader">
-        <AppLoader text="Loading amazing content..." />
+        <AppLoader />
       </div>
     );
   }
@@ -151,11 +151,6 @@ const BlogPost: React.FC = () => {
   return (
     <div className="blog-post-container" ref={articleRef}>
       <div className="progress-bar" style={{ width: `${readingProgress}%` }} />
-      
-      <button className="back-nav-button" onClick={() => navigate(-1)}>
-        <FiArrowLeft />
-      </button>
-      
       <article className="blog-post">
         <div className="tags-container">
           <div className="tags">

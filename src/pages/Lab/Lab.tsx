@@ -72,7 +72,6 @@ const Lab: React.FC = () => {
 
   const getSnippetById = async (id: string) => {
     if (!id) return;
-    
     setIsLoading(true);
     try {
       const response = await dispatch(fetchSnippetById(id.toString())).unwrap();
@@ -124,9 +123,7 @@ const Lab: React.FC = () => {
   };
 
   useEffect(() => {
-    if (userId) {
-      dispatch(fetchSnippetsList(userId));
-    }
+    dispatch(fetchSnippetsList(userId || ''));
   }, [dispatch, userId]);
 
   return (
@@ -283,9 +280,7 @@ const Lab: React.FC = () => {
           {/* Code Editor */}
           <div className="code-container">
             {isLoading || snippetsLoading ? (
-              <AppLoader
-                text="Loading snippet..."
-              />
+              <AppLoader />
             ) : (
               <CodeEditor code={currentCode} />
             )}
