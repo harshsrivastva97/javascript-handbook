@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_ENVIRONMENT === 'prod' ? 'https://javascript-handbook-be.onrender.com/api/' : 'http://localhost:9000/api';
+export const API_URL = import.meta.env.VITE_ENVIRONMENT === 'prod' ? 'https://javascript-handbook-be.onrender.com/api' : 'http://localhost:9000/api';
 
 export const USER_URL = `${API_URL}/user`;
 export const LIBRARY_URL = `${API_URL}/library`;
