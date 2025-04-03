@@ -27,5 +27,6 @@ export default defineConfig({
         host: true,
         strictPort: true,
         port: parseInt(process.env.PORT) || 3000,
+        allowedHosts: ['javascript-handbook.onrender.com', 'localhost']
     }
 });
