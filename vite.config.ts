@@ -18,4 +18,14 @@ export default defineConfig({
             plugins: [require('tailwindcss'), require('autoprefixer')],
         },
     },
+    server: {
+        host: true, // Needed for the Docker Container port mapping to work
+        strictPort: true,
+        port: parseInt(process.env.PORT) || 3000, // This is the port Render will use
+    },
+    preview: {
+        host: true,
+        strictPort: true,
+        port: parseInt(process.env.PORT) || 3000,
+    }
 });
