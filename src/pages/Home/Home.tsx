@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo, useCallback, useState, useRef } from "react";
+import React, { useEffect, useMemo, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import { FaBook, FaCode, FaRocket, FaTrophy, FaArrowRight, FaTwitter, FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
-import { BsArrowRight, BsCheckCircleFill, BsLightningCharge, BsStars } from "react-icons/bs";
+import { FaBook, FaCode, FaRocket, FaTrophy, FaArrowRight } from "react-icons/fa";
+import { BsArrowRight, BsLightningCharge } from "react-icons/bs";
 import { AiFillFire } from "react-icons/ai";
-import { FaGithub, FaLinkedinIn, FaHeart, FaRegCopyright } from "react-icons/fa";
+import { FaHeart, FaRegCopyright } from "react-icons/fa";
 import 'react-circular-progressbar/dist/styles.css';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { getAllTopics } from "../../redux/slices/librarySlice";
@@ -24,10 +23,7 @@ const Home: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
   const [miniTimer, setMiniTimer] = useState(10);
-  const [miniScore, setMiniScore] = useState(0);
-  const [scoreUpdated, setScoreUpdated] = useState(false);
   const [streak, setStreak] = useState(0);
-  const [showConfetti, setShowConfetti] = useState(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -149,21 +145,8 @@ const Home: React.FC = () => {
         isCorrect = selectedOption?.toLowerCase() === question.answer?.toLowerCase();
       }
       if (isCorrect) {
-        const timeBonus = Math.floor(miniTimer * 5);
-        const points = 50 + timeBonus;
-        setMiniScore(prev => prev + points);
         const newStreak = streak + 1;
         setStreak(newStreak);
-        if (newStreak % 3 === 0) {
-          setShowConfetti(true);
-          setTimeout(() => {
-            setShowConfetti(false);
-          }, 3000);
-        }
-        setScoreUpdated(true);
-        setTimeout(() => {
-          setScoreUpdated(false);
-        }, 500);
       } else {
         setStreak(0);
       }
@@ -204,7 +187,6 @@ const Home: React.FC = () => {
       setSelectedOption(null);
       setIsAnswerSubmitted(false);
       setMiniTimer(10);
-      setMiniScore(0);
       setStreak(0);
     }
   };
@@ -533,7 +515,7 @@ const Home: React.FC = () => {
                     
                     <button
                       className="w-full py-3 rounded-xl bg-secondary font-medium flex items-center justify-center gap-2 transition-all shadow-lg shadow-secondary/10 hover:shadow-xl hover:shadow-secondary/20 hover:translate-y-[-2px] text-sm"
-                      onClick={() => navigate('/snippets')}
+                      onClick={() => navigate('/lab')}
                     >
                       Access Code Vault <BsArrowRight className="text-lg" />
                     </button>
@@ -690,14 +672,14 @@ const Home: React.FC = () => {
                 <div className="flex items-center gap-3.5">
                   <button
                     className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-all hover:-translate-y-1 duration-300"
-                    onClick={() => navigate('/login')}
+                    onClick={() => navigate('/auth')}
                     aria-label="Sign In"
                   >
                     Sign In
                   </button>
                   <button
                     className="px-4 py-2 rounded-lg bg-primary text-sm font-medium hover:bg-primary-dark transition-all hover:-translate-y-1 duration-300 shadow-sm hover:shadow-md"
-                    onClick={() => navigate('/register')}
+                    onClick={() => navigate('/auth')}
                     aria-label="Sign Up"
                   >
                     Sign Up

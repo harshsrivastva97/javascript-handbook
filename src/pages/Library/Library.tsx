@@ -15,7 +15,7 @@ import { FiCode, FiCheckCircle, FiCircle } from "react-icons/fi";
 import AppLoader from "../../components/AppLoader/AppLoader";
 import Modal from "../../components/Modal/Modal";
 import JsEditor from "../../components/JsEditor/JsEditor";
-
+import SignInModal from "../../components/Modal/SignInModal";
 import "./Library.scss";
 
 const Library: React.FC = () => {
@@ -30,6 +30,7 @@ const Library: React.FC = () => {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showProgressTooltip, setShowProgressTooltip] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showSignInModal, setShowSignInModal] = useState(false);
   
   const [selectedTopic, setSelectedTopic] = useState<LibrarySchema | null>(null);
   const [motivationalMessage, setMotivationalMessage] = useState('');
@@ -57,7 +58,10 @@ const Library: React.FC = () => {
 
   const toggleTopicComplete = (topicId: number, e?: React.MouseEvent) => {
     e?.stopPropagation();
-    if (!user?.user_id) return;
+    if (!user?.user_id) {
+      setShowSignInModal(true);
+      return;
+    }
 
     const topic = topics.find((t: LibrarySchema) => t.topic_id === topicId);
     const newStatus = topic?.status === ProgressStatus.COMPLETED ? ProgressStatus.PENDING : ProgressStatus.COMPLETED;
@@ -89,7 +93,10 @@ const Library: React.FC = () => {
   const toggleEditor = () => setIsEditorOpen(prev => !prev);
 
   const handleResetProgress = async () => {
-    if (!user?.user_id) return;
+    if (!user?.user_id) {
+      setShowSignInModal(true);
+      return;
+    }
     await dispatch(resetUserProgress(user.user_id));
     await dispatch(getAllTopics(user.user_id));
     setShowResetConfirm(false);
@@ -147,6 +154,12 @@ const Library: React.FC = () => {
       >
         <HiChevronLeft className="size-6" />
       </button>
+
+      <SignInModal
+        isOpen={showSignInModal}
+        onClose={() => setShowSignInModal(false)}
+        message="Sign in to track your progress on JavaScript topics"
+      />
 
       <Modal
         isOpen={showResetConfirm}

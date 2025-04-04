@@ -259,13 +259,6 @@ const Header: React.FC = () => {
                     >
                       Sign In
                     </button>
-                    <button
-                      className="signup-button"
-                      onClick={() => navigate('/register')}
-                      aria-label="Create a new account"
-                    >
-                      Sign Up
-                    </button>
                   </div>
                 ) : (
                   <NavLink to="/auth" className="auth-button">

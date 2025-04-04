@@ -11,6 +11,7 @@ import { SnippetSchema } from "../../api/types/snippetTypes";
 import CodeEditor from "../../components/CodeEditor/CodeEditor";
 import AppLoader from "../../components/AppLoader/AppLoader";
 import Modal from "../../components/Modal/Modal";
+import SignInModal from "../../components/Modal/SignInModal";
 import { defaultJsTemplate } from "../../constants/consts";
 import "./Lab.scss";
 
@@ -27,6 +28,7 @@ const Lab: React.FC = () => {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showSignInModal, setShowSignInModal] = useState(false);
   
   const confettiRef = useRef<HTMLDivElement>(null);
 
@@ -35,10 +37,7 @@ const Lab: React.FC = () => {
     return params.get("tab") || '';
   });
 
-  const [completedItems, setCompletedItems] = useState<string[]>(() => {
-    const saved = localStorage.getItem("completedItems");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [completedItems, setCompletedItems] = useState<string[]>([]);
 
   const totalItems = snippetsData.length;
   const progress = totalItems > 0 ? (completedItems.length / totalItems) * 100 : 0;
@@ -106,19 +105,26 @@ const Lab: React.FC = () => {
   }, [queryParams]);
 
   const handleCheckboxToggle = (snippet_id: number) => {
+    if (!userId) {
+      setShowSignInModal(true);
+      return;
+    }
+    
     setCompletedItems((prev) => {
       const newCompleted = prev.includes(snippet_id.toString())
         ? prev.filter((item) => item !== snippet_id.toString())
         : [...prev, snippet_id.toString()];
-
-      localStorage.setItem("completedItems", JSON.stringify(newCompleted));
       return newCompleted;
     });
   };
 
   const handleResetProgress = () => {
+    if (!userId) {
+      setShowSignInModal(true);
+      return;
+    }
+    
     setCompletedItems([]);
-    localStorage.removeItem("completedItems");
     setShowResetConfirm(false);
   };
 
@@ -276,6 +282,13 @@ const Lab: React.FC = () => {
 
         {/* Main Content Area */}
         <main className="practice-main">
+
+          {/* Sign In Modal */}
+          <SignInModal
+              isOpen={showSignInModal}
+              onClose={() => setShowSignInModal(false)}
+              message="Sign in to track your progress on JavaScript snippets"
+            />
 
           {/* Code Editor */}
           <div className="code-container">

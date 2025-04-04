@@ -528,7 +528,7 @@ const Arena: React.FC = () => {
               <span>Your high score: {gameState.highScore} points</span>
             </div>
           )}
-          <div className="introduction-content">
+          <div className="introduction-content mt-6">
             <div className="intro-details">
               <div className="intro-feature">
                 <span className="intro-icon">⏱️</span>

@@ -408,7 +408,7 @@
                 width: 100%;
             }
             
-            .signin-button, .signup-button {
+            .signin-button {
                 padding: 0.7rem 1.25rem;
                 border-radius: 0.75rem;
                 font-size: 0.875rem;
@@ -435,17 +435,6 @@
                 &:hover {
                     background: rgba(var(--background-secondary-rgb), 0.5);
                     border-color: rgba(var(--primary-rgb), 0.3);
-                }
-            }
-            
-            .signup-button {
-                background: linear-gradient(135deg, var(--primary-color), var(--accent-primary));
-                border: none;
-                color: white;
-                box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.25);
-                
-                &:hover {
-                    box-shadow: 0 6px 16px rgba(var(--primary-rgb), 0.35);
                 }
             }
         }

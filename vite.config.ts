@@ -48,8 +48,8 @@ export default defineConfig({
     server: {
         host: '0.0.0.0',
         strictPort: true,
-        port: parseInt(process.env.PORT) || 10000,
-        hmr: false,
+        port: parseInt(process.env.PORT) || 3000,
+        hmr: true,
         watch: {
             usePolling: true
         }
@@ -57,7 +57,7 @@ export default defineConfig({
     preview: {
         host: '0.0.0.0',
         strictPort: true,
-        port: parseInt(process.env.PORT) || 10000,
+        port: parseInt(process.env.PORT) || 3000,
         allowedHosts: ['localhost', 'javascript-handbook.onrender.com', 'www.javascript-handbook.com'],
         headers: {
             'Cache-Control': 'public, max-age=31536000, immutable',
