@@ -285,11 +285,14 @@ const Home: React.FC = () => {
               <div className="flex flex-col lg:flex-row items-center justify-between gap-12 max-w-7xl mx-auto">
                 <div className="text-content lg:w-1/2 space-y-8 md:pr-8">
                   <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight">
-                    Your Journey to <span className="gradient-text">JavaScript</span> Mastery
+                    Your One-Stop Hub for <span className="gradient-text">JavaScript</span> Mastery
                   </h1>
 
                   <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed">
-                    Master JavaScript through our immersive platform crafted by industry experts for real-world development.
+                    No noise. No confusion.
+                  <div>
+                    Just a clear, structured path to mastering JavaScript—start to expert.
+                  </div>
                   </p>
 
                   <div className="flex flex-wrap gap-5">
@@ -297,16 +300,16 @@ const Home: React.FC = () => {
                       className="primary-button px-8 py-4 rounded-full font-semibold flex items-center gap-3 bg-primary transition-all shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30"
                       onClick={handleNavigation('/library')}
                     >
-                      Begin Your Journey
+                      Learn by Topic
                       <span className="button-icon">
                         <FaArrowRight />
                       </span>
                     </button>
                     <button
                       className="secondary-button px-8 py-4 rounded-full font-semibold flex items-center gap-3 border border-gray-300 dark:border-gray-700 hover:bg-opacity-5 transition-all hover:-translate-y-0.5 duration-300"
-                      onClick={handleNavigation('/lab')}
+                      onClick={handleNavigation('/arena')}
                     >
-                      Explore Code Vault
+                      Take a Quiz
                       <span className="button-icon">
                         <FaCode />
                       </span>

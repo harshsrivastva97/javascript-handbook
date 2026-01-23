@@ -1,8 +1,8 @@
-@import "../../assets/styles/themes.scss";
+@use '@/assets/styles/themes.scss';
 
 /* Blog Post Layout */
 .blog-post-container {
-  position: relative;
+  position: relative; 
   height: 100vh;
   padding-bottom: 6rem;
   overflow-x: auto;

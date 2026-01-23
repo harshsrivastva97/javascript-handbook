@@ -8,7 +8,7 @@ An interactive guide to mastering JavaScript with comprehensive tutorials, code 
 git clone https://github.com/harshsrivastva97/javascript-handbook.git
 cd javascript-handbook
 npm install # or yarn install
-npm start # or yarn start
+npm run dev # or yarn dev
 ```
 
 Access the app at http://localhost:3000.
