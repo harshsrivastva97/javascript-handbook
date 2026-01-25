@@ -5,7 +5,7 @@ export const LIBRARY_URL = `${API_URL}/library`;
 export const PROGRESS_URL = `${API_URL}/progress`;
 export const SNIPPETS_URL = `${API_URL}/snippets`;
 export const BLOGS_URL = `${API_URL}/blogs`;
-export const ARENA_URL = `${API_URL}/questions`;
+export const QUIZ_URL = `${API_URL}/questions`;
 
 export const ENDPOINTS = {
     // User
@@ -24,6 +24,6 @@ export const ENDPOINTS = {
     // Blogs
     GET_BLOGS_LIST: `${BLOGS_URL}/`,
     GET_BLOG_DETAILS: `${BLOGS_URL}/:blogId`,
-    // Arena
-    GET_ARENA_QUESTIONS: `${ARENA_URL}/`,
+    // Quiz
+    GET_QUIZ_QUESTIONS: `${QUIZ_URL}/`,
 };

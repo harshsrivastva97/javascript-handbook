@@ -105,8 +105,8 @@ const Header: React.FC = () => {
       description: "Pro tips & guides"
     },
     {
-      title: "Arena",
-      path: "/arena",
+      title: "Quiz",
+      path: "/quiz",
       icon: <FaLaptopCode />,
       description: "Test your skills"
     },

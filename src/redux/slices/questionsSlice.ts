@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getArenaQuestions } from "../../api/services/questionsApi";
+import { getQuizQuestions } from "../../api/services/questionsApi";
 import { QuizQuestion } from "../../constants/interfaces/questions";
 
 interface QuestionsState {
@@ -15,7 +15,7 @@ const initialState: QuestionsState = {
 }
 
 export const getQuestions = createAsyncThunk('questions/getQuestions', async () => {
-    const response = await getArenaQuestions();
+    const response = await getQuizQuestions();
     return response;
 })
 

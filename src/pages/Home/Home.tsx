@@ -29,7 +29,7 @@ const Home: React.FC = () => {
               </button>
               <button
                 className="home__button home__button--secondary"
-                onClick={handleNavigation("/arena")}
+                onClick={handleNavigation("/quiz")}
               >
                 Quick Quiz
               </button>

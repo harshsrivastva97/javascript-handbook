@@ -37,7 +37,7 @@ javascript-handbook/
 - **JavaScript Resource Library**: Comprehensive tutorials and documentation
 - **Interactive Code Editor**: Write, run, and test JavaScript code in real-time
 - **Code Lab**: Experiment with JavaScript concepts in a sandbox environment
-- **Coding Arena**: Challenge yourself with progressively difficult coding problems
+- **Quiz**: Test your JavaScript knowledge with timed challenges, multiple question types, and competitive scoring with streaks
 - **Dev Insights Blog**: Stay updated with latest JavaScript trends and tips
 - **User Authentication**: Create an account and track your learning progress
 - **Profile Management**: Customize your profile and track achievements

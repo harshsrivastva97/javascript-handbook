@@ -33,9 +33,9 @@ export const EXPLORER_SECTIONS = [
     },
     {
         icon: <FaLaptopCode />,
-        title: "Arena",
+        title: "Quiz",
         description: "Lets see how far you have come.",
-        link: "/arena"
+        link: "/quiz"
     },
     {
         icon: <FaBook />,
