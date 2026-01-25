@@ -59,15 +59,6 @@ const Arena: React.FC = () => {
     });
   }, []);
 
-  const shuffleArray = (array: QuizQuestion[]) => {
-    const arrayCopy = [...array];
-    for (let i = arrayCopy.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arrayCopy[i], arrayCopy[j]] = [arrayCopy[j], arrayCopy[i]];
-    }
-    return arrayCopy;
-  };
-
   const getCurrentQuestion = (): QuizQuestion | null => {
     if (!questionsData || !Array.isArray(questionsData) || questionsData.length === 0) {
       return null;
@@ -230,18 +221,7 @@ const Arena: React.FC = () => {
   };
 
   const resetQuiz = () => {
-    // First get current questions and shuffle
-    if (questionsData.length > 0) {
-      // Shuffle questions when resetting the quiz
-      try {
-        const shuffled = shuffleArray([...questionsData]);
-        // We'll just reset the index since we can't directly update questions in Redux
-      } catch (error) {
-        // If shuffling fails, fetch new questions
-        dispatch(getQuestions());
-      }
-    } else {
-      // If no questions, fetch them
+    if (!questionsData.length) {
       dispatch(getQuestions());
     }
     
@@ -291,7 +271,7 @@ const Arena: React.FC = () => {
               // This is code - format it
               const code = part.slice(1, -1);
               return (
-                <code key={index} className="code-snippet">
+                <code key={index} className="arena__code">
                   {code}
                 </code>
               );
@@ -308,35 +288,35 @@ const Arena: React.FC = () => {
   };
 
   const renderQuestion = () => {
-    if (!questionsData.length) return <div className="loader">Loading questions...</div>;
+    if (!questionsData.length) return <div className="arena__loader">Loading questions...</div>;
     
     const currentQuestion = getCurrentQuestion();
     if (!currentQuestion) {
       // Handle missing question case
-      return <div className="loader">Question not available</div>;
+      return <div className="arena__loader">Question not available</div>;
     }
 
     switch (currentQuestion.type) {
       case "multiple-choice":
       case "code-output":
         return (
-          <div className="question-container">
-            <div className="question-header">
-              <span className={`badge ${currentQuestion.difficulty.toLowerCase()}`}>
+          <div className="arena__question-card">
+            <div className="arena__question-header">
+              <span className={`arena__badge arena__badge--${currentQuestion.difficulty.toLowerCase()}`}>
                 {currentQuestion.difficulty}
               </span>
-              <span className="topic-badge">{currentQuestion.topic}</span>
+              <span className="arena__topic">{currentQuestion.topic}</span>
             </div>
 
-            <h2>{formatQuestionText(currentQuestion.question)}</h2>
+            <h2 className="arena__prompt">{formatQuestionText(currentQuestion.question)}</h2>
 
-            <div className="options-container">
+            <div className="arena__options">
               {Array.isArray(currentQuestion.options) && currentQuestion.options?.map((option: string, index: number) => (
                 <button
                   key={index}
-                  className={`option-button ${userAnswer === option ? 'selected' : ''} 
-                    ${uiState.showExplanation ? (option === currentQuestion.answer ? 'correct' :
-                      userAnswer === option ? 'incorrect' : '') : ''}`}
+                  className={`arena__option ${userAnswer === option ? 'is-selected' : ''} 
+                    ${uiState.showExplanation ? (option === currentQuestion.answer ? 'is-correct' :
+                      userAnswer === option ? 'is-incorrect' : '') : ''}`}
                   onClick={() => !uiState.showExplanation && setUserAnswer(option)}
                   disabled={uiState.showExplanation}
                 >
@@ -349,30 +329,30 @@ const Arena: React.FC = () => {
 
       case "true-false":
         return (
-          <div className="question-container">
-            <div className="question-header">
-              <span className={`badge ${currentQuestion.difficulty.toLowerCase()}`}>
+          <div className="arena__question-card">
+            <div className="arena__question-header">
+              <span className={`arena__badge arena__badge--${currentQuestion.difficulty.toLowerCase()}`}>
                 {currentQuestion.difficulty}
               </span>
-              <span className="topic-badge">{currentQuestion.topic}</span>
+              <span className="arena__topic">{currentQuestion.topic}</span>
             </div>
 
-            <h2>{formatQuestionText(currentQuestion.question)}</h2>
+            <h2 className="arena__prompt">{formatQuestionText(currentQuestion.question)}</h2>
 
-            <div className="options-container true-false">
+            <div className="arena__options arena__options--split">
               <button
-                className={`option-button ${userAnswer === true ? 'selected' : ''} 
-                  ${uiState.showExplanation ? (currentQuestion.answer === true ? 'correct' :
-                    userAnswer === true ? 'incorrect' : '') : ''}`}
+                className={`arena__option ${userAnswer === true ? 'is-selected' : ''} 
+                  ${uiState.showExplanation ? (currentQuestion.answer === true ? 'is-correct' :
+                    userAnswer === true ? 'is-incorrect' : '') : ''}`}
                 onClick={() => !uiState.showExplanation && setUserAnswer(true)}
                 disabled={uiState.showExplanation}
               >
                 True
               </button>
               <button
-                className={`option-button ${userAnswer === false ? 'selected' : ''} 
-                  ${uiState.showExplanation ? (currentQuestion.answer === false ? 'correct' :
-                    userAnswer === false ? 'incorrect' : '') : ''}`}
+                className={`arena__option ${userAnswer === false ? 'is-selected' : ''} 
+                  ${uiState.showExplanation ? (currentQuestion.answer === false ? 'is-correct' :
+                    userAnswer === false ? 'is-incorrect' : '') : ''}`}
                 onClick={() => !uiState.showExplanation && setUserAnswer(false)}
                 disabled={uiState.showExplanation}
               >
@@ -384,21 +364,21 @@ const Arena: React.FC = () => {
 
       case "fill-in-the-blank":
         return (
-          <div className="question-container">
-            <div className="question-header">
-              <span className={`badge ${currentQuestion.difficulty.toLowerCase()}`}>
+          <div className="arena__question-card">
+            <div className="arena__question-header">
+              <span className={`arena__badge arena__badge--${currentQuestion.difficulty.toLowerCase()}`}>
                 {currentQuestion.difficulty}
               </span>
-              <span className="topic-badge">{currentQuestion.topic}</span>
+              <span className="arena__topic">{currentQuestion.topic}</span>
             </div>
 
-            <h2>{formatQuestionText(currentQuestion.question)}</h2>
+            <h2 className="arena__prompt">{formatQuestionText(currentQuestion.question)}</h2>
 
-            <div className="fill-container">
+            <div className="arena__fill">
               <input
                 type="text"
-                className={`fill-input ${uiState.showExplanation ?
-                  (userAnswer === currentQuestion.answer ? 'correct' : 'incorrect') : ''}`}
+                className={`arena__input ${uiState.showExplanation ?
+                  (userAnswer === currentQuestion.answer ? 'is-correct' : 'is-incorrect') : ''}`}
                 value={userAnswer as string || ""}
                 onChange={(e) => !uiState.showExplanation && setUserAnswer(e.target.value)}
                 onKeyDown={(e) => {
@@ -416,32 +396,33 @@ const Arena: React.FC = () => {
       case "match-pairs":
         const pairs = currentQuestion.pairs || [];
         if (!Array.isArray(pairs) || pairs.length === 0) {
-          return <div className="loader">Match pairs not available</div>;
+          return <div className="arena__loader">Match pairs not available</div>;
         }
         const options = pairs.map(p => p.right);
 
         return (
-          <div className="question-container">
-            <div className="question-header">
-              <span className={`badge ${currentQuestion.difficulty.toLowerCase()}`}>
+          <div className="arena__question-card">
+            <div className="arena__question-header">
+              <span className={`arena__badge arena__badge--${currentQuestion.difficulty.toLowerCase()}`}>
                 {currentQuestion.difficulty}
               </span>
-              <span className="topic-badge">{currentQuestion.topic}</span>
+              <span className="arena__topic">{currentQuestion.topic}</span>
             </div>
 
-            <h2>{formatQuestionText(currentQuestion.question)}</h2>
+            <h2 className="arena__prompt">{formatQuestionText(currentQuestion.question)}</h2>
 
-            <div className="match-container">
+            <div className="arena__match">
               {pairs.map((pair: QuizPair, index: number) => (
                 <div
                   key={index}
-                  className={`match-pair ${uiState.showExplanation && currentQuestion.answer ?
+                  className={`arena__match-row ${uiState.showExplanation && currentQuestion.answer ?
                     ((currentQuestion.answer as Record<string, string>)[pair.left] === matchPairs[pair.left] ?
-                      'correct' : 'incorrect') : ''}`}
+                      'is-correct' : 'is-incorrect') : ''}`}
                 >
-                  <div className="match-left">{formatQuestionText(pair.left)}</div>
-                  <div className="match-right">
+                  <div className="arena__match-left">{formatQuestionText(pair.left)}</div>
+                  <div className="arena__match-right">
                     <select
+                      className="arena__select"
                       value={matchPairs[pair.left] || ""}
                       onChange={(e) => !uiState.showExplanation && handleMatchPairChange(pair.left, e.target.value)}
                       onKeyDown={(e) => {
@@ -493,7 +474,7 @@ const Arena: React.FC = () => {
           newParticles.push(
             <div
               key={i}
-              className={`confetti-particle ${shape}`}
+              className={`arena__confetti-particle ${shape}`}
               style={{
                 left: `${left}%`,
                 top: `-${size}px`,
@@ -514,46 +495,66 @@ const Arena: React.FC = () => {
       }
     }, []);
     
-    return <div className="confetti-container">{particles}</div>;
+    return <div className="arena__confetti">{particles}</div>;
   };
 
   // Introduction screen
   if (uiState.showIntroduction) {
     return (
-      <div className="arena-container">
-        <div className="introduction-screen">
-          <h1>Level Up Your JavaScript Skills</h1>
-          {gameState.highScore > 0 && (
-            <div className="high-score-info">
-              <span>Your high score: {gameState.highScore} points</span>
+      <div className="arena">
+        <div className="arena__bg" />
+        <div className="arena__shell">
+          <div className="arena__screen">
+            <div className="arena__hero">
+              <span className="arena__eyebrow">JavaScript Arena</span>
+              <h1>Sharpen skills with fast, focused challenges.</h1>
+              <p>
+                Answer real-world questions under pressure, build streaks, and
+                earn points that scale with difficulty and speed.
+              </p>
+              <div className="arena__cta">
+                <button className="arena__primary" onClick={startQuiz}>
+                  Start the challenge
+                </button>
+                <div className="arena__meta">
+                  30 seconds per question · Streak bonuses · New topics weekly
+                </div>
+              </div>
             </div>
-          )}
-          <div className="introduction-content mt-6">
-            <div className="intro-details">
-              <div className="intro-feature">
-                <span className="intro-icon">⏱️</span>
-                <span className="text-sm">Race against time with 30 seconds per challenge to test your quick thinking</span>
+            <div className="arena__panel">
+              <div className="arena__panel-header">
+                <h2>Your arena snapshot</h2>
+                <span className="arena__pill">Live</span>
               </div>
-              <div className="intro-feature">
-                <span className="intro-icon">🎯</span>
-                <span className="text-sm">Master challenges of varying difficulty and earn points based on your performance</span>
+              <div className="arena__stat-grid">
+                <div className="arena__stat">
+                  <span className="arena__stat-label">High score</span>
+                  <span className="arena__stat-value">
+                    {gameState.highScore > 0 ? gameState.highScore : "—"}
+                  </span>
+                </div>
+                <div className="arena__stat">
+                  <span className="arena__stat-label">Time per round</span>
+                  <span className="arena__stat-value">30s</span>
+                </div>
+                <div className="arena__stat">
+                  <span className="arena__stat-label">Streak bonus</span>
+                  <span className="arena__stat-value">+50 / streak</span>
+                </div>
+                <div className="arena__stat">
+                  <span className="arena__stat-label">Difficulty mix</span>
+                  <span className="arena__stat-value">Adaptive</span>
+                </div>
               </div>
-              <div className="intro-feature">
-                <span className="intro-icon">🔥</span>
-                <span className="text-sm">Build streaks and unlock bonus multipliers to maximize your score</span>
-              </div>
-              <div className="intro-feature">
-                <span className="intro-icon">🚀</span>
-                <span className="text-sm">Challenge yourself with real-world JavaScript scenarios and level up your skills</span>
+              <div className="arena__card">
+                <h3>How scoring works</h3>
+                <p>
+                  Points scale with difficulty and remaining time. Keep your
+                  streak alive to stack bonuses quickly.
+                </p>
               </div>
             </div>
           </div>
-          <button 
-            className="primary-button"
-            onClick={startQuiz}
-          >
-            Start Quiz
-          </button>
         </div>
       </div>
     );
@@ -562,30 +563,62 @@ const Arena: React.FC = () => {
   // Time expired screen
   if (uiState.timeExpired) {
     return (
-      <div className="arena-container">
-        <div className="time-expired-screen">
-          <h1>Time's Up!</h1>
-          <div className="expired-content">
-            <p>You've reached the time limit, but don't worry! Every attempt makes you stronger. Ready to challenge yourself again?</p>
-            <div className="score-display">
-              <div className="score-info">
-                <span>Current Score</span>
-                <span className="score-value">{gameState.score}</span>
-              </div>
-              {gameState.highScore > 0 && (
-                <div className="score-info">
-                  <span>Best Score</span>
-                  <span className="score-value">{gameState.highScore}</span>
+      <div className="arena">
+        <div className="arena__bg" />
+        <div className="arena__shell">
+          <div className="arena__screen">
+            <div className="arena__hero">
+              <span className="arena__eyebrow">Round ended</span>
+              <h1>Time’s up. Reset and run it again.</h1>
+              <p>
+                Quick decision-making wins here. Keep your momentum, learn from
+                each miss, and push your best score.
+              </p>
+              <div className="arena__cta">
+                <button className="arena__primary" onClick={resetQuiz}>
+                  Try again
+                </button>
+                <div className="arena__meta">
+                  Your progress is saved automatically
                 </div>
-              )}
+              </div>
+            </div>
+            <div className="arena__panel">
+              <div className="arena__panel-header">
+                <h2>Score recap</h2>
+                <span className="arena__pill arena__pill--alert">Expired</span>
+              </div>
+              <div className="arena__stat-grid">
+                <div className="arena__stat">
+                  <span className="arena__stat-label">Current score</span>
+                  <span className="arena__stat-value">{gameState.score}</span>
+                </div>
+                <div className="arena__stat">
+                  <span className="arena__stat-label">Best score</span>
+                  <span className="arena__stat-value">
+                    {gameState.highScore > 0 ? gameState.highScore : "—"}
+                  </span>
+                </div>
+                <div className="arena__stat">
+                  <span className="arena__stat-label">Streak ended</span>
+                  <span className="arena__stat-value">{gameState.streak}</span>
+                </div>
+                <div className="arena__stat">
+                  <span className="arena__stat-label">Questions answered</span>
+                  <span className="arena__stat-value">
+                    {currentQuestionIndex + 1}
+                  </span>
+                </div>
+              </div>
+              <div className="arena__card">
+                <h3>Tip for next run</h3>
+                <p>
+                  Skim the prompt, lock in your best guess, and move on quickly.
+                  Speed keeps your points multiplier healthy.
+                </p>
+              </div>
             </div>
           </div>
-          <button 
-            className="primary-button"
-            onClick={resetQuiz}
-          >
-            Try Again
-          </button>
         </div>
       </div>
     );
@@ -594,87 +627,169 @@ const Arena: React.FC = () => {
   // Quiz completed screen
   if (uiState.quizCompleted) {
     return (
-      <div className="arena-container">
+      <div className="arena">
+        <div className="arena__bg" />
         {uiState.showConfetti && <Confetti />}
-        <div className="quiz-completed">
-          <h1>Challenge Complete!</h1>
-          <div className="score-display">
-            <div className="score-circle">
-              <span className="score-value">{gameState.score}</span>
-              <span className="high-score">Best: {gameState.highScore}</span>
+        <div className="arena__shell">
+          <div className="arena__screen">
+            <div className="arena__hero">
+              <span className="arena__eyebrow">Challenge complete</span>
+              <h1>Score locked. Ready for another run?</h1>
+              <p>
+                Review your pacing, sharpen the tricky topics, and push for a
+                new high score.
+              </p>
+              <div className="arena__cta">
+                <button className="arena__primary" onClick={resetQuiz}>
+                  Challenge again
+                </button>
+                <div className="arena__meta">
+                  You can restart anytime and keep your best score
+                </div>
+              </div>
+            </div>
+            <div className="arena__panel">
+              <div className="arena__panel-header">
+                <h2>Final stats</h2>
+                <span className="arena__pill arena__pill--success">Completed</span>
+              </div>
+              <div className="arena__stat-grid">
+                <div className="arena__stat arena__stat--primary">
+                  <span className="arena__stat-label">Final score</span>
+                  <span className="arena__stat-value">{gameState.score}</span>
+                </div>
+                <div className="arena__stat">
+                  <span className="arena__stat-label">Best score</span>
+                  <span className="arena__stat-value">{gameState.highScore}</span>
+                </div>
+                <div className="arena__stat">
+                  <span className="arena__stat-label">Total points</span>
+                  <span className="arena__stat-value">{gameState.totalPoints}</span>
+                </div>
+                <div className="arena__stat">
+                  <span className="arena__stat-label">Best streak</span>
+                  <span className="arena__stat-value">{gameState.streak}</span>
+                </div>
+              </div>
+              <div className="arena__card">
+                <h3>Performance note</h3>
+                <p>
+                  {gameState.score === gameState.highScore && gameState.score > 0
+                    ? "New personal best. Keep that momentum."
+                    : gameState.score >= gameState.totalPoints * 0.8
+                      ? "Elite run. You’re in the top tier."
+                      : gameState.score >= gameState.totalPoints * 0.6
+                        ? "Strong effort. Tweak timing for a boost."
+                        : "Every run builds mastery. Keep practicing."}
+                </p>
+              </div>
             </div>
           </div>
-          <p>
-            {gameState.score === gameState.highScore && gameState.score > 0
-              ? "New high score! Impressive mastery!"
-              : gameState.score >= gameState.totalPoints * 0.8
-                ? "Exceptional performance! You're a JavaScript wizard!"
-                : gameState.score >= gameState.totalPoints * 0.6
-                  ? "Great effort! Keep pushing your limits!"
-                  : "The journey to mastery continues. Try again!"}
-          </p>
-          <button className="primary-button" onClick={resetQuiz}>Challenge Again</button>
         </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="arena-container">
-        <div className="quiz-header">
-          <div className="progress-container">
-            <div
-              className="progress-bar"
-              style={{ width: `${((currentQuestionIndex + 1) / questionsData.length) * 100}%` }}
-            ></div>
+    <div className="arena">
+      <div className="arena__bg" />
+      <div className="arena__shell">
+        <header className="arena__header">
+          <div className="arena__header-title">
+            <span className="arena__eyebrow">Live round</span>
+            <h1>JavaScript Arena</h1>
           </div>
-          <div className="info-bar">
-            <span className="score-display">Score: {gameState.score}</span>
-            <span className="timer">
-              <span className={`timer-value ${timer <= 10 ? 'warning' : ''}`}>{timer}</span> s
-            </span>
+          <div className="arena__header-meta">
+            <div className="arena__metric">
+              <span className="arena__metric-label">Score</span>
+              <span className="arena__metric-value">{gameState.score}</span>
+            </div>
+            <div className="arena__metric">
+              <span className="arena__metric-label">Time left</span>
+              <span className={`arena__metric-value ${timer <= 10 ? "is-warning" : ""}`}>
+                {timer}s
+              </span>
+            </div>
           </div>
+        </header>
+
+        <div className="arena__progress">
+          <div
+            className="arena__progress-bar"
+            style={{ width: `${((currentQuestionIndex + 1) / questionsData.length) * 100}%` }}
+          />
         </div>
 
-        {renderQuestion()}
+        <div className="arena__layout">
+          <section className="arena__main">
+            {renderQuestion()}
 
-        {uiState.showExplanation && (
-          <div className={`explanation-container ${uiState.isCorrect ? 'correct' : 'incorrect'}`}>
-            <div className={`feedback ${uiState.showAnimation ? 'animate' : ''}`}>
-              <span className="feedback-icon">{uiState.isCorrect ? '✓' : '✗'}</span>
-              <span className="feedback-text">{uiState.feedbackMessage}</span>
-              {uiState.isCorrect && gameState.pointsAwarded > 0 && (
-                <span className="points-awarded">+{gameState.pointsAwarded} points</span>
+            {uiState.showExplanation && (
+              <div className={`arena__explanation ${uiState.isCorrect ? "is-correct" : "is-incorrect"}`}>
+                <div className={`arena__feedback ${uiState.showAnimation ? "is-animated" : ""}`}>
+                  <span className="arena__feedback-icon">{uiState.isCorrect ? "✓" : "✕"}</span>
+                  <span className="arena__feedback-text">{uiState.feedbackMessage}</span>
+                  {uiState.isCorrect && gameState.pointsAwarded > 0 && (
+                    <span className="arena__feedback-points">+{gameState.pointsAwarded} points</span>
+                  )}
+                </div>
+                <h3>Why it works</h3>
+                <p>{getCurrentQuestion()?.explanation}</p>
+              </div>
+            )}
+
+            <div className="arena__controls">
+              {!uiState.showExplanation ? (
+                <button
+                  className="arena__primary"
+                  onClick={handleSubmit}
+                  disabled={
+                    (userAnswer === null &&
+                     getCurrentQuestion()?.type !== "match-pairs") ||
+                    (getCurrentQuestion()?.type === "match-pairs" &&
+                     (!matchPairs || Object.values(matchPairs).some(value => value === "")))
+                  }
+                >
+                  Submit answer
+                </button>
+              ) : (
+                <button
+                  className="arena__primary arena__primary--success"
+                  onClick={handleNextQuestion}
+                >
+                  {currentQuestionIndex === questionsData.length - 1 ? "Complete challenge" : "Next challenge"}
+                </button>
               )}
             </div>
-            <h3>Explanation:</h3>
-            <p>{getCurrentQuestion()?.explanation}</p>
-          </div>
-        )}
+          </section>
 
-        <div className="action-buttons">
-          {!uiState.showExplanation ? (
-            <button
-              className="primary-button"
-              onClick={handleSubmit}
-              disabled={
-                (userAnswer === null && 
-                 getCurrentQuestion()?.type !== "match-pairs") || 
-                (getCurrentQuestion()?.type === "match-pairs" && 
-                 (!matchPairs || Object.values(matchPairs).some(value => value === "")))
-              }
-            >
-              Submit Answer
-            </button>
-          ) : (
-            <button
-              className="primary-button next"
-              onClick={handleNextQuestion}
-            >
-              {currentQuestionIndex === questionsData.length - 1 ? "Complete Challenge" : "Next Challenge"}
-            </button>
-          )}
+          <aside className="arena__aside">
+            <div className="arena__card">
+              <h3>Round stats</h3>
+              <div className="arena__stat-list">
+                <div className="arena__stat-row">
+                  <span>Question</span>
+                  <span>
+                    {currentQuestionIndex + 1} / {questionsData.length}
+                  </span>
+                </div>
+                <div className="arena__stat-row">
+                  <span>Streak</span>
+                  <span>{gameState.streak}</span>
+                </div>
+                <div className="arena__stat-row">
+                  <span>High score</span>
+                  <span>{gameState.highScore > 0 ? gameState.highScore : "—"}</span>
+                </div>
+              </div>
+            </div>
+            <div className="arena__card arena__card--muted">
+              <h3>Focus tip</h3>
+              <p>
+                Read once, pick fast. Time saved now compounds your total score.
+              </p>
+            </div>
+          </aside>
         </div>
       </div>
     </div>

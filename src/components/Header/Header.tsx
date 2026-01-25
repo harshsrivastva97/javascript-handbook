@@ -20,7 +20,6 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { logout } from '../../redux/slices/userSlice';
 
 const Header: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -35,13 +34,6 @@ const Header: React.FC = () => {
   
   // Check if we're on the home page
   const isHomePage = location.pathname === '/';
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      setIsLoggedIn(!!user);
-    });
-    return () => unsubscribe();
-  }, [auth]);
 
   useEffect(() => {
     // Close mobile menu when route changes
@@ -140,6 +132,8 @@ const Header: React.FC = () => {
     
     return classes;
   };
+
+  const isLoggedIn = Boolean(currentUser);
 
   return (
     <header className={getHeaderClasses()}>

@@ -4,11 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { 
   FaRocket, 
   FaLightbulb, 
-  FaCode, 
   FaBook,
   FaLaptopCode,
   FaUserGraduate,
-  FaArrowRight
+  FaArrowRight,
+  FaUsers,
+  FaLayerGroup,
+  FaShieldAlt,
+  FaBolt
 } from "react-icons/fa";
 import './About.scss';
 import { useTheme } from "../../contexts/ThemeContext";
@@ -37,43 +40,68 @@ const About: React.FC = () => {
 
   const features = [
     {
-      title: "Library",
+      title: "Living Library",
       icon: <FaBook />,
-      description: "Comprehensive JavaScript resources from basics to advanced concepts"
+      description: "Continuously updated content from fundamentals to advanced patterns."
     },
     {
-      title: "Interactive",
+      title: "Hands-on Labs",
       icon: <FaLaptopCode />,
-      description: "Practice in our interactive coding environment with live feedback"
+      description: "Practice in an interactive environment with instant feedback."
     },
     {
-      title: "Insights",
+      title: "Modern Insights",
       icon: <FaLightbulb />,
-      description: "Latest JavaScript trends and expert development tips"
+      description: "Practical tips for tooling, performance, and real-world shipping."
     },
     {
-      title: "Learning",
+      title: "Guided Paths",
       icon: <FaUserGraduate />,
-      description: "Structured learning paths with hands-on coding exercises"
+      description: "Curated learning tracks with projects that build confidence."
     }
   ];
 
-  const values = [
+  const principles = [
     {
-      title: "Accessible",
-      description: "Quality education available to everyone, everywhere"
+      title: "Accessible by default",
+      description: "Inclusive content with clarity, captions, and inclusive examples."
     },
     {
-      title: "Excellence",
-      description: "Accurate, up-to-date content for modern development"
+      title: "Practical over perfect",
+      description: "Focused on what developers need to ship, not just theory."
     },
     {
-      title: "Community",
-      description: "Supportive environment for collaborative learning"
+      title: "Community-led",
+      description: "Curated with feedback and lessons learned from real teams."
     },
     {
-      title: "Innovation",
-      description: "Modern approaches to technical education"
+      title: "Always evolving",
+      description: "We keep pace with the ecosystem and emerging standards."
+    }
+  ];
+
+  const stats = [
+    { label: "Articles & guides", value: "180+" },
+    { label: "Hands-on labs", value: "45+" },
+    { label: "Active learners", value: "24k" }
+  ];
+
+  const milestones = [
+    {
+      title: "2019 — The idea",
+      description: "A need for a modern, structured JS reference sparked the project."
+    },
+    {
+      title: "2021 — First release",
+      description: "We shipped our first learning paths and the interactive lab."
+    },
+    {
+      title: "2023 — Community scale",
+      description: "Thousands of learners helped shape the handbook every week."
+    },
+    {
+      title: "Today — Always shipping",
+      description: "We ship updates weekly with a focus on clarity and outcomes."
     }
   ];
 
@@ -108,53 +136,113 @@ const About: React.FC = () => {
     <div className={`about-page ${theme}`}>
       <section className="hero-section">
         <motion.div 
-          className="hero-content"
+          className="hero-shell container"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1>About <span className="gradient-text">JS Handbook</span></h1>
-          <p className="subtitle">Making JavaScript learning accessible, engaging, and effective</p>
+          <div className="hero-copy">
+            <span className="hero-badge">
+              Built for modern JavaScript teams
+            </span>
+            <h1>About <span className="gradient-text">JS Handbook</span></h1>
+            <p className="hero-lead">
+              We help developers learn faster with structured paths, interactive labs, 
+              and the practical guidance needed to ship confidently.
+            </p>
+            <div className="hero-actions">
+              <button className="primary-btn" onClick={handleStartLearning}>
+                Start Learning <FaArrowRight />
+              </button>
+              <button className="ghost-btn" onClick={() => navigate('/blog')}>
+                Explore Updates
+              </button>
+            </div>
+            <div className="stats-row">
+              {stats.map((stat) => (
+                <div key={stat.label} className="stat-card">
+                  <span className="stat-value">{stat.value}</span>
+                  <span className="stat-label">{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="hero-visual">
+            <div className="hero-orb"></div>
+            <div className="hero-card main-card">
+              <FaLayerGroup />
+              <h3>Modular Learning</h3>
+              <p>Learn topics in the order teams use them.</p>
+            </div>
+            <div className="hero-card accent-card">
+              <FaBolt />
+              <h3>Weekly Releases</h3>
+              <p>Fresh lessons aligned with the ecosystem.</p>
+            </div>
+            <div className="hero-card outline-card">
+              <FaShieldAlt />
+              <h3>Trusted Patterns</h3>
+              <p>Production-ready examples and guidance.</p>
+            </div>
+          </div>
         </motion.div>
       </section>
 
-      <section className="story-section">
+      <section className="mission-section">
         <div className="container">
-          <motion.div 
-            className="story-content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="story-text">
-              <h2>Our Story</h2>
+          <div className="section-header">
+            <span className="eyebrow">Our mission</span>
+            <h2>Built to shorten the learning curve</h2>
+            <p>
+              We created JS Handbook to replace scattered tutorials with a 
+              single, modern destination for learning JavaScript.
+            </p>
+          </div>
+          <div className="mission-grid">
+            <motion.div 
+              className="mission-card"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5 }}
+            >
+              <FaRocket />
+              <h3>Teach what teams actually use</h3>
               <p>
-                We created JS Handbook to be the resource we wished we had when learning JavaScript. 
-                In a world of scattered tutorials and outdated docs, we built a comprehensive, 
-                interactive platform for JavaScript learners at all levels.
+                From fundamentals to frameworks, we focus on what makes you 
+                effective on real projects.
               </p>
-              <button className="learn-more-btn" onClick={handleStartLearning}>
-                Start Learning <FaArrowRight />
-              </button>
-            </div>
-            <div className="story-image">
-              <div className="code-sphere">
-                <div className="orbit"><div className="planet"></div></div>
-                <div className="orbit"><div className="planet"></div></div>
-                <div className="orbit"><div className="planet"></div></div>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+            <motion.div 
+              className="mission-card"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <FaUsers />
+              <h3>Designed for every level</h3>
+              <p>
+                Whether you are new to JS or leveling up, content adapts to 
+                the way you learn best.
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="features-section">
         <div className="container">
+          <div className="section-header">
+            <span className="eyebrow">What you get</span>
+            <h2>Everything needed to learn and build</h2>
+          </div>
           <motion.div 
             className="features-grid"
             variants={containerVariants}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
           >
             {features.map((feature, index) => (
               <motion.div 
@@ -173,13 +261,18 @@ const About: React.FC = () => {
 
       <section className="values-section">
         <div className="container">
+          <div className="section-header">
+            <span className="eyebrow">Principles</span>
+            <h2>How we design the experience</h2>
+          </div>
           <motion.div 
             className="values-grid"
             variants={containerVariants}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
           >
-            {values.map((value, index) => (
+            {principles.map((value, index) => (
               <motion.div 
                 key={index} 
                 className="value-card"
@@ -193,17 +286,46 @@ const About: React.FC = () => {
         </div>
       </section>
 
+      <section className="timeline-section">
+        <div className="container">
+          <div className="section-header">
+            <span className="eyebrow">Our journey</span>
+            <h2>From idea to thriving community</h2>
+          </div>
+          <div className="timeline">
+            {milestones.map((milestone) => (
+              <div key={milestone.title} className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="timeline-card">
+                  <h3>{milestone.title}</h3>
+                  <p>{milestone.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="cta-section">
         <motion.div 
-          className="cta-content flex flex-col items-center" 
+          className="cta-content" 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
         >
           <h2>Ready to master JavaScript?</h2>
-          <button className="cta-button" onClick={handleStartLearning}>
-            Get Started <FaArrowRight />
-          </button>
+          <p>
+            Join thousands of learners building real-world skills with 
+            structured paths and hands-on labs.
+          </p>
+          <div className="cta-actions">
+            <button className="cta-button" onClick={handleStartLearning}>
+              Get Started <FaArrowRight />
+            </button>
+            <button className="cta-ghost" onClick={() => navigate('/library')}>
+              Browse the Library
+            </button>
+          </div>
         </motion.div>
       </section>
     </div>
